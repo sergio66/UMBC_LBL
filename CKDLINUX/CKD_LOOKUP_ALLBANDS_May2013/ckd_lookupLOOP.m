@@ -1,0 +1,20 @@
+addpath /home/sergio/SPECTRA
+
+ckd_lookupBIN_FIR1
+ckd_lookupBIN_FIR2
+ckd_lookupBIN_FIR3
+ckd_lookupBIN_FIR4
+ckd_lookupBIN_FIR5
+ckd_lookupBIN_FIR6
+ckd_lookupBIN_FIR7
+
+ckd_lookupBIN_IR
+
+ckd_lookupBIN_NIR1
+ckd_lookupBIN_NIR2
+ckd_lookupBIN_NIR3
+ckd_lookupBIN_NIR4
+
+ckd_lookupBIN_VIS1
+
+ckd_lookupBIN_UV1

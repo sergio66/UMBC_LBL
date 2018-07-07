@@ -1,0 +1,97 @@
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+to see the effects of the fits,
+load TRY2/file1; Y(1,:) = X;
+load TRY2/file2; Y(2,:) = X;
+load TRY2/file3; Y(3,:) = X;
+load TRY2/file4; Y(4,:) = X;
+load TRY2/file5; Y(5,:) = X;
+load TRY2/file6; Y(6,:) = X;
+fname = '/home/sergio/SPECTRA/CO2_COUSIN_2351/IPFILES/some_co2';  
+ipfile = load(fname); 
+ipfile = ipfile(1:6,:);
+ps = ipfile(:,3); 
+pf = ipfile(:,2);   %%actually, this is ptotal 
+pf = pf - ps; 
+temp = ipfile(:,4); 
+fitted_t = temp; 
+plot(ipfile(:,2),Y(:,1),'o-')
+[P,S] = polyfit(ipfile(:,2),Y(:,1),3);
+plot(ipfile(:,2),Y(:,1),'o-',0:0.1:1.2,polyval(P,0:0.1:1.2))
+
+P =    -1.926658798476868e-01     5.316766374678679e-01    ...
+       -3.175478118220238e-02     1.946909527306367e-02
+
+P =  -1.9267e-01   5.3168e-01  -3.1755e-02   1.9469e-02
+
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+
+fname = '/home/sergio/SPECTRA/CO2_COUSIN_2351/IPFILES/some_co2';
+clear topts; topts.mainloop = -1; topts.band = 2351; 
+             topts.LVF = 'V'; topts.IO = '0';  topts.birn = 'C';
+[fr,kcousin2351] = run7co2(2,2255,2305,fname,topts);
+
+fname = '/home/sergio/SPECTRA/CO2_COUSIN_2351/IPFILES/some_co2';
+clear topts; topts.mainloop = -1; topts.band = 2350; 
+             topts.LVF = 'V'; topts.IO = '0';  topts.birn = 'C';
+[fr,kcousin2350] = run7co2(2,2255,2305,fname,topts);
+
+fname = '/home/sergio/SPECTRA/CO2_COUSIN_2351/IPFILES/some_co2';
+clear topts; topts.mainloop = -1; topts.band = 2320; 
+             topts.LVF = 'V'; topts.IO = '0';  topts.birn = 'C';
+[fr,kcousin2320] = run7co2(2,2255,2305,fname,topts);
+
+----------------------------------------------------------------------------
+save /asl/data/ral/Co2a/COUSIN2351/cousin2351.mat
+%%%this acts as data to analyse 
+----------------------------------------------------------------------------
+
+clear topts;
+load /asl/data/ral/Co2a/COUSIN2351/linemix2351.mat
+fname = '/home/sergio/SPECTRA/CO2_COUSIN_2351/IPFILES/some_co2';
+clear topts; topts.mainloop = -1; topts.band = 2351; 
+[fr,k4]=run7co2(2,2150,2250,fname,topts);
+save /asl/data/ral/Co2a/COUSIN2351/linemix2351.mat
+
+ksim1 = k4;  %%july 31, where we modified 2351 doc,beta by 0.5; no blending!
+
+%%%at ii = 5, do  [w0,y0]=ginput; to get the wavenumbers in between lines
+%%%save /home/sergio/SPECTRA/CO2_RAL_FITS/inbetween4um.mat w0
+ipfile = load ('/home/sergio/SPECTRA/CO2_COUSIN_2351/IPFILES/some_co2');
+p = ipfile(:,2)*1013; ps = ipfile(:,3)*1013; T = ipfile(:,4);
+
+fdata = fr;
+d1 = kcousin2351(:,1);
+d2 = kcousin2351(:,2);
+d3 = kcousin2351(:,3);
+d4 = kcousin2351(:,4);
+
+fudge = [1 1 1 1];
+for ii = 1 : 4
+  if (ii == 1)
+    data = d1;
+  elseif (ii == 2)
+    data = d2;
+  elseif (ii == 3)
+    data = d3;
+  elseif (ii == 4)
+    data = d4;
+    end
+  data = data*fudge(ii);
+
+  subplot(211);
+  plot(fr,exp(-ksim1(ii,:)),fr,exp(-ksim2(ii,:)),fr,exp(-ksim3(ii,:)),...
+       fdata,data,'k'); 
+  axis([2150 2250 0 1.1]); grid
+
+  orig = interp1(fr,exp(-ksim1(ii,:)),fdata);
+  new = interp1(fr,exp(-ksim2(ii,:)),fdata);
+  best = interp1(fr,exp(-ksim3(ii,:)),fdata);
+  subplot(212);
+  plot(fdata,data-orig,fdata,data-new,fdata,data-best); grid
+  axis([2150 2250 -0.05 0.05]); 
+  %plot(fdata,data./orig,fdata,data./new,fdata,data./best); grid
+  %axis([2150 2250 0 2]); blowup
+  blowup; pause; end
+

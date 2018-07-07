@@ -1,0 +1,134 @@
+5/10/2000
+
+the source files for the continuum have been reaaranged
+calcon.f          contains includes for the O2/N2 continuum
+calconwater.f     contains the code for CKD 0.21.23 Lorentz shape (from Genln2)
+calconwater_loc.f contains the code for CKD 0.21.23 local shape (CKD defn)
+   calconCKD2.4.f
+
+oxynit_new_lbl5.1orig.f contains orig LBLv5.1 N2/O2 code (with 79/20 mix ratio)
+oxynit_new_lbl5.1mod.f  contains mod  LBLv5.1 N2/O2 code (with arb mix ratio)
+oxynit_old.f            contains old GENLN2   N2/O2 code (with arb mix ratio)
+
+-rw-r--r--    1 sergio   strow       3161 Nov 23 10:03 continuum.history
+drwxr-xr-x    2 sergio   strow        102 May  9 17:24 CALCON_OLD
+
+-rw-r--r--    1 sergio   strow       1528 May  9 17:37 calcon.f
+-rw-r--r--    1 sergio   strow       5539 May  9 17:31 calcong.f
+-rw-r--r--    1 sergio   strow       4379 Oct 21  1999 calconwaterg.f
+-rw-r--r--    1 sergio   strow      19866 May  9 16:28 calconwater.f
+-rw-r--r--    1 sergio   strow       4566 Nov 15 10:45 calconwater_locg.f
+-rw-r--r--    1 sergio   strow      20533 Feb 25 13:57 calconwater_loc.f
+-rw-r--r--    1 sergio   strow      51166 Apr  8 17:06 calconCKD2.4.f
+-rw-r--r--    1 sergio   strow     414984 Nov  8  1999 calconCKD2.4.data.f
+
+-rw-r--r--    1 sergio   strow      37915 Oct 21  1999 h2oft0_wb.f
+-rw-r--r--    1 sergio   strow      37854 Oct 21  1999 h2ost1_wb.f
+-rw-r--r--    1 sergio   strow      37819 Oct 21  1999 h2ost0_wb.f
+-rw-r--r--    1 sergio   strow      29511 Nov 24  1998 h2ost1.f
+-rw-r--r--    1 sergio   strow      29550 Nov 24  1998 h2ost0.f
+-rw-r--r--    1 sergio   strow      29571 Nov 24  1998 h2oft0.f
+
+-rw-r--r--    1 sergio   strow      20422 May  9 16:06 oxynit_new_lbl5.1orig.f
+-rw-r--r--    1 sergio   strow       6718 May  9 16:00 oxynit_new_lbl5.1mod.f
+-rw-r--r--    1 sergio   strow       9782 May  9 15:59 oxynit_old.f
+-rw-r--r--    1 sergio   strow       8049 Apr 14 14:26 dspline.f
+-rw-r--r--    1 sergio   strow       4536 Apr  9 13:31 brandnew_o2ctt.f
+-rw-r--r--    1 sergio   strow       8029 Apr  9 13:12 brandnew_n2ct0.f
+-rw-r--r--    1 sergio   strow       6925 Nov 25  1998 new_n2ct0.f
+-rw-r--r--    1 sergio   strow       3984 Nov 25  1998 o2ctt.f
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The files for the chi functions for the water lineshapes are at 
+/salsify/packages/Genln2/Genln2
+h2ochi.f
+locwat_newshp.f
+-----------------------------------------------------------------------
+/salsify/packages/Genln2/Genln2
+salsify 91% more makefile_avg_locwat
+# makefile for locwat (H2O near wing chi, no basement)
+# this file is for the 4 temp. coef. version of CO2 line mixing
+#
+# New for April 1998: uses new3_contum instead of new_contum, and
+# and h2o*_wb (water con data with basement) instead of h2o*.
+# Unlike all the other lineshapes, the locwat lineshape subtracts
+# out the basement, so it (only) can be used with the h2o*wb data.
+
+
+     4  13:37   xnw run6water.m
+     5  14:05   kleen
+     6  14:05   pwd
+     7  14:06   ls CKG/calconwaterg.f
+     8  14:06   ls CKD/calconwaterg.f
+     9  14:06   more CKD/calconwaterg.f
+    10  14:06   more FORTRANFILES/max.inc
+    11  14:06   more FORTRANFILES/max.inc
+    12  14:07   xnw run6water.m
+    13  14:08   kleen
+    14  14:09   fg
+    15  14:09   xnw run6water.m
+    16  14:09   kleen
+    17  14:27   xnw run6water.m
+    18  14:27   kleen
+    19  15:06   ~
+    20  15:06   pwd
+    21  15:07   ls IPFILES/ER2/
+    22  15:07   more IPFILES/ER2/wintex
+    23  15:07   ls ../DATA/
+    24  15:07   ls ../DATA/RefProf/
+    25  15:07   more ../DATA/RefProf/refgas1
+    26  15:08   pwd
+    27  15:08   ls IPFILES/RAL_WATER/
+    28  15:08   more IPFILES/RAL_WATER/ral_b_1to5
+    29  15:09   more ../DATA/RefProf/refgas1
+    30  15:09   more IPFILES/RAL_WATER/ral_b_1to5
+    31  15:09   more IPFILES/RAL_WATER/ral_b_7to11
+    32  12:13   pwd
+    33  12:13   cd CKD
+    34  12:13   ls
+    35  12:13   xnw calconwater.f
+    36  17:42   cds
+    37  17:42   cd SPECTRA
+    38  17:42   xnw run6water.m
+    39  17:43   fg
+    40  17:43   kleen
+    41  17:43   cd /salsify/packages/Genln2/Genln2/
+    42  17:43   ls
+    43  17:44   ls make*
+    44  17:44   more makefile_oldcon*
+    45  17:44   diff makefile_oldcon makefile_oldcon_vlocal
+    46  17:45   more vlocal_newshp.f
+    47  17:48   more makefile_oldcon
+    48  17:48   more makefile
+    49  17:48   diff makefile makefile_oldcon
+    50  17:48   diff makefile makefile_oldcon
+    51  17:49   ls -lasq | more
+    52  17:50   grep _wb make*
+    53  17:50   more makefile_avg_locwat
+    54  17:51   ls -lt h2o*.f
+    55  17:51   more h2ost1_wb.
+    56  17:51   more h2ost1_wb.f
+    57  17:52   more h2ost1.f
+    58  17:52   more h2ost1_wb.f
+    59  18:05   more vlocal_newshp.f
+    60  18:05   pwd
+    61  18:05   more vlocal_newshp.f
+    62  10:44   more makefile_avg_locwat
+    63  10:44   more makefile_avg_locwat
+    64  10:45   more makefile_avg_locwat
+    65  10:47   more new3_contum.f
+    66  10:48   more new3_contum.f
+    67  10:48   imprint -2 -G -r -p imp.ps new3_contum.f
+    68  10:48   imprint -2 -G -r -p ~sergio/imp.ps new3_contum.f
+    69  10:49   lpr -Paslcolor ~sergio/imp.ps
+    70  10:49   rm ~sergio/imp.ps
+    71  11:59   pse
+    72  11:59   kl 22455
+    73  12:05   ls -lt *.f
+    74  12:07   ls -lt *.f | more
+    75  12:12   ls -lt *contum*
+    76  12:15   more new_contum.f
+    77  12:16   ls -lt *contum*
+    78  12:16   history
+

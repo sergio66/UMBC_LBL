@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# USAGE
+#
+#     hupdate f1 f2 f3
+#
+# ARGUMENTS
+#
+#    f1 - new hitran data, input file
+#    f2 - old hitran data, input file
+#    f3 - updated old with new hitran data, output file
+#
+
+# sort by gas ID, isotope, and quantum fields to remove 
+# duplicates, then resort by wavenumber:
+
+sort -u -t: -k1.1,1.3 -k1.68,1.91 $1 $2 | sort -n -t: -k1.4,1.15 > $3
+

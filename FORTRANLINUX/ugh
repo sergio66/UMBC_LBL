@@ -1,0 +1,10 @@
+[H[2Jmexing voigt and looping files ... 
+-fno-common -L/usr/lib/ -L/sw/lib -lg2c -lm -compatibleArrayDims
+mexing water local and superlorentz lineshapes ... 
+In file h2ochi.F:16
+
+    Included at loop_chi.F:148
+
+      INTEGER I
+              1
+Warning (151): Variable 'i' at (1) in BLOCK DATA unit is not in a COMMON block

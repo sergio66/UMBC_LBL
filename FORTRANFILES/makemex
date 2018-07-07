@@ -1,0 +1,163 @@
+clear
+
+cd ../; 
+rm *.mexsg64
+
+cd FORTRANFILES
+
+echo 'mexing HITRAN reader ... '
+fmex  mexhitd.f hitinid.f hitrdd.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+mv mexhitd.mexsg64  ../.
+
+echo 'mexing voigt and looping files ... '
+fmex  boxint2.f boxint2g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  vhh1.f    vhh1g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  vhh.f     vhhg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  voigt.f   voigtg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  voigt1.f  voigt1g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex loop.f loopg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS  -64  -mips4'
+fmex loopco2.f loopco2g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+mv boxint2.mexsg64  ../.
+mv vhh1.mexsg64     ../.
+mv vhh.mexsg64      ../.
+mv voigt.mexsg64    ../.
+mv voigt1.mexsg64   ../.
+mv loop.mexsg64     ../.
+mv loopco2.mexsg64  ../.
+
+echo 'mexing water local and superlorentz lineshapes ... '
+fmex loop_loc.f loop_locg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS  -64  -mips4'
+fmex loop_chi.f loop_chig.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS  -64  -mips4'
+mv loop_loc.mexsg64     ../.
+mv loop_chi.mexsg64     ../.
+
+echo 'mexing CKD... '
+cd ../CKD
+fmex  calcon.f calcong.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  calconwater.f calconwaterg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  calconwater_loc.f calconwater_locg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+mv calcon.mexsg64 ../.
+mv calconwater.mexsg64 ../.
+mv calconwater_loc.mexsg64 ../.
+cd ../FORTRANFILES
+
+#these compiled files will be used everywhere
+echo 'mexing various CO2 files ... this takes a while'
+fmex birnbaum.f birnbaumg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+#fmex dofull.f dofullg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex dofullNEWBIRN.f dofullNEWBIRNg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex doFindMix.f doFindMixg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex doVmix.f doVmixg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex doVmixSimple.f doVmixSimpleg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex doVmixRatio.f doVmixRatiog.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+#fmex doVmixSlope.f doVmixSlopeg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  cousin1.f  cousin1g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+#fmex  vhh1RI.f    vhh1RIg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+
+cp IncludeMaxer.m          ../.
+mv birnbaum.mexsg64        ../.
+mv dofullNEWBIRN.mexsg64   ../.
+mv doFindMix.mexsg64       ../.
+mv doVmix.mexsg64          ../.
+mv doVmixSimple.mexsg64    ../.
+mv doVmixRatio.mexsg64     ../.
+mv cousin1.mexsg64         ../.
+
+#need to use this since this computes real/imag parts
+#cp vhh1RI.mexsg64 Q_sigpi/.
+
+#this is full_mix4.m but mexed (full_mixing)
+#cp dofull.mexsg64 Q_sigpi/.
+
+#this is y1s.m but mexed (find first order mix coeffs)
+#cp doFindMix.mexsg64 Q_sigpi/.
+
+#this is voigtmix.m but mexed (find first order mix coeffs)
+#cp doVmix.mexsg64 Q_sigpi/.
+
+#this is voigtmixsimple.m but mexed (find first order mix coeffs) : only used in PR_sigpi/deltpi
+#cp doVmixSimple.mexsg64 PR_sigpi/.
+
+### vhh1RI is Dave Tobin;s voigter .. might be wrong!
+### use vhh2RI as this is from Genln2
+
+rm *~
+
+echo 'coping mex files to Q_sigpi'
+cd ../Q_sigpi;     rm *~
+rm *.mexsg64
+ln -s ../dofullNEWBIRN.mexsg64 dofullNEWBIRN.mexsg64
+ln -s ../cousin1.mexsg64       cousin1.mexsg64 
+ln -s ../birnbaum.mexsg64      birnbaum.mexsg64 
+ln -s ../doFindMix.mexsg64     doFindMix.mexsg64 
+ln -s ../doVmix.mexsg64        doVmix.mexsg64 
+ln -s ../doVmixRatio.mexsg64   doVmixRatio.mexsg64 
+ln -s ../boxint2.mexsg64       boxint2.mexsg64 
+
+echo 'coping mex files to Q_deltpi'
+cd ../Q_deltpi;    rm *~
+rm *.mexsg64
+ln -s ../dofullNEWBIRN.mexsg64 dofullNEWBIRN.mexsg64
+ln -s ../cousin1.mexsg64       cousin1.mexsg64 
+ln -s ../birnbaum.mexsg64      birnbaum.mexsg64 
+ln -s ../doFindMix.mexsg64     doFindMix.mexsg64 
+ln -s ../doVmix.mexsg64        doVmix.mexsg64 
+ln -s ../doVmixRatio.mexsg64   doVmixRatio.mexsg64 
+ln -s ../boxint2.mexsg64       boxint2.mexsg64 
+
+echo 'coping mex files to PR_sigpi'
+cd ../PR_sigpi;    rm *~
+rm *.mexsg64
+ln -s ../dofullNEWBIRN.mexsg64 dofullNEWBIRN.mexsg64
+ln -s ../cousin1.mexsg64       cousin1.mexsg64 
+ln -s ../birnbaum.mexsg64      birnbaum.mexsg64 
+ln -s ../doFindMix.mexsg64     doFindMix.mexsg64 
+ln -s ../doVmix.mexsg64        doVmix.mexsg64 
+ln -s ../doVmixSimple.mexsg64  doVmixSimple.mexsg64
+ln -s ../doVmixRatio.mexsg64   doVmixRatio.mexsg64  
+ln -s ../boxint2.mexsg64       boxint2.mexsg64 
+
+echo 'coping mex files to PR_deltpi'
+cd ../PR_deltpi;   rm *~
+rm *.mexsg64
+ln -s ../dofullNEWBIRN.mexsg64 dofullNEWBIRN.mexsg64
+ln -s ../cousin1.mexsg64       cousin1.mexsg64 
+ln -s ../birnbaum.mexsg64      birnbaum.mexsg64 
+ln -s ../doFindMix.mexsg64     doFindMix.mexsg64 
+ln -s ../doVmix.mexsg64        doVmix.mexsg64 
+ln -s ../doVmixSimple.mexsg64  doVmixSimple.mexsg64
+ln -s ../doVmixRatio.mexsg64   doVmixRatio.mexsg64  
+ln -s ../boxint2.mexsg64       boxint2.mexsg64 
+
+echo 'coping mex files to PR_pipi'
+cd ../PR_pipi;     rm *~
+rm *.mexsg64
+ln -s ../dofullNEWBIRN.mexsg64 dofullNEWBIRN.mexsg64
+ln -s ../cousin1.mexsg64       cousin1.mexsg64 
+ln -s ../birnbaum.mexsg64      birnbaum.mexsg64 
+ln -s ../doFindMix.mexsg64     doFindMix.mexsg64 
+ln -s ../doVmix.mexsg64        doVmix.mexsg64 
+ln -s ../doVmixRatio.mexsg64   doVmixRatio.mexsg64 
+ln -s ../boxint2.mexsg64       boxint2.mexsg64 
+
+echo 'coping mex files to PR_sigsig'
+cd ../PR_sigsig;   rm *~
+rm *.mexsg64
+ln -s ../dofullNEWBIRN.mexsg64 dofullNEWBIRN.mexsg64
+ln -s ../cousin1.mexsg64       cousin1.mexsg64 
+ln -s ../birnbaum.mexsg64      birnbaum.mexsg64 
+ln -s ../doFindMix.mexsg64     doFindMix.mexsg64 
+ln -s ../doVmix.mexsg64        doVmix.mexsg64 
+ln -s ../doVmixRatio.mexsg64   doVmixRatio.mexsg64 
+ln -s ../boxint2.mexsg64       boxint2.mexsg64 
+
+echo 'coping mex files to PR_deltdelt'
+cd ../PR_deltdelt; rm *~
+rm *.mexsg64
+ln -s ../dofullNEWBIRN.mexsg64 dofullNEWBIRN.mexsg64
+ln -s ../cousin1.mexsg64       cousin1.mexsg64 
+ln -s ../birnbaum.mexsg64      birnbaum.mexsg64 
+ln -s ../doFindMix.mexsg64     doFindMix.mexsg64 
+ln -s ../doVmix.mexsg64        doVmix.mexsg64 
+ln -s ../doVmixRatio.mexsg64   doVmixRatio.mexsg64 
+ln -s ../boxint2.mexsg64       boxint2.mexsg64 

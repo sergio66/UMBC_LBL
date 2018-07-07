@@ -1,0 +1,40 @@
+echo 'mexing HITRAN reader ... '
+fmex  mexhitd.f hitinid.f hitrdd.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+mv mexhitd.mexsg64  ../.
+
+echo 'mexing voigt and looping files ... '
+fmex  boxint2.f boxint2g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  vhh1.f    vhh1g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  vhh.f     vhhg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  voigt.f   voigtg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  voigt1.f  voigt1g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex loop.f loopg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS  -64  -mips4'
+fmex loopco2.f loopco2g.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex doVmixSimple.f doVmixSimpleg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+
+mv boxint2.mexsg64  ../.
+mv vhh1.mexsg64     ../.
+mv vhh.mexsg64      ../.
+mv voigt.mexsg64    ../.
+mv voigt1.mexsg64   ../.
+mv loop.mexsg64     ../.
+mv loopco2.mexsg64  ../.
+mv doVmixSimple.mexsg64  ../.
+
+echo 'mexing water local and superlorentz lineshapes ... '
+fmex loop_loc.f loop_locg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS  -64  -mips4'
+fmex loop_chi.f loop_chig.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS  -64  -mips4'
+mv loop_loc.mexsg64     ../.
+mv loop_chi.mexsg64     ../.
+
+echo 'mexing CKD... '
+cd ../CKD
+fmex  calcon.f calcong.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  calconwater.f  calconwaterg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+fmex  calconwater_loc.f  calconwater_locg.f  FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4'
+mv calcon.mexsg64 ../.
+mv calconwater.mexsg64 ../.
+mv calconwater_loc.mexsg64 ../.
+
+cd ../FORTRANFILES
+

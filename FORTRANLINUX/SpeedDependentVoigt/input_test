@@ -1,0 +1,16 @@
+ 655.3317D0 9.357151D-01
+ 44.0    291.953
+ 0.0818744D0 0.0
+ 0.0 0.0
+ 0.0 0.0
+ 655.0D0 680.0D0 0.0005D0
+
+ /home/sergio/SPECTRA/IPFILES/co2one_hot
+ run8(2,655,680,'IPFILES/co2one_hot');
+ 
+ input linecenter cm-1, line strength (cm2/molecule)
+ input mass(amu) T(K)
+ input SpeedAvgWidth SpeedDependenceWidth cm-1
+ input SpeedAvgShift SpeedDependaceShift cm-1
+ input VelChangeFreq cm-1 and CorrelationParam
+ input Sig0,SigF,dSig

@@ -1,0 +1,45 @@
+
+
+         Changes From HITRAN2K to HITRAN04
+         ---------------------------------
+
+
+The data record for HITRAN04 was extended from 100 to 160 bytes.
+The first 10 fields, IGAS, ISO, WNUM, STREN, TPROB, ABROAD, SBROAD,
+ELS, ABCOEF, and TSP were unchanged.  The remaining six fields were
+extended and three more fields were added, as follows.
+
+
+    name    type       short description
+   ------------------------------------------------
+    IUSGQ    I3    upper state global quanta index
+    ILSGQ    I3    lower state global quanta index
+    USLQ     A9    upper state local quanta
+    BSLQ     A9    lower state local quanta
+    AI       3I1   accuracy indices
+    REF      3I2   indices for lookup of references
+
+
+    name    type       short description
+   ------------------------------------------------
+    IUSGQ    A15    upper state global quanta index
+    ILSGQ    A15    lower state global quanta index
+    USLQ     A15    upper state local quanta
+    BSLQ     A15    lower state local quanta
+    AI       6I1    accuracy indices
+    REF      6I2    indices for lookup of references
+    FLAG     A1     flag for line mixing
+    SWUS     F7.1   statistical weight, upper state
+    SWLS     F7.1   statistical weight, lower state
+
+Note that the AI and REF fields are defined as ints, but are
+returned by both the old and new reader as character arrays.
+
+The name of the non-mexized matlab reader was changed to 
+read_hitran2.m.  It should function identically to the mexized
+version; the script htest.m can be used to verify this.
+
+
+The primary source for information about the HITRAN database is
+http://cfa-www.harvard.edu/HITRAN
+

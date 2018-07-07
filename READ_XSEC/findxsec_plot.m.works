@@ -1,0 +1,183 @@
+function [iYes,xsecfilename] = findxsec_plot(wv1,wv2,gid);
+
+t0 = 300;
+dv = 10;
+dv = 1;
+
+wv = wv1:dv:wv2;
+tv = ttorad(wv,t0);
+
+gasID = gid;
+
+fnamePRE ='/asl/data/hitran/xsec98.ok/'; idd = 1998;
+fnamePRE = '/asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/Junk/'; 
+           idd=2008;
+fnamePRE = '/asl/data/hitran/HITRAN08_SERGIO/Xsec/'; idd=2008;
+
+%% from ~sergio/KCARTA/DOC/gasids
+%% also see /home/sergio/abscmp/READ_XSEC/gid2mol.m
+if idd <= 1998
+  gname{1} = 'CCl3F';   % 51  CFCl3   (F11) 
+  gname{2} = 'CCl2F2';  % 52          (F12)
+  gname{3} = 'CClF3';   % 53    (F13)
+  gname{4} = 'CF4';     % 54    (F14)
+  gname{5} = 'CHCl2F';  % 55    (F21)
+  gname{6} = 'CHClF2';  % 56    (F22)
+  gname{7} = 'C2Cl3F3'; % 57   (F113)
+  gname{8} = 'C2Cl2F4'; % 58 (F114)
+  gname{9} = 'C2ClF5';  % 59  (F115)
+  gname{10} = 'CCl4';   % 60
+  gname{11} = 'ClONO2'; % 61
+  gname{12} = 'N2O5';   % 62
+  gname{13} = 'HNO4';   % 63
+else
+  %% see /home/sergio/KCARTA/DOC/gasids_H2008
+  gname{1} = 'CFC-11_IR00';    % 51  (F11) 
+  gname{2} = 'CFC-12_IR00';    % 52  (F12)
+  gname{3} = 'CFC-13_IR01';    % 53  (F13)
+  gname{4} = 'CFC-14_IR01';    % 54  (F14)    also gid 42
+  gname{5} = 'HCFC-21_IR00';   % 55  (F21) 
+  gname{6} = 'HCFC-22_IR01';   % 56  (F22) 
+  gname{7} = 'CFC-113_IR00';   % 57  (F113)
+  gname{8} = 'CFC-114_IR00';   % 58  (F114)
+  gname{9} = 'CFC-115_IR00';   % 59  (F115)
+  gname{10} = 'CCl4_IR00';     % 60
+  gname{11} = 'ClONO2_IR04';   % 61            also gid 35
+  gname{12} = 'N2O5_IR04';     % 62
+  gname{13} = 'HNO4_IR04';     % 63
+  %%%these are new
+  gname{14} = 'C2F6_IR01';       % 64
+  gname{15} = 'HCFC-123_IR00';   % 65
+  gname{16} = 'HCFC-124_IR00';   % 66
+  gname{17} = 'HCFC-141b_IR00';  % 67
+  gname{18} = 'HCFC-142b_IR00';  % 68
+  gname{19} = 'HCFC-225ca_IR00'; % 69
+  gname{20} = 'HCFC-225cb_IR00'; % 70
+  gname{21} = 'HFC-32_IR00';     % 71
+  gname{22} = 'HFC-134a_IR00';   % 72
+  gname{23} = 'HFC-143a_IR00';   % 73
+    gname{23} = 'HFC-143a_IR08';   % 73
+  gname{24} = 'HFC-152a_IR00';   % 74
+  gname{25} = 'C6H6_IR08';       % 75
+  gname{26} = 'HFC-125_IR08';    % 76
+  gname{27} = 'HFC-134_IR00';    % 77
+  gname{28} = 'SF5CF3_IR04';     % 78
+  gname{29} = 'PAN_IR04';        % 79
+  gname{30} = 'CH3CN_IR05';      % 80       also gid 41
+  gname{31} = 'SF6_IR00';        % 81       also gid 30
+  end
+
+id = gid-51+1;
+
+%% also see /home/sergio/abscmp/READ_XSEC/gid2mol.m
+%% gname{id} = gid2mol(gid);
+
+if id >= 1 & id <= 31
+  fnameIN = gname{id};
+else
+  error('invalid xsec gasid : must be between 51-81');
+  end
+
+fnamePOST='.xsc';
+hitlin_fname=[fnamePRE fnameIN fnamePOST];
+
+ee = exist(hitlin_fname);
+if ee == 0
+  fprintf(1,'looking for %s %3i \n',hitlin_fname,ee);
+  error('could not find file');
+  end
+
+start = wv1;
+stop  = wv2;
+
+clf
+%header = ['!head -1 ' hitlin_fname]; eval(header);
+
+%% reader is copied from abscmp/READ_XSEC/read_xsec.m
+gf = hitlin_fname;
+%fprintf(1,'in SPECTRA/findxsec_plot fname = %s \n',gf);
+[fid, msg] = fopen(gf, 'r');
+if fid == -1
+  error(msg);
+end
+
+nrec = 0; 
+band = 0; 
+v2prev = 0; 
+
+% read first header
+xhead = fgetl(fid); 
+
+iYes = -1;
+while isstr(xhead) 
+
+  k = length(xhead);
+
+  % get xhead fields
+  if idd <= 1998
+    gstr = xhead(1:10);
+    v1   = str2num(xhead(11:20));
+    v2   = str2num(xhead(21:30));
+    npts = str2num(xhead(31:40));
+    temp = str2num(xhead(41:50));
+    pres = str2num(xhead(51:60));
+    maxi = str2num(xhead(61:70));
+    junk = xhead(71:k);
+  else
+    gstr = xhead(1:20);
+    v1   = str2num(xhead(21:30));
+    v2   = str2num(xhead(31:40));
+    npts = str2num(xhead(41:47));
+    temp = str2num(xhead(48:54));
+    pres = str2num(xhead(55:60));
+    maxi = str2num(xhead(61:70));
+    fts  = str2num(xhead(71:75));
+    junk = xhead(76:k);
+    end
+
+  % sanity check
+  if v1 < 10 | 10000 <  v2 | temp < 100 | 400 < temp 
+    v1, v2, temp
+    error('bad xsec header record');
+  end
+
+  if wv1 <= v2 & wv2 >= v1
+    iYes = 1;
+    end
+  %[v1 v2 iYes]
+
+  % read absorption data 
+  [absc,j] = fscanf(fid, '%g', npts); 
+  if j ~= npts 
+    error('short read of absorption data'); 
+  end 
+
+  % get next header record 
+  % we may have to skip over some trailing junk, so use the  
+  % initial gas id string to indicate a valid header record, 
+  % and keep reading until we see this or reach end of file 
+  xhead = fgetl(fid); 
+  if idd <= 1998
+    while isstr(xhead) & (length(xhead) < 10 | ~strcmp(gstr, xhead(1:10)) ) 
+      xhead = fgetl(fid); 
+      end 
+  elseif idd >= 1998
+    while isstr(xhead) & (length(xhead) < 20 | ~strcmp(gstr, xhead(1:20)) ) 
+      xhead = fgetl(fid); 
+      end 
+    end
+ 
+  % see if we're in a new band 
+  if v2prev < v1 
+    nrec = 0; 
+    band = band + 1; 
+  end 
+  v2prev = v2; 
+   
+  % increment record count for this band 
+  nrec = nrec + 1; 
+
+  end
+
+fclose(fid);
+xsecfilename = gname{id};

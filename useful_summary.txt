@@ -1,0 +1,101 @@
+
+/home/sergio/SPECTRA has these matlab files
+
+also look at Howard Motteler's "read_hitran"
+and the very useful GENLN2 manual
+
+pressures should be in atm, temperatures in kelvin, gas amount in kilomoles/cm2
+
+v = your wavenumber array
+
+        qfcn=q(A,B,C,D,G,very_near,tempr); 
+        pwr=very_near.abcoef; 
+        for_brd=very_near.abroad; 
+        self_brd=very_near.sbroad; 
+        freq=very_near.wnum+press(jj)*very_near.tsp;  %freq shift 
+        energy=very_near.els; 
+        s0=very_near.stren; 
+        brd=broad(p,ps,1.0,for_brd,self_brd,pwr,tempr,gasID); 
+        strength=find_stren(qfcn,freq,T,energy,s0,GasAmt(jj)); 
+      
+  ---> y = lorenz(v,freq,T,M,brd) * s0 <---------------
+
+qfcn = partition function, as function of temperature
+     = gives fraction of population at that temperature, normalised to 296K
+
+abcoef = temperature effects on broadening (power law) from HITRAN
+
+for_broad, self_broad = air and self broadening half widths from HITRAN
+
+tsp = shift in line center, due to pressure
+
+els = lower state energy
+
+stren = line strength
+
+
+==========================================================================
+broad.m 
+
+[brd]=broad(press,press_self,press_ref,air,self,m,T,iGas)
+
+gasID >= 3
+  %assume press_ref = 1.0 atm 
+  brd = for_broad*(press-press_self)/press_ref + 
+        self_broad*press_self/press_ref; 
+  brd = (296/T)^abcoef * brd
+
+gasID == 1
+  %assume press_ref = 1.0 atm 
+  %usually there is no HITRAN data for the self broadening, so if this happens,
+  %let self_broad = (5*for_broad)
+
+  brd = for_broad*(press-press_self)/press_ref + 
+        self_broad*press_self/press_ref; 
+  brd = (296/T)^abcoef * brd
+
+gasID == 2
+  %assume press_ref = 1.0 atm 
+  %if there is no HITRAN data for the self broadening, 
+  %let self_broad = (for_broad)
+
+  %also, the power law temperature effects on broadening are different ....
+
+  brdf=(press-press_self)*air.*(296.0/T).^(m); 
+  brds=(press_self)*slf.*(296.0/T).^(0.685); 
+  brd=brdf+brds; 
+
+==========================================================================
+
+find_stren.m
+
+[strength]=find_stren(qfcn,v0,T,E_li,s0,amt) 
+
+%qfcn = Q(T)/Q(296); assume it is 1 for your application!
+
+s00=s0*6.022045e26;                     %or could do amt=amt*6.022e26 
+c2=1.4387863;                           %K/ cm-1  from Genln2 manual 
+sb=exp(-c2*E_li/T)./exp(-c2*E_li/296.0);%boltzman factor (distribution at T) 
+se=(1-exp(-c2*v0/T))./(1-exp(-c2*v0/296.0)); %adjust for detailed balance 
+ 
+strength=amt*(qfcn'.*s00.*sb.*se); 
+
+==========================================================================
+
+lorentz.m   --- compures the lorentz line shape
+                it is independent of mass and Temperature
+                (the voigt lineshape, at lower pressures, turns into the 
+                 doppler lineshape, which DOES depend on mass and T)
+
+function [y]=lorentz(v,v0,T,mass,brd) 
+
+%v = frequency array 
+%v0 = center freq 
+%T  = temperature 
+%mass = molecular mass (amu) 
+%brd = broadening 
+ 
+%lorentz 
+%1/pi = 0.318... 
+y=0.31830988*brd./(brd*brd + (v-v0).^2); 
+ 

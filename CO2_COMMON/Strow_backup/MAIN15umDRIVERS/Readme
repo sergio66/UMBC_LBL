@@ -1,0 +1,25 @@
+use driver15um for all Q branches (blends in cousin and birnbaum)
+use driver667PR for all PR branches (blends in cousin and birnbaum)
+
+-rw-r--r--    1 sergio   strow       3646 Jun  1 12:28 driver667PR.m
+-rw-r--r--    1 sergio   strow      13598 Jun  1 12:19 driver15um.m
+
+
+the following files are the ONES THAT WORK!!!!!!!!!!!!
+ie they are in gruesome detail
+but they are mainly copies of each other, and so the driver* stuff above has 
+the common code
+
+-rw-r--r--    1 sergio   strow        679 May 31 12:41 Readme
+-rw-r--r--    1 sergio   strow       9596 May 30 12:01 yrun_deltpiPR.m
+-rw-r--r--    1 sergio   strow       8473 May 30 12:01 yrun_deltpi.m
+-rw-r--r--    1 sergio   strow       9025 May 30 12:00 yrun_sigpiPR.m
+-rw-r--r--    1 sergio   strow       6303 May 30 11:59 yrun_sigpi662.m
+-rw-r--r--    1 sergio   strow       8252 May 30 11:59 yrun_sigpi.m
+
+
+this is the old code
+
+-rw-r--r--    1 sergio   strow       2794 May 31 14:09 driver15umPR_SIMPLE.m
+-rw-r--r--    1 sergio   strow       7724 May 31 14:09 driver15umPQR.m
+

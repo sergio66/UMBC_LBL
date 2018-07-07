@@ -1,0 +1,4 @@
+using the handy dandy LINUX "find" from
+ /home/motteler> find -name calc_xsec.m
+
+I copied the files from asl:/home/motteler/radtrans/read_xsec/*

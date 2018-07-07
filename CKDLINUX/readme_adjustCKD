@@ -1,0 +1,54 @@
+To adjust CKD 2
+================
+
+Best thing is, fo you to login as "me" so you do not have to worry about 
+copying over the entire SPECTRA directory structure.
+
+
+/home/sergio/SPECTRA/CKDLINUX/calconCKD2.0.f
+
+look for the line that says 
+FNAME = '/home/sergio/SPECTRA/CKDLINUX/tunmlt_con1_14jul03.dat'
+
+and modify it so it has the new "fname" that you want to read.
+The data is in the following format (from Scott)
+
+  % Tuning multipliers to be applied to SARTA optical depths  
+  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % 14 July 2003: estimatee of window fixes for "con1" using ARM TWP  
+  %
+  % fixed           : no tuning
+  % water lines     : no tuning
+  % water continuum : 760-1325 variable, 2181-2666 variable
+  % ozone           : no tuning
+  % CO              : no tuning
+  % methane         : no tuning
+  % CO2 perturbation: no tuning
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+  %
+  % ID    freq     fixed  H2Oline  H2Ocon  ozone     CO   methane CO2pert
+  %----  -------- ------- ------- ------- ------- ------- ------- -------
+
+At the unix shell, type "makewatermexLinux" to MEX the file
+
+To make the data files for kCARTA to read, run
+    ckd_lookupBIN_ieee_le.m
+
+This will automatically produce the binary files for the new CKD2
+The files will be stored in /asl/data/kcarta/KCARTADATA/General/CKDieee_le/
+----------------------------------------------------------------------------
+
+To put in mystery gas into kCARTA
+==================================
+
+You will need to copy /home/sergio/KCARTA/SRC/rad_main.f and edit it
+Set iMystery = +1 to read in adjustment file 
+    /asl/data/kcarta/KCARTADATA/General/mystery.dat
+Then compile (type "make") and run
+
+The colmns in this file are :
+    Wavenumber   OpticalDepth
+
+kCARTA will linearly interp the values onto the 0.0025 cm-1 spacing, and
+add on these optical depths onto the lowest complete layer above the surface

@@ -1,0 +1,120 @@
+function [a,b]=blender4um(band,prb,freqr,jr,region);
+%%copied directly from tempratio4um.m
+
+%%%%%%% WARNING : IF YOU MAKE CHANGES HERE, MAKE CHANGES IN TEMPRATIO4UM.M
+
+%%given band and prb, this function returns
+%%  (a) the wavenumber where we stop going full mix (f1 for 'P' and fr for 'R')
+%%  (b) the width of the blending region
+%
+%  -------|------------|----------------------------|-------------|----------
+%        f1-1          f1                          f2           f2+1
+%  
+%  cousin   full/cousin          full               full/cousin     cousin    
+%
+%   I          IV                 III                   V            II
+%
+
+ 
+if (prb == 'p')
+  prb='P';
+elseif (prb == 'r')
+  prb='R';
+  end
+
+orig=-1;      
+if (orig < 0) 
+
+  %%%this is the new code, where we turn over to Cousin after 15 wavenumbers
+  %%% and close to bands, we have line mixing
+
+  %%%%%this will be done for the 2351 band
+  matr(1,1)=min(freqr)-20;                %%%%%%irrelevant
+  matr(2,1)=min(freqr)-15;
+  matr(3,1)=max(freqr)+15;
+  matr(4,1)=max(freqr)+20;                %%%%%%irrelevant
+
+  x=band;
+
+  if (x==2350) 
+    if (prb=='P')  
+      %%%%%%%has 40 cm-1 blending regions!!!!!!! on right
+      %%%%%%%has 80 cm-1 blending regions!!!!!!! on left  for P branch
+      matr(1,1)=min(freqr)-85;                %%%%%%irrelevant
+      matr(2,1)=min(freqr)-80;
+      matr(3,1)=max(freqr)+40;
+      matr(4,1)=max(freqr)+45;                %%%%%%irrelevant
+
+    elseif (prb=='R')  
+      %%%%%%%has 40 cm-1 blending regions!!!!!!! on right
+      %%%%%%%has 10 cm-1 blending regions!!!!!!! on left  for R branch
+      matr(1,1)=min(freqr)-26;                %%%%%%irrelevant
+      matr(2,1)=min(freqr)-21;
+      matr(3,1)=max(freqr)+40;
+      matr(4,1)=max(freqr)+45;                %%%%%%irrelevant
+      end
+    end
+
+  if ((x==2310)|(x == 2320)|(x==2352)|(x==2353)|(x==2354))
+    if (prb=='P')
+      [gg,hh]=sort(jr); im=find(gg<=50); im=im(length(im));
+      %%%only do low jq's for mixing upto jq=50
+      matr(1,1)=freqr(hh(im))+1.0;              %%%%%%irrelevant
+      matr(2,1)=freqr(hh(im));
+      matr(3,1)=max(freqr)+0.025;
+      matr(4,1)=max(freqr)+0.05;                %%%%%%irrelevant
+    elseif (prb=='R')
+      [gg,hh]=sort(jr); im=find(gg<=50); im=im(length(im));
+      matr(1,1)=min(freqr)-0.05;                %%%%%%irrelevant
+      matr(2,1)=min(freqr)-0.025;
+      matr(3,1)=freqr(hh(im));
+      matr(4,1)=freqr(hh(im))+1.0;              %%%%%%irrelevant
+      end
+    end
+
+  end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%now check that matr(1,1) < matr(2,1)
+if matr(1,1) > matr(2,1)
+  tempppp=matr(2,1);
+  matr(2,1)=matr(1,1);
+  matr(1,1)=tempppp;
+  end
+
+%now check that matr(3,1) < matr(4,1)
+if matr(4,1) > matr(4,1)
+  tempppp=matr(4,1);
+  matr(4,1)=matr(3,1);
+  matr(3,1)=tempppp;
+  end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  iiLessOut=find(outwave < matr(2,1));                               %%Reg 1 
+%    numLessOut=length(iiLessOut); 
+%  iiMoreOut=find(outwave >= matr(3,1));                               %%Reg 2 
+%   numMoreOut=length(iiMoreOut); 
+%  iiNumOut =find((outwave >= matr(2,1)+1) & (outwave < matr(3,1)-1)); %%Reg 3 
+%  iiNumOut =find((outwave >= matr(2,1)+20) &(outwave < matr(3,1)-20));%%Reg 3 
+%    numOut=length(iiNumOut); 
+%  iiLessMidOut =find((outwave >= matr(2,1)) &(outwave < matr(2,1)+1));%%Reg 4 
+%    numLessMidOut=length(iiLessMidOut);  
+%  iiMoreMidOut =find((outwave >= matr(3,1)-1) &(outwave < matr(3,1)));%%Reg 5 
+%    numMoreMidOut=length(iiMoreMidOut); 
+
+%%set up the width of the blending regions
+if band ~= 2350
+  b = 1.0;
+else
+  b = 20.0;
+  end
+
+%%set up the wavenumber where we stop doing fullmixing
+if (region == 4)
+  a=matr(2,1)+b;
+elseif (region == 5)
+  a=matr(3,1)-b;
+else
+  error('in blender 4um.m .... need region = 4 or 5 \n');
+  end
+

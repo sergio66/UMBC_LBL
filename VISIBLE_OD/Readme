@@ -1,0 +1,30 @@
+
+Date: Mon, 28 Apr 2008 16:55:59 -0400 (EDT)
+From: zhuli1@umbc.edu
+To: sergio@umbc.edu
+Subject: ozone absorption cross section, No2, ring factor
+Parts/Attachments:
+   1 Shown     16 lines  Text (charset: ISO-8859-1)
+   2          760 KB     Application
+   3            1 MB     Application
+   4          399 KB     Application
+----------------------------------------
+
+Hi Sergio,
+The attachment are the files that you wanted.
+
+The data in the ring factor is the the normalized factor. The third column
+is the differentiate of the second column.
+
+For the ozone data: Note that the second,
+third, and fourth columns are the coefficients for the ozone cross
+section ( c0 + c1*Tc + c2*Tc*Tc), but note that the units here are
+1/(atm*cm).  The next column is the Rayleigh optical depth at 1 atm,
+and the final column is the Rayleigh depolarization factor.
+
+Li
+
+
+----------
+
+Sergio : Ring effect = Rotational Raman Scattering for O3?

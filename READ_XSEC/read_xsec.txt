@@ -1,0 +1,144 @@
+
+     Matlab procedures to read HITRAN IR cross section data
+
+                          Version 1.1
+
+                       Howard E. Motteler
+                           4 Apr 00
+
+
+
+The main Matlab procedures are
+
+  calc_xsec.m    - interpolates or extrapolates tabulated xsec
+                   data to an arbitray temperature profile; this 
+		   is the "main" xsec routine 
+
+  read_xsec.m    - reads a single gas HITRAN xsec file and returns 
+                   the contents in a matlab structure
+
+  browse_xsec.m  - view selected tabulated or extrapolated data
+
+  split_xsec.m   - split a concatenated xsec file (e.g., HITRAN 92)
+	           into individual gas files
+
+These procedures are documented as usual with Matlab ".m" files,
+with initial comments accessible either directly or with the matlab
+"help" command.
+
+The tar file distribution also includes a "cleaned up" version of
+the HITRAN 98 IR cross-section data.
+
+
+
+1 Cross Section Gasses
+------------------------
+
+gas IDs from GENLN2
+
+ ID	 Symbol       Name
+-----------------------------
+ 51	 CCl3F	      F11
+ 52	 CCl2F2	      F12
+ 53	 CClF3	      F13
+ 54	 CF4	      F14
+ 55	 CHCl2F	      F21
+ 56	 CHClF2	      F22
+ 57	 C2Cl3F3      F113
+ 58	 C2Cl2F4      F114
+ 59	 C2ClF5	      F115
+ 60	 CCl4	      carbon tetrachloride
+ 61	 ClONO2	      chlorine nitrate
+ 62	 N2O5	      dinitrogen pentoxide
+ 63	 HNO4	      pernitric acid
+
+gasses added in HITRAN 98
+
+ 64	 SF6	      sulphur hexafluoride (?)
+ 65	 CH2F2	      HFC-32
+ 66	 CHF2CHF2     HFC-134
+ 67	 CF3CH3	      HFC-143a
+
+
+
+2. Cross Section Bands
+-----------------------
+
+  ID  band   wavenumber bounds
+--------------------------------
+  51    1    810.006    879.997
+  51    2   1050.004   1119.995
+  52    1    809.998    964.988
+  52    2   1040.008   1199.990
+  53    1    765.011    804.990
+  53    2   1065.008   1139.996
+  53    3   1170.006   1234.996
+  54    1   1255.007   1289.987
+  55    1    785.000    839.995
+  56    1    760.001    860.004
+  57    1    780.499    994.999
+  57    2   1005.499   1231.999
+  58    1    815.001    859.994
+  58    2    870.007    959.993
+  58    3   1030.011   1066.993
+  58    4   1095.001   1284.985
+  59    1    955.011   1014.986
+  59    2   1110.001   1144.995
+  59    3   1167.010   1259.992
+  60    1    770.009    809.988
+  61    1   1265.007   1324.982
+  62    1    555.415    599.771
+  62    2    720.304    764.660
+  62    3   1210.149   1274.755
+  62    4   1680.227   1764.600
+  63    1    770.007    829.999
+  64    1    925.001    955.003
+
+
+
+3. Temperature Extrapolation
+------------------------------
+
+Temperature extrapolation is done as follows:
+
+              Ke = Km*(Tm/Te)^C1, where 
+
+Km is measured absorption at temperature Tm, and Ke is estimated
+absorption at temperature Te.
+
+After some initial tests, a value of C1 = 0.75 was chosen; this is
+quite a bit less that C1=1.5 from the GENLN2 xsec code, but seemed
+empirically to work better.
+
+Very roughly, increasing temperature gives decreasing absorptions.
+For CFC11, in extrapolating to increasing temperature, the baseline
+is underestimated and the peaks overestimated; while extrapolating
+to decreasing temperatures, the reverse is true.
+
+
+
+4. HITRAN xsec data files 
+---------------------------
+
+Notes
+
+1. a pressure field value of 0 implies no pressure info
+
+2. npts = 1+(v2-v1)/dv; dv = (v2-v1)/(npts-1)
+
+
+Data Errors
+
+The following are errors in the HITRAN98 xsec files, as supplied.
+(all are corrected in the xsec98.ok directory)
+
+1. CFC22.XSC, aka CHClF2.xsc, contains a bad value in an absorption
+   data field, an "x" in the middle of a number
+
+2. CFC22.XSC, second to last record, 216K 176.8 mb, contains what
+   appears to be a bad frequency spec, shifted up by 9 wavenumbers
+
+3. in XSECT92.XSC, the headers for HNO4, CHCl2F, and CCl4 have the
+   temperature field shifted, and text in place of the pressure
+   field.  (This will have to be fixed by hand, after the split.)
+

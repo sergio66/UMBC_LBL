@@ -1,0 +1,174 @@
+clear
+
+cd ..; 
+rm *.mexglx
+cd FORTRANLINUX
+
+#use Howard's readers instead
+#echo 'mexing HITRAN reader ... '
+#/usr/local/matlab/bin/mex  mexhitd.f hitinid.f hitrdd.f  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#mv mexhitd.mexglx  ../.
+
+echo 'mexing voigt and looping files ... '
+/usr/local/matlab/bin/mex  boxint2.f boxint2g.f FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  vhh1.f    vhh1g.f    FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  vhh.f     vhhg.f     FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  voigt.f   voigtg.f   FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  voigt1.f  voigt1g.f  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex loop.f loopg.f        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex loopco2.f loopco2g.f  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+mv boxint2.mexglx  ../.
+mv vhh1.mexglx     ../.
+mv vhh.mexglx      ../.
+mv voigt.mexglx    ../.
+mv voigt1.mexglx   ../.
+mv loop.mexglx     ../.
+mv loopco2.mexglx  ../.
+
+echo 'mexing water local and superlorentz lineshapes ... '
+/usr/local/matlab/bin/mex loop_loc.f loop_locg.f FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex loop_chi.f loop_chig.f FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex loop_chi2.f loop_chi2g.f FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+mv loop_loc.mexglx     ../.
+mv loop_chi.mexglx     ../.
+mv loop_chi2.mexglx     ../.
+
+echo 'mexing CKD ... with the -A option '
+cd ../CKDLINUX
+/usr/local/matlab/bin/mex  calcon.f calcong.f                   FFLAGS='$FFLAGS -A'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  calconwater.f calconwaterg.f         FFLAGS='$FFLAGS -A'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  calconwater_loc.f calconwater_locg.f FFLAGS='$FFLAGS -A'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+mv calcon.mexglx ../.
+mv calconwater.mexglx ../.
+mv calconwater_loc.mexglx ../.
+cd ../FORTRANLINUX
+
+#these compiled files will be used everywhere
+echo 'mexing various CO2 files ... this takes a while'
+echo 'adding on the -N3 option to allow padding'
+echo '**************************** WARNING **********************************'
+echo 'check to see if bbiirrnn.dat exists ... if not, run birn_lookupNEW.m'
+ls -lt bbiirrnn.dat
+echo '************************* END OF WARNING ******************************'
+/usr/local/matlab/bin/mex birnbaum.f birnbaumg.f            FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/local/matlab/bin/mex dofull.f dofullg.f                FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex dofullNEWBIRN.f dofullNEWBIRNg.f  FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex doFindMix.f doFindMixg.f          FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex doVmix.f doVmixg.f                FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex doVmix2.f doVmix2g.f                FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex doVmixSimple.f doVmixSimpleg.f    FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex doVmixRatio.f doVmixRatiog.f      FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/local/matlab/bin/mex doVmixSlope.f doVmixSlopeg.f      FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  cousin1.f  cousin1g.f            FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/local/matlab/bin/mex  vhh1RI.f    vhh1RIg.f            FFLAGS='$FFLAGS -N3'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  vhh2RI.f    vhh2RIg.f             FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+
+cp IncludeMaxer.m         ../.
+mv birnbaum.mexglx        ../.
+mv dofullNEWBIRN.mexglx   ../.
+mv doFindMix.mexglx       ../.
+mv doVmix.mexglx          ../.
+mv doVmix2.mexglx         ../.
+mv doVmixSimple.mexglx    ../.
+mv doVmixRatio.mexglx     ../.
+mv cousin1.mexglx         ../.
+
+#need to use this since this computes real/imag parts
+#cp vhh1RI.mexglx Q_sigpi/.
+
+#this is full_mix4.m but mexed (full_mixing)
+#cp dofull.mexglx Q_sigpi/.
+
+#this is y1s.m but mexed (find first order mix coeffs)
+#cp doFindMix.mexglx Q_sigpi/.
+
+#this is voigtmix.m but mexed (find first order mix coeffs)
+#cp doVmix.mexglx Q_sigpi/.
+
+#this is voigtmixsimple.m but mexed (find first order mix coeffs) : only used 
+#in PR_sigpi/deltpi
+#cp doVmixSimple.mexglx PR_sigpi/.
+
+### vhh1RI is Dave Tobin;s voigter .. might be wrong!
+### use vhh2RI as this is from Genln2
+
+rm *~
+
+echo 'coping mex files to Q_sigpi'
+cd ../Q_sigpi;     rm *~
+rm *.mexglx
+ln -s ../dofullNEWBIRN.mexglx dofullNEWBIRN.mexglx
+ln -s ../cousin1.mexglx       cousin1.mexglx 
+ln -s ../birnbaum.mexglx      birnbaum.mexglx 
+ln -s ../doFindMix.mexglx     doFindMix.mexglx 
+ln -s ../doVmix.mexglx        doVmix.mexglx 
+ln -s ../doVmixRatio.mexglx   doVmixRatio.mexglx 
+ln -s ../boxint2.mexglx       boxint2.mexglx 
+
+echo 'coping mex files to Q_deltpi'
+cd ../Q_deltpi;    rm *~
+rm *.mexglx
+ln -s ../dofullNEWBIRN.mexglx dofullNEWBIRN.mexglx
+ln -s ../cousin1.mexglx       cousin1.mexglx 
+ln -s ../birnbaum.mexglx      birnbaum.mexglx 
+ln -s ../doFindMix.mexglx     doFindMix.mexglx 
+ln -s ../doVmix.mexglx        doVmix.mexglx 
+ln -s ../doVmixRatio.mexglx   doVmixRatio.mexglx 
+ln -s ../boxint2.mexglx       boxint2.mexglx 
+
+echo 'coping mex files to PR_sigpi'
+cd ../PR_sigpi;    rm *~
+rm *.mexglx
+ln -s ../dofullNEWBIRN.mexglx dofullNEWBIRN.mexglx
+ln -s ../cousin1.mexglx       cousin1.mexglx 
+ln -s ../birnbaum.mexglx      birnbaum.mexglx 
+ln -s ../doFindMix.mexglx     doFindMix.mexglx 
+ln -s ../doVmix.mexglx        doVmix.mexglx 
+ln -s ../doVmixSimple.mexglx  doVmixSimple.mexglx
+ln -s ../doVmixRatio.mexglx   doVmixRatio.mexglx  
+ln -s ../boxint2.mexglx       boxint2.mexglx 
+
+echo 'coping mex files to PR_deltpi'
+cd ../PR_deltpi;   rm *~
+rm *.mexglx
+ln -s ../dofullNEWBIRN.mexglx dofullNEWBIRN.mexglx
+ln -s ../cousin1.mexglx       cousin1.mexglx 
+ln -s ../birnbaum.mexglx      birnbaum.mexglx 
+ln -s ../doFindMix.mexglx     doFindMix.mexglx 
+ln -s ../doVmix.mexglx        doVmix.mexglx 
+ln -s ../doVmixSimple.mexglx  doVmixSimple.mexglx
+ln -s ../doVmixRatio.mexglx   doVmixRatio.mexglx  
+ln -s ../boxint2.mexglx       boxint2.mexglx 
+
+echo 'coping mex files to PR_pipi'
+cd ../PR_pipi;     rm *~
+rm *.mexglx
+ln -s ../dofullNEWBIRN.mexglx dofullNEWBIRN.mexglx
+ln -s ../cousin1.mexglx       cousin1.mexglx 
+ln -s ../birnbaum.mexglx      birnbaum.mexglx 
+ln -s ../doFindMix.mexglx     doFindMix.mexglx 
+ln -s ../doVmix.mexglx        doVmix.mexglx 
+ln -s ../doVmixRatio.mexglx   doVmixRatio.mexglx 
+ln -s ../boxint2.mexglx       boxint2.mexglx 
+
+echo 'coping mex files to PR_sigsig'
+cd ../PR_sigsig;   rm *~
+rm *.mexglx
+ln -s ../dofullNEWBIRN.mexglx dofullNEWBIRN.mexglx
+ln -s ../cousin1.mexglx       cousin1.mexglx 
+ln -s ../birnbaum.mexglx      birnbaum.mexglx 
+ln -s ../doFindMix.mexglx     doFindMix.mexglx 
+ln -s ../doVmix.mexglx        doVmix.mexglx 
+ln -s ../doVmixRatio.mexglx   doVmixRatio.mexglx 
+ln -s ../boxint2.mexglx       boxint2.mexglx 
+
+echo 'coping mex files to PR_deltdelt'
+cd ../PR_deltdelt; rm *~
+rm *.mexglx
+ln -s ../dofullNEWBIRN.mexglx dofullNEWBIRN.mexglx
+ln -s ../cousin1.mexglx       cousin1.mexglx 
+ln -s ../birnbaum.mexglx      birnbaum.mexglx 
+ln -s ../doFindMix.mexglx     doFindMix.mexglx 
+ln -s ../doVmix.mexglx        doVmix.mexglx 
+ln -s ../doVmixRatio.mexglx   doVmixRatio.mexglx 
+ln -s ../boxint2.mexglx       boxint2.mexglx 

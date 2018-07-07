@@ -1,0 +1,1302 @@
+-rw-r--r-- 1 sergio pi_strow   836 Oct 14 12:58 FORTRANLINUX/IncludeMaxer.m
+-rw-r--r-- 1 sergio pi_strow   226 Feb 12  2014 READ_XSEC/plot_bands.m
+-rw-r--r-- 1 sergio pi_strow    60 Feb 10  2014 UNUSED/tilak.m
+lrwxrwxrwx 1 sergio users       21 Feb  5  2014 WORKS_Feb05_2014/removeCO2lines.m -> removeCO2lines_ORIG.m
+lrwxrwxrwx 1 sergio pi_strow     9 Feb  5  2014 WORKS_Feb05_2014/qtips.m -> qtips12.m
+-rw-r--r-- 1 sergio pi_strow  1975 Feb  4  2014 WORKS_Feb05_2014/translate2oldHITparams.m
+-rw-r--r-- 1 sergio pi_strow 24422 Feb  4  2014 WORKS_Feb05_2014/run8co2_voigt.m
+-rw-r--r-- 1 sergio pi_strow 55068 Feb  4  2014 WORKS_Feb05_2014/run8co2_linemixUMBC.m
+-rw-r--r-- 1 sergio pi_strow 32082 Feb  4  2014 WORKS_Feb05_2014/run8co2_hartmann.m
+-rw-r--r-- 1 sergio pi_strow  7530 Feb  4  2014 WORKS_Feb05_2014/makeDAVEhitlin.m
+-rw-r--r-- 1 sergio pi_strow  3949 Feb  4  2014 WORKS_Feb05_2014/findUnionNew_oneLayer.m
+-rw-r--r-- 1 sergio pi_strow  5389 Feb  4  2014 WORKS_Feb05_2014/findUnionNew.m
+-rw-r--r-- 1 sergio pi_strow   406 Feb  4  2014 WORKS_Feb05_2014/should_I_translate2oldHITparams.m
+-rw-r--r-- 1 sergio pi_strow  4085 Feb  4  2014 WORKS_Feb05_2014/co2lines.m
+-rw-r--r-- 1 sergio pi_strow  3019 Feb  4  2014 WORKS_Feb05_2014/do_hartmann.m
+-rw-r--r-- 1 sergio pi_strow  6002 Feb  4  2014 WORKS_Feb05_2014/co2lines_plot.m
+lrwxrwxrwx 1 sergio users       21 Feb  4  2014 WORKS_Feb04_2014/removeCO2lines.m -> removeCO2lines_ORIG.m
+lrwxrwxrwx 1 sergio pi_strow     9 Feb  4  2014 WORKS_Feb04_2014/qtips.m -> qtips12.m
+-rw-r--r-- 1 sergio pi_strow  3732 Feb  4  2014 WORKS_Feb04_2014/band_end.m
+-rw-r--r-- 1 sergio pi_strow  3732 Feb  4  2014 WORKS_Feb05_2014/band_end.m
+-rw-r--r-- 1 sergio pi_strow  3763 Feb  4  2014 WORKS_Feb04_2014/findUnionNew_oneLayer.m
+-rw-r--r-- 1 sergio pi_strow  5198 Feb  4  2014 WORKS_Feb04_2014/findUnionNew.m
+-rw-r--r-- 1 sergio pi_strow 32192 Feb  4  2014 WORKS_Feb04_2014/run8co2_hartmann.m
+-rw-r--r-- 1 sergio pi_strow 15773 Feb  4  2014 WORKS_Feb04_2014/qtips12.m
+-rw-r--r-- 1 sergio pi_strow 15773 Feb  4  2014 WORKS_Feb05_2014/qtips12.m
+-rw-r--r-- 1 sergio pi_strow  4633 Feb  4  2014 WORKS_Feb04_2014/find_qnewABCD_H12.m
+-rw-r--r-- 1 sergio pi_strow  4633 Feb  4  2014 WORKS_Feb05_2014/find_qnewABCD_H12.m
+-rw-r--r-- 1 sergio pi_strow  2591 Feb  4  2014 WORKS_Feb04_2014/find_hartmann_hitran.m
+-rw-r--r-- 1 sergio pi_strow  2591 Feb  4  2014 WORKS_Feb05_2014/find_hartmann_hitran.m
+-rw-r--r-- 1 sergio pi_strow  3018 Feb  2  2014 WORKS_Feb04_2014/do_hartmann.m
+-rw-r--r-- 1 sergio pi_strow  4618 Feb  2  2014 WORKS_Feb04_2014/co2lines_jmhartmann.m
+-rw-r--r-- 1 sergio pi_strow  4618 Feb  2  2014 WORKS_Feb05_2014/co2lines_jmhartmann.m
+-rw-r--r-- 1 sergio pi_strow   836 Feb  1  2014 WORKS_Feb04_2014/IncludeMaxer.m
+-rw-r--r-- 1 sergio pi_strow   836 Feb  1  2014 WORKS_Feb05_2014/IncludeMaxer.m
+-rw-r--r-- 1 sergio pi_strow 55169 Feb  1  2014 WORKS_Feb04_2014/run8co2_linemixUMBC.m
+-rw-r--r-- 1 sergio pi_strow  5287 Jan 31  2014 WORKS_Feb04_2014/chooserCO2.m
+-rw-r--r-- 1 sergio pi_strow  5287 Jan 31  2014 WORKS_Feb05_2014/chooserCO2.m
+-rw-r--r-- 1 sergio pi_strow  2893 Jan 31  2014 CO2_COMMON/y1s.m
+-rw-r--r-- 1 sergio pi_strow    46 Jan 31  2014 WORKS_Feb04_2014/tilak.m
+-rw-r--r-- 1 sergio pi_strow    46 Jan 31  2014 WORKS_Feb05_2014/tilak.m
+-rw-r--r-- 1 sergio pi_strow  1803 Jan 31  2014 WORKS_Feb04_2014/band_end_find.m
+-rw-r--r-- 1 sergio pi_strow  1803 Jan 31  2014 WORKS_Feb05_2014/band_end_find.m
+-rw-r--r-- 1 sergio pi_strow  1370 Jan 29  2014 WORKS_Feb04_2014/findlines_plot_compareHITRAN.m
+-rw-r--r-- 1 sergio pi_strow  1370 Jan 29  2014 WORKS_Feb05_2014/findlines_plot_compareHITRAN.m
+-rw-r--r-- 1 sergio pi_strow  9841 Jan 28  2014 WORKS_Feb04_2014/hitread.m
+-rw-r--r-- 1 sergio pi_strow  9841 Jan 28  2014 WORKS_Feb05_2014/hitread.m
+-rw-r--r-- 1 sergio pi_strow  1464 Jan 28  2014 WORKS_Feb04_2014/findlines_plot.m
+-rw-r--r-- 1 sergio pi_strow  1464 Jan 28  2014 WORKS_Feb05_2014/findlines_plot.m
+-rw-r--r-- 1 sergio pi_strow  3294 Jan 28  2014 read_hitr06/read_hitranOLD_H92_H2k.m
+-rw-r--r-- 1 sergio pi_strow  4444 Jan 28  2014 WORKS_Feb04_2014/show_vis_ir_lines_wavenumber_water.m
+-rw-r--r-- 1 sergio pi_strow  4444 Jan 28  2014 WORKS_Feb05_2014/show_vis_ir_lines_wavenumber_water.m
+-rw-r--r-- 1 sergio pi_strow  2700 Jan 26  2014 READ_XSEC/browse_xsec.m
+-rw-r--r-- 1 sergio pi_strow  3824 Jan 26  2014 WORKS_Feb04_2014/show_vis_ir_lines_wavenumber.m
+-rw-r--r-- 1 sergio pi_strow  3824 Jan 26  2014 WORKS_Feb05_2014/show_vis_ir_lines_wavenumber.m
+-rw-r--r-- 1 sergio pi_strow   562 Jan 26  2014 READ_XSEC/findxsec_plot_fast.m
+-rw-r--r-- 1 sergio pi_strow   277 Jan 26  2014 READ_XSEC/list_bands.m
+-rw-r--r-- 1 sergio pi_strow  3118 Jan 26  2014 READ_XSEC/findxsec_plot.m
+-rw-r--r-- 1 sergio pi_strow  2290 Jan 26  2014 READ_XSEC/viewall_xsec.m
+-rw-r--r-- 1 sergio pi_strow   322 Jan 26  2014 READ_XSEC/loop_list_bands.m
+-rw-r--r-- 1 sergio pi_strow  1328 Jan 26  2014 READ_XSEC/summary_xsec.m
+-rw-r--r-- 1 sergio pi_strow  4905 Jan 26  2014 READ_XSEC/gid2mol.m
+-rw-r--r-- 1 sergio pi_strow  5322 Jan 26  2014 READ_XSEC/calc_xsec.m
+-rw-r--r-- 1 sergio pi_strow  4107 Jan 26  2014 READ_XSEC/read_xsec.m
+-rw-r--r-- 1 sergio pi_strow 30724 Jan 25  2014 WORKS_Feb04_2014/run8.m
+-rw-r--r-- 1 sergio pi_strow 30724 Jan 25  2014 WORKS_Feb05_2014/run8.m
+-rw-r--r-- 1 sergio pi_strow  1144 Jan 25  2014 WORKS_Feb04_2014/gaslines_plotORIG.m
+-rw-r--r-- 1 sergio pi_strow  1144 Jan 25  2014 WORKS_Feb05_2014/gaslines_plotORIG.m
+-rw-r--r-- 1 sergio pi_strow 31515 Jan 19  2014 WORKS_Feb04_2014/run8water.m
+-rw-r--r-- 1 sergio pi_strow 31515 Jan 19  2014 WORKS_Feb05_2014/run8water.m
+-rw-r--r-- 1 sergio pi_strow 15982 Jan 19  2014 WORKS_Feb04_2014/run8watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow 15982 Jan 19  2014 WORKS_Feb05_2014/run8watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow  2181 Jan 18  2014 WORKS_Feb04_2014/waterlines_plot.m
+-rw-r--r-- 1 sergio pi_strow  2181 Jan 18  2014 WORKS_Feb05_2014/waterlines_plot.m
+-rw-r--r-- 1 sergio pi_strow  1332 Jan 18  2014 WORKS_Feb04_2014/load_gas_profile.m
+-rw-r--r-- 1 sergio pi_strow  1332 Jan 18  2014 WORKS_Feb05_2014/load_gas_profile.m
+-rw-r--r-- 1 sergio pi_strow  5921 Jan 18  2014 WORKS_Feb04_2014/co2lines_plot.m
+-rw-r--r-- 1 sergio pi_strow 28386 Jan 16  2014 WORKS_Feb04_2014/run8co2.m
+-rw-r--r-- 1 sergio pi_strow 28386 Jan 16  2014 WORKS_Feb05_2014/run8co2.m
+-rw-r--r-- 1 sergio pi_strow 26421 Jan 16  2014 WORKS_Feb04_2014/run8_g27.m
+-rw-r--r-- 1 sergio pi_strow 26421 Jan 16  2014 WORKS_Feb05_2014/run8_g27.m
+-rw-r--r-- 1 sergio pi_strow 24523 Jan 16  2014 WORKS_Feb04_2014/run8co2_voigt.m
+-rw-r--r-- 1 sergio pi_strow 25151 Jan 16  2014 WORKS_Feb04_2014/run8simplewater.m
+-rw-r--r-- 1 sergio pi_strow 25151 Jan 16  2014 WORKS_Feb05_2014/run8simplewater.m
+-rw-r--r-- 1 sergio pi_strow 24822 Jan 16  2014 WORKS_Feb04_2014/run8watercontinuum_beforeSept2011.m
+-rw-r--r-- 1 sergio pi_strow 24822 Jan 16  2014 WORKS_Feb05_2014/run8watercontinuum_beforeSept2011.m
+-rw-r--r-- 1 sergio pi_strow 26386 Jan 16  2014 WORKS_Feb04_2014/run8_test.m
+-rw-r--r-- 1 sergio pi_strow 26386 Jan 16  2014 WORKS_Feb05_2014/run8_test.m
+-rw-r--r-- 1 sergio pi_strow  2088 Jan 14  2014 Global_Data_HITRAN2012/converter_mass12.m
+-rw-r--r-- 1 sergio pi_strow   793 Jan 13  2014 WORKS_Feb04_2014/getq_oldVSnew.m
+-rw-r--r-- 1 sergio pi_strow   793 Jan 13  2014 WORKS_Feb05_2014/getq_oldVSnew.m
+-rw-r--r-- 1 sergio pi_strow  2546 Jan 13  2014 WORKS_Feb04_2014/find_qnew_isotopes_H12.m
+-rw-r--r-- 1 sergio pi_strow  2546 Jan 13  2014 WORKS_Feb05_2014/find_qnew_isotopes_H12.m
+-rw-r--r-- 1 sergio pi_strow  2875 Jun 26  2013 WORKS_Feb04_2014/find_qnew_isotopes_H08.m
+-rw-r--r-- 1 sergio pi_strow  2875 Jun 26  2013 WORKS_Feb05_2014/find_qnew_isotopes_H08.m
+-rw-r--r-- 1 sergio pi_strow  2332 Jun 26  2013 WORKS_Feb04_2014/hitread_simple.m
+-rw-r--r-- 1 sergio pi_strow  2332 Jun 26  2013 WORKS_Feb05_2014/hitread_simple.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 RAL_FITS_SALSIFY/tdif_birn.m -> tdif_birn_Apr00.m
+lrwxrwxrwx 1 sergio users       19 Jun 19  2013 Q_sigpi/y1s.m -> ../CO2_COMMON/y1s.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 Q_sigpi/voigtmixRatio.m -> ../CO2_COMMON/voigtmixRatio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 Q_sigpi/voigtmix2.m -> ../CO2_COMMON/voigtmix2.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 Q_sigpi/trans_pop.m -> ../CO2_COMMON/trans_pop.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 Q_sigpi/tempratio15um.m -> ../CO2_COMMON/tempratio15um.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 Q_sigpi/smooth_full_ratio.m -> ../CO2_COMMON/smooth_full_ratio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 Q_sigpi/removeneg.m -> ../CO2_COMMON/removeneg.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 Q_sigpi/qqttiippss.m -> ../CO2_COMMON/qqttiippss.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 Q_sigpi/orderer.m -> ../CO2_COMMON/orderer.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 Q_sigpi/full2_usual.m -> ../CO2_COMMON/full2_usual.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 Q_sigpi/full2.m -> ../CO2_COMMON/full2.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 Q_sigpi/efit1.m -> ../CO2_COMMON/efit1.m
+lrwxrwxrwx 1 sergio users       20 Jun 19  2013 Q_sigpi/efit.m -> ../CO2_COMMON/efit.m
+lrwxrwxrwx 1 sergio users       42 Jun 19  2013 Q_sigpi/driver15um.m -> ../CO2_COMMON/MAIN15umDRIVERS/driver15um.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 Q_sigpi/doratio.m -> ../CO2_COMMON/doratio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 Q_sigpi/co2_param.m -> ../CO2_COMMON/co2_param.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 Q_sigpi/blender15um.m -> ../CO2_COMMON/blender15um.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 Q_sigpi/IncludeMaxer.m -> ../IncludeMaxer.m
+lrwxrwxrwx 1 sergio users       19 Jun 19  2013 Q_deltpi/y1s.m -> ../CO2_COMMON/y1s.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 Q_deltpi/voigtmixRatio.m -> ../CO2_COMMON/voigtmixRatio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 Q_deltpi/voigtmix2.m -> ../CO2_COMMON/voigtmix2.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 Q_deltpi/trans_pop.m -> ../CO2_COMMON/trans_pop.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 Q_deltpi/tempratio15um.m -> ../CO2_COMMON/tempratio15um.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 Q_deltpi/smooth_full_ratio.m -> ../CO2_COMMON/smooth_full_ratio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 Q_deltpi/removeneg.m -> ../CO2_COMMON/removeneg.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 Q_deltpi/qqttiippss.m -> ../CO2_COMMON/qqttiippss.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 Q_deltpi/orderer.m -> ../CO2_COMMON/orderer.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 Q_deltpi/full2_deltpi.m -> ../CO2_COMMON/full2_deltpi.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 Q_deltpi/full2.m -> ../CO2_COMMON/full2.m
+lrwxrwxrwx 1 sergio users       20 Jun 19  2013 Q_deltpi/efit.m -> ../CO2_COMMON/efit.m
+lrwxrwxrwx 1 sergio users       42 Jun 19  2013 Q_deltpi/driver15um.m -> ../CO2_COMMON/MAIN15umDRIVERS/driver15um.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 Q_deltpi/doratio.m -> ../CO2_COMMON/doratio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 Q_deltpi/co2_param.m -> ../CO2_COMMON/co2_param.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 Q_deltpi/blender15um.m -> ../CO2_COMMON/blender15um.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 Q_deltpi/IncludeMaxer.m -> ../IncludeMaxer.m
+lrwxrwxrwx 1 sergio users       19 Jun 19  2013 PR_sigsig/y1s.m -> ../CO2_COMMON/y1s.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 PR_sigsig/voigtmixRatio.m -> ../CO2_COMMON/voigtmixRatio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_sigsig/voigtmix2.m -> ../CO2_COMMON/voigtmix2.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_sigsig/trans_pop.m -> ../CO2_COMMON/trans_pop.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 PR_sigsig/tempratio4um.m -> ../CO2_COMMON/tempratio4um.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 PR_sigsig/smooth_full_ratio.m -> ../CO2_COMMON/smooth_full_ratio.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_sigsig/small_leap.m -> ../CO2_COMMON/small_leap.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_sigsig/removeneg.m -> ../CO2_COMMON/removeneg.m
+lrwxrwxrwx 1 sergio users       32 Jun 19  2013 PR_sigsig/ral_jjohn_blend3.m -> ../CO2_COMMON/ral_jjohn_blend3.m
+lrwxrwxrwx 1 sergio users       31 Jun 19  2013 PR_sigsig/ral_jjohn_blend.m -> ../CO2_COMMON/ral_jjohn_blend.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_sigsig/qqttiippss.m -> ../CO2_COMMON/qqttiippss.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_sigsig/orderer.m -> ../CO2_COMMON/orderer.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 PR_sigsig/full2_usual.m -> ../CO2_COMMON/full2_usual.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_sigsig/full2.m -> ../CO2_COMMON/full2.m
+lrwxrwxrwx 1 sergio users       39 Jun 19  2013 PR_sigsig/fudger_and_threeregions.m -> ../CO2_COMMON/fudger_and_threeregions.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 PR_sigsig/find_regions.m -> ../CO2_COMMON/find_regions.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_sigsig/efit1.m -> ../CO2_COMMON/efit1.m
+lrwxrwxrwx 1 sergio users       20 Jun 19  2013 PR_sigsig/efit.m -> ../CO2_COMMON/efit.m
+lrwxrwxrwx 1 sergio users       40 Jun 19  2013 PR_sigsig/driver4um.m -> ../CO2_COMMON/MAIN4umDRIVERS/driver4um.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_sigsig/doratio.m -> ../CO2_COMMON/doratio.m
+lrwxrwxrwx 1 sergio users       35 Jun 19  2013 PR_sigsig/co2_param_JOHNS2002.m -> ../CO2_COMMON/co2_param_JOHNS2002.m
+lrwxrwxrwx 1 sergio users       36 Jun 19  2013 PR_sigsig/co2_param_JJOHNS2002.m -> ../CO2_COMMON/co2_param_JJOHNS2002.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_sigsig/co2_param.m -> ../CO2_COMMON/co2_param.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_sigsig/blender4um.m -> ../CO2_COMMON/blender4um.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 PR_sigsig/IncludeMaxer.m -> ../IncludeMaxer.m
+lrwxrwxrwx 1 sergio users       19 Jun 19  2013 PR_sigpi/y1s.m -> ../CO2_COMMON/y1s.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 PR_sigpi/voigtmixRatio.m -> ../CO2_COMMON/voigtmixRatio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_sigpi/voigtmix2.m -> ../CO2_COMMON/voigtmix2.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 PR_sigpi/voigt_mix_simple2.m -> ../CO2_COMMON/voigt_mix_simple2.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_sigpi/trans_pop.m -> ../CO2_COMMON/trans_pop.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 PR_sigpi/tempratio15um.m -> ../CO2_COMMON/tempratio15um.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 PR_sigpi/smooth_full_ratio.m -> ../CO2_COMMON/smooth_full_ratio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_sigpi/removeneg.m -> ../CO2_COMMON/removeneg.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_sigpi/qqttiippss.m -> ../CO2_COMMON/qqttiippss.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_sigpi/orderer.m -> ../CO2_COMMON/orderer.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 PR_sigpi/full2_usual.m -> ../CO2_COMMON/full2_usual.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_sigpi/full2.m -> ../CO2_COMMON/full2.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_sigpi/efit1.m -> ../CO2_COMMON/efit1.m
+lrwxrwxrwx 1 sergio users       20 Jun 19  2013 PR_sigpi/efit.m -> ../CO2_COMMON/efit.m
+lrwxrwxrwx 1 sergio users       44 Jun 19  2013 PR_sigpi/driver15umPR.m -> ../CO2_COMMON/MAIN15umDRIVERS/driver15umPR.m
+lrwxrwxrwx 1 sergio users       42 Jun 19  2013 PR_sigpi/driver15um.m -> ../CO2_COMMON/MAIN15umDRIVERS/driver15um.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_sigpi/doratio.m -> ../CO2_COMMON/doratio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_sigpi/co2_param.m -> ../CO2_COMMON/co2_param.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 PR_sigpi/blender15um.m -> ../CO2_COMMON/blender15um.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 PR_sigpi/IncludeMaxer.m -> ../IncludeMaxer.m
+lrwxrwxrwx 1 sergio users       19 Jun 19  2013 PR_pipi/y1s.m -> ../CO2_COMMON/y1s.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 PR_pipi/voigtmixRatio.m -> ../CO2_COMMON/voigtmixRatio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_pipi/voigtmix2.m -> ../CO2_COMMON/voigtmix2.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_pipi/trans_pop.m -> ../CO2_COMMON/trans_pop.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 PR_pipi/tempratio4um.m -> ../CO2_COMMON/tempratio4um.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 PR_pipi/smooth_full_ratio.m -> ../CO2_COMMON/smooth_full_ratio.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_pipi/small_leap.m -> ../CO2_COMMON/small_leap.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_pipi/removeneg.m -> ../CO2_COMMON/removeneg.m
+lrwxrwxrwx 1 sergio users       32 Jun 19  2013 PR_pipi/ral_jjohn_blend3.m -> ../CO2_COMMON/ral_jjohn_blend3.m
+lrwxrwxrwx 1 sergio users       31 Jun 19  2013 PR_pipi/ral_jjohn_blend.m -> ../CO2_COMMON/ral_jjohn_blend.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_pipi/qqttiippss.m -> ../CO2_COMMON/qqttiippss.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_pipi/orderer.m -> ../CO2_COMMON/orderer.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_pipi/lorentz.m -> ../CO2_COMMON/lorentz.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 PR_pipi/full2_usual.m -> ../CO2_COMMON/full2_usual.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 PR_pipi/full2_deltpi.m -> ../CO2_COMMON/full2_deltpi.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_pipi/full2.m -> ../CO2_COMMON/full2.m
+lrwxrwxrwx 1 sergio users       39 Jun 19  2013 PR_pipi/fudger_and_threeregions.m -> ../CO2_COMMON/fudger_and_threeregions.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 PR_pipi/find_regions.m -> ../CO2_COMMON/find_regions.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_pipi/efit1.m -> ../CO2_COMMON/efit1.m
+lrwxrwxrwx 1 sergio users       20 Jun 19  2013 PR_pipi/efit.m -> ../CO2_COMMON/efit.m
+lrwxrwxrwx 1 sergio users       40 Jun 19  2013 PR_pipi/driver4um.m -> ../CO2_COMMON/MAIN4umDRIVERS/driver4um.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_pipi/doratio.m -> ../CO2_COMMON/doratio.m
+lrwxrwxrwx 1 sergio users       35 Jun 19  2013 PR_pipi/co2_param_JOHNS2002.m -> ../CO2_COMMON/co2_param_JOHNS2002.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_pipi/co2_param.m -> ../CO2_COMMON/co2_param.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_pipi/blender4um.m -> ../CO2_COMMON/blender4um.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 PR_pipi/IncludeMaxer.m -> ../IncludeMaxer.m
+lrwxrwxrwx 1 sergio users       19 Jun 19  2013 PR_deltpi/y1s.m -> ../CO2_COMMON/y1s.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 PR_deltpi/voigtmixRatio.m -> ../CO2_COMMON/voigtmixRatio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_deltpi/voigtmix2.m -> ../CO2_COMMON/voigtmix2.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 PR_deltpi/voigt_mix_simple2.m -> ../CO2_COMMON/voigt_mix_simple2.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_deltpi/trans_pop.m -> ../CO2_COMMON/trans_pop.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 PR_deltpi/tempratio15um.m -> ../CO2_COMMON/tempratio15um.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 PR_deltpi/smooth_full_ratio.m -> ../CO2_COMMON/smooth_full_ratio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_deltpi/removeneg.m -> ../CO2_COMMON/removeneg.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_deltpi/qqttiippss.m -> ../CO2_COMMON/qqttiippss.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_deltpi/orderer.m -> ../CO2_COMMON/orderer.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 PR_deltpi/full2_usual.m -> ../CO2_COMMON/full2_usual.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 PR_deltpi/full2_deltpi.m -> ../CO2_COMMON/full2_deltpi.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_deltpi/full2.m -> ../CO2_COMMON/full2.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_deltpi/efit1.m -> ../CO2_COMMON/efit1.m
+lrwxrwxrwx 1 sergio users       20 Jun 19  2013 PR_deltpi/efit.m -> ../CO2_COMMON/efit.m
+lrwxrwxrwx 1 sergio users       44 Jun 19  2013 PR_deltpi/driver15umPR.m -> ../CO2_COMMON/MAIN15umDRIVERS/driver15umPR.m
+lrwxrwxrwx 1 sergio users       42 Jun 19  2013 PR_deltpi/driver15um.m -> ../CO2_COMMON/MAIN15umDRIVERS/driver15um.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_deltpi/doratio.m -> ../CO2_COMMON/doratio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_deltpi/co2_param.m -> ../CO2_COMMON/co2_param.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 PR_deltpi/blender15um.m -> ../CO2_COMMON/blender15um.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 PR_deltpi/IncludeMaxer.m -> ../IncludeMaxer.m
+lrwxrwxrwx 1 sergio users       19 Jun 19  2013 PR_deltdelt/y1s.m -> ../CO2_COMMON/y1s.m
+lrwxrwxrwx 1 sergio users       29 Jun 19  2013 PR_deltdelt/voigtmixRatio.m -> ../CO2_COMMON/voigtmixRatio.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_deltdelt/voigtmix2.m -> ../CO2_COMMON/voigtmix2.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_deltdelt/trans_pop.m -> ../CO2_COMMON/trans_pop.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 PR_deltdelt/tempratio4um.m -> ../CO2_COMMON/tempratio4um.m
+lrwxrwxrwx 1 sergio users       33 Jun 19  2013 PR_deltdelt/smooth_full_ratio.m -> ../CO2_COMMON/smooth_full_ratio.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_deltdelt/small_leap.m -> ../CO2_COMMON/small_leap.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_deltdelt/removeneg.m -> ../CO2_COMMON/removeneg.m
+lrwxrwxrwx 1 sergio users       32 Jun 19  2013 PR_deltdelt/ral_jjohn_blend3.m -> ../CO2_COMMON/ral_jjohn_blend3.m
+lrwxrwxrwx 1 sergio users       31 Jun 19  2013 PR_deltdelt/ral_jjohn_blend.m -> ../CO2_COMMON/ral_jjohn_blend.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_deltdelt/qqttiippss.m -> ../CO2_COMMON/qqttiippss.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_deltdelt/orderer.m -> ../CO2_COMMON/orderer.m
+lrwxrwxrwx 1 sergio users       27 Jun 19  2013 PR_deltdelt/full2_usual.m -> ../CO2_COMMON/full2_usual.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_deltdelt/full2.m -> ../CO2_COMMON/full2.m
+lrwxrwxrwx 1 sergio users       39 Jun 19  2013 PR_deltdelt/fudger_and_threeregions.m -> ../CO2_COMMON/fudger_and_threeregions.m
+lrwxrwxrwx 1 sergio users       28 Jun 19  2013 PR_deltdelt/find_regions.m -> ../CO2_COMMON/find_regions.m
+lrwxrwxrwx 1 sergio users       21 Jun 19  2013 PR_deltdelt/efit1.m -> ../CO2_COMMON/efit1.m
+lrwxrwxrwx 1 sergio users       20 Jun 19  2013 PR_deltdelt/efit.m -> ../CO2_COMMON/efit.m
+lrwxrwxrwx 1 sergio users       40 Jun 19  2013 PR_deltdelt/driver4um.m -> ../CO2_COMMON/MAIN4umDRIVERS/driver4um.m
+lrwxrwxrwx 1 sergio users       23 Jun 19  2013 PR_deltdelt/doratio.m -> ../CO2_COMMON/doratio.m
+lrwxrwxrwx 1 sergio users       35 Jun 19  2013 PR_deltdelt/co2_param_JOHNS2002.m -> ../CO2_COMMON/co2_param_JOHNS2002.m
+lrwxrwxrwx 1 sergio users       25 Jun 19  2013 PR_deltdelt/co2_param.m -> ../CO2_COMMON/co2_param.m
+lrwxrwxrwx 1 sergio users       26 Jun 19  2013 PR_deltdelt/blender4um.m -> ../CO2_COMMON/blender4um.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 PR_deltdelt/IncludeMaxer.m -> ../IncludeMaxer.m
+lrwxrwxrwx 1 sergio users       17 Jun 19  2013 CO2_RAL_FITS/tdif_birn.m -> tdif_birn_Apr00.m
+lrwxrwxrwx 1 sergio users       18 Jun 19  2013 CO2_COMMON/tempratio15um.m -> tempratio15umNEW.m
+lrwxrwxrwx 1 sergio users       14 Jun 19  2013 CO2_COMMON/qqttiippss.m -> qqttiippss98.m
+lrwxrwxrwx 1 sergio users       20 Jun 19  2013 CO2_COMMON/co2_param.m -> co2_param_AIRS2002.m
+-rw-r--r-- 1 sergio pi_strow   390 Jun  3  2013 WORKS_Feb04_2014/doppler_widths_wavenumber.m
+-rw-r--r-- 1 sergio pi_strow   390 Jun  3  2013 WORKS_Feb05_2014/doppler_widths_wavenumber.m
+-rw-r--r-- 1 sergio pi_strow  2913 May 29  2013 CKDLINUX/compare_cont_allbands.m
+-rw-r--r-- 1 sergio pi_strow  1421 May 29  2013 CKDLINUX/contread.m
+-rw-r--r-- 1 sergio pi_strow  5271 May 29  2013 CKDLINUX/ckd_lookupBIN_v1_otherbands_ieee_le.m
+-rw-r--r-- 1 sergio pi_strow  1486 Jan 17  2013 IPFILES/allgases.m
+-rw-r--r-- 1 sergio pi_strow   580 Jan 17  2013 IPFILES/convert_info2.m
+-rw-r--r-- 1 sergio pi_strow   602 Jan 17  2013 IPFILES/convert_info.m
+-rw-r--r-- 1 sergio pi_strow  1219 Jan 17  2013 IPFILES/look_at_regprof.m
+-rw-r--r-- 1 sergio pi_strow   138 Jan 17  2013 IPFILES/make_us_std_gas.m
+-rw-r--r-- 1 sergio pi_strow  4816 Jan 17  2013 WORKS_Feb04_2014/new_linmix_667.m
+-rw-r--r-- 1 sergio pi_strow  4816 Jan 17  2013 WORKS_Feb05_2014/new_linmix_667.m
+-rw-r--r-- 1 sergio pi_strow  1866 Jan 17  2013 CO2_COUSIN_2351/efit.m
+-rw-r--r-- 1 sergio pi_strow   628 Jan 17  2013 CO2_COUSIN_2351/efitter.m
+-rw-r--r-- 1 sergio pi_strow  1677 Jan 17  2013 CO2_COUSIN_2351/fit_run7.m
+-rw-r--r-- 1 sergio pi_strow  3658 Jan 17  2013 CO2_COUSIN_2351/klormix_birnDEBUG.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 CO2_COUSIN_2351/klormix_birn.m
+-rw-r--r-- 1 sergio pi_strow  9198 Jan 17  2013 CO2_COUSIN_2351/loader_mod_COUSIN.m
+-rw-r--r-- 1 sergio pi_strow 16902 Jan 17  2013 CO2_COUSIN_2351/loader_mod.m
+-rw-r--r-- 1 sergio pi_strow   248 Jan 17  2013 CO2_COUSIN_2351/lower_tobin.m
+-rw-r--r-- 1 sergio pi_strow   181 Jan 17  2013 CO2_COUSIN_2351/reduce4.m
+-rw-r--r-- 1 sergio pi_strow   233 Jan 17  2013 CO2_COUSIN_2351/reduce5.m
+-rw-r--r-- 1 sergio pi_strow 16344 Jan 17  2013 CO2_COUSIN_2351/removeCO2lines_RAL.m
+-rw-r--r-- 1 sergio pi_strow   738 Jan 17  2013 CO2_COUSIN_2351/run_birn.m
+-rw-r--r-- 1 sergio pi_strow  1049 Jan 17  2013 CO2_COUSIN_2351/runfit_birn2.m
+-rw-r--r-- 1 sergio pi_strow   231 Jan 17  2013 CO2_COUSIN_2351/saver.m
+-rw-r--r-- 1 sergio pi_strow   510 Jan 17  2013 CO2_COUSIN_2351/set_fit.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 CO2_COUSIN_2351/strow2.m
+-rw-r--r-- 1 sergio pi_strow  3029 Jan 17  2013 CO2_COUSIN_2351/strow.m
+-rw-r--r-- 1 sergio pi_strow  1663 Jan 17  2013 CO2_COUSIN_2351/tdif_birn_Apr00.m
+-rw-r--r-- 1 sergio pi_strow  6442 Jan 17  2013 CO2_COUSIN_2351/tdif_birn_goodparams.m
+-rw-r--r-- 1 sergio pi_strow  1663 Jan 17  2013 CO2_COUSIN_2351/tdif_birn.m
+-rw-r--r-- 1 sergio pi_strow  5287 Jan 17  2013 CO2_COUSIN_2351/tdif_birn_Oct99.m
+-rw-r--r-- 1 sergio pi_strow  5702 Jan 17  2013 CO2_COUSIN_2351/tdif_birnORIG.m
+-rw-r--r-- 1 sergio pi_strow   910 Jan 17  2013 CO2_COUSIN_2351/tdifer_birn.m
+-rw-r--r-- 1 sergio pi_strow  1483 Jan 17  2013 CO2_COUSIN_2351/trans_pop.m
+-rw-r--r-- 1 sergio pi_strow  2576 Jan 17  2013 CO2_COUSIN_2351/vcousin.m
+-rw-r--r-- 1 sergio pi_strow  2881 Jan 17  2013 CO2_COUSIN_2351/v_lormix.m
+-rw-r-xr-x 1 sergio pi_strow  1232 Jan 17  2013 CO2_COUSIN_2351/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1141 Jan 17  2013 CO2_COUSIN_2351/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  2525 Jan 17  2013 CO2_COUSIN_2351/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  2141 Jan 17  2013 CO2_COUSIN_2351/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow   476 Jan 17  2013 CO2_COUSIN_2351/which_fit.m
+-rw-r--r-- 1 sergio pi_strow   434 Jan 17  2013 CO2_COUSIN_2351/y1ser.m
+-rw-r--r-- 1 sergio pi_strow  1393 Jan 17  2013 CO2_COUSIN_2351/y1s.m
+-rw-r--r-- 1 sergio pi_strow  2221 Jan 17  2013 CO2_COUSIN_2351/y1sNEW.m
+-rw-r--r-- 1 sergio pi_strow 18769 Jan 17  2013 RUN6_DRIVERS/run6.m
+-rw-r--r-- 1 sergio pi_strow 21569 Jan 17  2013 RUN7_DRIVERS/run7co2_easy.m
+-rw-r--r-- 1 sergio pi_strow 29602 Jan 17  2013 RUN7_DRIVERS/run7water.m
+-rw-r--r-- 1 sergio pi_strow 15370 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst55.m
+-rw-r--r-- 1 sergio pi_strow  2540 Jan 17  2013 UNUSED/airs_nodes.m
+-rw-r--r-- 1 sergio pi_strow   244 Jan 17  2013 UNUSED/blah.m
+-rw-r--r-- 1 sergio pi_strow  1629 Jan 17  2013 UNUSED/test_run8co2_linemixUMBC_RAL.m
+-rw-r--r-- 1 sergio pi_strow  2540 Jan 17  2013 WORKS_Feb04_2014/airs_nodes.m
+-rw-r--r-- 1 sergio pi_strow   244 Jan 17  2013 WORKS_Feb04_2014/blah.m
+-rw-r--r-- 1 sergio pi_strow  1642 Jan 17  2013 WORKS_Feb04_2014/broad.m
+-rw-r--r-- 1 sergio pi_strow  3816 Jan 17  2013 WORKS_Feb04_2014/gas_cell_arbitrary.m
+-rw-r--r-- 1 sergio pi_strow  1144 Jan 17  2013 WORKS_Feb04_2014/gaslines_plot.m
+-rw-r--r-- 1 sergio pi_strow  5982 Jan 17  2013 WORKS_Feb04_2014/iso_list98.m
+-rw-r--r-- 1 sergio pi_strow 15370 Jan 17  2013 WORKS_Feb04_2014/mst55.m
+-rw-r--r-- 1 sergio pi_strow   857 Jan 17  2013 WORKS_Feb04_2014/pathlength2gasamt.m
+-rw-r--r-- 1 sergio pi_strow   350 Jan 17  2013 WORKS_Feb04_2014/Q740.m
+-rw-r--r-- 1 sergio pi_strow 12413 Jan 17  2013 WORKS_Feb04_2014/qtips96OLD.m
+-rw-r--r-- 1 sergio pi_strow 18769 Jan 17  2013 WORKS_Feb04_2014/run6.m
+-rw-r--r-- 1 sergio pi_strow 21569 Jan 17  2013 WORKS_Feb04_2014/run7co2_easy.m
+-rw-r--r-- 1 sergio pi_strow 29602 Jan 17  2013 WORKS_Feb04_2014/run7water.m
+-rw-r--r-- 1 sergio pi_strow  3419 Jan 17  2013 WORKS_Feb04_2014/runXtopts_params_smart.m
+-rw-r--r-- 1 sergio pi_strow  2363 Jan 17  2013 WORKS_Feb04_2014/show_vis_ir_lines_wavenumber_individualgas.m
+-rw-r--r-- 1 sergio pi_strow  1629 Jan 17  2013 WORKS_Feb04_2014/test_run8co2_linemixUMBC_RAL.m
+-rw-r--r-- 1 sergio pi_strow  1602 Jan 17  2013 WORKS_Feb04_2014/translate2oldHITparams.m
+-rw-r--r-- 1 sergio pi_strow  1233 Jan 17  2013 WORKS_Feb04_2014/upper2lowercase.m
+-rw-r--r-- 1 sergio pi_strow  1034 Jan 17  2013 WORKS_Feb04_2014/vhhOPTDEPcalc.m
+-rw-r--r-- 1 sergio pi_strow  4381 Jan 17  2013 WORKS_Feb04_2014/xckd_lookupBIN_IR.m
+-rw-r--r-- 1 sergio pi_strow  2540 Jan 17  2013 WORKS_Feb05_2014/airs_nodes.m
+-rw-r--r-- 1 sergio pi_strow   244 Jan 17  2013 WORKS_Feb05_2014/blah.m
+-rw-r--r-- 1 sergio pi_strow  1642 Jan 17  2013 WORKS_Feb05_2014/broad.m
+-rw-r--r-- 1 sergio pi_strow  3816 Jan 17  2013 WORKS_Feb05_2014/gas_cell_arbitrary.m
+-rw-r--r-- 1 sergio pi_strow  1144 Jan 17  2013 WORKS_Feb05_2014/gaslines_plot.m
+-rw-r--r-- 1 sergio pi_strow  5982 Jan 17  2013 WORKS_Feb05_2014/iso_list98.m
+-rw-r--r-- 1 sergio pi_strow 15370 Jan 17  2013 WORKS_Feb05_2014/mst55.m
+-rw-r--r-- 1 sergio pi_strow   857 Jan 17  2013 WORKS_Feb05_2014/pathlength2gasamt.m
+-rw-r--r-- 1 sergio pi_strow   350 Jan 17  2013 WORKS_Feb05_2014/Q740.m
+-rw-r--r-- 1 sergio pi_strow 12413 Jan 17  2013 WORKS_Feb05_2014/qtips96OLD.m
+-rw-r--r-- 1 sergio pi_strow 18769 Jan 17  2013 WORKS_Feb05_2014/run6.m
+-rw-r--r-- 1 sergio pi_strow 21569 Jan 17  2013 WORKS_Feb05_2014/run7co2_easy.m
+-rw-r--r-- 1 sergio pi_strow 29602 Jan 17  2013 WORKS_Feb05_2014/run7water.m
+-rw-r--r-- 1 sergio pi_strow  3419 Jan 17  2013 WORKS_Feb05_2014/runXtopts_params_smart.m
+-rw-r--r-- 1 sergio pi_strow  2363 Jan 17  2013 WORKS_Feb05_2014/show_vis_ir_lines_wavenumber_individualgas.m
+-rw-r--r-- 1 sergio pi_strow  1629 Jan 17  2013 WORKS_Feb05_2014/test_run8co2_linemixUMBC_RAL.m
+-rw-r--r-- 1 sergio pi_strow  1233 Jan 17  2013 WORKS_Feb05_2014/upper2lowercase.m
+-rw-r--r-- 1 sergio pi_strow  1034 Jan 17  2013 WORKS_Feb05_2014/vhhOPTDEPcalc.m
+-rw-r--r-- 1 sergio pi_strow  4381 Jan 17  2013 WORKS_Feb05_2014/xckd_lookupBIN_IR.m
+-rw-r--r-- 1 sergio pi_strow  2181 Jan 17  2013 CO2_COMMON/blender15um.m
+-rw-r--r-- 1 sergio pi_strow  8550 Jan 17  2013 CO2_COMMON/co2_param_AIRS2002.m
+-rw-r--r-- 1 sergio pi_strow   543 Jan 17  2013 CO2_COMMON/doratio.m
+-rw-r--r-- 1 sergio pi_strow  1615 Jan 17  2013 CO2_COMMON/efit1.m
+-rw-r--r-- 1 sergio pi_strow  1559 Jan 17  2013 CO2_COMMON/efit.m
+-rw-r--r-- 1 sergio pi_strow   617 Jan 17  2013 CO2_COMMON/full2.m
+-rw-r--r-- 1 sergio pi_strow  7900 Jan 17  2013 CO2_COMMON/full2_usual.m
+-rw-r--r-- 1 sergio pi_strow   532 Jan 17  2013 CO2_COMMON/orderer.m
+-rw-r--r-- 1 sergio pi_strow   450 Jan 17  2013 CO2_COMMON/qqttiippss98.m
+-rw-r--r-- 1 sergio pi_strow  4479 Jan 17  2013 CO2_COMMON/removeneg.m
+-rw-r--r-- 1 sergio pi_strow  1547 Jan 17  2013 CO2_COMMON/smooth_full_ratio.m
+-rw-r--r-- 1 sergio pi_strow 11685 Jan 17  2013 CO2_COMMON/tempratio15umNEW.m
+-rw-r--r-- 1 sergio pi_strow  3608 Jan 17  2013 CO2_COMMON/trans_pop.m
+-rw-r--r-- 1 sergio pi_strow  3284 Jan 17  2013 CO2_COMMON/voigtmix2.m
+-rw-r--r-- 1 sergio pi_strow  2767 Jan 17  2013 CO2_COMMON/voigtmixRatio.m
+-rw-r--r-- 1 sergio pi_strow  2647 Jan 17  2013 CO2_COMMON/voigt_mix_simple2.m
+-rw-r--r-- 1 sergio pi_strow  1866 Jan 17  2013 CO2_RAL_FITS_2200cm/efit.m
+-rw-r--r-- 1 sergio pi_strow   628 Jan 17  2013 CO2_RAL_FITS_2200cm/efitter.m
+-rw-r--r-- 1 sergio pi_strow  1649 Jan 17  2013 CO2_RAL_FITS_2200cm/fit_run7.m
+-rw-r--r-- 1 sergio pi_strow  3658 Jan 17  2013 CO2_RAL_FITS_2200cm/klormix_birnDEBUG.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 CO2_RAL_FITS_2200cm/klormix_birn.m
+-rw-r--r-- 1 sergio pi_strow 11071 Jan 17  2013 CO2_RAL_FITS_2200cm/loader_mod_JJOHN.m
+-rw-r--r-- 1 sergio pi_strow 16902 Jan 17  2013 CO2_RAL_FITS_2200cm/loader_mod.m
+-rw-r--r-- 1 sergio pi_strow 12692 Jan 17  2013 CO2_RAL_FITS_2200cm/loader_mod_RAL2.m
+-rw-r--r-- 1 sergio pi_strow 16988 Jan 17  2013 CO2_RAL_FITS_2200cm/loader_mod_RAL.m
+-rw-r--r-- 1 sergio pi_strow   248 Jan 17  2013 CO2_RAL_FITS_2200cm/lower_tobin.m
+-rw-r--r-- 1 sergio pi_strow   181 Jan 17  2013 CO2_RAL_FITS_2200cm/reduce4.m
+-rw-r--r-- 1 sergio pi_strow   233 Jan 17  2013 CO2_RAL_FITS_2200cm/reduce5.m
+-rw-r--r-- 1 sergio pi_strow 16344 Jan 17  2013 CO2_RAL_FITS_2200cm/removeCO2lines_RAL.m
+-rw-r--r-- 1 sergio pi_strow   738 Jan 17  2013 CO2_RAL_FITS_2200cm/run_birn.m
+-rw-r--r-- 1 sergio pi_strow  1047 Jan 17  2013 CO2_RAL_FITS_2200cm/runfit_birn2.m
+-rw-r--r-- 1 sergio pi_strow   231 Jan 17  2013 CO2_RAL_FITS_2200cm/saver.m
+-rw-r--r-- 1 sergio pi_strow   510 Jan 17  2013 CO2_RAL_FITS_2200cm/set_fit.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 CO2_RAL_FITS_2200cm/strow2.m
+-rw-r--r-- 1 sergio pi_strow  3029 Jan 17  2013 CO2_RAL_FITS_2200cm/strow.m
+-rw-r--r-- 1 sergio pi_strow  1663 Jan 17  2013 CO2_RAL_FITS_2200cm/tdif_birn_Apr00.m
+-rw-r--r-- 1 sergio pi_strow  6442 Jan 17  2013 CO2_RAL_FITS_2200cm/tdif_birn_goodparams.m
+-rw-r--r-- 1 sergio pi_strow  1663 Jan 17  2013 CO2_RAL_FITS_2200cm/tdif_birn.m
+-rw-r--r-- 1 sergio pi_strow  5287 Jan 17  2013 CO2_RAL_FITS_2200cm/tdif_birn_Oct99.m
+-rw-r--r-- 1 sergio pi_strow  5702 Jan 17  2013 CO2_RAL_FITS_2200cm/tdif_birnORIG.m
+-rw-r--r-- 1 sergio pi_strow   910 Jan 17  2013 CO2_RAL_FITS_2200cm/tdifer_birn.m
+-rw-r--r-- 1 sergio pi_strow  1483 Jan 17  2013 CO2_RAL_FITS_2200cm/trans_pop.m
+-rw-r--r-- 1 sergio pi_strow  2576 Jan 17  2013 CO2_RAL_FITS_2200cm/vcousin.m
+-rw-r--r-- 1 sergio pi_strow  2881 Jan 17  2013 CO2_RAL_FITS_2200cm/v_lormix.m
+-rw-r-xr-x 1 sergio pi_strow  1232 Jan 17  2013 CO2_RAL_FITS_2200cm/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1141 Jan 17  2013 CO2_RAL_FITS_2200cm/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  2525 Jan 17  2013 CO2_RAL_FITS_2200cm/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  2141 Jan 17  2013 CO2_RAL_FITS_2200cm/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow   476 Jan 17  2013 CO2_RAL_FITS_2200cm/which_fit.m
+-rw-r--r-- 1 sergio pi_strow   434 Jan 17  2013 CO2_RAL_FITS_2200cm/y1ser.m
+-rw-r--r-- 1 sergio pi_strow  1393 Jan 17  2013 CO2_RAL_FITS_2200cm/y1s.m
+-rw-r--r-- 1 sergio pi_strow  2221 Jan 17  2013 CO2_RAL_FITS_2200cm/y1sNEW.m
+-rw-r--r-- 1 sergio pi_strow  1883 Jan 17  2013 Global_Data_HITRAN2008/converter_mass08.m
+-rw-r--r-- 1 sergio pi_strow  3659 Jan 17  2013 PR_sigpi/efitter.m
+-rw-r--r-- 1 sergio pi_strow   910 Jan 17  2013 PR_sigpi/findratio.m
+-rw-r--r-- 1 sergio pi_strow  1357 Jan 17  2013 PR_sigpi/getmatr.m
+-rw-r--r-- 1 sergio pi_strow  8928 Jan 17  2013 PR_sigpi/loader.m
+-rw-r--r-- 1 sergio pi_strow  3984 Jan 17  2013 PR_sigpi/voigt_mix_simple.m
+-rw-r-xr-x 1 sergio pi_strow  1200 Jan 17  2013 PR_sigpi/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1780 Jan 17  2013 PR_sigpi/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  3326 Jan 17  2013 PR_sigpi/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  3238 Jan 17  2013 PR_sigpi/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow  3122 Jan 17  2013 PR_sigpi/yrun_sigpi.m
+-rw-r--r-- 1 sergio pi_strow  3355 Jan 17  2013 READ_XSEC/findxsec_plot_UV.m
+-rw-r--r-- 1 sergio pi_strow 24015 Jan 17  2013 RUN7_DRIVERS/run7.m
+-rw-r--r-- 1 sergio pi_strow   705 Jan 17  2013 UNUSED/doral1.m
+-rw-r--r-- 1 sergio pi_strow   705 Jan 17  2013 WORKS_Feb04_2014/doral1.m
+-rw-r--r-- 1 sergio pi_strow  2279 Jan 17  2013 WORKS_Feb04_2014/exchange_f1_f2.m
+-rw-r--r-- 1 sergio pi_strow  2877 Jan 17  2013 WORKS_Feb04_2014/find_qnew_isotopes_H04.m
+-rw-r--r-- 1 sergio pi_strow  2500 Jan 17  2013 WORKS_Feb04_2014/find_qnew_isotopes_H08_OLD.m
+-rw-r--r-- 1 sergio pi_strow  2846 Jan 17  2013 WORKS_Feb04_2014/gas_cell_water_kcarta_cris.m
+-rw-r--r-- 1 sergio pi_strow  1013 Jan 17  2013 WORKS_Feb04_2014/reduce19.m
+-rw-r--r-- 1 sergio pi_strow 24015 Jan 17  2013 WORKS_Feb04_2014/run7.m
+-rw-r--r-- 1 sergio pi_strow  1426 Jan 17  2013 WORKS_Feb04_2014/wrapper_gases_chunks_lbl.m
+-rw-r--r-- 1 sergio pi_strow   705 Jan 17  2013 WORKS_Feb05_2014/doral1.m
+-rw-r--r-- 1 sergio pi_strow  2279 Jan 17  2013 WORKS_Feb05_2014/exchange_f1_f2.m
+-rw-r--r-- 1 sergio pi_strow  2877 Jan 17  2013 WORKS_Feb05_2014/find_qnew_isotopes_H04.m
+-rw-r--r-- 1 sergio pi_strow  2500 Jan 17  2013 WORKS_Feb05_2014/find_qnew_isotopes_H08_OLD.m
+-rw-r--r-- 1 sergio pi_strow  2846 Jan 17  2013 WORKS_Feb05_2014/gas_cell_water_kcarta_cris.m
+-rw-r--r-- 1 sergio pi_strow  1013 Jan 17  2013 WORKS_Feb05_2014/reduce19.m
+-rw-r--r-- 1 sergio pi_strow 24015 Jan 17  2013 WORKS_Feb05_2014/run7.m
+-rw-r--r-- 1 sergio pi_strow  1426 Jan 17  2013 WORKS_Feb05_2014/wrapper_gases_chunks_lbl.m
+-rw-r--r-- 1 sergio pi_strow  3658 Jan 17  2013 CO2_JJOHNS_FITS/klormix_birnDEBUG.m
+-rw-r--r-- 1 sergio pi_strow 16902 Jan 17  2013 CO2_JJOHNS_FITS/loader_mod.m
+-rw-r--r-- 1 sergio pi_strow   233 Jan 17  2013 CO2_JJOHNS_FITS/reduce5.m
+-rw-r--r-- 1 sergio pi_strow 16344 Jan 17  2013 CO2_JJOHNS_FITS/removeCO2lines_RAL.m
+-rw-r--r-- 1 sergio pi_strow  1663 Jan 17  2013 CO2_JJOHNS_FITS/tdif_birn_Apr00.m
+-rw-r-xr-x 1 sergio pi_strow  1232 Jan 17  2013 CO2_JJOHNS_FITS/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  2221 Jan 17  2013 CO2_JJOHNS_FITS/y1sNEW.m
+-rw-r--r-- 1 sergio pi_strow   245 Jan 17  2013 read_hitr06/hitbin.m
+-rw-r--r-- 1 sergio pi_strow   796 Jan 17  2013 read_hitr06/htest2.m
+-rw-r--r-- 1 sergio pi_strow   509 Jan 17  2013 read_hitr06/htest.m
+-rw-r--r-- 1 sergio pi_strow  2782 Jan 17  2013 read_hitr06/read_hitran2.m
+-rw-r--r-- 1 sergio pi_strow   738 Jan 17  2013 UNUSED/boo.m
+-rw-r--r-- 1 sergio pi_strow  1011 Jan 17  2013 UNUSED/test_hartmann2x.m
+-rw-r--r-- 1 sergio pi_strow   738 Jan 17  2013 WORKS_Feb04_2014/boo.m
+-rw-r--r-- 1 sergio pi_strow  3342 Jan 17  2013 WORKS_Feb04_2014/exchange_hartmann_hitran.m
+-rw-r--r-- 1 sergio pi_strow  1369 Jan 17  2013 WORKS_Feb04_2014/gas_cell_others.m
+-rw-r--r-- 1 sergio pi_strow 11795 Jan 17  2013 WORKS_Feb04_2014/qtips92.m
+-rw-r--r-- 1 sergio pi_strow 12654 Jan 17  2013 WORKS_Feb04_2014/qtips98.m
+-rw-r--r-- 1 sergio pi_strow  1445 Jan 17  2013 WORKS_Feb04_2014/readwrite.m
+-rw-r--r-- 1 sergio pi_strow  1452 Jan 17  2013 WORKS_Feb04_2014/sortwings_stren.m
+-rw-r--r-- 1 sergio pi_strow  1011 Jan 17  2013 WORKS_Feb04_2014/test_hartmann2x.m
+-rw-r--r-- 1 sergio pi_strow   738 Jan 17  2013 WORKS_Feb05_2014/boo.m
+-rw-r--r-- 1 sergio pi_strow  3342 Jan 17  2013 WORKS_Feb05_2014/exchange_hartmann_hitran.m
+-rw-r--r-- 1 sergio pi_strow  1369 Jan 17  2013 WORKS_Feb05_2014/gas_cell_others.m
+-rw-r--r-- 1 sergio pi_strow 11795 Jan 17  2013 WORKS_Feb05_2014/qtips92.m
+-rw-r--r-- 1 sergio pi_strow 12654 Jan 17  2013 WORKS_Feb05_2014/qtips98.m
+-rw-r--r-- 1 sergio pi_strow  1445 Jan 17  2013 WORKS_Feb05_2014/readwrite.m
+-rw-r--r-- 1 sergio pi_strow  1452 Jan 17  2013 WORKS_Feb05_2014/sortwings_stren.m
+-rw-r--r-- 1 sergio pi_strow  1011 Jan 17  2013 WORKS_Feb05_2014/test_hartmann2x.m
+-rw-r--r-- 1 sergio pi_strow  6838 Jan 17  2013 CO2_JJOHNS_FITS/chifit.m
+-rw-r--r-- 1 sergio pi_strow  1858 Jan 17  2013 CO2_JJOHNS_FITS/compare_beta.m
+-rw-r--r-- 1 sergio pi_strow  3182 Jan 17  2013 CO2_JJOHNS_FITS/compare_beta_orig.m
+-rw-r--r-- 1 sergio pi_strow  1149 Jan 17  2013 CO2_JJOHNS_FITS/convert.m
+-rw-r--r-- 1 sergio pi_strow   519 Jan 17  2013 CO2_JJOHNS_FITS/display_fits.m
+-rw-r--r-- 1 sergio pi_strow  1866 Jan 17  2013 CO2_JJOHNS_FITS/efit.m
+-rw-r--r-- 1 sergio pi_strow   628 Jan 17  2013 CO2_JJOHNS_FITS/efitter.m
+-rw-r--r-- 1 sergio pi_strow   857 Jan 17  2013 CO2_JJOHNS_FITS/fit_chi.m
+-rw-r--r-- 1 sergio pi_strow  2169 Jan 17  2013 CO2_JJOHNS_FITS/fit_run7.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 CO2_JJOHNS_FITS/klormix_birn.m
+-rw-r--r-- 1 sergio pi_strow  9731 Jan 17  2013 CO2_JJOHNS_FITS/loader_mod_JJOHN.m
+-rw-r--r-- 1 sergio pi_strow   248 Jan 17  2013 CO2_JJOHNS_FITS/lower_tobin.m
+-rw-r--r-- 1 sergio pi_strow   181 Jan 17  2013 CO2_JJOHNS_FITS/reduce4.m
+-rw-r--r-- 1 sergio pi_strow   738 Jan 17  2013 CO2_JJOHNS_FITS/run_birn.m
+-rw-r--r-- 1 sergio pi_strow  1094 Jan 17  2013 CO2_JJOHNS_FITS/runfit_birn.m
+-rw-r--r-- 1 sergio pi_strow   285 Jan 17  2013 CO2_JJOHNS_FITS/saver_chi.m
+-rw-r--r-- 1 sergio pi_strow   516 Jan 17  2013 CO2_JJOHNS_FITS/saver.m
+-rw-r--r-- 1 sergio pi_strow   510 Jan 17  2013 CO2_JJOHNS_FITS/set_fit.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 CO2_JJOHNS_FITS/strow2.m
+-rw-r--r-- 1 sergio pi_strow  2922 Jan 17  2013 CO2_JJOHNS_FITS/strow.m
+-rw-r--r-- 1 sergio pi_strow  6442 Jan 17  2013 CO2_JJOHNS_FITS/tdif_birn_goodparams.m
+-rw-r--r-- 1 sergio pi_strow  1663 Jan 17  2013 CO2_JJOHNS_FITS/tdif_birn.m
+-rw-r--r-- 1 sergio pi_strow  5287 Jan 17  2013 CO2_JJOHNS_FITS/tdif_birn_Oct99.m
+-rw-r--r-- 1 sergio pi_strow  5702 Jan 17  2013 CO2_JJOHNS_FITS/tdif_birnORIG.m
+-rw-r--r-- 1 sergio pi_strow   910 Jan 17  2013 CO2_JJOHNS_FITS/tdifer_birn.m
+-rw-r--r-- 1 sergio pi_strow  1483 Jan 17  2013 CO2_JJOHNS_FITS/trans_pop.m
+-rw-r--r-- 1 sergio pi_strow  2576 Jan 17  2013 CO2_JJOHNS_FITS/vcousin.m
+-rw-r--r-- 1 sergio pi_strow  2881 Jan 17  2013 CO2_JJOHNS_FITS/v_lormix.m
+-rw-r--r-- 1 sergio pi_strow  1141 Jan 17  2013 CO2_JJOHNS_FITS/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  2525 Jan 17  2013 CO2_JJOHNS_FITS/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  2141 Jan 17  2013 CO2_JJOHNS_FITS/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow   476 Jan 17  2013 CO2_JJOHNS_FITS/which_fit.m
+-rw-r--r-- 1 sergio pi_strow   434 Jan 17  2013 CO2_JJOHNS_FITS/y1ser.m
+-rw-r--r-- 1 sergio pi_strow  1393 Jan 17  2013 CO2_JJOHNS_FITS/y1s.m
+-rw-r--r-- 1 sergio pi_strow   591 Jan 17  2013 WORKS_Feb04_2014/dodave_cous.m
+-rw-r--r-- 1 sergio pi_strow   591 Jan 17  2013 WORKS_Feb05_2014/dodave_cous.m
+-rw-r--r-- 1 sergio pi_strow  2243 Jan 17  2013 N2_CONTINUUM/n2.m
+-rw-r--r-- 1 sergio pi_strow   395 Jan 17  2013 RAL_FITS_SALSIFY/chosen1.m
+-rw-r--r-- 1 sergio pi_strow   459 Jan 17  2013 RAL_FITS_SALSIFY/chosen1NEW.m
+-rw-r--r-- 1 sergio pi_strow   363 Jan 17  2013 RAL_FITS_SALSIFY/chosen2.m
+-rw-r--r-- 1 sergio pi_strow   362 Jan 17  2013 RAL_FITS_SALSIFY/chosen2NEW.m
+-rw-r--r-- 1 sergio pi_strow   146 Jan 17  2013 RAL_FITS_SALSIFY/chosen2NEWNEW.m
+-rw-r--r-- 1 sergio pi_strow   157 Jan 17  2013 RAL_FITS_SALSIFY/chosen3.m
+-rw-r--r-- 1 sergio pi_strow   184 Jan 17  2013 RAL_FITS_SALSIFY/chosen3NEW.m
+-rw-r--r-- 1 sergio pi_strow   127 Jan 17  2013 RAL_FITS_SALSIFY/chosen4.m
+-rw-r--r-- 1 sergio pi_strow   271 Jan 17  2013 RAL_FITS_SALSIFY/chosen4NEW.m
+-rw-r--r-- 1 sergio pi_strow   115 Jan 17  2013 RAL_FITS_SALSIFY/chosen5.m
+-rw-r--r-- 1 sergio pi_strow   205 Jan 17  2013 RAL_FITS_SALSIFY/chosen6.m
+-rw-r--r-- 1 sergio pi_strow   195 Jan 17  2013 RAL_FITS_SALSIFY/chosen7.m
+-rw-r--r-- 1 sergio pi_strow  1866 Jan 17  2013 RAL_FITS_SALSIFY/efit.m
+-rw-r--r-- 1 sergio pi_strow   628 Jan 17  2013 RAL_FITS_SALSIFY/efitter.m
+-rw-r--r-- 1 sergio pi_strow  3658 Jan 17  2013 RAL_FITS_SALSIFY/klormix_birnDEBUG.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 RAL_FITS_SALSIFY/klormix_birn.m
+-rw-r--r-- 1 sergio pi_strow 16828 Jan 17  2013 RAL_FITS_SALSIFY/loader_mod.m
+-rw-r--r-- 1 sergio pi_strow   248 Jan 17  2013 RAL_FITS_SALSIFY/lower_tobin.m
+-rw-r--r-- 1 sergio pi_strow   181 Jan 17  2013 RAL_FITS_SALSIFY/reduce4.m
+-rw-r--r-- 1 sergio pi_strow 16344 Jan 17  2013 RAL_FITS_SALSIFY/removeCO2lines_RAL.m
+-rw-r--r-- 1 sergio pi_strow   738 Jan 17  2013 RAL_FITS_SALSIFY/run_birn.m
+-rw-r--r-- 1 sergio pi_strow  1182 Jan 17  2013 RAL_FITS_SALSIFY/runfit_birn.m
+-rw-r--r-- 1 sergio pi_strow   577 Jan 17  2013 RAL_FITS_SALSIFY/set_fit.m
+-rw-r--r-- 1 sergio pi_strow  5897 Jan 17  2013 RAL_FITS_SALSIFY/tdif_birn_Apr00.m
+-rw-r--r-- 1 sergio pi_strow  5287 Jan 17  2013 RAL_FITS_SALSIFY/tdif_birn_Oct99.m
+-rw-r--r-- 1 sergio pi_strow  5702 Jan 17  2013 RAL_FITS_SALSIFY/tdif_birnORIG.m
+-rw-r--r-- 1 sergio pi_strow   915 Jan 17  2013 RAL_FITS_SALSIFY/tdifer_birn.m
+-rw-r--r-- 1 sergio pi_strow  1483 Jan 17  2013 RAL_FITS_SALSIFY/trans_pop.m
+-rw-r--r-- 1 sergio pi_strow  2576 Jan 17  2013 RAL_FITS_SALSIFY/vcousin.m
+-rw-r--r-- 1 sergio pi_strow  2593 Jan 17  2013 RAL_FITS_SALSIFY/v_lormix.m
+-rw-r-xr-x 1 sergio pi_strow  1232 Jan 17  2013 RAL_FITS_SALSIFY/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1141 Jan 17  2013 RAL_FITS_SALSIFY/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  2525 Jan 17  2013 RAL_FITS_SALSIFY/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  2141 Jan 17  2013 RAL_FITS_SALSIFY/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow   639 Jan 17  2013 RAL_FITS_SALSIFY/which_fit.m
+-rw-r--r-- 1 sergio pi_strow   434 Jan 17  2013 RAL_FITS_SALSIFY/y1ser.m
+-rw-r--r-- 1 sergio pi_strow  1393 Jan 17  2013 RAL_FITS_SALSIFY/y1s.m
+-rw-r--r-- 1 sergio pi_strow  1326 Jan 17  2013 RAL_FITS_SALSIFY/y1sNEW.m
+-rw-r--r-- 1 sergio pi_strow  7761 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst51_tobin.m
+-rw-r--r-- 1 sergio pi_strow 12594 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst56.m
+-rw-r--r-- 1 sergio pi_strow  3865 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst.m
+-rw-r--r-- 1 sergio pi_strow  1367 Jan 17  2013 WORKS_Feb04_2014/hittomat2.m
+-rw-r--r-- 1 sergio pi_strow  7761 Jan 17  2013 WORKS_Feb04_2014/mst51_tobin.m
+-rw-r--r-- 1 sergio pi_strow 12594 Jan 17  2013 WORKS_Feb04_2014/mst56.m
+-rw-r--r-- 1 sergio pi_strow  3865 Jan 17  2013 WORKS_Feb04_2014/mst.m
+-rw-r--r-- 1 sergio pi_strow  2243 Jan 17  2013 WORKS_Feb04_2014/n2.m
+-rw-r--r-- 1 sergio pi_strow  1555 Jan 17  2013 WORKS_Feb04_2014/scott_test_n2_con.m
+-rw-r--r-- 1 sergio pi_strow  1493 Jan 17  2013 WORKS_Feb04_2014/sortwings.m
+-rw-r--r-- 1 sergio pi_strow  2018 Jan 17  2013 WORKS_Feb04_2014/tobin5.m
+-rw-r--r-- 1 sergio pi_strow  1385 Jan 17  2013 WORKS_Feb04_2014/visible_runXtopts.m
+-rw-r--r-- 1 sergio pi_strow  2025 Jan 17  2013 WORKS_Feb04_2014/voigt1calc.m
+-rw-r--r-- 1 sergio pi_strow   916 Jan 17  2013 WORKS_Feb04_2014/voigtcalc.m
+-rw-r--r-- 1 sergio pi_strow  1367 Jan 17  2013 WORKS_Feb05_2014/hittomat2.m
+-rw-r--r-- 1 sergio pi_strow  7761 Jan 17  2013 WORKS_Feb05_2014/mst51_tobin.m
+-rw-r--r-- 1 sergio pi_strow 12594 Jan 17  2013 WORKS_Feb05_2014/mst56.m
+-rw-r--r-- 1 sergio pi_strow  3865 Jan 17  2013 WORKS_Feb05_2014/mst.m
+-rw-r--r-- 1 sergio pi_strow  2243 Jan 17  2013 WORKS_Feb05_2014/n2.m
+-rw-r--r-- 1 sergio pi_strow  1555 Jan 17  2013 WORKS_Feb05_2014/scott_test_n2_con.m
+-rw-r--r-- 1 sergio pi_strow  1493 Jan 17  2013 WORKS_Feb05_2014/sortwings.m
+-rw-r--r-- 1 sergio pi_strow  2018 Jan 17  2013 WORKS_Feb05_2014/tobin5.m
+-rw-r--r-- 1 sergio pi_strow  1385 Jan 17  2013 WORKS_Feb05_2014/visible_runXtopts.m
+-rw-r--r-- 1 sergio pi_strow  2025 Jan 17  2013 WORKS_Feb05_2014/voigt1calc.m
+-rw-r--r-- 1 sergio pi_strow   916 Jan 17  2013 WORKS_Feb05_2014/voigtcalc.m
+-rw-r--r-- 1 sergio pi_strow  1627 Jan 17  2013 CO2_COMMON/blender4um.m
+-rw-r--r-- 1 sergio pi_strow  7359 Jan 17  2013 CO2_COMMON/co2_param_JJOHNS2002.m
+-rw-r--r-- 1 sergio pi_strow  4257 Jan 17  2013 CO2_COMMON/find_regions.m
+-rw-r--r-- 1 sergio pi_strow  4063 Jan 17  2013 CO2_COMMON/fudger_and_threeregions.m
+-rw-r--r-- 1 sergio pi_strow  2037 Jan 17  2013 CO2_COMMON/ral_jjohn_blend3.m
+-rw-r--r-- 1 sergio pi_strow  2320 Jan 17  2013 CO2_COMMON/ral_jjohn_blend.m
+-rw-r--r-- 1 sergio pi_strow   656 Jan 17  2013 CO2_COMMON/small_leap.m
+-rw-r--r-- 1 sergio pi_strow 13807 Jan 17  2013 CO2_COMMON/tempratio4um.m
+-rw-r--r-- 1 sergio pi_strow  3984 Jan 17  2013 PR_deltpi/voigt_mix_simple.m
+-rw-r--r-- 1 sergio pi_strow  1682 Jan 17  2013 PR_sigsig/efitSIGSIG1.m
+-rw-r--r-- 1 sergio pi_strow  1715 Jan 17  2013 PR_sigsig/efitSIGSIG.m
+-rw-r--r-- 1 sergio pi_strow  2103 Jan 17  2013 PR_sigsig/efitter.m
+-rw-r--r-- 1 sergio pi_strow   942 Jan 17  2013 PR_sigsig/findratio.m
+-rw-r--r-- 1 sergio pi_strow   319 Jan 17  2013 PR_sigsig/getmatr.m
+-rw-r--r-- 1 sergio pi_strow  2143 Jan 17  2013 PR_sigsig/klormix_birn.m
+-rw-r--r-- 1 sergio pi_strow  2036 Jan 17  2013 PR_sigsig/loader_jjohns.m
+-rw-r--r-- 1 sergio pi_strow  6373 Jan 17  2013 PR_sigsig/loader.m
+-rw-r--r-- 1 sergio pi_strow  4337 Jan 17  2013 PR_sigsig/voigtmixDEBUG.m
+-rw-r-xr-x 1 sergio pi_strow   827 Jan 17  2013 PR_sigsig/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1457 Jan 17  2013 PR_sigsig/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  3478 Jan 17  2013 PR_sigsig/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  4540 Jan 17  2013 PR_sigsig/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow  1678 Jan 17  2013 PR_sigsig/yrun_sigsig.m
+-rw-r--r-- 1 sergio pi_strow  3860 Jan 17  2013 PR_sigsig/yrun_sigsigOLD.m
+-rw-r--r-- 1 sergio pi_strow 46512 Jan 17  2013 RUN7_DRIVERS/run7co2_good.m
+-rw-r--r-- 1 sergio pi_strow   948 Jan 17  2013 UNUSED/test_run8co2_linemixUMBC_JJOHNS.m
+-rw-r--r-- 1 sergio pi_strow  2631 Jan 17  2013 UNUSED/test_runXtopts_params.m
+-rw-r--r-- 1 sergio pi_strow  4411 Jan 17  2013 WORKS_Feb04_2014/find_qnewABCD_H04.m
+-rw-r--r-- 1 sergio pi_strow  2486 Jan 17  2013 WORKS_Feb04_2014/find_qnew_isotopesWORKS.m
+-rw-r--r-- 1 sergio pi_strow   767 Jan 17  2013 WORKS_Feb04_2014/new_q.m
+-rw-r--r-- 1 sergio pi_strow 11010 Jan 17  2013 WORKS_Feb04_2014/qtips04.m
+-rw-r--r-- 1 sergio pi_strow 11010 Jan 17  2013 WORKS_Feb04_2014/qtips08.m
+-rw-r--r-- 1 sergio pi_strow  2359 Jan 17  2013 WORKS_Feb04_2014/readDAVEhitlin.m
+-rw-r--r-- 1 sergio pi_strow 16039 Jan 17  2013 WORKS_Feb04_2014/removeCO2lines_ORIG.m
+-rw-r--r-- 1 sergio pi_strow 17201 Jan 17  2013 WORKS_Feb04_2014/removeCO2lines_RAL.m
+-rw-r--r-- 1 sergio pi_strow 46512 Jan 17  2013 WORKS_Feb04_2014/run7co2_good.m
+-rw-r--r-- 1 sergio pi_strow   948 Jan 17  2013 WORKS_Feb04_2014/test_run8co2_linemixUMBC_JJOHNS.m
+-rw-r--r-- 1 sergio pi_strow  2631 Jan 17  2013 WORKS_Feb04_2014/test_runXtopts_params.m
+-rw-r--r-- 1 sergio pi_strow  1249 Jan 17  2013 WORKS_Feb04_2014/water_runner2.m
+-rw-r--r-- 1 sergio pi_strow  4411 Jan 17  2013 WORKS_Feb05_2014/find_qnewABCD_H04.m
+-rw-r--r-- 1 sergio pi_strow  2486 Jan 17  2013 WORKS_Feb05_2014/find_qnew_isotopesWORKS.m
+-rw-r--r-- 1 sergio pi_strow   767 Jan 17  2013 WORKS_Feb05_2014/new_q.m
+-rw-r--r-- 1 sergio pi_strow 11010 Jan 17  2013 WORKS_Feb05_2014/qtips04.m
+-rw-r--r-- 1 sergio pi_strow 11010 Jan 17  2013 WORKS_Feb05_2014/qtips08.m
+-rw-r--r-- 1 sergio pi_strow  2359 Jan 17  2013 WORKS_Feb05_2014/readDAVEhitlin.m
+-rw-r--r-- 1 sergio pi_strow 16039 Jan 17  2013 WORKS_Feb05_2014/removeCO2lines_ORIG.m
+-rw-r--r-- 1 sergio pi_strow 17201 Jan 17  2013 WORKS_Feb05_2014/removeCO2lines_RAL.m
+-rw-r--r-- 1 sergio pi_strow 46512 Jan 17  2013 WORKS_Feb05_2014/run7co2_good.m
+-rw-r--r-- 1 sergio pi_strow   948 Jan 17  2013 WORKS_Feb05_2014/test_run8co2_linemixUMBC_JJOHNS.m
+-rw-r--r-- 1 sergio pi_strow  2631 Jan 17  2013 WORKS_Feb05_2014/test_runXtopts_params.m
+-rw-r--r-- 1 sergio pi_strow  1249 Jan 17  2013 WORKS_Feb05_2014/water_runner2.m
+-rw-r--r-- 1 sergio pi_strow  9477 Jan 17  2013 CO2_COMMON/full2_deltpi.m
+-rw-r--r-- 1 sergio pi_strow   917 Jan 17  2013 PR_deltpi/efitter.m
+-rw-r--r-- 1 sergio pi_strow   318 Jan 17  2013 PR_deltpi/getmatr.m
+-rw-r--r-- 1 sergio pi_strow  9143 Jan 17  2013 PR_deltpi/loader.m
+-rw-r-xr-x 1 sergio pi_strow   504 Jan 17  2013 PR_deltpi/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1944 Jan 17  2013 PR_deltpi/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  1693 Jan 17  2013 PR_deltpi/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  2670 Jan 17  2013 PR_deltpi/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow  3018 Jan 17  2013 PR_deltpi/yrun_deltpi.m
+-rw-r--r-- 1 sergio pi_strow    75 Jan 17  2013 WORKS_Feb04_2014/bandhead_self_296.m
+-rw-r--r-- 1 sergio pi_strow  2428 Jan 17  2013 WORKS_Feb04_2014/compareHaHb.m
+-rw-r--r-- 1 sergio pi_strow  1654 Jan 17  2013 WORKS_Feb04_2014/compare_hartman_2007_2010.m
+-rw-r--r-- 1 sergio pi_strow  2544 Jan 17  2013 WORKS_Feb04_2014/contread2.m
+-rw-r--r-- 1 sergio pi_strow  4411 Jan 17  2013 WORKS_Feb04_2014/find_qnewABCD.m
+-rw-r--r-- 1 sergio pi_strow  2387 Jan 17  2013 WORKS_Feb04_2014/find_qnew_isotopes_slow.m
+-rw-r--r-- 1 sergio pi_strow  2474 Jan 17  2013 WORKS_Feb04_2014/gas_cell_water.m
+-rw-r--r-- 1 sergio pi_strow   540 Jan 17  2013 WORKS_Feb04_2014/getstrengths2.m
+-rw-r--r-- 1 sergio pi_strow   727 Jan 17  2013 WORKS_Feb04_2014/q.m
+-rw-r--r-- 1 sergio pi_strow  4273 Jan 17  2013 WORKS_Feb04_2014/subset_for_isotopes.m
+-rw-r--r-- 1 sergio pi_strow    75 Jan 17  2013 WORKS_Feb05_2014/bandhead_self_296.m
+-rw-r--r-- 1 sergio pi_strow  2428 Jan 17  2013 WORKS_Feb05_2014/compareHaHb.m
+-rw-r--r-- 1 sergio pi_strow  1654 Jan 17  2013 WORKS_Feb05_2014/compare_hartman_2007_2010.m
+-rw-r--r-- 1 sergio pi_strow  2544 Jan 17  2013 WORKS_Feb05_2014/contread2.m
+-rw-r--r-- 1 sergio pi_strow  4411 Jan 17  2013 WORKS_Feb05_2014/find_qnewABCD.m
+-rw-r--r-- 1 sergio pi_strow  2387 Jan 17  2013 WORKS_Feb05_2014/find_qnew_isotopes_slow.m
+-rw-r--r-- 1 sergio pi_strow  2474 Jan 17  2013 WORKS_Feb05_2014/gas_cell_water.m
+-rw-r--r-- 1 sergio pi_strow   540 Jan 17  2013 WORKS_Feb05_2014/getstrengths2.m
+-rw-r--r-- 1 sergio pi_strow   727 Jan 17  2013 WORKS_Feb05_2014/q.m
+-rw-r--r-- 1 sergio pi_strow  4273 Jan 17  2013 WORKS_Feb05_2014/subset_for_isotopes.m
+-rw-r--r-- 1 sergio pi_strow   591 Jan 17  2013 FORTRANLINUX/birnbaumWORKS2.m
+-rw-r--r-- 1 sergio pi_strow   652 Jan 17  2013 FORTRANLINUX/birnbaumWORKS.m
+-rw-r--r-- 1 sergio pi_strow  9446 Jan 17  2013 FORTRANLINUX/birn_lookup2.m
+-rw-r--r-- 1 sergio pi_strow  9428 Jan 17  2013 FORTRANLINUX/birn_lookup.m
+-rw-r--r-- 1 sergio pi_strow  4027 Jan 17  2013 FORTRANLINUX/birn_lookupNEW2.m
+-rw-r--r-- 1 sergio pi_strow  4019 Jan 17  2013 FORTRANLINUX/birn_lookupNEW.m
+-rw-r--r-- 1 sergio pi_strow   840 Jan 17  2013 FORTRANLINUX/fasthankel_1.m
+-rw-r--r-- 1 sergio pi_strow   381 Jan 17  2013 FORTRANLINUX/j1.m
+-rw-r--r-- 1 sergio pi_strow   572 Jan 17  2013 FORTRANLINUX/y1.m
+-rw-r--r-- 1 sergio pi_strow   462 Jan 17  2013 WORKS_Feb04_2014/boxint.m
+-rw-r--r-- 1 sergio pi_strow  3462 Jan 17  2013 WORKS_Feb04_2014/chappius_ozone_vis_new.m
+-rw-r--r-- 1 sergio pi_strow  3435 Jan 17  2013 WORKS_Feb04_2014/checkpar.m
+-rw-r--r-- 1 sergio pi_strow   604 Jan 17  2013 WORKS_Feb04_2014/interp_quad.m
+-rw-r--r-- 1 sergio pi_strow   772 Jan 17  2013 WORKS_Feb04_2014/water_runner.m
+-rw-r--r-- 1 sergio pi_strow   462 Jan 17  2013 WORKS_Feb05_2014/boxint.m
+-rw-r--r-- 1 sergio pi_strow  3462 Jan 17  2013 WORKS_Feb05_2014/chappius_ozone_vis_new.m
+-rw-r--r-- 1 sergio pi_strow  3435 Jan 17  2013 WORKS_Feb05_2014/checkpar.m
+-rw-r--r-- 1 sergio pi_strow   604 Jan 17  2013 WORKS_Feb05_2014/interp_quad.m
+-rw-r--r-- 1 sergio pi_strow   772 Jan 17  2013 WORKS_Feb05_2014/water_runner.m
+-rw-r--r-- 1 sergio pi_strow  2504 Jan 17  2013 CKDLINUX/ckd_lookupBIN_ieee_be.m
+-rw-r--r-- 1 sergio pi_strow  3853 Jan 17  2013 CKDLINUX/ckd_lookupBIN_ieee_le.m
+-rw-r--r-- 1 sergio pi_strow  4326 Jan 17  2013 CKDLINUX/ckd_lookupBIN_v4_ieee_le.m
+-rw-r--r-- 1 sergio pi_strow  5547 Jan 17  2013 CKDLINUX/ckd_lookupBIN_v5_ieee_le.m
+-rw-r--r-- 1 sergio pi_strow  4707 Jan 17  2013 CKDLINUX/ckd_lookupBIN_v6_ieee_le.m
+-rw-r--r-- 1 sergio pi_strow  1384 Jan 17  2013 CKDLINUX/ckd_lookup.m
+-rw-r--r-- 1 sergio pi_strow  2152 Jan 17  2013 CKDLINUX/co2_tune.m
+-rw-r--r-- 1 sergio pi_strow  1508 Jan 17  2013 CKDLINUX/compare_ckd.m
+-rw-r--r-- 1 sergio pi_strow  1562 Jan 17  2013 CKDLINUX/compare_cont.m
+-rw-r--r-- 1 sergio pi_strow  2982 Jan 17  2013 CKDLINUX/cont_le2be.m
+-rw-r--r-- 1 sergio pi_strow   848 Jan 17  2013 CKDLINUX/fix_tunmlt_iasi_may09X.m
+-rw-r--r-- 1 sergio pi_strow   360 Jan 17  2013 CKDLINUX/mdeal.m
+-rw-r--r-- 1 sergio pi_strow   619 Jan 17  2013 CKDLINUX/use_tobin_continuum.m
+-rw-r--r-- 1 sergio pi_strow   458 Jan 17  2013 N2_CONTINUUM/n2x.m
+-rw-r--r-- 1 sergio pi_strow  1904 Jan 17  2013 READ_XSEC/findxsec_plot_OLD.m
+-rw-r--r-- 1 sergio pi_strow  4424 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst53.m
+-rw-r--r-- 1 sergio pi_strow 10772 Jan 17  2013 UNUSED/read_test_hartmann2a.m
+-rw-r--r-- 1 sergio pi_strow  1618 Jan 17  2013 UNUSED/test_hartmann.m
+-rw-r--r-- 1 sergio pi_strow  2126 Jan 17  2013 UNUSED/test_runXtopts_params_howard.m
+-rw-r--r-- 1 sergio pi_strow  1448 Jan 17  2013 WORKS_Feb04_2014/alreadyexist.m
+-rw-r--r-- 1 sergio pi_strow  3974 Jan 17  2013 WORKS_Feb04_2014/co2lines.m
+-rw-r--r-- 1 sergio pi_strow   851 Jan 17  2013 WORKS_Feb04_2014/docheckco2.m
+-rw-r--r-- 1 sergio pi_strow   654 Jan 17  2013 WORKS_Feb04_2014/find_kcarta_gases.m
+-rw-r--r-- 1 sergio pi_strow  1372 Jan 17  2013 WORKS_Feb04_2014/gas_cell_co2.m
+-rw-r--r-- 1 sergio pi_strow  4644 Jan 17  2013 WORKS_Feb04_2014/getstrengths.m
+-rw-r--r-- 1 sergio pi_strow   436 Jan 17  2013 WORKS_Feb04_2014/initializeABCDG_qtips.m
+-rw-r--r-- 1 sergio pi_strow   437 Jan 17  2013 WORKS_Feb04_2014/make_n2o.m
+-rw-r--r-- 1 sergio pi_strow  4424 Jan 17  2013 WORKS_Feb04_2014/mst53.m
+-rw-r--r-- 1 sergio pi_strow   458 Jan 17  2013 WORKS_Feb04_2014/n2x.m
+-rw-r--r-- 1 sergio pi_strow 10772 Jan 17  2013 WORKS_Feb04_2014/read_test_hartmann2a.m
+-rw-r--r-- 1 sergio pi_strow  3667 Jan 17  2013 WORKS_Feb04_2014/runXtopts_params.m
+-rw-r--r-- 1 sergio pi_strow  1096 Jan 17  2013 WORKS_Feb04_2014/sortbins.m
+-rw-r--r-- 1 sergio pi_strow  1618 Jan 17  2013 WORKS_Feb04_2014/test_hartmann.m
+-rw-r--r-- 1 sergio pi_strow  2126 Jan 17  2013 WORKS_Feb04_2014/test_runXtopts_params_howard.m
+-rw-r--r-- 1 sergio pi_strow  1195 Jan 17  2013 WORKS_Feb04_2014/vhh1_mat.m
+-rw-r--r-- 1 sergio pi_strow  1170 Jan 17  2013 WORKS_Feb04_2014/vhhF.m
+-rw-r--r-- 1 sergio pi_strow  1444 Jan 17  2013 WORKS_Feb04_2014/vhhOPTDEP.m
+-rw-r--r-- 1 sergio pi_strow  1448 Jan 17  2013 WORKS_Feb05_2014/alreadyexist.m
+-rw-r--r-- 1 sergio pi_strow   851 Jan 17  2013 WORKS_Feb05_2014/docheckco2.m
+-rw-r--r-- 1 sergio pi_strow   654 Jan 17  2013 WORKS_Feb05_2014/find_kcarta_gases.m
+-rw-r--r-- 1 sergio pi_strow  1372 Jan 17  2013 WORKS_Feb05_2014/gas_cell_co2.m
+-rw-r--r-- 1 sergio pi_strow  4644 Jan 17  2013 WORKS_Feb05_2014/getstrengths.m
+-rw-r--r-- 1 sergio pi_strow   436 Jan 17  2013 WORKS_Feb05_2014/initializeABCDG_qtips.m
+-rw-r--r-- 1 sergio pi_strow   437 Jan 17  2013 WORKS_Feb05_2014/make_n2o.m
+-rw-r--r-- 1 sergio pi_strow  4424 Jan 17  2013 WORKS_Feb05_2014/mst53.m
+-rw-r--r-- 1 sergio pi_strow   458 Jan 17  2013 WORKS_Feb05_2014/n2x.m
+-rw-r--r-- 1 sergio pi_strow 10772 Jan 17  2013 WORKS_Feb05_2014/read_test_hartmann2a.m
+-rw-r--r-- 1 sergio pi_strow  3667 Jan 17  2013 WORKS_Feb05_2014/runXtopts_params.m
+-rw-r--r-- 1 sergio pi_strow  1096 Jan 17  2013 WORKS_Feb05_2014/sortbins.m
+-rw-r--r-- 1 sergio pi_strow  1618 Jan 17  2013 WORKS_Feb05_2014/test_hartmann.m
+-rw-r--r-- 1 sergio pi_strow  2126 Jan 17  2013 WORKS_Feb05_2014/test_runXtopts_params_howard.m
+-rw-r--r-- 1 sergio pi_strow  1195 Jan 17  2013 WORKS_Feb05_2014/vhh1_mat.m
+-rw-r--r-- 1 sergio pi_strow  1170 Jan 17  2013 WORKS_Feb05_2014/vhhF.m
+-rw-r--r-- 1 sergio pi_strow  1444 Jan 17  2013 WORKS_Feb05_2014/vhhOPTDEP.m
+-rw-r--r-- 1 sergio pi_strow  6864 Jan 17  2013 CO2_RAL_FITS/chifit.m
+-rw-r--r-- 1 sergio pi_strow   395 Jan 17  2013 CO2_RAL_FITS/chosen1.m
+-rw-r--r-- 1 sergio pi_strow   459 Jan 17  2013 CO2_RAL_FITS/chosen1NEW.m
+-rw-r--r-- 1 sergio pi_strow   363 Jan 17  2013 CO2_RAL_FITS/chosen2.m
+-rw-r--r-- 1 sergio pi_strow   146 Jan 17  2013 CO2_RAL_FITS/chosen2NEWNEW.m
+-rw-r--r-- 1 sergio pi_strow   157 Jan 17  2013 CO2_RAL_FITS/chosen3.m
+-rw-r--r-- 1 sergio pi_strow   271 Jan 17  2013 CO2_RAL_FITS/chosen4NEW.m
+-rw-r--r-- 1 sergio pi_strow   205 Jan 17  2013 CO2_RAL_FITS/chosen6.m
+-rw-r--r-- 1 sergio pi_strow  1866 Jan 17  2013 CO2_RAL_FITS/efit.m
+-rw-r--r-- 1 sergio pi_strow   628 Jan 17  2013 CO2_RAL_FITS/efitter.m
+-rw-r--r-- 1 sergio pi_strow   859 Jan 17  2013 CO2_RAL_FITS/fit_chi.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 CO2_RAL_FITS/klormix_birn.m
+-rw-r--r-- 1 sergio pi_strow 11071 Jan 17  2013 CO2_RAL_FITS/loader_mod_JJOHN.m
+-rw-r--r-- 1 sergio pi_strow 16902 Jan 17  2013 CO2_RAL_FITS/loader_mod.m
+-rw-r--r-- 1 sergio pi_strow   248 Jan 17  2013 CO2_RAL_FITS/lower_tobin.m
+-rw-r--r-- 1 sergio pi_strow  3670 Jan 17  2013 CO2_RAL_FITS/plotchi.m
+-rw-r--r-- 1 sergio pi_strow   181 Jan 17  2013 CO2_RAL_FITS/reduce4.m
+-rw-r--r-- 1 sergio pi_strow   233 Jan 17  2013 CO2_RAL_FITS/reduce5.m
+-rw-r--r-- 1 sergio pi_strow 16344 Jan 17  2013 CO2_RAL_FITS/removeCO2lines_RAL.m
+-rw-r--r-- 1 sergio pi_strow   738 Jan 17  2013 CO2_RAL_FITS/run_birn.m
+-rw-r--r-- 1 sergio pi_strow  1047 Jan 17  2013 CO2_RAL_FITS/runfit_birn2.m
+-rw-r--r-- 1 sergio pi_strow  1347 Jan 17  2013 CO2_RAL_FITS/runfit_birn.m
+-rw-r--r-- 1 sergio pi_strow   285 Jan 17  2013 CO2_RAL_FITS/saver_chi.m
+-rw-r--r-- 1 sergio pi_strow   231 Jan 17  2013 CO2_RAL_FITS/saver.m
+-rw-r--r-- 1 sergio pi_strow  3029 Jan 17  2013 CO2_RAL_FITS/strow.m
+-rw-r--r-- 1 sergio pi_strow  1663 Jan 17  2013 CO2_RAL_FITS/tdif_birn_Apr00.m
+-rw-r--r-- 1 sergio pi_strow  6442 Jan 17  2013 CO2_RAL_FITS/tdif_birn_goodparams.m
+-rw-r--r-- 1 sergio pi_strow  5287 Jan 17  2013 CO2_RAL_FITS/tdif_birn_Oct99.m
+-rw-r--r-- 1 sergio pi_strow   910 Jan 17  2013 CO2_RAL_FITS/tdifer_birn.m
+-rw-r--r-- 1 sergio pi_strow  1483 Jan 17  2013 CO2_RAL_FITS/trans_pop.m
+-rw-r--r-- 1 sergio pi_strow  2576 Jan 17  2013 CO2_RAL_FITS/vcousin.m
+-rw-r--r-- 1 sergio pi_strow  2881 Jan 17  2013 CO2_RAL_FITS/v_lormix.m
+-rw-r--r-- 1 sergio pi_strow  1141 Jan 17  2013 CO2_RAL_FITS/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  2525 Jan 17  2013 CO2_RAL_FITS/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  2141 Jan 17  2013 CO2_RAL_FITS/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow   476 Jan 17  2013 CO2_RAL_FITS/which_fit.m
+-rw-r--r-- 1 sergio pi_strow   434 Jan 17  2013 CO2_RAL_FITS/y1ser.m
+-rw-r--r-- 1 sergio pi_strow  1393 Jan 17  2013 CO2_RAL_FITS/y1s.m
+-rw-r--r-- 1 sergio pi_strow  2221 Jan 17  2013 CO2_RAL_FITS/y1sNEW.m
+-rw-r--r-- 1 sergio pi_strow   961 Jan 17  2013 Q_deltpi/efitter.m
+-rw-r--r-- 1 sergio pi_strow   783 Jan 17  2013 Q_deltpi/findratio.m
+-rw-r--r-- 1 sergio pi_strow  1512 Jan 17  2013 Q_deltpi/getmatr.m
+-rw-r--r-- 1 sergio pi_strow  3778 Jan 17  2013 Q_deltpi/loader.m
+-rw-r-xr-x 1 sergio pi_strow   504 Jan 17  2013 Q_deltpi/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  2303 Jan 17  2013 Q_deltpi/wfunco2er.m
+-rw-r--r-- 1 sergio pi_strow  2301 Jan 17  2013 Q_deltpi/wfunco2erWORKS.m
+-rw-r-xr-x 1 sergio pi_strow  1693 Jan 17  2013 Q_deltpi/wfunco2.m
+-rw-r--r-- 1 sergio pi_strow  1277 Jan 17  2013 Q_deltpi/wfunco2x.m
+-rw-r-xr-x 1 sergio pi_strow  2670 Jan 17  2013 Q_deltpi/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow  3238 Jan 17  2013 Q_deltpi/yrun_deltpi.m
+-rw-r--r-- 1 sergio pi_strow  3369 Jan 17  2013 Q_sigpi/efitter.m
+-rw-r--r-- 1 sergio pi_strow  1247 Jan 17  2013 Q_sigpi/findratio.m
+-rw-r--r-- 1 sergio pi_strow  4605 Jan 17  2013 Q_sigpi/getmatr.m
+-rw-r--r-- 1 sergio pi_strow  6720 Jan 17  2013 Q_sigpi/loader662.m
+-rw-r--r-- 1 sergio pi_strow  6452 Jan 17  2013 Q_sigpi/loader.m
+-rw-r-xr-x 1 sergio pi_strow  1329 Jan 17  2013 Q_sigpi/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1978 Jan 17  2013 Q_sigpi/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  4537 Jan 17  2013 Q_sigpi/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  5165 Jan 17  2013 Q_sigpi/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow  3492 Jan 17  2013 Q_sigpi/yrun_sigpi662.m
+-rw-r--r-- 1 sergio pi_strow  4022 Jan 17  2013 Q_sigpi/yrun_sigpi.m
+-rw-r--r-- 1 sergio pi_strow 22139 Jan 17  2013 RUN6_DRIVERS/run6water98.m
+-rw-r--r-- 1 sergio pi_strow  7785 Jan 17  2013 UNUSED/pagano1.m
+-rw-r--r-- 1 sergio pi_strow  2990 Jan 17  2013 WORKS_Feb04_2014/chappius_ozone_vis.m
+-rw-r--r-- 1 sergio pi_strow   455 Jan 17  2013 WORKS_Feb04_2014/checkcontinuity15.m
+-rw-r--r-- 1 sergio pi_strow  1718 Jan 17  2013 WORKS_Feb04_2014/co2lines_plot_jmhartmann.m
+-rw-r--r-- 1 sergio pi_strow   496 Jan 17  2013 WORKS_Feb04_2014/find_chunklen.m
+-rw-r--r-- 1 sergio pi_strow   157 Jan 17  2013 WORKS_Feb04_2014/isint.m
+-rw-r--r-- 1 sergio pi_strow  1912 Jan 17  2013 WORKS_Feb04_2014/load_mass_iso_dat.m
+-rw-r--r-- 1 sergio pi_strow   436 Jan 17  2013 WORKS_Feb04_2014/lorentz.m
+-rw-r--r-- 1 sergio pi_strow   972 Jan 17  2013 WORKS_Feb04_2014/makechi.m
+-rw-r--r-- 1 sergio pi_strow   437 Jan 17  2013 WORKS_Feb04_2014/make_so2.m
+-rw-r--r-- 1 sergio pi_strow  7785 Jan 17  2013 WORKS_Feb04_2014/pagano1.m
+-rw-r--r-- 1 sergio pi_strow   481 Jan 17  2013 WORKS_Feb04_2014/qoldVSqnew.m
+-rw-r--r-- 1 sergio pi_strow 22139 Jan 17  2013 WORKS_Feb04_2014/run6water98.m
+-rw-r--r-- 1 sergio pi_strow  4036 Jan 17  2013 WORKS_Feb04_2014/show_vis_ir_lines_wavelength.m
+-rw-r--r-- 1 sergio pi_strow  1388 Jan 17  2013 WORKS_Feb04_2014/whiteman.m
+-rw-r--r-- 1 sergio pi_strow  2990 Jan 17  2013 WORKS_Feb05_2014/chappius_ozone_vis.m
+-rw-r--r-- 1 sergio pi_strow   455 Jan 17  2013 WORKS_Feb05_2014/checkcontinuity15.m
+-rw-r--r-- 1 sergio pi_strow  1718 Jan 17  2013 WORKS_Feb05_2014/co2lines_plot_jmhartmann.m
+-rw-r--r-- 1 sergio pi_strow   496 Jan 17  2013 WORKS_Feb05_2014/find_chunklen.m
+-rw-r--r-- 1 sergio pi_strow   157 Jan 17  2013 WORKS_Feb05_2014/isint.m
+-rw-r--r-- 1 sergio pi_strow  1912 Jan 17  2013 WORKS_Feb05_2014/load_mass_iso_dat.m
+-rw-r--r-- 1 sergio pi_strow   436 Jan 17  2013 WORKS_Feb05_2014/lorentz.m
+-rw-r--r-- 1 sergio pi_strow   972 Jan 17  2013 WORKS_Feb05_2014/makechi.m
+-rw-r--r-- 1 sergio pi_strow   437 Jan 17  2013 WORKS_Feb05_2014/make_so2.m
+-rw-r--r-- 1 sergio pi_strow  7785 Jan 17  2013 WORKS_Feb05_2014/pagano1.m
+-rw-r--r-- 1 sergio pi_strow   481 Jan 17  2013 WORKS_Feb05_2014/qoldVSqnew.m
+-rw-r--r-- 1 sergio pi_strow 22139 Jan 17  2013 WORKS_Feb05_2014/run6water98.m
+-rw-r--r-- 1 sergio pi_strow  4036 Jan 17  2013 WORKS_Feb05_2014/show_vis_ir_lines_wavelength.m
+-rw-r--r-- 1 sergio pi_strow  1388 Jan 17  2013 WORKS_Feb05_2014/whiteman.m
+-rw-r--r-- 1 sergio pi_strow   362 Jan 17  2013 CO2_RAL_FITS/chosen2NEW.m
+-rw-r--r-- 1 sergio pi_strow   184 Jan 17  2013 CO2_RAL_FITS/chosen3NEW.m
+-rw-r--r-- 1 sergio pi_strow   127 Jan 17  2013 CO2_RAL_FITS/chosen4.m
+-rw-r--r-- 1 sergio pi_strow   115 Jan 17  2013 CO2_RAL_FITS/chosen5.m
+-rw-r--r-- 1 sergio pi_strow   195 Jan 17  2013 CO2_RAL_FITS/chosen7.m
+-rw-r--r-- 1 sergio pi_strow  2118 Jan 17  2013 CO2_RAL_FITS/fit_run7.m
+-rw-r--r-- 1 sergio pi_strow  3658 Jan 17  2013 CO2_RAL_FITS/klormix_birnDEBUG.m
+-rw-r--r-- 1 sergio pi_strow 12500 Jan 17  2013 CO2_RAL_FITS/loader_mod_RAL2.m
+-rw-r--r-- 1 sergio pi_strow 16988 Jan 17  2013 CO2_RAL_FITS/loader_mod_RAL.m
+-rw-r--r-- 1 sergio pi_strow   510 Jan 17  2013 CO2_RAL_FITS/set_fit.m
+-rw-r--r-- 1 sergio pi_strow  3140 Jan 17  2013 CO2_RAL_FITS/strow2.m
+-rw-r--r-- 1 sergio pi_strow  5702 Jan 17  2013 CO2_RAL_FITS/tdif_birnORIG.m
+-rw-r-xr-x 1 sergio pi_strow  1232 Jan 17  2013 CO2_RAL_FITS/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow   919 Jan 17  2013 N2_CONTINUUM/n2y.m
+-rw-r--r-- 1 sergio pi_strow 32945 Jan 17  2013 RUN6_DRIVERS/run6co2.m
+-rw-r--r-- 1 sergio pi_strow 21554 Jan 17  2013 RUN6_DRIVERS/run6watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow 24108 Jan 17  2013 RUN7_DRIVERS/run7choose.m
+-rw-r--r-- 1 sergio pi_strow 43829 Jan 17  2013 RUN7_DRIVERS/run7co2_weakbackgnd.m
+-rw-r--r-- 1 sergio pi_strow 31599 Jan 17  2013 RUN7_DRIVERS/run7water_RAL.m
+-rw-r--r-- 1 sergio pi_strow  4434 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst50.m
+-rw-r--r-- 1 sergio pi_strow  4627 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst52.m
+-rw-r--r-- 1 sergio pi_strow  1011 Jan 17  2013 UNUSED/test_hartmann1.m
+-rw-r--r-- 1 sergio pi_strow   762 Jan 17  2013 UNUSED/test_hartmann2a.m
+-rw-r--r-- 1 sergio pi_strow   412 Jan 17  2013 WORKS_Feb04_2014/doiasiEUMET.m
+-rw-r--r-- 1 sergio pi_strow  3957 Jan 17  2013 WORKS_Feb04_2014/do_lorentz_lineshape_CKD.m
+-rw-r--r-- 1 sergio pi_strow  4411 Jan 17  2013 WORKS_Feb04_2014/find_qnewABCD_H08.m
+-rw-r--r-- 1 sergio pi_strow  1395 Jan 17  2013 WORKS_Feb04_2014/gas_cell_others_ppmv.m
+-rw-r--r-- 1 sergio pi_strow   787 Jan 17  2013 WORKS_Feb04_2014/grouplines.m
+-rw-r--r-- 1 sergio pi_strow  7774 Jan 17  2013 WORKS_Feb04_2014/makeDAVEhitlin.m
+-rw-r--r-- 1 sergio pi_strow  4434 Jan 17  2013 WORKS_Feb04_2014/mst50.m
+-rw-r--r-- 1 sergio pi_strow  4627 Jan 17  2013 WORKS_Feb04_2014/mst52.m
+-rw-r--r-- 1 sergio pi_strow   919 Jan 17  2013 WORKS_Feb04_2014/n2y.m
+-rw-r--r-- 1 sergio pi_strow   729 Jan 17  2013 WORKS_Feb04_2014/qoldVSqnew_fast.m
+-rw-r--r-- 1 sergio pi_strow  3180 Jan 17  2013 WORKS_Feb04_2014/reverse_engineer_co2band.m
+-rw-r--r-- 1 sergio pi_strow 32945 Jan 17  2013 WORKS_Feb04_2014/run6co2.m
+-rw-r--r-- 1 sergio pi_strow 21554 Jan 17  2013 WORKS_Feb04_2014/run6watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow 24108 Jan 17  2013 WORKS_Feb04_2014/run7choose.m
+-rw-r--r-- 1 sergio pi_strow 43829 Jan 17  2013 WORKS_Feb04_2014/run7co2_weakbackgnd.m
+-rw-r--r-- 1 sergio pi_strow 31599 Jan 17  2013 WORKS_Feb04_2014/run7water_RAL.m
+-rw-r--r-- 1 sergio pi_strow  3621 Jan 17  2013 WORKS_Feb04_2014/simple_run8.m
+-rw-r--r-- 1 sergio pi_strow  1011 Jan 17  2013 WORKS_Feb04_2014/test_hartmann1.m
+-rw-r--r-- 1 sergio pi_strow   762 Jan 17  2013 WORKS_Feb04_2014/test_hartmann2a.m
+-rw-r--r-- 1 sergio pi_strow  1205 Jan 17  2013 WORKS_Feb04_2014/vhh_fast.m
+-rw-r--r-- 1 sergio pi_strow   412 Jan 17  2013 WORKS_Feb05_2014/doiasiEUMET.m
+-rw-r--r-- 1 sergio pi_strow  3957 Jan 17  2013 WORKS_Feb05_2014/do_lorentz_lineshape_CKD.m
+-rw-r--r-- 1 sergio pi_strow  4411 Jan 17  2013 WORKS_Feb05_2014/find_qnewABCD_H08.m
+-rw-r--r-- 1 sergio pi_strow  1395 Jan 17  2013 WORKS_Feb05_2014/gas_cell_others_ppmv.m
+-rw-r--r-- 1 sergio pi_strow   787 Jan 17  2013 WORKS_Feb05_2014/grouplines.m
+-rw-r--r-- 1 sergio pi_strow  4434 Jan 17  2013 WORKS_Feb05_2014/mst50.m
+-rw-r--r-- 1 sergio pi_strow  4627 Jan 17  2013 WORKS_Feb05_2014/mst52.m
+-rw-r--r-- 1 sergio pi_strow   919 Jan 17  2013 WORKS_Feb05_2014/n2y.m
+-rw-r--r-- 1 sergio pi_strow   729 Jan 17  2013 WORKS_Feb05_2014/qoldVSqnew_fast.m
+-rw-r--r-- 1 sergio pi_strow  3180 Jan 17  2013 WORKS_Feb05_2014/reverse_engineer_co2band.m
+-rw-r--r-- 1 sergio pi_strow 32945 Jan 17  2013 WORKS_Feb05_2014/run6co2.m
+-rw-r--r-- 1 sergio pi_strow 21554 Jan 17  2013 WORKS_Feb05_2014/run6watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow 24108 Jan 17  2013 WORKS_Feb05_2014/run7choose.m
+-rw-r--r-- 1 sergio pi_strow 43829 Jan 17  2013 WORKS_Feb05_2014/run7co2_weakbackgnd.m
+-rw-r--r-- 1 sergio pi_strow 31599 Jan 17  2013 WORKS_Feb05_2014/run7water_RAL.m
+-rw-r--r-- 1 sergio pi_strow  3621 Jan 17  2013 WORKS_Feb05_2014/simple_run8.m
+-rw-r--r-- 1 sergio pi_strow  1011 Jan 17  2013 WORKS_Feb05_2014/test_hartmann1.m
+-rw-r--r-- 1 sergio pi_strow   762 Jan 17  2013 WORKS_Feb05_2014/test_hartmann2a.m
+-rw-r--r-- 1 sergio pi_strow  1205 Jan 17  2013 WORKS_Feb05_2014/vhh_fast.m
+-rw-r--r-- 1 sergio pi_strow   684 Jan 17  2013 N2_CONTINUUM/n2y1.m
+-rw-r--r-- 1 sergio pi_strow  2653 Jan 17  2013 OPTIM12.1/aprecon.m
+-rw-r--r-- 1 sergio pi_strow  5431 Jan 17  2013 OPTIM12.1/attgoal.m
+-rw-r--r-- 1 sergio pi_strow 11832 Jan 17  2013 OPTIM12.1/bandem.m
+-rw-r--r-- 1 sergio pi_strow  5924 Jan 17  2013 OPTIM12.1/bandemo.m
+-rw-r--r-- 1 sergio pi_strow   273 Jan 17  2013 OPTIM12.1/banplot2.m
+-rw-r--r-- 1 sergio pi_strow   311 Jan 17  2013 OPTIM12.1/banplot.m
+-rw-r--r-- 1 sergio pi_strow  1828 Jan 17  2013 OPTIM12.1/brownfgh.m
+-rw-r--r-- 1 sergio pi_strow   723 Jan 17  2013 OPTIM12.1/brownfg.m
+-rw-r--r-- 1 sergio pi_strow  2461 Jan 17  2013 OPTIM12.1/brownvv.m
+-rw-r--r-- 1 sergio pi_strow 11358 Jan 17  2013 OPTIM12.1/circustent.m
+-rw-r--r-- 1 sergio pi_strow   897 Jan 17  2013 OPTIM12.1/color.m
+-rw-r--r-- 1 sergio pi_strow   244 Jan 17  2013 OPTIM12.1/confuneq.m
+-rw-r--r-- 1 sergio pi_strow   423 Jan 17  2013 OPTIM12.1/confungrad.m
+-rw-r--r-- 1 sergio pi_strow   271 Jan 17  2013 OPTIM12.1/confun.m
+-rw-r--r-- 1 sergio pi_strow  3183 Jan 17  2013 OPTIM12.1/conls.m
+-rw-r--r-- 1 sergio pi_strow  3214 Jan 17  2013 OPTIM12.1/constr.m
+-rw-r--r-- 1 sergio pi_strow  8407 Jan 17  2013 OPTIM12.1/Contents.m
+-rw-r--r-- 1 sergio pi_strow   511 Jan 17  2013 OPTIM12.1/cubici1.m
+-rw-r--r-- 1 sergio pi_strow  1284 Jan 17  2013 OPTIM12.1/cubici2.m
+-rw-r--r-- 1 sergio pi_strow   641 Jan 17  2013 OPTIM12.1/cubici3.m
+-rw-r--r-- 1 sergio pi_strow   806 Jan 17  2013 OPTIM12.1/cubic.m
+-rw-r--r-- 1 sergio pi_strow  5548 Jan 17  2013 OPTIM12.1/curvefit.m
+-rw-r--r-- 1 sergio pi_strow  6967 Jan 17  2013 OPTIM12.1/datdemo.m
+-rw-r--r-- 1 sergio pi_strow  1002 Jan 17  2013 OPTIM12.1/demos.m
+-rw-r--r-- 1 sergio pi_strow  3407 Jan 17  2013 OPTIM12.1/dfildemo.m
+-rw-r--r-- 1 sergio pi_strow   302 Jan 17  2013 OPTIM12.1/eigfun.m
+-rw-r--r-- 1 sergio pi_strow   971 Jan 17  2013 OPTIM12.1/elimone.m
+-rw-r--r-- 1 sergio pi_strow  1175 Jan 17  2013 OPTIM12.1/fbox4.m
+-rw-r--r-- 1 sergio pi_strow 15020 Jan 17  2013 OPTIM12.1/fgoalattain.m
+-rw-r--r-- 1 sergio pi_strow   267 Jan 17  2013 OPTIM12.1/filtcon.m
+-rw-r--r-- 1 sergio pi_strow   359 Jan 17  2013 OPTIM12.1/filtfun2.m
+-rw-r--r-- 1 sergio pi_strow   336 Jan 17  2013 OPTIM12.1/filtfun.m
+-rw-r--r-- 1 sergio pi_strow   271 Jan 17  2013 OPTIM12.1/filtobj.m
+-rw-r--r-- 1 sergio pi_strow  3735 Jan 17  2013 OPTIM12.1/findmax2.m
+-rw-r--r-- 1 sergio pi_strow  1833 Jan 17  2013 OPTIM12.1/findmax.m
+-rw-r--r-- 1 sergio pi_strow  1168 Jan 17  2013 OPTIM12.1/fitfun2.m
+-rw-r--r-- 1 sergio pi_strow   895 Jan 17  2013 OPTIM12.1/fleq3.m
+-rw-r--r-- 1 sergio pi_strow 18488 Jan 17  2013 OPTIM12.1/fmincon.m
+-rw-r--r-- 1 sergio pi_strow 13647 Jan 17  2013 OPTIM12.1/fminimax.m
+-rw-r--r-- 1 sergio pi_strow 10140 Jan 17  2013 OPTIM12.1/fminu.m
+-rw-r--r-- 1 sergio pi_strow  9700 Jan 17  2013 OPTIM12.1/fminunc.m
+-rw-r--r-- 1 sergio pi_strow 11900 Jan 17  2013 OPTIM12.1/fseminf.m
+-rw-r--r-- 1 sergio pi_strow 15923 Jan 17  2013 OPTIM12.1/fsolve.m
+-rw-r--r-- 1 sergio pi_strow  2750 Jan 17  2013 OPTIM12.1/goalcon.m
+-rw-r--r-- 1 sergio pi_strow  3049 Jan 17  2013 OPTIM12.1/goaldemo.m
+-rw-r--r-- 1 sergio pi_strow   710 Jan 17  2013 OPTIM12.1/goalfun.m
+-rw-r--r-- 1 sergio pi_strow   943 Jan 17  2013 OPTIM12.1/goalgra.m
+-rw-r--r-- 1 sergio pi_strow  1230 Jan 17  2013 OPTIM12.1/goalobj.m
+-rw-r--r-- 1 sergio pi_strow  1002 Jan 17  2013 OPTIM12.1/graderr.m
+-rw-r--r-- 1 sergio pi_strow   271 Jan 17  2013 OPTIM12.1/hmfbx4.m
+-rw-r--r-- 1 sergio pi_strow   369 Jan 17  2013 OPTIM12.1/hmfleq1.m
+-rw-r--r-- 1 sergio pi_strow  2736 Jan 17  2013 OPTIM12.1/hprecon.m
+-rw-r--r-- 1 sergio pi_strow  3172 Jan 17  2013 OPTIM12.1/leastsq.m
+-rw-r--r-- 1 sergio pi_strow  7569 Jan 17  2013 OPTIM12.1/linprog.m
+-rw-r--r-- 1 sergio pi_strow  2448 Jan 17  2013 OPTIM12.1/lp.m
+-rw-r--r-- 1 sergio pi_strow   749 Jan 17  2013 OPTIM12.1/lsint.m
+-rw-r--r-- 1 sergio pi_strow  5950 Jan 17  2013 OPTIM12.1/lsqcurvefit.m
+-rw-r--r-- 1 sergio pi_strow  9781 Jan 17  2013 OPTIM12.1/lsqlin.m
+-rw-r--r-- 1 sergio pi_strow  5324 Jan 17  2013 OPTIM12.1/lsqnonlin.m
+-rw-r--r-- 1 sergio pi_strow  3753 Jan 17  2013 OPTIM12.1/minimax.m
+-rw-r--r-- 1 sergio pi_strow  2785 Jan 17  2013 OPTIM12.1/mmole.m
+-rw-r--r-- 1 sergio pi_strow 13220 Jan 17  2013 OPTIM12.1/molecule.m
+-rw-r--r-- 1 sergio pi_strow  2138 Jan 17  2013 OPTIM12.1/nls3.m
+-rw-r--r-- 1 sergio pi_strow   380 Jan 17  2013 OPTIM12.1/nlsf1a.m
+-rw-r--r-- 1 sergio pi_strow   630 Jan 17  2013 OPTIM12.1/nlsf1.m
+-rw-r--r-- 1 sergio pi_strow  3649 Jan 17  2013 OPTIM12.1/nlsf3a.m
+-rw-r--r-- 1 sergio pi_strow  1181 Jan 17  2013 OPTIM12.1/nlsmm3.m
+-rw-r--r-- 1 sergio pi_strow   410 Jan 17  2013 OPTIM12.1/objfungrad.m
+-rw-r--r-- 1 sergio pi_strow   205 Jan 17  2013 OPTIM12.1/objfun.m
+-rw-r--r-- 1 sergio pi_strow  7438 Jan 17  2013 OPTIM12.1/optdeblur.m
+-rw-r--r-- 1 sergio pi_strow   648 Jan 17  2013 OPTIM12.1/optdemo.m
+-rw-r--r-- 1 sergio pi_strow   647 Jan 17  2013 OPTIM12.1/optdems.m
+-rw-r--r-- 1 sergio pi_strow   570 Jan 17  2013 OPTIM12.1/optint.m
+-rw-r--r-- 1 sergio pi_strow   391 Jan 17  2013 OPTIM12.1/optsiminit.m
+-rw-r--r-- 1 sergio pi_strow   620 Jan 17  2013 OPTIM12.1/pceye.m
+-rw-r--r-- 1 sergio pi_strow  2924 Jan 17  2013 OPTIM12.1/qp.m
+-rw-r--r-- 1 sergio pi_strow   644 Jan 17  2013 OPTIM12.1/quad2.m
+-rw-r--r-- 1 sergio pi_strow   599 Jan 17  2013 OPTIM12.1/quadi.m
+-rw-r--r-- 1 sergio pi_strow 11992 Jan 17  2013 OPTIM12.1/quadprog.m
+-rw-r--r-- 1 sergio pi_strow   661 Jan 17  2013 OPTIM12.1/runfleq1.m
+-rw-r--r-- 1 sergio pi_strow  6132 Jan 17  2013 OPTIM12.1/runnls3.m
+-rw-r--r-- 1 sergio pi_strow  1232 Jan 17  2013 OPTIM12.1/runqpbox4.m
+-rw-r--r-- 1 sergio pi_strow  1193 Jan 17  2013 OPTIM12.1/runqpbox5.m
+-rw-r--r-- 1 sergio pi_strow  1135 Jan 17  2013 OPTIM12.1/runqpeq5.m
+-rw-r--r-- 1 sergio pi_strow  2993 Jan 17  2013 OPTIM12.1/searchq.m
+-rw-r--r-- 1 sergio pi_strow  2363 Jan 17  2013 OPTIM12.1/semicon.m
+-rw-r--r-- 1 sergio pi_strow  2243 Jan 17  2013 OPTIM12.1/semifun.m
+-rw-r--r-- 1 sergio pi_strow  3567 Jan 17  2013 OPTIM12.1/seminf.m
+-rw-r--r-- 1 sergio pi_strow  1992 Jan 17  2013 OPTIM12.1/sfd.m
+-rw-r--r-- 1 sergio pi_strow  2323 Jan 17  2013 OPTIM12.1/sfdnls.m
+-rw-r--r-- 1 sergio pi_strow  1195 Jan 17  2013 OPTIM12.1/tbroyfg.m
+-rw-r--r-- 1 sergio pi_strow   356 Jan 17  2013 OPTIM12.1/tracklsq.m
+-rw-r--r-- 1 sergio pi_strow   269 Jan 17  2013 OPTIM12.1/trackmmcon.m
+-rw-r--r-- 1 sergio pi_strow   391 Jan 17  2013 OPTIM12.1/trackmmobj.m
+-rw-r--r-- 1 sergio pi_strow 12319 Jan 17  2013 OPTIM12.1/tutdemo.m
+-rw-r--r-- 1 sergio pi_strow   948 Jan 17  2013 OPTIM12.1/updhess.m
+-rw-r--r-- 1 sergio pi_strow   845 Jan 17  2013 OPTIM12.1/v2sort.m
+-rw-r--r-- 1 sergio pi_strow 23850 Jan 17  2013 RUN6_DRIVERS/run6water.m
+-rw-r--r-- 1 sergio pi_strow 44965 Jan 17  2013 RUN7_DRIVERS/run7co2_JJOHNS.m
+-rw-r--r-- 1 sergio pi_strow 49704 Jan 17  2013 RUN7_DRIVERS/run7co2.m
+-rw-r--r-- 1 sergio pi_strow  1272 Jan 17  2013 UNUSED/doral_cous.m
+-rw-r--r-- 1 sergio pi_strow  1328 Jan 17  2013 UNUSED/pagano.m
+-rw-r--r-- 1 sergio pi_strow  1006 Jan 17  2013 UNUSED/test_hartmann100.m
+-rw-r--r-- 1 sergio pi_strow  1047 Jan 17  2013 UNUSED/test_hartmann100_nodes.m
+-rw-r--r-- 1 sergio pi_strow  1272 Jan 17  2013 WORKS_Feb04_2014/doral_cous.m
+-rw-r--r-- 1 sergio pi_strow  2878 Jan 17  2013 WORKS_Feb04_2014/find_qnew_isotopes.m
+-rw-r--r-- 1 sergio pi_strow   709 Jan 17  2013 WORKS_Feb04_2014/find_stren.m
+-rw-r--r-- 1 sergio pi_strow  2521 Jan 17  2013 WORKS_Feb04_2014/gas_cell_co2_kcarta.m
+-rw-r--r-- 1 sergio pi_strow  1349 Jan 17  2013 WORKS_Feb04_2014/gas_cell_info.m
+-rw-r--r-- 1 sergio pi_strow  6646 Jan 17  2013 WORKS_Feb04_2014/hitreadJuly2007.m
+-rw-r--r-- 1 sergio pi_strow   468 Jan 17  2013 WORKS_Feb04_2014/line_doppler.m
+-rw-r--r-- 1 sergio pi_strow   248 Jan 17  2013 WORKS_Feb04_2014/mixratio.m
+-rw-r--r-- 1 sergio pi_strow   119 Jan 17  2013 WORKS_Feb04_2014/myfun.m
+-rw-r--r-- 1 sergio pi_strow   684 Jan 17  2013 WORKS_Feb04_2014/n2y1.m
+-rw-r--r-- 1 sergio pi_strow  1328 Jan 17  2013 WORKS_Feb04_2014/pagano.m
+-rw-r--r-- 1 sergio pi_strow 12291 Jan 17  2013 WORKS_Feb04_2014/qtips96.m
+-rw-r--r-- 1 sergio pi_strow 23850 Jan 17  2013 WORKS_Feb04_2014/run6water.m
+-rw-r--r-- 1 sergio pi_strow 44965 Jan 17  2013 WORKS_Feb04_2014/run7co2_JJOHNS.m
+-rw-r--r-- 1 sergio pi_strow 49704 Jan 17  2013 WORKS_Feb04_2014/run7co2.m
+-rw-r--r-- 1 sergio pi_strow  1006 Jan 17  2013 WORKS_Feb04_2014/test_hartmann100.m
+-rw-r--r-- 1 sergio pi_strow  1047 Jan 17  2013 WORKS_Feb04_2014/test_hartmann100_nodes.m
+-rw-r--r-- 1 sergio pi_strow   957 Jan 17  2013 WORKS_Feb04_2014/voigt1_mat.m
+-rw-r--r-- 1 sergio pi_strow  1008 Jan 17  2013 WORKS_Feb04_2014/voigt_mat.m
+-rw-r--r-- 1 sergio pi_strow   697 Jan 17  2013 WORKS_Feb04_2014/wrap_hitread_simple.m
+-rw-r--r-- 1 sergio pi_strow  1272 Jan 17  2013 WORKS_Feb05_2014/doral_cous.m
+-rw-r--r-- 1 sergio pi_strow  2878 Jan 17  2013 WORKS_Feb05_2014/find_qnew_isotopes.m
+-rw-r--r-- 1 sergio pi_strow   709 Jan 17  2013 WORKS_Feb05_2014/find_stren.m
+-rw-r--r-- 1 sergio pi_strow  2521 Jan 17  2013 WORKS_Feb05_2014/gas_cell_co2_kcarta.m
+-rw-r--r-- 1 sergio pi_strow  1349 Jan 17  2013 WORKS_Feb05_2014/gas_cell_info.m
+-rw-r--r-- 1 sergio pi_strow  6646 Jan 17  2013 WORKS_Feb05_2014/hitreadJuly2007.m
+-rw-r--r-- 1 sergio pi_strow   468 Jan 17  2013 WORKS_Feb05_2014/line_doppler.m
+-rw-r--r-- 1 sergio pi_strow   248 Jan 17  2013 WORKS_Feb05_2014/mixratio.m
+-rw-r--r-- 1 sergio pi_strow   119 Jan 17  2013 WORKS_Feb05_2014/myfun.m
+-rw-r--r-- 1 sergio pi_strow   684 Jan 17  2013 WORKS_Feb05_2014/n2y1.m
+-rw-r--r-- 1 sergio pi_strow  1328 Jan 17  2013 WORKS_Feb05_2014/pagano.m
+-rw-r--r-- 1 sergio pi_strow 12291 Jan 17  2013 WORKS_Feb05_2014/qtips96.m
+-rw-r--r-- 1 sergio pi_strow 23850 Jan 17  2013 WORKS_Feb05_2014/run6water.m
+-rw-r--r-- 1 sergio pi_strow 44965 Jan 17  2013 WORKS_Feb05_2014/run7co2_JJOHNS.m
+-rw-r--r-- 1 sergio pi_strow 49704 Jan 17  2013 WORKS_Feb05_2014/run7co2.m
+-rw-r--r-- 1 sergio pi_strow  1006 Jan 17  2013 WORKS_Feb05_2014/test_hartmann100.m
+-rw-r--r-- 1 sergio pi_strow  1047 Jan 17  2013 WORKS_Feb05_2014/test_hartmann100_nodes.m
+-rw-r--r-- 1 sergio pi_strow   957 Jan 17  2013 WORKS_Feb05_2014/voigt1_mat.m
+-rw-r--r-- 1 sergio pi_strow  1008 Jan 17  2013 WORKS_Feb05_2014/voigt_mat.m
+-rw-r--r-- 1 sergio pi_strow   697 Jan 17  2013 WORKS_Feb05_2014/wrap_hitread_simple.m
+-rw-r--r-- 1 sergio pi_strow  2540 Jan 17  2013 Backup2010_11_28/airs_nodes.m
+-rw-r--r-- 1 sergio pi_strow  1448 Jan 17  2013 Backup2010_11_28/alreadyexist.m
+-rw-r--r-- 1 sergio pi_strow  1813 Jan 17  2013 Backup2010_11_28/band_end_find.m
+-rw-r--r-- 1 sergio pi_strow  3704 Jan 17  2013 Backup2010_11_28/band_end.m
+-rw-r--r-- 1 sergio pi_strow    75 Jan 17  2013 Backup2010_11_28/bandhead_self_296.m
+-rw-r--r-- 1 sergio pi_strow   244 Jan 17  2013 Backup2010_11_28/blah.m
+-rw-r--r-- 1 sergio pi_strow   462 Jan 17  2013 Backup2010_11_28/boxint.m
+-rw-r--r-- 1 sergio pi_strow   593 Jan 17  2013 Backup2010_11_28/boxint_many.m
+-rw-r--r-- 1 sergio pi_strow  1642 Jan 17  2013 Backup2010_11_28/broad.m
+-rw-r--r-- 1 sergio pi_strow  1796 Jan 17  2013 Backup2010_11_28/broad_weakco2.m
+-rw-r--r-- 1 sergio pi_strow  2990 Jan 17  2013 Backup2010_11_28/chappius_ozone_vis.m
+-rw-r--r-- 1 sergio pi_strow  3462 Jan 17  2013 Backup2010_11_28/chappius_ozone_vis_new.m
+-rw-r--r-- 1 sergio pi_strow   429 Jan 17  2013 Backup2010_11_28/check662.m
+-rw-r--r-- 1 sergio pi_strow   777 Jan 17  2013 Backup2010_11_28/checkcontinuity4.m
+-rw-r--r-- 1 sergio pi_strow  4687 Jan 17  2013 Backup2010_11_28/chooserCO2.m
+-rw-r--r-- 1 sergio pi_strow  4170 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_FIR1.m
+-rw-r--r-- 1 sergio pi_strow  4170 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_FIR2.m
+-rw-r--r-- 1 sergio pi_strow  4170 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_FIR3.m
+-rw-r--r-- 1 sergio pi_strow  3457 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_FIR4.m
+-rw-r--r-- 1 sergio pi_strow  3901 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_NIR2.m
+-rw-r--r-- 1 sergio pi_strow  3901 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_NIR3.m
+-rw-r--r-- 1 sergio pi_strow  3903 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_NIR4.m
+-rw-r--r-- 1 sergio pi_strow  4125 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_NIR.m
+-rw-r--r-- 1 sergio pi_strow  3907 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_UV1.m
+-rw-r--r-- 1 sergio pi_strow  3906 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_VIS1.m
+-rw-r--r-- 1 sergio pi_strow  3743 Jan 17  2013 Backup2010_11_28/ckd_lookupBIN_VIS.m
+-rw-r--r-- 1 sergio pi_strow  2173 Jan 17  2013 Backup2010_11_28/ckd_lookup.m
+-rw-r--r-- 1 sergio pi_strow  4613 Jan 17  2013 Backup2010_11_28/co2lines_jmhartmann.m
+-rw-r--r-- 1 sergio pi_strow  3583 Jan 17  2013 Backup2010_11_28/co2lines.m
+-rw-r--r-- 1 sergio pi_strow  1718 Jan 17  2013 Backup2010_11_28/co2lines_plot_jmhartmann.m
+-rw-r--r-- 1 sergio pi_strow  5667 Jan 17  2013 Backup2010_11_28/co2lines_plot.m
+-rw-r--r-- 1 sergio pi_strow  2428 Jan 17  2013 Backup2010_11_28/compareHaHb.m
+-rw-r--r-- 1 sergio pi_strow  1654 Jan 17  2013 Backup2010_11_28/compare_hartman_2007_2010.m
+-rw-r--r-- 1 sergio pi_strow  1183 Jan 17  2013 Backup2010_11_28/cris_co2.m
+-rw-r--r-- 1 sergio pi_strow   851 Jan 17  2013 Backup2010_11_28/docheckco2.m
+-rw-r--r-- 1 sergio pi_strow   591 Jan 17  2013 Backup2010_11_28/dodave_cous.m
+-rw-r--r-- 1 sergio pi_strow  2835 Jan 17  2013 Backup2010_11_28/do_hartmann.m
+-rw-r--r-- 1 sergio pi_strow   412 Jan 17  2013 Backup2010_11_28/doiasiEUMET.m
+-rw-r--r-- 1 sergio pi_strow   705 Jan 17  2013 Backup2010_11_28/doral1.m
+-rw-r--r-- 1 sergio pi_strow  1272 Jan 17  2013 Backup2010_11_28/doral_cous.m
+-rw-r--r-- 1 sergio pi_strow   291 Jan 17  2013 Backup2010_11_28/easy_rad.m
+-rw-r--r-- 1 sergio pi_strow  2279 Jan 17  2013 Backup2010_11_28/exchange_f1_f2.m
+-rw-r--r-- 1 sergio pi_strow  3342 Jan 17  2013 Backup2010_11_28/exchange_hartmann_hitran.m
+-rw-r--r-- 1 sergio pi_strow   496 Jan 17  2013 Backup2010_11_28/find_chunklen.m
+-rw-r--r-- 1 sergio pi_strow  2603 Jan 17  2013 Backup2010_11_28/find_hartmann_hitran.m
+-rw-r--r-- 1 sergio pi_strow   654 Jan 17  2013 Backup2010_11_28/find_kcarta_gases.m
+-rw-r--r-- 1 sergio pi_strow  1301 Jan 17  2013 Backup2010_11_28/findlines_plot.m
+-rw-r--r-- 1 sergio pi_strow  4299 Jan 17  2013 Backup2010_11_28/find_qnewABCD_H04.m
+-rw-r--r-- 1 sergio pi_strow  4299 Jan 17  2013 Backup2010_11_28/find_qnewABCD_H08.m
+-rw-r--r-- 1 sergio pi_strow  4299 Jan 17  2013 Backup2010_11_28/find_qnewABCD.m
+-rw-r--r-- 1 sergio pi_strow  2499 Jan 17  2013 Backup2010_11_28/find_qnew_isotopes_H04.m
+-rw-r--r-- 1 sergio pi_strow  2494 Jan 17  2013 Backup2010_11_28/find_qnew_isotopes_H08.m
+-rw-r--r-- 1 sergio pi_strow  2500 Jan 17  2013 Backup2010_11_28/find_qnew_isotopes_H08_OLD.m
+-rw-r--r-- 1 sergio pi_strow  2499 Jan 17  2013 Backup2010_11_28/find_qnew_isotopes.m
+-rw-r--r-- 1 sergio pi_strow  2302 Jan 17  2013 Backup2010_11_28/find_qnew_isotopes_slow.m
+-rw-r--r-- 1 sergio pi_strow  2486 Jan 17  2013 Backup2010_11_28/find_qnew_isotopesWORKS.m
+-rw-r--r-- 1 sergio pi_strow   709 Jan 17  2013 Backup2010_11_28/find_stren.m
+-rw-r--r-- 1 sergio pi_strow  3504 Jan 17  2013 Backup2010_11_28/findUnion.m
+-rw-r--r-- 1 sergio pi_strow  4907 Jan 17  2013 Backup2010_11_28/findUnionNew.m
+-rw-r--r-- 1 sergio pi_strow  2698 Jan 17  2013 Backup2010_11_28/findUnionNew_oneLayer.m
+-rw-r--r-- 1 sergio pi_strow  2877 Jan 17  2013 Backup2010_11_28/findxsec_plot.m
+-rw-r--r-- 1 sergio pi_strow  1904 Jan 17  2013 Backup2010_11_28/findxsec_plot_OLD.m
+-rw-r--r-- 1 sergio pi_strow  3355 Jan 17  2013 Backup2010_11_28/findxsec_plot_UV.m
+-rw-r--r-- 1 sergio pi_strow  2521 Jan 17  2013 Backup2010_11_28/gas_cell_co2_kcarta.m
+-rw-r--r-- 1 sergio pi_strow  1372 Jan 17  2013 Backup2010_11_28/gas_cell_co2.m
+-rw-r--r-- 1 sergio pi_strow  1369 Jan 17  2013 Backup2010_11_28/gas_cell_others.m
+-rw-r--r-- 1 sergio pi_strow  1144 Jan 17  2013 Backup2010_11_28/gaslines_plot.m
+-rw-r--r-- 1 sergio pi_strow   726 Jan 17  2013 Backup2010_11_28/getq_oldVSnew.m
+-rw-r--r-- 1 sergio pi_strow   540 Jan 17  2013 Backup2010_11_28/getstrengths2.m
+-rw-r--r-- 1 sergio pi_strow  4644 Jan 17  2013 Backup2010_11_28/getstrengths.m
+-rw-r--r-- 1 sergio pi_strow   787 Jan 17  2013 Backup2010_11_28/grouplines.m
+-rw-r--r-- 1 sergio pi_strow  6646 Jan 17  2013 Backup2010_11_28/hitreadJuly2007.m
+-rw-r--r-- 1 sergio pi_strow  9018 Jan 17  2013 Backup2010_11_28/hitread.m
+-rw-r--r-- 1 sergio pi_strow  2318 Jan 17  2013 Backup2010_11_28/hitread_simple.m
+-rw-r--r-- 1 sergio pi_strow  1367 Jan 17  2013 Backup2010_11_28/hittomat2.m
+-rw-r--r-- 1 sergio pi_strow   836 Jan 17  2013 Backup2010_11_28/IncludeMaxer.m
+-rw-r--r-- 1 sergio pi_strow   436 Jan 17  2013 Backup2010_11_28/initializeABCDG_qtips.m
+-rw-r--r-- 1 sergio pi_strow   604 Jan 17  2013 Backup2010_11_28/interp_quad.m
+-rw-r--r-- 1 sergio pi_strow   157 Jan 17  2013 Backup2010_11_28/isint.m
+-rw-r--r-- 1 sergio pi_strow  5803 Jan 17  2013 Backup2010_11_28/iso_list96.m
+-rw-r--r-- 1 sergio pi_strow  5982 Jan 17  2013 Backup2010_11_28/iso_list98.m
+-rw-r--r-- 1 sergio pi_strow   436 Jan 17  2013 Backup2010_11_28/lorentz.m
+-rw-r--r-- 1 sergio pi_strow   972 Jan 17  2013 Backup2010_11_28/makechi.m
+-rw-r--r-- 1 sergio pi_strow   437 Jan 17  2013 Backup2010_11_28/make_n2o.m
+-rw-r--r-- 1 sergio pi_strow   437 Jan 17  2013 Backup2010_11_28/make_so2.m
+-rw-r--r-- 1 sergio pi_strow   248 Jan 17  2013 Backup2010_11_28/mixratio.m
+-rw-r--r-- 1 sergio pi_strow  4434 Jan 17  2013 Backup2010_11_28/mst50.m
+-rw-r--r-- 1 sergio pi_strow  7761 Jan 17  2013 Backup2010_11_28/mst51_tobin.m
+-rw-r--r-- 1 sergio pi_strow  4627 Jan 17  2013 Backup2010_11_28/mst52.m
+-rw-r--r-- 1 sergio pi_strow  4424 Jan 17  2013 Backup2010_11_28/mst53.m
+-rw-r--r-- 1 sergio pi_strow 15370 Jan 17  2013 Backup2010_11_28/mst55.m
+-rw-r--r-- 1 sergio pi_strow 12594 Jan 17  2013 Backup2010_11_28/mst56.m
+-rw-r--r-- 1 sergio pi_strow  3865 Jan 17  2013 Backup2010_11_28/mst.m
+-rw-r--r-- 1 sergio pi_strow   119 Jan 17  2013 Backup2010_11_28/myfun.m
+-rw-r--r-- 1 sergio pi_strow  4816 Jan 17  2013 Backup2010_11_28/new_linmix_667.m
+-rw-r--r-- 1 sergio pi_strow   767 Jan 17  2013 Backup2010_11_28/new_q.m
+-rw-r--r-- 1 sergio pi_strow  7785 Jan 17  2013 Backup2010_11_28/pagano1.m
+-rw-r--r-- 1 sergio pi_strow  1328 Jan 17  2013 Backup2010_11_28/pagano.m
+-rw-r--r-- 1 sergio pi_strow   857 Jan 17  2013 Backup2010_11_28/pathlength2gasamt.m
+-rw-r--r-- 1 sergio pi_strow   727 Jan 17  2013 Backup2010_11_28/q.m
+-rw-r--r-- 1 sergio pi_strow   729 Jan 17  2013 Backup2010_11_28/qoldVSqnew_fast.m
+-rw-r--r-- 1 sergio pi_strow   481 Jan 17  2013 Backup2010_11_28/qoldVSqnew.m
+-rw-r--r-- 1 sergio pi_strow 11010 Jan 17  2013 Backup2010_11_28/qtips04.m
+-rw-r--r-- 1 sergio pi_strow 11010 Jan 17  2013 Backup2010_11_28/qtips08.m
+-rw-r--r-- 1 sergio pi_strow 11795 Jan 17  2013 Backup2010_11_28/qtips92.m
+-rw-r--r-- 1 sergio pi_strow 12291 Jan 17  2013 Backup2010_11_28/qtips96.m
+-rw-r--r-- 1 sergio pi_strow 12413 Jan 17  2013 Backup2010_11_28/qtips96OLD.m
+-rw-r--r-- 1 sergio pi_strow 12654 Jan 17  2013 Backup2010_11_28/qtips98.m
+-rw-r--r-- 1 sergio pi_strow 11010 Jan 17  2013 Backup2010_11_28/qtips.m
+-rw-r--r-- 1 sergio pi_strow  2359 Jan 17  2013 Backup2010_11_28/readDAVEhitlin.m
+-rw-r--r-- 1 sergio pi_strow 10772 Jan 17  2013 Backup2010_11_28/read_test_hartmann2a.m
+-rw-r--r-- 1 sergio pi_strow  5539 Jan 17  2013 Backup2010_11_28/read_test_hartmann2.m
+-rw-r--r-- 1 sergio pi_strow  1445 Jan 17  2013 Backup2010_11_28/readwrite.m
+-rw-r--r-- 1 sergio pi_strow  1013 Jan 17  2013 Backup2010_11_28/reduce19.m
+-rw-r--r-- 1 sergio pi_strow 16039 Jan 17  2013 Backup2010_11_28/removeCO2lines.m
+-rw-r--r-- 1 sergio pi_strow 19771 Jan 17  2013 Backup2010_11_28/removeCO2linesNEW.m
+-rw-r--r-- 1 sergio pi_strow 16039 Jan 17  2013 Backup2010_11_28/removeCO2lines_ORIG.m
+-rw-r--r-- 1 sergio pi_strow 17201 Jan 17  2013 Backup2010_11_28/removeCO2lines_RAL.m
+-rw-r--r-- 1 sergio pi_strow  3180 Jan 17  2013 Backup2010_11_28/reverse_engineer_co2band.m
+-rw-r--r-- 1 sergio pi_strow 32945 Jan 17  2013 Backup2010_11_28/run6co2.m
+-rw-r--r-- 1 sergio pi_strow 22139 Jan 17  2013 Backup2010_11_28/run6water98.m
+-rw-r--r-- 1 sergio pi_strow 21554 Jan 17  2013 Backup2010_11_28/run6watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow 23850 Jan 17  2013 Backup2010_11_28/run6water.m
+-rw-r--r-- 1 sergio pi_strow 24108 Jan 17  2013 Backup2010_11_28/run7choose.m
+-rw-r--r-- 1 sergio pi_strow 21569 Jan 17  2013 Backup2010_11_28/run7co2_easy.m
+-rw-r--r-- 1 sergio pi_strow 46512 Jan 17  2013 Backup2010_11_28/run7co2_good.m
+-rw-r--r-- 1 sergio pi_strow 49704 Jan 17  2013 Backup2010_11_28/run7co2.m
+-rw-r--r-- 1 sergio pi_strow 43829 Jan 17  2013 Backup2010_11_28/run7co2_weakbackgnd.m
+-rw-r--r-- 1 sergio pi_strow 24015 Jan 17  2013 Backup2010_11_28/run7.m
+-rw-r--r-- 1 sergio pi_strow 23715 Jan 17  2013 Backup2010_11_28/run7watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow 29602 Jan 17  2013 Backup2010_11_28/run7water.m
+-rw-r--r-- 1 sergio pi_strow 32493 Jan 17  2013 Backup2010_11_28/run8co2_hartmann.m
+-rw-r--r-- 1 sergio pi_strow 55567 Jan 17  2013 Backup2010_11_28/run8co2_linemixUMBC.m
+-rw-r--r-- 1 sergio pi_strow 28426 Jan 17  2013 Backup2010_11_28/run8co2.m
+-rw-r--r-- 1 sergio pi_strow 23943 Jan 17  2013 Backup2010_11_28/run8co2_voigt.m
+-rw-r--r-- 1 sergio pi_strow 26945 Jan 17  2013 Backup2010_11_28/run8_g27.m
+-rw-r--r-- 1 sergio pi_strow 26553 Jan 17  2013 Backup2010_11_28/run8.m
+-rw-r--r-- 1 sergio pi_strow    75 Jan 17  2013 Backup2010_11_28/run8_ozone.m
+-rw-r--r-- 1 sergio pi_strow 25671 Jan 17  2013 Backup2010_11_28/run8simplewater.m
+-rw-r--r-- 1 sergio pi_strow 26818 Jan 17  2013 Backup2010_11_28/run8_test.m
+-rw-r--r-- 1 sergio pi_strow 24191 Jan 17  2013 Backup2010_11_28/run8watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow 30194 Jan 17  2013 Backup2010_11_28/run8water.m
+-rw-r--r-- 1 sergio pi_strow  3419 Jan 17  2013 Backup2010_11_28/runXtopts_params_smart.m
+-rw-r--r-- 1 sergio pi_strow  4036 Jan 17  2013 Backup2010_11_28/show_vis_ir_lines_wavelength.m
+-rw-r--r-- 1 sergio pi_strow  1762 Jan 17  2013 Backup2010_11_28/show_vis_ir_lines_wavenumber_individualgas.m
+-rw-r--r-- 1 sergio pi_strow  3865 Jan 17  2013 Backup2010_11_28/show_vis_ir_lines_wavenumber_water.m
+-rw-r--r-- 1 sergio pi_strow  1096 Jan 17  2013 Backup2010_11_28/sortbins.m
+-rw-r--r-- 1 sergio pi_strow  1493 Jan 17  2013 Backup2010_11_28/sortwings.m
+-rw-r--r-- 1 sergio pi_strow  1452 Jan 17  2013 Backup2010_11_28/sortwings_stren.m
+-rw-r--r-- 1 sergio pi_strow  4273 Jan 17  2013 Backup2010_11_28/subset_for_isotopes.m
+-rw-r--r-- 1 sergio pi_strow  1006 Jan 17  2013 Backup2010_11_28/test_hartmann100.m
+-rw-r--r-- 1 sergio pi_strow  1011 Jan 17  2013 Backup2010_11_28/test_hartmann1.m
+-rw-r--r-- 1 sergio pi_strow   762 Jan 17  2013 Backup2010_11_28/test_hartmann2a.m
+-rw-r--r-- 1 sergio pi_strow  1403 Jan 17  2013 Backup2010_11_28/test_hartmann2.m
+-rw-r--r-- 1 sergio pi_strow  1011 Jan 17  2013 Backup2010_11_28/test_hartmann2x.m
+-rw-r--r-- 1 sergio pi_strow  1618 Jan 17  2013 Backup2010_11_28/test_hartmann.m
+-rw-r--r-- 1 sergio pi_strow   948 Jan 17  2013 Backup2010_11_28/test_run8co2_linemixUMBC_JJOHNS.m
+-rw-r--r-- 1 sergio pi_strow  1629 Jan 17  2013 Backup2010_11_28/test_run8co2_linemixUMBC_RAL.m
+-rw-r--r-- 1 sergio pi_strow  2631 Jan 17  2013 Backup2010_11_28/test_runXtopts_params.m
+-rw-r--r-- 1 sergio pi_strow  1602 Jan 17  2013 Backup2010_11_28/translate2oldHITparams.m
+-rw-r--r-- 1 sergio pi_strow  1233 Jan 17  2013 Backup2010_11_28/upper2lowercase.m
+-rw-r--r-- 1 sergio pi_strow  1195 Jan 17  2013 Backup2010_11_28/vhh1_mat.m
+-rw-r--r-- 1 sergio pi_strow  1205 Jan 17  2013 Backup2010_11_28/vhh_fast.m
+-rw-r--r-- 1 sergio pi_strow  1170 Jan 17  2013 Backup2010_11_28/vhhF.m
+-rw-r--r-- 1 sergio pi_strow  1034 Jan 17  2013 Backup2010_11_28/vhhOPTDEPcalc.m
+-rw-r--r-- 1 sergio pi_strow  1444 Jan 17  2013 Backup2010_11_28/vhhOPTDEP.m
+-rw-r--r-- 1 sergio pi_strow  1385 Jan 17  2013 Backup2010_11_28/visible_runXtopts.m
+-rw-r--r-- 1 sergio pi_strow   957 Jan 17  2013 Backup2010_11_28/voigt1_mat.m
+-rw-r--r-- 1 sergio pi_strow   916 Jan 17  2013 Backup2010_11_28/voigtcalc.m
+-rw-r--r-- 1 sergio pi_strow  1008 Jan 17  2013 Backup2010_11_28/voigt_mat.m
+-rw-r--r-- 1 sergio pi_strow  2301 Jan 17  2013 Backup2010_11_28/waterlines_plot.m
+-rw-r--r-- 1 sergio pi_strow  1249 Jan 17  2013 Backup2010_11_28/water_runner2.m
+-rw-r--r-- 1 sergio pi_strow   772 Jan 17  2013 Backup2010_11_28/water_runner.m
+-rw-r--r-- 1 sergio pi_strow  1388 Jan 17  2013 Backup2010_11_28/whiteman.m
+-rw-r--r-- 1 sergio pi_strow   697 Jan 17  2013 Backup2010_11_28/wrap_hitread_simple.m
+-rw-r--r-- 1 sergio pi_strow  1426 Jan 17  2013 Backup2010_11_28/wrapper_gases_chunks_lbl.m
+-rw-r--r-- 1 sergio pi_strow  5499 Jan 17  2013 CO2_COMMON/co2_param_JJOHNS2002_JULY3.m
+-rw-r--r-- 1 sergio pi_strow  5103 Jan 17  2013 CO2_COMMON/co2_param_JJOHNS2002_ORIG.m
+-rw-r--r-- 1 sergio pi_strow  3658 Jan 17  2013 CO2_COMMON/co2_param_JOHNJOHN.m
+-rw-r--r-- 1 sergio pi_strow  7099 Jan 17  2013 CO2_COMMON/co2_param_JULY20_2002.m
+-rw-r--r-- 1 sergio pi_strow  3161 Jan 17  2013 CO2_COMMON/co2_param_RAL.m
+-rw-r--r-- 1 sergio pi_strow  7917 Jan 17  2013 CO2_COMMON/co2_param_RAL_NEWALL.m
+-rw-r--r-- 1 sergio pi_strow  5668 Jan 17  2013 CO2_COMMON/co2_param_RAL_NEW.m
+-rw-r--r-- 1 sergio pi_strow  2365 Jan 17  2013 CO2_COMMON/co2_param_test.m
+-rw-r--r-- 1 sergio pi_strow  2843 Jan 17  2013 CO2_COMMON/compare_beta_doc2.m
+-rw-r--r-- 1 sergio pi_strow  2066 Jan 17  2013 CO2_COMMON/compare_beta_doc.m
+-rw-r--r-- 1 sergio pi_strow   900 Jan 17  2013 CO2_COMMON/cousin.m
+-rw-r--r-- 1 sergio pi_strow   157 Jan 17  2013 CO2_COMMON/efitgrad.m
+-rw-r--r-- 1 sergio pi_strow  2363 Jan 17  2013 CO2_COMMON/full_mix4.m
+-rw-r--r-- 1 sergio pi_strow  2119 Jan 17  2013 CO2_COMMON/klormix.m
+-rw-r--r-- 1 sergio pi_strow   436 Jan 17  2013 CO2_COMMON/lorentz.m
+-rw-r--r-- 1 sergio pi_strow   450 Jan 17  2013 CO2_COMMON/qqttiippss96.m
+-rw-r--r-- 1 sergio pi_strow   995 Jan 17  2013 CO2_COMMON/quicklorentz.m
+-rw-r--r-- 1 sergio pi_strow  1481 Jan 17  2013 CO2_COMMON/ral_jjohn_blend2.m
+-rw-r--r-- 1 sergio pi_strow  3350 Jan 17  2013 CO2_COMMON/removeneg1999WORKS.m
+-rw-r--r-- 1 sergio pi_strow 10804 Jan 17  2013 CO2_COMMON/tempratio15umOLD.m
+-rw-r--r-- 1 sergio pi_strow  3912 Jan 17  2013 CO2_COMMON/voigtmix.m
+-rw-r--r-- 1 sergio pi_strow  2975 Jan 17  2013 CO2_COMMON/voigtmixRatioSL.m
+-rw-r--r-- 1 sergio pi_strow  2015 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst60.m
+-rw-r--r-- 1 sergio pi_strow   777 Jan 17  2013 WORKS_Feb04_2014/checkcontinuity4.m
+-rw-r--r-- 1 sergio pi_strow  5803 Jan 17  2013 WORKS_Feb04_2014/iso_list96.m
+-rw-r--r-- 1 sergio pi_strow  2015 Jan 17  2013 WORKS_Feb04_2014/mst60.m
+-rw-r--r-- 1 sergio pi_strow   777 Jan 17  2013 WORKS_Feb05_2014/checkcontinuity4.m
+-rw-r--r-- 1 sergio pi_strow  5803 Jan 17  2013 WORKS_Feb05_2014/iso_list96.m
+-rw-r--r-- 1 sergio pi_strow  2015 Jan 17  2013 WORKS_Feb05_2014/mst60.m
+-rw-r--r-- 1 sergio pi_strow   455 Jan 17  2013 Backup2010_11_28/checkcontinuity15.m
+-rw-r--r-- 1 sergio pi_strow  3435 Jan 17  2013 Backup2010_11_28/checkpar.m
+-rw-r--r-- 1 sergio pi_strow  8085 Jan 17  2013 Backup2010_11_28/dopplerwidth_database.m
+-rw-r--r-- 1 sergio pi_strow  2846 Jan 17  2013 Backup2010_11_28/gas_cell_water_kcarta.m
+-rw-r--r-- 1 sergio pi_strow   468 Jan 17  2013 Backup2010_11_28/line_doppler.m
+-rw-r--r-- 1 sergio pi_strow  1912 Jan 17  2013 Backup2010_11_28/load_mass_iso_dat.m
+-rw-r--r-- 1 sergio pi_strow  7774 Jan 17  2013 Backup2010_11_28/makeDAVEhitlin.m
+-rw-r--r-- 1 sergio pi_strow  4488 Jan 17  2013 Backup2010_11_28/mst51.m
+-rw-r--r-- 1 sergio pi_strow  2015 Jan 17  2013 Backup2010_11_28/mst60.m
+-rw-r--r-- 1 sergio pi_strow   350 Jan 17  2013 Backup2010_11_28/Q740.m
+-rw-r--r-- 1 sergio pi_strow 18769 Jan 17  2013 Backup2010_11_28/run6.m
+-rw-r--r-- 1 sergio pi_strow 44965 Jan 17  2013 Backup2010_11_28/run7co2_JJOHNS.m
+-rw-r--r-- 1 sergio pi_strow 31599 Jan 17  2013 Backup2010_11_28/run7water_RAL.m
+-rw-r--r-- 1 sergio pi_strow  3667 Jan 17  2013 Backup2010_11_28/runXtopts_params.m
+-rw-r--r-- 1 sergio pi_strow  3275 Jan 17  2013 Backup2010_11_28/show_vis_ir_lines_wavenumber.m
+-rw-r--r-- 1 sergio pi_strow  1047 Jan 17  2013 Backup2010_11_28/test_hartmann100_nodes.m
+-rw-r--r-- 1 sergio pi_strow  2126 Jan 17  2013 Backup2010_11_28/test_runXtopts_params_howard.m
+-rw-r--r-- 1 sergio pi_strow  2018 Jan 17  2013 Backup2010_11_28/tobin5.m
+-rw-r--r-- 1 sergio pi_strow  2025 Jan 17  2013 Backup2010_11_28/voigt1calc.m
+-rw-r--r-- 1 sergio pi_strow  1388 Jan 17  2013 CO2_MATFILES/only_pr.m
+-rw-r--r-- 1 sergio pi_strow  1894 Jan 17  2013 PR_deltdelt/efitter.m
+-rw-r--r-- 1 sergio pi_strow   874 Jan 17  2013 PR_deltdelt/findratio.m
+-rw-r--r-- 1 sergio pi_strow   270 Jan 17  2013 PR_deltdelt/getmatr.m
+-rw-r--r-- 1 sergio pi_strow  2142 Jan 17  2013 PR_deltdelt/klormix_birn.m
+-rw-r--r-- 1 sergio pi_strow  4737 Jan 17  2013 PR_deltdelt/loader.m
+-rw-r-xr-x 1 sergio pi_strow   827 Jan 17  2013 PR_deltdelt/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1499 Jan 17  2013 PR_deltdelt/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  3780 Jan 17  2013 PR_deltdelt/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  3447 Jan 17  2013 PR_deltdelt/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow  2606 Jan 17  2013 PR_deltdelt/yrun_deltdelt.m
+-rw-r--r-- 1 sergio pi_strow  3706 Jan 17  2013 PR_deltdelt/yrun_deltdeltOLD.m
+-rw-r--r-- 1 sergio pi_strow 23715 Jan 17  2013 RUN7_DRIVERS/run7watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow  5539 Jan 17  2013 UNUSED/read_test_hartmann2.m
+-rw-r--r-- 1 sergio pi_strow   429 Jan 17  2013 WORKS_Feb04_2014/check662.m
+-rw-r--r-- 1 sergio pi_strow  8085 Jan 17  2013 WORKS_Feb04_2014/dopplerwidth_database.m
+-rw-r--r-- 1 sergio pi_strow   291 Jan 17  2013 WORKS_Feb04_2014/easy_rad.m
+-rw-r--r-- 1 sergio pi_strow  5539 Jan 17  2013 WORKS_Feb04_2014/read_test_hartmann2.m
+-rw-r--r-- 1 sergio pi_strow 23715 Jan 17  2013 WORKS_Feb04_2014/run7watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow   429 Jan 17  2013 WORKS_Feb05_2014/check662.m
+-rw-r--r-- 1 sergio pi_strow  8085 Jan 17  2013 WORKS_Feb05_2014/dopplerwidth_database.m
+-rw-r--r-- 1 sergio pi_strow   291 Jan 17  2013 WORKS_Feb05_2014/easy_rad.m
+-rw-r--r-- 1 sergio pi_strow  5539 Jan 17  2013 WORKS_Feb05_2014/read_test_hartmann2.m
+-rw-r--r-- 1 sergio pi_strow 23715 Jan 17  2013 WORKS_Feb05_2014/run7watercontinuum.m
+-rw-r--r-- 1 sergio pi_strow   148 Jan 17  2013 PR_pipi/efitgrad.m
+-rw-r--r-- 1 sergio pi_strow  3818 Jan 17  2013 PR_pipi/efitter2320.m
+-rw-r--r-- 1 sergio pi_strow  3713 Jan 17  2013 PR_pipi/efitter2322.m
+-rw-r--r-- 1 sergio pi_strow   879 Jan 17  2013 PR_pipi/findratio.m
+-rw-r--r-- 1 sergio pi_strow   271 Jan 17  2013 PR_pipi/getmatr.m
+-rw-r--r-- 1 sergio pi_strow  2141 Jan 17  2013 PR_pipi/klormix_birn.m
+-rw-r--r-- 1 sergio pi_strow  7737 Jan 17  2013 PR_pipi/loader.m
+-rw-r-xr-x 1 sergio pi_strow   955 Jan 17  2013 PR_pipi/wfun1co2.m
+-rw-r--r-- 1 sergio pi_strow  1594 Jan 17  2013 PR_pipi/wfunco2er.m
+-rw-r-xr-x 1 sergio pi_strow  3721 Jan 17  2013 PR_pipi/wfunco2.m
+-rw-r-xr-x 1 sergio pi_strow  3667 Jan 17  2013 PR_pipi/wgradco2.m
+-rw-r--r-- 1 sergio pi_strow  1791 Jan 17  2013 PR_pipi/yrun_pipi.m
+-rw-r--r-- 1 sergio pi_strow  3663 Jan 17  2013 PR_pipi/yrun_pipiOLD.m
+-rw-r--r-- 1 sergio pi_strow  4488 Jan 17  2013 UMBC_MT_CKDmodels_50_51_52_53_55_56_60/mst51.m
+-rw-r--r-- 1 sergio pi_strow  1086 Jan 17  2013 UNUSED/equation8.m
+-rw-r--r-- 1 sergio pi_strow  1403 Jan 17  2013 UNUSED/test_hartmann2.m
+-rw-r--r-- 1 sergio pi_strow   593 Jan 17  2013 WORKS_Feb04_2014/boxint_many.m
+-rw-r--r-- 1 sergio pi_strow  1796 Jan 17  2013 WORKS_Feb04_2014/broad_weakco2.m
+-rw-r--r-- 1 sergio pi_strow  9397 Jan 17  2013 WORKS_Feb04_2014/do_local_lineshape_CKD.m
+-rw-r--r-- 1 sergio pi_strow  1086 Jan 17  2013 WORKS_Feb04_2014/equation8.m
+-rw-r--r-- 1 sergio pi_strow  3504 Jan 17  2013 WORKS_Feb04_2014/findUnion.m
+-rw-r--r-- 1 sergio pi_strow  4488 Jan 17  2013 WORKS_Feb04_2014/mst51.m
+-rw-r--r-- 1 sergio pi_strow 19771 Jan 17  2013 WORKS_Feb04_2014/removeCO2linesNEW.m
+-rw-r--r-- 1 sergio pi_strow  1403 Jan 17  2013 WORKS_Feb04_2014/test_hartmann2.m
+-rw-r--r-- 1 sergio pi_strow   593 Jan 17  2013 WORKS_Feb05_2014/boxint_many.m
+-rw-r--r-- 1 sergio pi_strow  1796 Jan 17  2013 WORKS_Feb05_2014/broad_weakco2.m
+-rw-r--r-- 1 sergio pi_strow  9397 Jan 17  2013 WORKS_Feb05_2014/do_local_lineshape_CKD.m
+-rw-r--r-- 1 sergio pi_strow  1086 Jan 17  2013 WORKS_Feb05_2014/equation8.m
+-rw-r--r-- 1 sergio pi_strow  3504 Jan 17  2013 WORKS_Feb05_2014/findUnion.m
+-rw-r--r-- 1 sergio pi_strow  4488 Jan 17  2013 WORKS_Feb05_2014/mst51.m
+-rw-r--r-- 1 sergio pi_strow 19771 Jan 17  2013 WORKS_Feb05_2014/removeCO2linesNEW.m
+-rw-r--r-- 1 sergio pi_strow  1403 Jan 17  2013 WORKS_Feb05_2014/test_hartmann2.m
+-rw-r--r-- 1 sergio pi_strow  2830 Jan 17  2013 READ_XSEC/xsectab25.m
+-rw-r--r-- 1 sergio pi_strow  2259 Jan 17  2013 WORKS_Feb04_2014/fscale.m
+-rw-r--r-- 1 sergio pi_strow  2259 Jan 17  2013 WORKS_Feb05_2014/fscale.m
+-rw-r--r-- 1 sergio pi_strow  5182 Jan 17  2013 READ_XSEC/calc_xsec_UV.m
+-rw-r--r-- 1 sergio pi_strow  2682 Jan 17  2013 READ_XSEC/calc_xsec_UV_ozone_li_zhu.m
+-rw-r--r-- 1 sergio pi_strow  5021 Jan 17  2013 READ_XSEC/calc_xsecV1.m
+-rw-r--r-- 1 sergio pi_strow  5109 Jan 17  2013 READ_XSEC/calc_xsecV2.m
+-rw-r--r-- 1 sergio pi_strow  5995 Jan 17  2013 READ_XSEC/calc_xsecV3.m
+-rw-r--r-- 1 sergio pi_strow  3331 Jan 17  2013 READ_XSEC/info_read_xsec1998.m
+-rw-r--r-- 1 sergio pi_strow  3334 Jan 17  2013 READ_XSEC/info_read_xsec.m
+-rw-r--r-- 1 sergio pi_strow  3792 Jan 17  2013 READ_XSEC/read_xsec_H08.m
+-rw-r--r-- 1 sergio pi_strow  4364 Jan 17  2013 READ_XSEC/read_xsec_UV.m
+-rw-r--r-- 1 sergio pi_strow  1177 Jan 17  2013 READ_XSEC/split_xsec.m
+-rw-r--r-- 1 sergio pi_strow   435 Jan 17  2013 READ_XSEC/test_calc_xsec.m
+-rw-r--r-- 1 sergio pi_strow  2563 Jan 17  2013 READ_XSEC/test_extrap.m
+-rw-r--r-- 1 sergio pi_strow   343 Jan 17  2013 READ_XSEC/testxsec.m

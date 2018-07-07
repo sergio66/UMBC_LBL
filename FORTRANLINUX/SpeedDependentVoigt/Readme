@@ -1,0 +1,17 @@
+Regarding the line shape, it is true that the replacement of the Voigt
+line shape has gained some momentum. The IUPAC task group has even
+explicitly recommended the adoption of the Hartmann-Tran line shape
+(https://arxiv.org/pdf/1409.7782.pdf). I am not sure to what extend
+this would affect the simulation of TOA infared radiances. As you say,
+it is perhaps more relevant for NIR-UV applications but it would be
+nice to see some numbers. I have spoken to Keith Shine and Eli Mlawer
+and they did not seem over excited over the prospect of moving away
+from the canonical Voigt line shape. In particular, Eli mentioned the
+fact that the formulation of the Hartmann-Tran line shape is very
+computationally expensive and that to be able to implement it in a LBL
+model it would require some serious work (i.e. parameterisation) which
+could eventually results in a loss of accuracy.
+
+Regards
+
+Marco

@@ -1,0 +1,15 @@
+clear
+rm *~;    rm *.mex*
+
+cd FORTRANFILES;      rm *~;       rm *.mex*
+cd ../FORTRANLINUX;   rm *~;       rm *.mex*
+cd ../Q_sigpi;        rm *~;       rm *.mex*
+cd ../Q_deltpi;       rm *~;       rm *.mex*
+cd ../PR_sigpi;       rm *~;       rm *.mex*
+cd ../PR_deltpi;      rm *~;       rm *.mex*
+cd ../PR_pipi;        rm *~;       rm *.mex*
+cd ../PR_sigsig;      rm *~;       rm *.mex*
+cd ../PR_deltdelt;    rm *~;       rm *.mex*
+
+cd ..
+tar -cvf UMBC_LBLv7.tar *

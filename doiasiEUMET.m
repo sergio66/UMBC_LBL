@@ -1,0 +1,6 @@
+[fr4,fullbirn4NEW]=run6co2(2,2380,2480,0.0005,0.1,0.5,1,1,2,150,5,... 
+                1e-28,1e-28,'f','1','b','../SPECTRA/IPFILES/ER2/newcamex');  
+save /salsify/scratch3/Sergio/TestRun6CO2/newcamex4.mat  
+[fr15,fullbirn15NEW]=run6co2(2,680,780,0.0005,0.1,0.5,1,1,2,150,5,...
+                1e-28,1e-28,'f','1','b','../SPECTRA/IPFILES/ER2/newcamex'); 
+save /salsify/scratch3/Sergio/TestRun6CO2/newcamex15.mat 

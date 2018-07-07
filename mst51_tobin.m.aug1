@@ -1,0 +1,163 @@
+function scum = mst_tobin(freq,temperature,press,partpress,...
+                     GasAmt,CKD_0,selfmult,formult,jj,profname)
+%%%% function scum = mst(freq,temperature,press,partpress,...
+%%%%                     GasAmt,CKD_0,selfmult,formult,jj,profname)
+%%%% this function takes in an original CKD2.4 computation, and augments
+%%%% it with the analysis that Machado/Strow/Tobin have done
+
+%%%% same as MST51.m except 
+%%%% a) DOES THE SELF CONTINUUM CORRECTIONS at 755-988 cm-1
+%%%%    from tobins' SPECTRA/CKDLINUX/cs0_ckd21_pert.asc
+
+q   = GasAmt(jj);
+tmp = temperature(jj);
+p   = press(jj);
+pp  = partpress(jj);
+
+array = [1 p pp   tmp q];   %%this could be bad if p = pp for kf or ks
+array = [1 p p/10 tmp q];
+theprofname = '/home/sergio/SPECTRA/IPFILES/water_mst';
+fid=fopen(theprofname,'w');
+fprintf(fid,'%4i    %12.8e  %12.8e  %12.8f  %12.8e \n',array');
+fclose(fid);
+
+%%%%%%%%%%%%%%%% compute CKD24 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+loc = 0;
+
+%output spacing = ffin*nbox == 1.0 cm-1
+ffin=0.0025; nbox=1/ffin;
+
+%CKD = 24;
+%[fr,ks]=run6watercontinuum(1,100,3001,ffin,0.1,0.5,1,1,2,25,nbox,0,0,1,...
+%                CKD,1,0,1,loc,theprofname);
+%CKD = 24;
+%[fr,kf]=run6watercontinuum(1,100,3001,ffin,0.1,0.5,1,1,2,25,nbox,0,0,1,...
+%                CKD,0,1,1,loc,theprofname);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% do self
+quick.CKD  = 24;
+quick.local= 0;
+quick.ffin = ffin;
+quick.nbox = nbox;
+quick.divide   = 1; 
+quick.selfmult = 1; 
+quick.formult  = 0; 
+[fr,ks]=run7watercontinuum(1,100,3001,theprofname,quick);
+ks0 = ks;
+
+%%% tobin's corrections at 780-990 cm-1 %%%%
+tobin = ones(size(fr));
+tobin0 = load('/home/sergio/SPECTRA/CKDLINUX/cs0_ckd21_pert.asc');
+tobin = interp1(tobin0(:,1),tobin0(:,2),fr);
+ii = find(fr < 765 | fr > 988.5);
+tobin(ii) = 1.0;
+%%plot(fr,tobin); pause;
+tobin = tobin * ones(1,length(p));
+ks = ks .* tobin;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% do forn
+clear quick
+quick.CKD  = 24;
+quick.local= 0;
+quick.ffin = ffin;
+quick.nbox = nbox;
+quick.divide   = 1; 
+quick.selfmult = 0; 
+quick.formult  = 1; 
+[fr,kf]=run7watercontinuum(1,100,3001,theprofname,quick);
+
+%%%%%%%%%%%%% self coefficients %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+load /home/sergio/WATER/CONTINUUM/MATFILES/MAY9_BESTFIT/NewSelf_c_296_new.mat
+xs296=xs; ys296=ys;
+%%[shiftedx,shiftedy,smoothedy]=smooth(x,y,m);
+load /home/sergio/WATER/CONTINUUM/MATFILES/MAY9_BESTFIT/NewSelf_d_243_new2.mat
+xs243=xs; ys243=ys;
+
+minself = min(xs296(1),xs243(1));
+maxself = max(xs296(length(xs296)),xs243(length(xs243)));
+
+ii1 = find(fr < minself);
+ii2 = find(fr > maxself);
+ii = [ii1 ii2];
+bdatax1 = [fr(ii)   xs296'];
+bdatay1 = [ks(ii)   ys296'];
+[Y,I] = sort(bdatax1);
+bdatax1 = bdatax1(I);
+bdatay1 = bdatay1(I);
+ks296 = interp1(bdatax1,bdatay1,fr);
+iibad = isnan(ks296);
+ks296(iibad) = ks(iibad);
+
+ii1 = find(fr < minself);
+ii2 = find(fr > maxself);
+ii = [ii1 ii2];
+bdatax1 = [fr(ii)   xs243'];
+bdatay1 = [ks(ii)   ys243'];
+[Y,I] = sort(bdatax1);
+bdatax1 = bdatax1(I);
+bdatay1 = bdatay1(I);
+ks243 = interp1(bdatax1,bdatay1,fr);
+iibad = isnan(ks243);
+ks243(iibad) = ks(iibad);
+
+tfac  = (296-tmp)/(296-243);
+power = (ks243./ks296).^tfac;
+kself = ks296.*power; 
+%%%%%%%%%%%%% forn coefficients %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+load /home/sergio/WATER/CONTINUUM/MATFILES/MAY9_BESTFIT/NewForn_c_296_new3.mat
+xf296=xs; yf296=ys;
+load /home/sergio/WATER/CONTINUUM/MATFILES/MAY9_BESTFIT/NewForn_d_243_new3.mat
+xf243=xs; yf243=ys;
+
+minforn = min(xf296(1),xf243(1));
+maxforn = max(xf296(length(xf296)),xf243(length(xf243)));
+
+ii1 = find(fr < minforn);
+ii2 = find(fr > maxforn);
+ii = [ii1 ii2];
+bdatax1 = [fr(ii)   xf296'];
+bdatay1 = [kf(ii)   yf296'];
+[Y,I] = sort(bdatax1);
+bdatax1 = bdatax1(I);
+bdatay1 = bdatay1(I);
+kf296 = interp1(bdatax1,bdatay1,fr);
+iibad = isnan(kf296);
+kf296(iibad) = kf(iibad);
+
+ii1 = find(fr < minforn);
+ii2 = find(fr > maxforn);
+ii = [ii1 ii2];
+bdatax1 = [fr(ii)   xf243'];
+bdatay1 = [kf(ii)   yf243'];
+[Y,I] = sort(bdatax1);
+bdatax1 = bdatax1(I);
+bdatay1 = bdatay1(I);
+kf243 = interp1(bdatax1,bdatay1,fr);
+iibad = isnan(kf243);
+kf243(iibad) = kf(iibad);
+
+tfac  = (296-tmp)/(296-243);
+power = (kf243./kf296).^tfac;
+kforn = kf296.*power; 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% now compute the self and foreign continuum optical depths
+c2 = 1.4387863;
+AVOG = 6.022045E+26;
+
+kselfMST = interp1(fr,kself,freq);
+kfornMST = interp1(fr,kforn,freq);
+kselfCKD = interp1(fr,ks,   freq);
+kfornCKD = interp1(fr,kf,   freq);
+
+tempself   = AVOG*q*freq.*tanh(c2*freq/2/tmp)*(296/tmp);
+mstself    = kselfMST.*tempself*(pp)*selfmult; 
+CKDself    = kselfCKD.*tempself*(pp)*selfmult; 
+
+tempforn   = AVOG*q*freq.*tanh(c2*freq/2/tmp)*(296/tmp);
+mstforn    = kfornMST.*tempforn*(p-pp)*formult; 
+CKDforn    = kfornCKD.*tempforn*(p-pp)*formult; 
+
+scum = mstself + mstforn;
+
+plot(freq,mstself,freq,CKDself,freq,mstforn,freq,CKDforn)

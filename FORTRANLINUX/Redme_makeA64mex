@@ -1,0 +1,10 @@
+c http://www.mathworks.com/matlabcentral/fileexchange/25934-fortran-95-interface-to-matlab-api-with-extras
+c change      *.f                  to      *.F
+c change      integer m_in,n_in    to      mwSize m_in,n_in
+c change      integer nlhs,nrhs    to      integer*2 nlhs,nrhs
+c change      mxCreateFull         to      mxCreateDoubleMatrix
+c include     fintrf.h
+
+#include "fintrf.h"
+
+eg see boxint2g.F

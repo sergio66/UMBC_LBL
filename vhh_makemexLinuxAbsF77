@@ -1,0 +1,26 @@
+clear
+
+cd ..; 
+rm *.mexglx
+cd FORTRANLINUX
+
+#use Howard's readers instead
+#echo 'mexing HITRAN reader ... '
+#/usr/local/matlab/bin/mex  mexhitd.f hitinid.f hitrdd.f  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#mv mexhitd.mexglx  ../.
+
+echo 'mexing voigt and looping files ... '
+/usr/local/matlab/bin/mex  boxint2.f boxint2g.f FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  vhh1.f    vhh1g.f    FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  vhh.f     vhhg.f     FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  voigt.f   voigtg.f   FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex  voigt1.f  voigt1g.f  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex loop.f loopg.f        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/local/matlab/bin/mex loopco2.f loopco2g.f  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+mv boxint2.mexglx  ../.
+mv vhh1.mexglx     ../.
+mv vhh.mexglx      ../.
+mv voigt.mexglx    ../.
+mv voigt1.mexglx   ../.
+mv loop.mexglx     ../.
+mv loopco2.mexglx  ../.

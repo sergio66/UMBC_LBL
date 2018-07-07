@@ -1,0 +1,33 @@
+for this /home/sergio/SPECTRA dir, co2_param.m was symbolically linked to 
+ 20 2007-06-11 02:37 co2_param.m -> co2_param_AIRS2002.m
+
+But for /home/sergio/SPECTRA_2002 dir (which was saved in 2002), 
+co2_param.m was symbolically linked to
+ 19 2007-06-11 02:37 co2_param.m -> co2_param_RAL_NEW.m
+
+Using co2_param_test.m, this should NOT be anything different.
+However, there is a difference with      co2_param_RAL_NEWALL.m
+
+------------------------------------------------------------
+We analysed RAL data, and i finally came up with a bunch of coefficients for 
+the PR line mixing in the 4 um range
+
+This is in co2_param_RAL_NEW.m
+19 Feb  8  2001 co2_param.m -> co2_param_RAL_NEW.m
+
+However, when comparing OBS-CALCS in 2385-2400 cm-1 we always have
+  tObs-tCalcs < 0 from 2385->2400 cm-1
+so calcs are too high ==> atmosphere too transeprent ==> k too low
+
+look at the N2 gas amount jacobians 
+/taro/s1/sergio/AIRSPRODUCTS_JACOBIANS/g22_jac.mat fout jout
+even a 10% change in N2 amounts (or conversely, N2 abs coeffs) will only 
+change the observed temperature by about 0.15 K
+
+so slightly CHANGE effects of line mixing beta??????
+use AIRS_FUDGE_FACTOR
+see co2_param_AIRS2002.m    
+ ... if you reduce beta, then you increase k
+     eg reduce beta by 0.999, increase k by 0.01
+ ... if you reduce duration of collision, then you increase k
+     eg reduce dur by 0.999, increase k by 0.001

@@ -1,0 +1,71 @@
+Scott found this link : 
+http://www.cfa.harvard.edu/hitran/HITRAN-Conference11/HITRAN_conf11_presenta
+tions/Session5/V-4_Laraia.pdf
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Looks like very recent!!!!! late 2010 stuff
+
+250 CWD command successful
+ftp> ls
+227 Entering Passive Mode (193,51,99,7,232,2).
+150 Opening ASCII mode data connection for file list
+drwxr-xr-x   2 ftp      ftp        139264 Feb 26  2010 Data_new
+-rwxr-xr-x   1 ftp      ftp        216048 Sep  8 09:30 LM_TEST_new.dat
+-rwxr-xr-x   1 ftp      ftp        457446 Sep  8 09:30 LM_calc_CO2_new-coorectd.for
+-rw-r--r--   1 ftp      ftp          2292 Feb 26  2010 parameters.inc
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Date: Wed, 8 Sep 2010 11:47:42 +0200
+From: Jean-Michel.Hartmann@lisa.u-pec.fr
+To: Sergio DeSouza-Machado <sergio@umbc.edu>
+Subject: Re: CO2 linemixing
+Parts/Attachments:
+   1 Shown     53 lines  Text (charset: UTF-8)
+   2          789 KB     Application
+----------------------------------------
+
+dear Sergio
+to get the LM data and software use and anonymous ftp to
+ ftp.lisa.u-pec.fr
+then go into the folder "lisa" and then into the folder "hartmann"
+Download everything including the very numerous files that are inside
+ the folder  "Daa_new"
+The fortran program "LM_calc_CO2_new-coorected.for" is self sufficient
+and contains a example of main program plus all needed routines
+Note that the "parameters.inc" file is an include file that is used
+to create the executable file. It should thus be put at the same place
+as the main program
+
+Note that there are a number of OPEN statements in the program, in
+particular to read the data files (stored in folder "Data_new")
+You may have to change the paths to these files according to your
+operating system and to where you put all these data
+
+Finally, when you run the program as it is, it will create a
+"LM_Test.dat" file that should be indentical to the
+Lm_TEST_new.dat that you have downloaded from the ftp
+
+Finally, attached is the paper presenting these tools
+
+Also, please be kind enough to keep me informed of the interesting
+results you may get with these tools
+
+Yours sincerely
+
+Jean-Michel Hartmann
+
+
+
+>
+> Hello Jean-Michel,
+>
+> How are you? Larrabee and I are planning on updating our kCARTA database,
+> and we are hoping to do some comparisons of our linemixing versus yours. A
+> few years back, you had sent me some files, but Larrabee tells me that
+> he has heard you now have updated code and line mixing coefficients. If
+> so, would you mind sending me the more recent code/parameters?
+>
+> Sincerely
+>
+> Sergio
+>

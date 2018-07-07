@@ -1,0 +1,15 @@
+#!/bin/sh
+
+DISPLAY=""
+export DISPLAY
+
+echo "compiling ..."
+/usr/local/matlab/bin/mex read_hitran.c hutils.c 
+
+echo "testing ..."
+matlab <<MATEND
+
+L2 = read_hitran(1300, 1400, 0, 13, 'hitran98.by.gas')
+quit
+MATEND
+

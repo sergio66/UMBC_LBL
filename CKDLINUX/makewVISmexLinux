@@ -1,0 +1,3 @@
+echo 'mexing CKD... '
+/usr/local/matlab/bin/mex  calcon2.f calcon2g.f FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+mv calcon2.mexglx ../.

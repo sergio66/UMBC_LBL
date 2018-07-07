@@ -1,0 +1,514 @@
+
+           RETURN
+           ^       
+cf90-362 af90fe64: WARNING ISO_82_TO_85, File = BD_ISO_82_TO_85.FOR, Line = 25, Column = 12 
+  This statement can not be reached.
+
+      RETURN
+      ^       
+cf90-362 af90fe64: WARNING ISO_82_TO_85, File = BD_ISO_82_TO_85.FOR, Line = 38, Column = 7 
+  This statement can not be reached.
+
+     + 5.0055E+03, 5.0180E+03, 5.0306E+03, 5.0432E+03, 5.0558E+03, 5.0684E+03, 5.0811E+03, 5.0938E+03, 5.1065E+03, 5.1193E+03,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 661, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 5.1321E+03, 5.1449E+03, 5.1577E+03, 5.1705E+03, 5.1834E+03, 5.1963E+03, 5.2092E+03, 5.2222E+03, 5.2352E+03, 5.2482E+03,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 662, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 902, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 903, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 5.0099E+03, 5.0223E+03, 5.0347E+03, 5.0471E+03, 5.0596E+03, 5.0720E+03, 5.0845E+03, 5.0971E+03, 5.1096E+03, 5.1222E+03,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 1114, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 5.1348E+03, 5.1474E+03, 5.1600E+03, 5.1727E+03, 5.1854E+03, 5.1981E+03, 5.2108E+03, 5.2236E+03, 5.2364E+03, 5.2492E+03,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 1115, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 1355, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 1356, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 2.9866E+04, 2.9940E+04, 3.0014E+04, 3.0088E+04, 3.0163E+04, 3.0237E+04, 3.0312E+04, 3.0386E+04, 3.0461E+04, 3.0536E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 1567, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 3.0611E+04, 3.0687E+04, 3.0762E+04, 3.0838E+04, 3.0913E+04, 3.0989E+04, 3.1065E+04, 3.1141E+04, 3.1217E+04, 3.1294E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 1568, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 1808, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 1809, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 2.8828E+04, 2.8906E+04, 2.8983E+04, 2.9061E+04, 2.9139E+04, 2.9217E+04, 2.9295E+04, 2.9373E+04, 2.9452E+04, 2.9530E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2020, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 2.9609E+04, 2.9688E+04, 2.9767E+04, 2.9846E+04, 2.9926E+04, 3.0006E+04, 3.0085E+04, 3.0165E+04, 3.0246E+04, 3.0326E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2021, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2261, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2262, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 2.9175E+04, 2.9252E+04, 2.9330E+04, 2.9407E+04, 2.9485E+04, 2.9562E+04, 2.9640E+04, 2.9718E+04, 2.9797E+04, 2.9875E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2473, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 2.9954E+04, 3.0032E+04, 3.0111E+04, 3.0190E+04, 3.0270E+04, 3.0349E+04, 3.0428E+04, 3.0508E+04, 3.0588E+04, 3.0668E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2474, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2714, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2715, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 1.7343E+05, 1.7388E+05, 1.7434E+05, 1.7479E+05, 1.7525E+05, 1.7571E+05, 1.7617E+05, 1.7663E+05, 1.7709E+05, 1.7755E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2926, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 1.7802E+05, 1.7848E+05, 1.7895E+05, 1.7941E+05, 1.7988E+05, 1.8035E+05, 1.8081E+05, 1.8128E+05, 1.8175E+05, 1.8223E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 2927, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 3167, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 3168, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 4.1272E+04, 4.1390E+04, 4.1509E+04, 4.1629E+04, 4.1748E+04, 4.1868E+04, 4.1988E+04, 4.2108E+04, 4.2228E+04, 4.2349E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 3379, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 4.2470E+04, 4.2592E+04, 4.2713E+04, 4.2835E+04, 4.2957E+04, 4.3080E+04, 4.3203E+04, 4.3326E+04, 4.3449E+04, 4.3573E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 3380, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 3620, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 3621, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 4.2190E+04, 4.2312E+04, 4.2433E+04, 4.2556E+04, 4.2678E+04, 4.2800E+04, 4.2923E+04, 4.3047E+04, 4.3170E+04, 4.3294E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 3832, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 4.3418E+04, 4.3542E+04, 4.3667E+04, 4.3792E+04, 4.3917E+04, 4.4042E+04, 4.4168E+04, 4.4294E+04, 4.4420E+04, 4.4547E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 3833, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 4073, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 4074, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 2.5040E+05, 2.5112E+05, 2.5184E+05, 2.5257E+05, 2.5329E+05, 2.5402E+05, 2.5475E+05, 2.5548E+05, 2.5621E+05, 2.5694E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 4285, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 2.5768E+05, 2.5841E+05, 2.5915E+05, 2.5989E+05, 2.6063E+05, 2.6138E+05, 2.6212E+05, 2.6287E+05, 2.6362E+05, 2.6437E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 4286, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 4526, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_H2O, File = TIPS_2017_try_include1.f, Line = 4527, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 2.2798E+04, 2.2881E+04, 2.2963E+04, 2.3046E+04, 2.3129E+04, 2.3212E+04, 2.3296E+04, 2.3380E+04, 2.3464E+04, 2.3548E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 4793, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 2.3633E+04, 2.3717E+04, 2.3802E+04, 2.3888E+04, 2.3973E+04, 2.4059E+04, 2.4145E+04, 2.4231E+04, 2.4318E+04, 2.4404E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 4794, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5034, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5035, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 4.8199E+04, 4.8375E+04, 4.8550E+04, 4.8727E+04, 4.8903E+04, 4.9081E+04, 4.9259E+04, 4.9437E+04, 4.9616E+04, 4.9795E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5246, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 4.9975E+04, 5.0156E+04, 5.0337E+04, 5.0518E+04, 5.0700E+04, 5.0883E+04, 5.1066E+04, 5.1249E+04, 5.1434E+04, 5.1618E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5247, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5487, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5488, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 4.9839E+04, 5.0019E+04, 5.0200E+04, 5.0382E+04, 5.0564E+04, 5.0746E+04, 5.0929E+04, 5.1113E+04, 5.1297E+04, 5.1482E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5699, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 5.1667E+04, 5.1852E+04, 5.2039E+04, 5.2225E+04, 5.2413E+04, 5.2600E+04, 5.2789E+04, 5.2978E+04, 5.3167E+04, 5.3357E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5700, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5940, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 5941, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 2.8650E+05, 2.8753E+05, 2.8857E+05, 2.8961E+05, 2.9065E+05, 2.9170E+05, 2.9275E+05, 2.9381E+05, 2.9486E+05, 2.9592E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 6152, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 2.9698E+05, 2.9805E+05, 2.9912E+05, 3.0019E+05, 3.0126E+05, 3.0234E+05, 3.0342E+05, 3.0451E+05, 3.0559E+05, 3.0668E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 6153, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 6393, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 6394, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 1.0549E+05, 1.0587E+05, 1.0626E+05, 1.0664E+05, 1.0703E+05, 1.0742E+05, 1.0781E+05, 1.0820E+05, 1.0859E+05, 1.0899E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 6605, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 1.0938E+05, 1.0978E+05, 1.1018E+05, 1.1057E+05, 1.1097E+05, 1.1137E+05, 1.1177E+05, 1.1218E+05, 1.1258E+05, 1.1299E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 6606, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 6846, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 6847, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 6.0604E+05, 6.0824E+05, 6.1045E+05, 6.1267E+05, 6.1489E+05, 6.1712E+05, 6.1936E+05, 6.2161E+05, 6.2386E+05, 6.2611E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7058, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 6.2838E+05, 6.3064E+05, 6.3292E+05, 6.3520E+05, 6.3749E+05, 6.3979E+05, 6.4209E+05, 6.4440E+05, 6.4672E+05, 6.4904E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7059, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7299, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7300, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 2.7327E+04, 2.7427E+04, 2.7526E+04, 2.7626E+04, 2.7727E+04, 2.7827E+04, 2.7928E+04, 2.8029E+04, 2.8131E+04, 2.8232E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7511, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 2.8334E+04, 2.8437E+04, 2.8539E+04, 2.8642E+04, 2.8745E+04, 2.8849E+04, 2.8953E+04, 2.9057E+04, 2.9161E+04, 2.9266E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7512, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7752, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7753, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 3.1367E+05, 3.1481E+05, 3.1595E+05, 3.1709E+05, 3.1824E+05, 3.1939E+05, 3.2054E+05, 3.2170E+05, 3.2286E+05, 3.2403E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7964, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 3.2519E+05, 3.2636E+05, 3.2754E+05, 3.2872E+05, 3.2990E+05, 3.3108E+05, 3.3227E+05, 3.3346E+05, 3.3465E+05, 3.3585E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 7965, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 8205, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 8206, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 9.0139E+05, 9.0466E+05, 9.0793E+05, 9.1122E+05, 9.1452E+05, 9.1782E+05, 9.2114E+05, 9.2446E+05, 9.2780E+05, 9.3114E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 8417, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 9.3450E+05, 9.3786E+05, 9.4124E+05, 9.4462E+05, 9.4801E+05, 9.5142E+05, 9.5483E+05, 9.5825E+05, 9.6169E+05, 9.6513E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 8418, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 8658, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 8659, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 5.7900E+04, 5.8112E+04, 5.8325E+04, 5.8538E+04, 5.8752E+04, 5.8966E+04, 5.9181E+04, 5.9397E+04, 5.9614E+04, 5.9831E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 8870, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 6.0048E+04, 6.0266E+04, 6.0485E+04, 6.0705E+04, 6.0925E+04, 6.1146E+04, 6.1368E+04, 6.1590E+04, 6.1813E+04, 6.2036E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 8871, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 9111, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 9112, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 6.6425E+05, 6.6668E+05, 6.6911E+05, 6.7155E+05, 6.7400E+05, 6.7645E+05, 6.7891E+05, 6.8138E+05, 6.8385E+05, 6.8634E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 9323, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 6.8882E+05, 6.9132E+05, 6.9383E+05, 6.9634E+05, 6.9886E+05, 7.0138E+05, 7.0391E+05, 7.0645E+05, 7.0900E+05, 7.1156E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 9324, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 9564, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 9565, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 1.9078E+06, 1.9148E+06, 1.9218E+06, 1.9288E+06, 1.9358E+06, 1.9429E+06, 1.9499E+06, 1.9570E+06, 1.9641E+06, 1.9712E+06,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 9776, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 1.9784E+06, 1.9856E+06, 1.9928E+06, 2.0000E+06, 2.0072E+06, 2.0145E+06, 2.0217E+06, 2.0290E+06, 2.0363E+06, 2.0437E+06,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 9777, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 10017, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 10018, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 2.5352E+04, 2.5445E+04, 2.5538E+04, 2.5631E+04, 2.5725E+04, 2.5819E+04, 2.5913E+04, 2.6007E+04, 2.6102E+04, 2.6197E+04,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 10229, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 2.6292E+04, 2.6387E+04, 2.6483E+04, 2.6579E+04, 2.6676E+04, 2.6772E+04, 2.6869E+04, 2.6966E+04, 2.7064E+04, 2.7161E+04,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 10230, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 10470, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_CO2, File = TIPS_2017_try_include1.f, Line = 10471, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 4.8954E+05, 4.9135E+05, 4.9317E+05, 4.9499E+05, 4.9682E+05, 4.9865E+05, 5.0049E+05, 5.0233E+05, 5.0418E+05, 5.0603E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 10739, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 5.0789E+05, 5.0976E+05, 5.1163E+05, 5.1350E+05, 5.1538E+05, 5.1727E+05, 5.1916E+05, 5.2106E+05, 5.2296E+05, 5.2487E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 10740, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 10980, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 10981, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 1.0823E+06, 1.0863E+06, 1.0903E+06, 1.0944E+06, 1.0984E+06, 1.1025E+06, 1.1066E+06, 1.1107E+06, 1.1148E+06, 1.1189E+06,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 11192, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 1.1230E+06, 1.1271E+06, 1.1313E+06, 1.1355E+06, 1.1396E+06, 1.1438E+06, 1.1480E+06, 1.1522E+06, 1.1564E+06, 1.1607E+06,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 11193, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 11433, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 11434, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 5.3583E+05, 5.3782E+05, 5.3982E+05, 5.4182E+05, 5.4384E+05, 5.4585E+05, 5.4787E+05, 5.4990E+05, 5.5194E+05, 5.5398E+05,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 11645, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 5.5602E+05, 5.5808E+05, 5.6013E+05, 5.6220E+05, 5.6427E+05, 5.6634E+05, 5.6843E+05, 5.7051E+05, 5.7261E+05, 5.7471E+05,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 11646, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+                                                                                                                              ^ 
+cf90-197 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 11886, Column = 127 
+  Unexpected syntax: "comma, *, or /" was expected but found "EOS".
+
+     + 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00, 0.0000E+00,
+     ^                                                                                                                          
+cf90-524 af90fe64: ERROR QT_O3, File = TIPS_2017_try_include1.f, Line = 11887, Column = 6 
+  More than 99 continuation lines in fixed source form is not allowed.
+
+cf90-214 af90fe64: LIMIT QT_O3, File = TIPS_2017_try_include1.f, Line = 11887 
+  The maximum number, 100, of fatal errors has been exceeded.
+f90fe failed.

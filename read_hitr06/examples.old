@@ -1,0 +1,50 @@
+
+Examples manipulating HITRAN data with hselect and the unix
+sort utility
+
+
+Example 1: split out just the first four isotopes of water
+-----------------------------------------------------------
+
+First, we split the water data into individual isotopes
+
+  hselect -i 1 g1.dat > g1.i1
+  hselect -i 2 g1.dat > g1.i2
+  hselect -i 3 g1.dat > g1.i3
+  hselect -i 4 g1.dat > g1.i4
+  hselect -i 5 g1.dat > g1.i5
+  hselect -i 6 g1.dat > g1.i6
+
+Then merge just the first 4 isotopes, and sort by wavenumber
+
+  sort -n -t: -k1.4,1.15 g1.i1 g1.i2 g1.i3 g1.i4 > g1.new
+
+Finally, delete the isotopes we just merged, keeping just 5 and 6.
+
+  rm g1.i1 g1.i2 g1.i3 g1.i4
+
+
+Example 2: update the database with some new data 
+---------------------------------------------------
+
+Merge all the old individual gas files
+
+  sort -n -t: -k1.4,1.15 test1/g*.dat > test1.all
+
+Add the update
+
+  sort -u -t: -k1.1,1.3 -k1.68 newtothmod.txt test1.all > test1.new
+
+resort the results by wavenumber
+
+  sort -n -t: -k1.4,1.15 test1.new > test1.srt
+
+Split the result back into gasses, dropping everything
+below 400 and above 3000 1/cm.
+
+  /asl/bin/hselect -b -L 400 -U 3000 test1.srt test1.dir
+
+Note that updates for a single gas can be done directly to that
+gas; in that case there is no need to build and then re-divide a
+single, combined database.
+

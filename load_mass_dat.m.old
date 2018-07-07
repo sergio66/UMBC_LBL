@@ -1,0 +1,51 @@
+load mass.dat        %get the mass of the isotopes  
+pause(0.1);
+
+[x,y] = size(mass);
+
+if y == 5
+  disp('--> you have 5 columns in your mass.dat file ==> H2K or H04')
+  disp('--> data was used to save the nuclear degeneracy factor(unused even')
+  disp('--> by QTIPS?) and QTIPS partition fcns at 296K');
+  %%% [gasID   mol.mass  abundance   deGeneracy    Q(296)]
+  end
+
+ladeda = mass(:,3);
+iZero  = find(ladeda < -0.1);
+iZero  = max(iZero);   %% this should tell where we have ended putting ZEROS
+                       %% ie  where <iGasID  NumIsotopes  0.0> ends
+                       %% and where the <iGasID  MassIsotopes Abundance> begins
+
+% for H92 .. H98, 
+% first iNumGasIDS are the numbers of the isotopes  <iGasID  NumIsotopes  0.0>
+% next bunch are the masses of the isotopes  <iGasID  MassIsotopes Abundance>
+% for H2k and H04, this is not necessarily true; 
+% there were 38,39 gases respectively, but truncated make_mass_HITRAN2MATLAB.f
+% at the first 32 gases
+
+iNumGasIDS = 32;
+
+if (iZero ~= iNumGasIDS)
+  disp('Whoops : fix make_mass_HITRAN2MATLAB.f so only 32 gases saved');
+  error('either that or make load_mass_dat.m smarter!!!')
+  end
+
+% first iNumGasIDS are the numbers of the isotopes  <iGasID  NumIsotopes  0.0>
+isotope_num = mass(1:iNumGasIDS,2:2);
+
+% next bunch are the masses of the isotopes  <iGasID  MassIsotopes Abundance>
+themass  = mass(iNumGasIDS+1:x,2:2);
+
+if y == 5
+  theAbundance  = mass(iNumGasIDS+1:x,3:3);
+  thedeGeneracy = mass(iNumGasIDS+1:x,4:4);
+  theQT296      = mass(iNumGasIDS+1:x,5:5);
+  end
+
+%now pick up the gas masses we need
+dummy1   = sum(isotope_num(1:gasID-1));
+dummy2   = sum(isotope_num(1:gasID));
+dummy    = dummy1+1:dummy2;
+
+mass_iso = themass(dummy);
+liso     = length(mass_iso);

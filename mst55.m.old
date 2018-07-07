@@ -1,0 +1,395 @@
+function scum = mst(freq,temperature,press,partpress,...
+                     GasAmt,CKD_0,selfmult,formult,jj,profname)
+%%%% function scum = mst(freq,temperature,press,partpress,...
+%%%%                     GasAmt,CKD_0,selfmult,formult,jj,profname)
+%%%% this function takes in an original CKD2.4 computation, and augments
+%%%% it with the analysis that Machado/Strow/Tobin have done
+
+%%%% same as MST50.m except it uses a power temperature interpolation, just
+%%%% as the CKD models do, rather than a linear temperature interpolation
+%%%% this ensures for all temps that MST > 0  always
+
+%%%% same as MST51.m except it turns on RAL continuum between 1400-1700, 
+%%%% instead of 1330-1660. It slightly adjusts the RAL CF in this region, 
+%%%% for the 296 and 243k (looks like the CS are good)
+
+q   = GasAmt(jj);
+tmp = temperature(jj);
+p   = press(jj);
+pp  = partpress(jj);
+
+array = [1 p pp   tmp q];   %%this could be bad if p = pp for kf or ks
+array = [1 p p/10 tmp q];
+theprofname = '/home/sergio/SPECTRA/IPFILES/water_mst';
+fid=fopen(theprofname,'w');
+fprintf(fid,'%4i    %12.8e  %12.8e  %12.8f  %12.8e \n',array');
+fclose(fid);
+
+%%%%%%%%%%%%%%%% compute CKD24 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+loc = 0;
+
+%output spacing = ffin*nbox == 1.0 cm-1
+ffin=0.0025; nbox=1/ffin;
+
+%CKD = 24;
+%[fr,ks]=run6watercontinuum(1,100,3001,ffin,0.1,0.5,1,1,2,25,nbox,0,0,1,...
+%                CKD,1,0,1,loc,theprofname);
+%CKD = 24;
+%[fr,kf]=run6watercontinuum(1,100,3001,ffin,0.1,0.5,1,1,2,25,nbox,0,0,1,...
+%                CKD,0,1,1,loc,theprofname);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% do self
+quick.CKD  = 24;
+quick.local= 0;
+quick.ffin = ffin;
+quick.nbox = nbox;
+quick.divide   = 1; 
+quick.selfmult = 1; 
+quick.formult  = 0; 
+[fr,ks]=run7watercontinuum(1,100,3001,theprofname,quick);
+ks0 = ks;
+
+%%% tobin's corrections at 780-990 cm-1 %%%%
+tobin = ones(size(fr));
+%%do john taylor's stuff (i think it is WAY TOO MUCH!!!)
+  tobin0 = load('/home/sergio/SPECTRA/CKDLINUX/cs0_ckd24_taylor_pert.asc');
+  tobin = interp1(tobin0(:,1),tobin0(:,4),fr);
+%%%do dave's stuff
+  tobin0 = load('/home/sergio/SPECTRA/CKDLINUX/cs0_ckd21_tobin_pert.asc');
+  tobin = interp1(tobin0(:,1),tobin0(:,2),fr);
+ii = find(fr < 765 | fr > 988.5);
+tobin(ii) = 1.0;
+%%plot(fr,tobin); pause;
+tobin = tobin * ones(1,length(p));
+ks = ks .* tobin;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% do forn
+clear quick
+quick.CKD  = 24;
+quick.local= 0;
+quick.ffin = ffin;
+quick.nbox = nbox;
+quick.divide   = 1; 
+quick.selfmult = 0; 
+quick.formult  = 1; 
+[fr,kf]=run7watercontinuum(1,100,3001,theprofname,quick);
+
+%%%%%%%%%%%%% self coefficients %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+load /home/sergio/WATER/CONTINUUM/MATFILES/MAY9_BESTFIT/NewSelf_c_296_new.mat
+xs296=xs; ys296=ys;
+load /home/sergio/WATER/CONTINUUM/MATFILES/MAY9_BESTFIT/NewSelf_d_243_new2.mat
+xs243=xs; ys243=ys;
+
+minself = min(xs296(1),xs243(1));
+fprintf(1,'minself from CKD51 = %8.6f \n',minself);
+minself = 1400;  %%%new!!!!!!!!!!!!!!!!
+fprintf(1,'minself from CKD55 = %8.6f \n',minself);
+maxself = max(xs296(length(xs296)),xs243(length(xs243)));
+
+ii1 = find(fr < minself);
+ii2 = find(fr > maxself);
+ii = [ii1 ii2];
+bdatax1 = [fr(ii)   xs296'];
+bdatay1 = [ks(ii)   ys296'];
+[Y,I] = sort(bdatax1);
+bdatax1 = bdatax1(I);
+bdatay1 = bdatay1(I);
+ks296 = interp1(bdatax1,bdatay1,fr);
+iibad = isnan(ks296);
+ks296(iibad) = ks(iibad);
+
+ii1 = find(fr < minself);
+ii2 = find(fr > maxself);
+ii = [ii1 ii2];
+bdatax1 = [fr(ii)   xs243'];
+bdatay1 = [ks(ii)   ys243'];
+[Y,I] = sort(bdatax1);
+bdatax1 = bdatax1(I);
+bdatay1 = bdatay1(I);
+ks243 = interp1(bdatax1,bdatay1,fr);
+iibad = isnan(ks243);
+ks243(iibad) = ks(iibad);
+
+%tfac  = (296-tmp)/(296-243);
+%power = (ks243./ks296).^tfac;
+%kself = ks296.*power; 
+tfac  = (296-tmp)/(296-243);
+power = (ks243./ks296).^tfac;
+kself0 = ks296.*power; 
+%[shiftedx,shiftedy,smoothedy]=smooth(x,y,m);
+mm=5;
+%%mm=20;
+[shiftedx,shiftedy,smoothedy]=smooth(fr,kself0,mm);
+kself = interp1(shiftedx,smoothedy,fr);
+kself000 = kself;
+%%kself=kself0;
+
+%%%linearly interpolate +/- 10 wn on either side of minself,maxself
+spread = 25.0; ii = 1 : length(fr);
+
+ii1 = find((floor(minself)-fr) >= spread); serg24(ii1) = 1.0;  
+    va = fr(ii1(length(ii1)));
+ii2 = find((fr-floor(minself)) >= spread); serg24(ii2) = 0.0;
+    vb = fr(ii2(1));
+ii12 = union(ii1,ii2); 
+ii3 = setdiff(1:length(fr),ii12);    %%this is the blending region
+slope24 = -1/(2*spread); int24 = 1.0 - slope24*va;
+serg24(ii3) = slope24*fr(ii3) + int24;
+serg51 = 1.0 - serg24;
+kself = (serg24.*ks + serg51.*kself000);
+
+ii1 = find((floor(maxself)-fr) >= spread); serg24(ii1) = 0.0;  
+    va = fr(ii1(length(ii1)));
+ii2 = find((fr-floor(maxself)) >= spread); serg24(ii2) = 1.0;
+    vb = fr(ii2(1));
+ii12 = union(ii1,ii2); 
+ii3 = setdiff(1:length(fr),ii12);    %%this is the blending region
+slope24 = +1/(2*spread); int24 = 0.0 - slope24*va;
+serg24(ii3) = slope24*fr(ii3) + int24;
+serg51 = 1.0 - serg24;
+kself = (serg24.*ks + serg51.*kself);
+
+semilogy(fr,ks,fr,kself000,fr,kself,'.-'); pause(0.1)
+
+%%%%%%%%%%%%% forn coefficients %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+load /home/sergio/WATER/CONTINUUM/MATFILES/MAY9_BESTFIT/NewForn_c_296_new3.mat
+xf296=xs; yf296=ys;
+load /home/sergio/WATER/CONTINUUM/MATFILES/MAY9_BESTFIT/NewForn_d_243_new3.mat
+xf243=xs; yf243=ys;
+
+minforn = min(xf296(1),xf243(1));
+fprintf(1,'minforn from CKD51 = %8.6f \n',minforn);
+minforn = 1400;  %%%new!!!!!!!!!!!!!!!!
+fprintf(1,'minforn from CKD55 = %8.6f \n',minforn);
+maxforn = max(xf296(length(xf296)),xf243(length(xf243)));
+
+ii1 = find(fr < minforn);
+ii2 = find(fr > maxforn);
+ii = [ii1 ii2];
+bdatax1 = [fr(ii)   xf296'];
+bdatay1 = [kf(ii)   yf296'];
+[Y,I] = sort(bdatax1);
+bdatax1 = bdatax1(I);
+bdatay1 = bdatay1(I);
+kf296 = interp1(bdatax1,bdatay1,fr);
+iibad = isnan(kf296);
+kf296(iibad) = kf(iibad);
+
+%%%now do a slight "Scott recommended adjustment"
+iScott = -1;
+if iScott > 0
+  minforn = 1400;
+  maxforn = 1750;
+  yy = ones(size(fr));
+  yAmp = 0.8; 
+  jj = find(fr >= minforn+25 & fr <= maxforn-25);
+  yy(jj) = yAmp;
+  jj = find(fr > minforn & fr < minforn+25); 
+  mA = (yAmp-1)/25; yy(jj) = mA*(fr(jj)-minforn) + 1;
+  jj = find(fr > maxforn-25 & fr < maxforn); 
+  mA = (1-yAmp)/25; yy(jj) = mA*(fr(jj)-maxforn) + 1;
+  kf296 = kf296.*yy;
+  end
+
+%%%now do a slight "Scott recommended adjustment"
+iScott = +1;
+if iScott > 0
+  load /home/sergio/SPECTRA/CKDLINUX/chiadjust.mat
+  minforn = min(wb);
+  maxforn = max(wb);
+  yy = ones(size(fr));
+  popo = interp1(wb,bestmean,fr);
+  ii = find(fr > minforn + 10 & fr < maxforn - 10);
+  yy(ii) = popo(ii);
+  ii=find(isnan(yy)); yy(ii) = 1.0; 
+  ii=find(isinf(yy)); yy(ii) = 1.0; 
+  kf296 = kf296.*yy;
+  %plot(fr,yy);
+  end
+
+ii1 = find(fr < minforn);
+ii2 = find(fr > maxforn);
+ii = [ii1 ii2];
+bdatax1 = [fr(ii)   xf243'];
+bdatay1 = [kf(ii)   yf243'];
+[Y,I] = sort(bdatax1);
+bdatax1 = bdatax1(I);
+bdatay1 = bdatay1(I);
+kf243 = interp1(bdatax1,bdatay1,fr);
+iibad = isnan(kf243);
+kf243(iibad) = kf(iibad);
+
+%%%now do a slight "Scott recommended adjustment"
+iScott = -1;
+if iScott > 0
+  minforn = 1400;
+  maxforn = 1750;
+  yy = ones(size(fr));
+  yAmp = 0.975;     %%%this is from Sergio
+  yAmp = 0.800;     %%%this is from Scott
+  jj = find(fr >= minforn+25 & fr <= maxforn-25);
+  yy(jj) = yAmp;
+  jj = find(fr > minforn & fr < minforn+25); 
+  mA = (yAmp-1)/25; yy(jj) = mA*(fr(jj)-minforn) + 1;
+  jj = find(fr > maxforn-25 & fr < maxforn); 
+  mA = (1-yAmp)/25; yy(jj) = mA*(fr(jj)-maxforn) + 1;
+  kf243 = kf243.*yy;
+  end
+
+%%%now do a slight "Scott recommended adjustment"
+iScott = +1;
+if iScott > 0
+
+  minforn = 1400;
+  maxforn = 1475;
+  yy1 = ones(size(fr));
+  yAmp = 0.750;     %%%this is from Scott
+  jj = find(fr >= minforn+25 & fr <= maxforn-25);
+  yy1(jj) = yAmp;
+  jj = find(fr > minforn & fr < minforn+25); 
+  mA = (yAmp-1)/25; yy1(jj) = mA*(fr(jj)-minforn) + 1;
+  jj = find(fr > maxforn-25 & fr < maxforn); 
+  mA = (1-yAmp)/25; yy1(jj) = mA*(fr(jj)-maxforn) + 1;
+
+  minforn = 1425;
+  maxforn = 1575;
+  yy2 = ones(size(fr));
+  yAmp = 0.800;     %%%this is from Scott
+  jj = find(fr >= minforn+25 & fr <= maxforn-25);
+  yy2(jj) = yAmp;
+  jj = find(fr > minforn & fr < minforn+25); 
+  mA = (yAmp-1)/25; yy2(jj) = mA*(fr(jj)-minforn) + 1;
+  jj = find(fr > maxforn-25 & fr < maxforn); 
+  mA = (1-yAmp)/25; yy2(jj) = mA*(fr(jj)-maxforn) + 1;
+
+  minforn = 1525;
+  maxforn = 1625;
+  yy3 = ones(size(fr));
+  yAmp = 0.750;     %%%this is from Scott
+  jj = find(fr >= minforn+25 & fr <= maxforn-25);
+  yy3(jj) = yAmp;
+  jj = find(fr > minforn & fr < minforn+25); 
+  mA = (yAmp-1)/25; yy3(jj) = mA*(fr(jj)-minforn) + 1;
+  jj = find(fr > maxforn-25 & fr < maxforn); 
+  mA = (1-yAmp)/25; yy3(jj) = mA*(fr(jj)-maxforn) + 1;
+
+  minforn = 1575;
+  maxforn = 1750;
+  yy4 = ones(size(fr));
+  yAmp = 0.800;     %%%this is from Scott
+  jj = find(fr >= minforn+25 & fr <= maxforn-25);
+  yy4(jj) = yAmp;
+  jj = find(fr > minforn & fr < minforn+25); 
+  mA = (yAmp-1)/25; yy4(jj) = mA*(fr(jj)-minforn) + 1;
+  jj = find(fr > maxforn-25 & fr < maxforn); 
+  mA = (1-yAmp)/25; yy4(jj) = mA*(fr(jj)-maxforn) + 1;
+
+  yy = min(yy1,yy2);
+  yy = min(yy,yy3);
+  yy = min(yy,yy4);
+  %plot(fr,[yy1; yy2; yy3; yy4],fr,yy,'.'); grid
+  kf243 = kf243.*yy;
+  end
+
+iScott = -1;
+if iScott > 0
+  load /home/sergio/SPECTRA/CKDLINUX/chiadjust.mat
+  minforn = min(wb);
+  maxforn = max(wb);
+  yy = ones(size(fr));
+  popo = interp1(wb,bestmean,fr);
+  ii = find(fr > minforn + 10 & fr < maxforn - 10);
+  yy(ii) = popo(ii);
+  ii=find(isnan(yy)); yy(ii) = 1.0; 
+  ii=find(isinf(yy)); yy(ii) = 1.0; 
+  kf243 = kf243.*yy;
+  %plot(fr,yy);
+  end
+
+%%%now do a slight "Scott recommended adjustment" in the 4.3um region
+iScott = -1;
+if iScott > 0
+  minforn = 2350;
+  maxforn = 2450;
+  yy = ones(size(fr));
+  yAmp = 1.1; 
+  jj = find(fr >= minforn+25 & fr <= maxforn-25);
+  yy(jj) = yAmp;
+  jj = find(fr > minforn & fr < minforn+25); 
+  mA = (yAmp-1)/25; yy(jj) = mA*(fr(jj)-minforn) + 1;
+  jj = find(fr > maxforn-25 & fr < maxforn); 
+  mA = (1-yAmp)/25; yy(jj) = mA*(fr(jj)-maxforn) + 1;
+  kforn = kforn * yy';
+  end
+
+%tfac  = (296-tmp)/(296-243);
+%power = (kf243./kf296).^tfac;
+%kforn = kf296.*power; 
+
+tfac  = (296-tmp)/(296-243);
+power = (kf243./kf296).^tfac;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+kforn0 = kf296.*power;   %%%%% temperature dependance
+                         %%%%% good good good
+%%%%%kforn0 = kf296;     %%%%% no temperature dependance
+                         %%%%% bad bad bad! 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%[shiftedx,shiftedy,smoothedy]=smooth(x,y,m);
+mm=5;
+%%mm=20;
+[shiftedx,shiftedy,smoothedy]=smooth(fr,kforn0,mm);
+kforn = interp1(shiftedx,smoothedy,fr);
+kforn000 = kforn;
+%%kforn=kforn0;
+
+%%%linearly interpolate +/- 10 wn on either side of minforn,maxforn
+spread = 25.0; ii = 1 : length(fr);
+
+ii1 = find((floor(minforn)-fr) >= spread); serg24(ii1) = 1.0;  
+    va = fr(ii1(length(ii1)));
+ii2 = find((fr-floor(minforn)) >= spread); serg24(ii2) = 0.0;
+    vb = fr(ii2(1));
+ii12 = union(ii1,ii2); 
+ii3 = setdiff(1:length(fr),ii12);    %%this is the blending region
+slope24 = -1/(2*spread); int24 = 1.0 - slope24*va;
+serg24(ii3) = slope24*fr(ii3) + int24;
+serg51 = 1.0 - serg24;
+kforn = (serg24.*kf + serg51.*kforn000);
+
+ii1 = find((floor(maxforn)-fr) >= spread); serg24(ii1) = 0.0;  
+    va = fr(ii1(length(ii1)));
+ii2 = find((fr-floor(maxforn)) >= spread); serg24(ii2) = 1.0;
+    vb = fr(ii2(1));
+ii12 = union(ii1,ii2); 
+ii3 = setdiff(1:length(fr),ii12);    %%this is the blending region
+slope24 = +1/(2*spread); int24 = 0.0 - slope24*va;
+serg24(ii3) = slope24*fr(ii3) + int24;
+serg51 = 1.0 - serg24;
+kforn = (serg24.*kf + serg51.*kforn);
+
+semilogy(fr,kf,fr,kforn000,fr,kforn,'.-'); pause(0.1)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% now compute the self and foreign continuum optical depths
+c2 = 1.4387863;
+AVOG = 6.022045E+26;
+
+kselfMST = interp1(fr,kself,freq);
+kfornMST = interp1(fr,kforn,freq);
+kselfCKD = interp1(fr,ks,   freq);
+kfornCKD = interp1(fr,kf,   freq);
+
+tempself   = AVOG*q*freq.*tanh(c2*freq/2/tmp)*(296/tmp);
+mstself    = kselfMST.*tempself*(pp)*selfmult; 
+CKDself    = kselfCKD.*tempself*(pp)*selfmult; 
+
+tempforn   = AVOG*q*freq.*tanh(c2*freq/2/tmp)*(296/tmp);
+mstforn    = kfornMST.*tempforn*(p-pp)*formult; 
+CKDforn    = kfornCKD.*tempforn*(p-pp)*formult; 
+
+scum = mstself + mstforn;
+
+plot(freq,mstself,freq,CKDself,freq,mstforn,freq,CKDforn)
+
+disp('This included Tobin improvements at 800-900, AND smoothed 1400-1600 RAL')
+disp('ALSO included adjustments to CF in  1400-1700')

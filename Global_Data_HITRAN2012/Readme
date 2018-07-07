@@ -1,0 +1,7 @@
+cp /asl/data/hitran/HITRAN2012/Global-Data/Fortran programs for Partition Sums/TIPS_2011.zip .
+
+cp ../Global_Data_HITRAN2008/TIPS_2008_allisotopes.f  TIPS_2012_allisotopes.f
+
+cp ../Global_Data_HITRAN2008/TIPS_2008_try_include1.f TIPS_2012_try_include1.f
+  but then did
+cp TIPS_2011_v1p0.for   TIPS_2012_try_include1.f

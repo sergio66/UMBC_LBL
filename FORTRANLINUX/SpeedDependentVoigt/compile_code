@@ -1,0 +1,29 @@
+#!/bin/csh -f
+
+# ifort F77
+# ------------
+# -u  : turn off implicit typing of variables
+# -g  : generate debugging information (turns off optimization)
+# -C  : do run time subscript range checking
+# -w0 : inform about unused variables
+# -O3 : heavy optimization
+# -64 : 64-bit objects (libraries must match)
+# -us : puts trailing underscore
+
+#FORTRANX=/asl/opt/absoft/absoft10.0/bin/af90
+FORTRANX=ifort
+
+$(FORTRANX)   -c cpf3.F
+$(FORTRANX)   -c cpf.F
+$(FORTRANX)   -c loop_pCqSDHC.F
+$(FORTRANX)   -c loop_pCqSDHC_plus.F
+$(FORTRANX)   -c pCqSDHC.F
+$(FORTRANX)   -c q_loop_SDV.F
+$(FORTRANX)   -c qsdhc.F
+$(FORTRANX)   -c qSDV.F
+$(FORTRANX)   -c SDvhh2RI.F
+$(FORTRANX)   -c driver_HTP.F
+
+$(FORTRANX)   cpf3.o cpf.o loop_pCqSDHC.o loop_pCqSDHC_plus.o tpara.o driver_HTP.o -o driver_HTP.exe
+
+chmod u+x driver_HTP.exe

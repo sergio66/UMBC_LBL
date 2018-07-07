@@ -1,0 +1,3 @@
+c++
+      INTEGER NMOL,Max_ISO
+      PARAMETER (NMOL=53,Max_ISO=20)

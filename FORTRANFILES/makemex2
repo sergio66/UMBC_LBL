@@ -1,0 +1,11 @@
+echo 'mexing CKD... ' 
+cd ../CKD 
+fmex  calcon.f calcong.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4' 
+fmex  calconwater.f  calconwaterg.f FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4' 
+fmex  calconwater_loc.f  calconwater_locg.f  FFLAGS='$FFLAGS -u -64 -mips4' LDFLAGS='$LDFLAGS -64 -mips4' 
+mv calcon.mexsg64 ../. 
+mv calconwater.mexsg64 ../. 
+mv calconwater_loc.mexsg64 ../. 
+
+cd ../FORTRANFILES
+

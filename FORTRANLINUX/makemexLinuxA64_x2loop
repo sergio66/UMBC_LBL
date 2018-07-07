@@ -1,0 +1,22 @@
+#clear
+
+/usr/cluster/matlab/2016b/bin/mexopts.sh
+
+rm ../x2loop.mexa64
+#cd FORTRANLINUX
+
+# g77 version
+# NOTE: g77 is not thread safe
+#            FC='/usr/bin/g77'
+#            FFLAGS='-fno-common'
+#            FLIBS="-L/usr/lib/ -L/usr/lib -lg2c $MLIBS -lm -compatibleArrayDims"
+#            FOPTIMFLAGS='-O'
+#            FDEBUGFLAGS='-g'
+
+echo 'mexing x2loop files ... '
+echo $FFLAGS $LDFLAGS $FLIBS
+
+/usr/cluster/matlab/2016b/bin/mex x2loop.F x2loopg.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+
+mv x2loop.mexa64     ../.
+echo 'done mexing x2loop files ... '

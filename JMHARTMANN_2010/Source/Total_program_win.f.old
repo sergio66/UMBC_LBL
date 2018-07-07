@@ -1,0 +1,1765 @@
+c copied from loop_code_umbclnl_fast.f and also from
+c /home/sergio/SPECTRA/JMHARTMANN/LM_PQR_CO2_2.0/Source2010/Total_program_win.f
+
+C-------------------------------------------------
+      program CalculAbsCO2
+C-------------------------------------------------
+C-------------------------------------------------
+C	Siplest program for computing the Absorption 
+C	spectrum of CO2 using our subroutines.
+C	The user can easily change the input for the
+C	final spectrum.
+C
+C	INPUT VARIABLES 
+C --------------
+C	 sgmin [cm-1]
+C	 sgmax [cm-1]
+C        xCO2   : CO2 volume mixing ratio (Input) [no unit]
+C	 T [K]
+C	 p [atm]  total pressure
+c these are new from Sergio, for compatibility with run8*.m codes
+C        pp   [atm] partial pressure
+C        qamt [kilomoles/cm2] gas amount in Genln2 units
+C        fout fname for output file
+C  
+C     MixFull = Switch to full diagonalization line-mixing
+C     rdmmult = Distance from line center at which you
+C               can shift Voigt to lorentz (save CPU time)
+C               values lower than 30 should be avoided in
+C               order to minimize error
+C
+C	RESULTS 
+C --------------
+C     AbsV : Absorption Coefficient neglecting LineMixing
+C            (assuming Voigt Line-Shapes) (Cm-1)
+C     AbsY : Absorption Coefficient predicted using the First
+C            Order Line-Mixing Approximation (Cm-1)
+C     AbsW : Absorption Coefficient predicted using Full
+C            diagonalization Line-Mixing (Cm-1)
+C-------------------------------------------------
+C
+      implicit none
+      include 'parameters.inc'
+      logical MixFull
+      integer*4 i,nsig,it
+      real*8 Temp,ptot,pCO2,qamt,xCO2,rdmult
+      real*8 sgmin,sgmax,dsg,sig
+      real*8 mgc,pathlength
+C Results (Absorption Coefficients)
+      real*8 AbsV(nSigmx)
+      real*8 AbsY(nSigmx)
+      real*8 AbsW(nSigmx)
+      character*1 i1,i2
+      character*2 cr
+      real*8 AbsVtest,AbsYtest,sgTest
+      real rsgmin,rsgmax,rdsg,rptot,rpCO2,rTemp,rqamt
+C----------
+C
+
+
+C Input quantities specification
+      sgmin = 605.d0
+      sgmax = 2830.d0
+      dsg   = 0.01d0
+      dsg   = 0.0025d0
+      dsg   = 0.0025d0/5
+c      dsg   = 0.0005d0
+      xCO2  = 3.85d-4
+c see Layer 4 in 
+c /asl/data/kcarta/KCARTADATA/RefProf_July2010.For.v115up_CO2ppmv385/refgas2
+      Temp  = 287.497d0
+      pTot  = 9.8687d-01
+      pCO2  = 3.7996e-04
+      qamt  = 3.7890e-07
+
+c      print *,'units : cm-1  cm-1  cm-1  atm   atm   K    kilomoles/cm2 '
+c      print *,'Enter : sgmin sgmax dsg   pTot  pCO2  Temp qamt          : '
+      read *,rsgmin,rsgmax,rdsg,rptot,rpCO2,rTemp,rqamt
+
+      sgmin = rsgmin*1.0d0
+      sgmax = rsgmax*1.0d0
+      dsg   = rdsg*1.0d0
+        dsg = 5.00d-4
+      ptot  = rptot*1.0d0
+      pCO2  = rpCO2*1.0d0
+      Temp  = rTemp*1.0d0
+      qamt  = rqamt*1.0d0
+
+c      read *,fout
+
+c      print  *,sgmin,sgmax,dsg,pTot,pCO2,Temp,qamt
+c      print *,fout
+c      stop
+
+      sgmin = sgmin - 2*dsg    !!! eg 705.000 starts at 705-2*0.0005
+      sgmax = sgmax + (-3)*dsg !!! eg 730.000 ends   at 730+(-5+2)*0.0005
+
+      xCO2 = pCO2/pTot   !!!vmr
+
+      mgc = 8.314674269981136
+      pathlength = qamt*1.0e9*mgc*Temp/(101325*pCO2)
+c      print *, pathlength,xCO2
+
+c Losch = (kAtm2mb*100/kBoltzmann/273 * 1e-6) = 2.6895e+19
+c      xCO2 = xCO2/2.6895e+19
+c      xCO2 = xCO2/1.0e12
+
+      MixFull=.true.
+      rdmult=30.d0
+
+
+C --------- 
+C Call at the beginning of a program
+C
+       call DetBand(sgmin,sgmax)
+       call ReadW
+
+C Call for each atmospheric (p,T,VMR) layer
+C
+	 call CompAbs(Temp,Ptot,xCO2,SgMin,SgMax,DSg
+     &      ,AbsV,AbsY,AbsW,MixFull,rdmult)
+C ---------
+
+       open (unit=55,file='./Test.dat',status='unknown')
+
+C Write the results in 'Test.dat'
+c recall JM Hartmann's output units are abs coeffs in per cm, so we need to
+c multiply this by the path length
+      nSig=dInt( ((SgMax-SgMIn)/DSg)+0.5d0 )+1
+      do i=1,Nsig
+	sig=sgmin+(i-1)*Dsg
+        if(MixFull)then
+       	write(*,123) sig,AbsV(i)*pathlength,AbsY(i)*pathlength,
+     !                    AbsW(i)*pathlength
+        else
+       	write(*,124) sig,AbsV(i)*pathlength,AbsY(i)*pathlength
+        endif
+      enddo
+
+      close(55)
+
+      stop
+
+ 123  Format(f10.4,3(1pe12.3))
+ 124  Format(f10.4,2(1pe12.3))
+
+ 1000 Format(1x,'************ PROBLEM !!!! ******************',
+     &     /,1x,'Your results differ from the reference',
+     &     /,1x,'by a percent value grater than 1% limit',
+     &     /,1x,'check you compiler and other error source',//)
+
+      end
+C-------------------------------------------------
+
+C
+C******************************************************************************
+      Subroutine DetBand(SgMinR,SgMaxR)
+C******************************************************************************
+C "DetBand": DETermine BANDs
+C ..........................................................
+C          .   Subroutine to Determine the bands			 .
+C          .   that have Lines lying between WaveNumbers   .
+C          .            SgMinR and SgMaxR      .           .
+C          .................................................
+C
+C Input/Output Parameters of Routine (Arguments or Common)
+C ---------------------------------
+C         SgMinR : Minimum WN of selection range (in Cm-1) (Input).
+C         SgMaxR : Maximum WN of selection range (in Cm-1) (Input).
+C          nBand : Integer of the Number of Bands Retained (Output).
+C          Isot  : Integer Array of the CO2 isotope associated
+C                  with each Retained Band (Output).
+C          iVI   : Integer Array of the vibrational number of the
+C                  Lower state of each Retained Band (Output).
+C          iVF   : Integer Array of the vibrational number of the
+C                  Upper state of each Retained Band (Output).
+C          li	 : Angular momentum of initial vibrational state
+C          lf	 : Angular momentum of final vibrational state
+C	  SgMnB  : Minimum WN of extension of each band
+C	  SgMxB  : Maximum WN of extension of each band
+C
+C The isot,iVI,iVF quantities are numbered according to the 
+C HITRAN numbering system.
+C
+C Other quantities
+C ---------------------------------
+C
+C	jmax	: Maximum value of J in the rotational level of each band
+C	Stot	: Total Intensity of each band as sum of the intensity of 
+C		  each line. This parameter could be interesting for the
+C		  user in order to make a rough band cutting.
+C
+C Accessed Files
+C --------------
+C Data on the Bands are Read in File 'BandInfo.DAT' on Unit=iFile
+C (iFile=3). The USER will probably HAVE TO CHANGE the access
+C Path to this file according to his computer+directory system.
+C
+C Called Routines: None
+C ---------------
+C
+C Called By: Main Program
+C ---------
+C
+C Double Precision Version
+C
+C F. Niro, last change 15 Jan 2005
+C*********************************************************************
+C
+
+      Implicit None
+      include 'parameters.inc'
+      integer*4 nBand,Isot,nLines,JmaxB
+      integer*4 IsotR,iVFR,iVIR
+      integer*4 li,lf,liR,lfR,iVI,iVF
+      real*8 SgMinR,SgMaxR
+      real*8 SgMin,SgMax,Stot
+      real*8 SgMnB,SgMxB
+C Characteristics of the Bands
+      Common/Bands/nBand,Isot(nBmx),nLines(nBmx),li(nBmx),lf(nBmx)
+      Common/ViLi/iVI(nBmx),iVF(nBmx)
+      Common/SgBnds/SgMnB(nBmx),SgMxB(nBmx)
+C----------
+C
+C Open File Giving Information on Bands, Read, and Select
+      nBand=0
+      Open(Unit=iFile,File='../Data/BandInfo.dat',Status='Old')
+1     Read(iFile,1000,End=100)isotR,iVFR,iVIR,liR,lfR,
+     &                         SgMin,SgMax,JmaxB,Stot
+C
+      If( (SgMinR.LT.SgMax). And. (SgMaxR.GT.SgMin) )Then
+        nBand=nBand+1
+C
+        If ( nBand.LE.nBmx ) Then
+          Isot(nBand)=IsotR
+          iVI(nBand)=iVIR
+          iVF(nBand)=iVFR
+          li(nBand)=liR
+          lf(nBand)=lfR
+          SgMnB(nBand)=SgMin	
+          SgMxB(nBand)=SgMax
+        End If
+      End If
+
+c        IF(nBand.ge.2)goto 100 !!!!!!!!!!!!!!!!!!!!!!!!
+
+      GoTo 1
+C
+100   Continue
+      Close(iFile)
+
+C Message+Stop if Number of Bands is Not too Large for Arrays          
+      If ( nBand.GT.nBmx ) Then
+        Write(*,1001)nBand,nBand
+        Stop
+      End If
+1000  Format(5I4,2f12.6,I4,e12.3)
+1001  Format(1x,'************ PROBLEM !!!! ******************',
+     /     /,1x,'The Number of Bands to Store ("nBand"=',I2,')',
+     /     /,1x,'is TOO large for Arrays ---> Program Stop',
+     /     /,1x,'Raise the value of "nBmx" to at least ',I2,
+     /     /,1x,'in ALL Parameter Statements where it appears',///)
+      Return
+      End Subroutine DetBand
+C*********************************************************************
+C
+C*********************************************************************
+      Subroutine ReadW
+C*********************************************************************
+C "ReadW": READ the W0 B0 fitted parameters
+C ..............................................................
+C          . Subroutine to Read the  fitted (W0,B0) parameters .
+C          .     for a given (li,lf) vibrational band          . 
+C          . and (ji,jf)-(jic,jfc) rotational line coupling    .               
+C          . the W off diagonal elements are then derived as   . 
+C          .			W(T)=W0*(T0/T)^(-B0)           .
+C          .....................................................
+C
+C Notation
+C ---------------------------------
+C     (li-lf)       : Initial and final vibrational angular momenta 
+C				    determining a given band
+C     (ji,jf)       : Initial and final j rotational level determining
+C					a given rotational transition 
+C (ji,jf)-(jic,jfc) : Coupling between the rotational line (ji,jf) and
+C				    the line (jic,jfc)
+C
+C Output Quantities (through Common Statements)
+C ---------------------------------
+C      W0pp,B0pp : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between p-p line
+C      W0pq,B0pq : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between p-q line
+C      W0pr,B0pr : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between p-r line
+C      W0qp,B0qp : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between q-p line
+C      W0qq,B0qq : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between q-q line
+C      W0qr,B0qr : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between q-r line
+C      W0rp,B0rp : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between r-p line
+C      W0rq,B0rq : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between r-q line
+C      W0rr,B0rr : W0 and B0 for a given (li,lf) and (ji,jf)-(jic,jfc) 
+C				 for a coupling between r-r line
+C
+C Othes Quantities 
+C ---------------------------------
+C      dmaxDT    : Maximum relative error (%) in the fitting of WT
+C				 For the fitting (WT=W0*(T0/T)^(-B0)) 8 temperature
+C				 were taken into account in the range 180-300 K 
+C      WTmax     : Maximum value of WT for each fit
+C
+C
+C Accessed Files
+C --------------
+C For all the couple (li,lf) where (lf>=li, and li<=5) the  file
+C	"c:\Lm_PQR_CO2\Data\WTfitXY.dat" with X=li, Y=lf 
+C	is open and all the possible value are stored at the 
+C       beginning of the calculation
+C    The USER will probably HAVE TO CHANGE the access Paths to 
+C	these files according to his computer+directory system.
+C
+C Called Routines: None
+C ---------------
+C
+C Called By: Main Program
+C ---------
+C
+C Double Precision Version
+C
+C F. Niro, last change 15 Jan 2005
+C*********************************************************************
+	
+      implicit none 
+      include 'parameters.inc'
+      integer*4 i,l,ideltal,lli,llf
+      integer*4 jic,jfc,jipc,jfpc
+      real*8 W0R,B0R,dmaxDT,WTmax
+      real*8 W0pp,W0pq,W0pr
+      real*8 W0qp,W0qq,W0qr
+      real*8 W0rp,W0rq,W0rr
+      real*8 B0pp,B0pq,B0pr
+      real*8 B0qp,B0qq,B0qr
+      real*8 B0rp,B0rq,B0rr
+      character*1 cr1,cr2
+      character*2 cr
+C     Relaxation matrix elements
+      Common/Wfittedp/W0pp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0pq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0pr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Wfittedq/W0qp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0qq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0qr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Wfittedr/W0rp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0rq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0rr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Bfittedp/B0pp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0pq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0pr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Bfittedq/B0qp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0qq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0qr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Bfittedr/B0rp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0rq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0rr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+C----------
+C
+C
+c      print*, 'Reading the W files...'
+
+      do 1 l=0,5
+	do 2 ideltal=0,1
+
+          lli=l	
+          llf=l+ideltal
+C      
+c open the file of W for the corresponding (li,lf)
+c
+          cr1=char(48+lli)
+          cr2=char(48+llf)
+          cr=cr1//cr2
+          i=1
+          open(unit=10,file='../Data/WTfit'//cr//'.dat', 
+     &         Status='Old')
+111       read(10,'(2d20.12,2f14.6,4I4)',end=100)W0R,B0R,dmaxDT
+     &         ,WTmax,jic,jfc,jipc,jfpc
+          if(jic.gt.jfc.AND.jipc.gt.jfpc)then
+            W0pp(lli,llf,jic,jipc)=W0R
+            B0pp(lli,llf,jic,jipc)=B0R
+          else if(jic.gt.jfc.AND.jipc.eq.jfpc)then
+            W0pq(lli,llf,jic,jipc)=W0R
+            B0pq(lli,llf,jic,jipc)=B0R
+          else if(jic.gt.jfc.AND.jipc.lt.jfpc)then
+            W0pr(lli,llf,jic,jipc)=W0R
+            B0pr(lli,llf,jic,jipc)=B0R
+          else if(jic.lt.jfc.AND.jipc.gt.jfpc)then
+            W0rp(lli,llf,jic,jipc)=W0R
+            B0rp(lli,llf,jic,jipc)=B0R
+          else if(jic.lt.jfc.AND.jipc.eq.jfpc)then
+            W0rq(lli,llf,jic,jipc)=W0R
+            B0rq(lli,llf,jic,jipc)=B0R
+          else if(jic.lt.jfc.AND.jipc.lt.jfpc)then
+            W0rr(lli,llf,jic,jipc)=W0R
+            B0rr(lli,llf,jic,jipc)=B0R
+          else if(jic.eq.jfc.AND.jipc.gt.jfpc)then
+            W0qp(lli,llf,jic,jipc)=W0R
+            B0qp(lli,llf,jic,jipc)=B0R
+          else if(jic.eq.jfc.AND.jipc.eq.jfpc)then
+            W0qq(lli,llf,jic,jipc)=W0R
+            B0qq(lli,llf,jic,jipc)=B0R
+          else if(jic.eq.jfc.AND.jipc.lt.jfpc)then
+            W0qr(lli,llf,jic,jipc)=W0R
+            B0qr(lli,llf,jic,jipc)=B0R
+          endif
+
+          i=i+1
+
+          goto 111
+100       close(10)
+
+2	Continue
+1     Continue
+
+      end Subroutine ReadW
+C*********************************************************************
+C     
+C*********************************************************************
+      Subroutine Readlines
+C*********************************************************************
+C     "ReadLines": READ lines data
+C     ..........................................................
+C     .     Subroutine to Read the Spectroscopic,     .
+C     .           Data at Reference
+C     .
+C     .         Temperature from Files                .
+C     . (for the Bands Selected by routine "DetBand"  .
+C     .................................................
+C     
+C     Input/Output Parameters of Routine (Arguments or Common)
+C     ---------------------------------
+C     nBand : Integer of the Number of Bands to read (Input).
+C     Isot  : Integer Array of the CO2 isotope associated
+C     with each band (Input).
+C     iVI   : Integer Array of the vibrational number of the
+C     lower state of each band (Input).
+C     iVF   : Integer Array of the vibrational number of the
+C     lower state of each band (Input).
+C     nLines : Integer Array of the number of lines of each
+C     band (Output).
+C     
+C     Other important Output Quantities (through Common Statements)
+C     ---------------------------------
+C     Sig : WaveNumbers of the Lines (Cm-1) 
+C     Dipo0 : Rigid rotor dipole 
+C     (cm/Molecule**0.5)
+C     DipoT : True Dipole (include HW correction)	  
+C     (cm/Molecule**0.5)
+C     E : Energies of the Lower levels of the lines (Cm-1)
+C     HWT0 : Air-broadened Half-Widths (at 296 K) of the 
+C     Lines (Cm-1/Atm)
+C     BHW : Temperature Dependence Coefficients of HWT0
+C     PopuT0 : Populations of the Lower Levels of the Lines
+C     at 296 K.
+C     Ji : Initial roatational number of the Lines
+C     Jf : Final roatational number of the Lines
+C     
+C     Accessed Files
+C     --------------
+C     For each of the "nBand" bands, the spectroscopic Data are Read 
+C     in the files'Sizzzyyy.DAT' 
+C     The characters i, zzz, and yyy define, respectively, the Isotope,
+C     and the Upper and Lower Vibrational states (with the numbering
+C     convention used in the HITRAN-96 Data base).
+C     The USER will probably HAVE TO CHANGE the access Paths to 
+C     these files according to his computer+directory system.
+C     
+C     Called Routines: None
+C     ---------------
+C     
+C     Called By: 'CompAbs'
+C     ---------
+C     
+C     Double Precision Version
+C     
+C     F. Niro, last change 15 Jan 2005
+C*********************************************************************
+C     
+
+      Implicit None
+      include 'parameters.inc'
+      integer*4 nBand,Isot,nLines,i
+      integer*4 iBand,I0,I1,I2,nLineR,Ji,Jf,iLine,iLineP
+      real*8 Sig,Dipo0,E,HWT0,BHW,PopuT0,S,PFCO2
+      real*8 partitioT0,DipoT,pop
+      Character*1 cIsot
+      Character*3 cVibI,cVibF
+      Character*7 cBand
+C     
+C     Characteristics of the Bands
+      integer li,lf,iVI,iVF
+      Common/Bands/nBand,Isot(nBmx),nLines(nBmx),li(nBmx),lf(nBmx)
+      Common/ViLi/iVI(nBmx),iVF(nBmx)
+C     Data of the Lines at Ref Temperature/Pressure
+      Common/LineSg/Sig(nLmx,nBmx) 
+      Common/DipoRigid/Dipo0(nLmx,nBmx) 
+      Common/Energy/E(nLmx,nBmx) 
+      Common/GamT0/HWT0(nLmx,nBmx) 
+      Common/DTGAM/BHW(nLmx,nBmx) 
+      Common/PopTrf/PopuT0(nLmx,nBmx)
+      Common/DipoTcm/DipoT(nLmx,nBmx)
+      Common/Jiln/Ji(nLmx,nBmx)
+      Common/Jfln/Jf(nLmx,nBmx)
+C------------
+C     
+C     Check that Number of Bands is Not TOO Large
+      If ( nBand .GT. nBmx ) Then
+         Write(*,1000)nBand,nBand
+         Stop
+      End If
+ 1000 Format(1x,'************ PROBLEM !!!! ******************',
+     &     /,1x,'The Number of Bands to Read ("nBand"=',I2,')',
+     &     /,1x,'is TOO large for Arrays ---> Program Stop',
+     &     /,1x,'Raise the value of "nBmx" to at least ',I2,
+     &     /,1x,'in ALL Parameter Statements where it appears',///)
+C     
+C     
+C     Do Loop in Order to Read Data for All Bands
+C     
+c      print*, 'Reading the spectroscopic files...'
+      Do 1 iBand=1,nBand
+C     Determine File Name from Isotope and Vibrational Numbers
+         cIsot=CHAR(Isot(iBand)+48)
+         i2=iVI(iBand)/100
+         i1=(iVI(iBand)-100*i2)/10
+         i0=iVI(iBand)-100*i2-i1*10
+         cVibI=CHAR(i2+48)//CHAR(i1+48)//CHAR(i0+48)
+         i2=iVF(iBand)/100
+         i1=(iVF(iBand)-100*i2)/10
+         i0=iVF(iBand)-100*i2-i1*10
+         cVibF=CHAR(i2+48)//CHAR(i1+48)//CHAR(i0+48)
+         cBand=cIsot//cVibF//cVibI
+
+C     
+C     Open File of spectroscopic Data and Read
+C     
+         nLineR=1
+         Open(Unit=iFile,
+     &        File='../Data/S'//cBand//'.dat',Status='Old') 
+ 2       Read(iFile,1001,End=100)Sig(nLineR,iBand),PopuT0(nLineR,iBand)
+     &        ,Dipo0(nLineR,iBand),DipoT(nLineR,iBand)  
+     &        ,HWT0(nLineR,iBand),BHW(nLineR,iBand)
+     &        ,E(nLineR,iBand),Ji(nLineR,iBand),Jf(nLineR,iBand)
+
+         DipoT(nLineR,iBand)=dabs(DipoT(nLineR,iBand))
+
+         nLineR=nLineR+1
+C     Check that dimensions are fine. Stop if not
+C
+         If ( nLineR .GT. nLmx ) Then
+            Write(*,2000)                 
+            Stop
+         End If
+ 2000    Format(//,1x,'************ PROBLEM !!!! ******************',
+     &        /,1x,'Arrays in for Line data storage are too small',
+     &        /,1x,'raise the value of nLmx in ALL Parameter ',
+     &        'Statements')
+C     
+         GoTo 2
+ 100     Continue
+         Close(iFile)
+
+ 1001    Format(f12.6,3d16.8,f7.4,f5.2,f10.4,2I4)
+         nLines(iBand)=nLineR-1
+
+ 1    Continue
+
+      Return
+      End Subroutine ReadLines
+C     
+C*********************************************************************
+C*********************************************************************
+      Subroutine CompAbs(Temp,Ptot,xCO2,SigMin,SigMax,DSig,
+     &                   AbsV,AbsY,AbsW,MixFull,rdmult)
+C*********************************************************************
+C     "CompAbs": COMPute ABSorptions
+C     .........................................................
+C     .            Subroutine to Compute the          .
+C     .          Absorption Coefficient due to        .             .
+C     .       All Bands and Lines Retained by         . 
+C     .      Subroutines "DetBand" and "ReadQ".       .
+C     .           Voigt and First Order L-M           .
+C     .................................................
+C     
+C     Input/Output Parameters of Routine (Arguments or Common)
+C     ---------------------------------
+C     nBand  : Number of Current band Treated (Input)
+C     Isot   : Integer Array of the CO2 isotope associated
+C              with each band (Input).
+C     nLines : Integer Array of the number of lines of each
+C              band (Input).
+C     Temp   : Temperature in Kelvin (Input).
+C     Ptot   : Total Pressure in Atmosphere (Input).
+C     xCO2   : CO2 volume mixing ratio (Input).
+C     SigMin : Minimum WaveNumber of the Computation (Cm-1, Input)
+C     SigMax : Maximum WaveNumber of the Computation (Cm-1, Input)
+C     DSig   : WaveNumber Step of the Computation (Cm-1, Input)
+C     rdmult : Distance (in multirple of Doppler width) at which
+C              you can shift Voigt calculation to Lorentz 
+C     
+C     Other important Input Quantities (through Common Statements)
+C     --------------------------------
+C     HWT    : Air Broadened HalfWidths of the Lines for the
+C              considered Temperature and Pressure (Cm-1)
+C     PopuT  : Populations of the Lower Levels of the Lines
+C              at Temperature Temp
+C     YT     : Air Broadened First Order Line Mixing Coefficients 
+C              of the Lines for the Considered Temperature and
+C              Pressure (No Unit)
+C     Dipo0  : Rigid rotor dipole (cm/Molecule**0.5)
+C     
+C     Output Quantities 
+C     ---------------------------------
+C     AbsV : Absorption Coefficient neglecting LineMixing
+C            (assuming Voigt Line-Shapes) (Cm-1)
+C     AbsY : Absorption Coefficient predicted using the First
+C            Order Line-Mixing Approximation (Cm-1)
+C     AbsW : Absorption Coefficient predicted using Full
+C            diagonalization Line-Mixing (Cm-1)
+C     
+C     See Preceding Routines for the Other Variables
+C     
+C     
+C     Accessed Files:  None
+C     --------------
+C     
+C     Called Routines: 'Readlines' (Read spectroscopic files)
+C     ---------------  'ConvTP' (CONVert data to current Temp and Press)
+C                      'HUMLIK ' (Complex Probability Function)
+C     
+C     Called By: Main Program
+C     ---------
+C     
+C     Double Precision Version
+C     
+C     F. Niro, last change 15 Jan 2005
+C*********************************************************************
+C     
+      Implicit None
+      include 'parameters.inc'
+      logical MixFull
+      integer*4 nBand,Isot,iVI,iVF,nLines,li,lf
+      integer*4 nSig,iSig,iBand,iLine,ji,jf
+      real*8 Temp,Ptot,xCO2,SigMin,SigMax,DSig
+      real*8 Sig,Dipo0,HWT,PopuT,YT,DipoT
+      real*8 SSR,SSI,AlphR,AlphI,Dens,PopuDipo
+      real*8 SigMoy,GamD,Cte,Cte1,Fact
+      real*8 SigC,SumV(nSigmx),SumY(nSigmx),pptl
+      real*8 XX,YY,WR,WI
+      real*8 SgMnB,SgMxB,StotB
+      real*8 partitioT0, PFCO2,SqrTm,rdmult
+      real*8 sq_ln2,sq_ln2pi,u_pi,u_sqln2pi
+C     Results (Absorption Coefficients) 
+      real*8 AbsV(nSigmx)
+      real*8 AbsY(nSigmx)
+      real*8 AbsW(nSigmx)
+C     Characteristic of the Bands
+      Common/Bands/nBand,Isot(nBmx),nLines(nBmx),li(nBmx),lf(nBmx)
+      Common/SgBnds/SgMnB(nBmx),SgMxB(nBmx)
+C     Data of the "Real" Lines
+      Common/LineSg/Sig(nLmx,nBmx) 
+      Common/DipoRigid/Dipo0(nLmx,nBmx) 
+      Common/GamT/HWT(nLmx) 
+      Common/PopuT/PopuT(nLmx)
+      Common/DipoTcm/DipoT(nLmx,nBmx)
+      Common/Jiln/Ji(nLmx,nBmx)
+      Common/Jfln/Jf(nLmx,nBmx)
+C     First order line mixing coefficient
+      Common/YLT/YT(nLmx)
+C Intensities and Positions+Widths of "Equivalent" Lines
+      Common/FicLSR/SSR(nLmx)
+      Common/FicLSI/SSI(nLmx)
+      Common/FicLPR/AlphR(nLmx)
+      Common/FicLPI/AlphI(nLmx)
+C
+      Double Complex ZS,ZA
+      Common/Zss/ZS(nLmx)
+      Common/Zaa/ZA(nLmx)
+C----------
+C     
+
+C     Check that Arrays for Results are Large Enough, Initialize
+      nSig=dInt( ((SigMax-SigMIn)/DSig)+0.5d0 )+1
+      If ( nSig .GT. nSigmx) Then
+         Write(*,1000)nSig,nSig
+         Stop
+      End If
+ 1000 Format(1x,'************ PROBLEM !!!! ******************',
+     &     /,1x,'The Number of points to compute (',I6,')',
+     &     /,1x,'is TOO large for Arrays ---> Program Stop',
+     &     /,1x,'Raise the value of "nSigmx" to at least ',I6,
+     &     /,1x,'in ALL Parameter Statements where it appears',///)
+
+C     Initialize the Abs vectors
+C
+      Do 10 iSig=1,nSigmx
+         AbsV(iSig)=0.d0
+         AbsY(iSig)=0.d0
+         AbsW(iSig)=0.d0
+ 10   Continue
+
+C     Compute constant quantities out of the loop
+C
+      sq_ln2=dsqrt(dlog(2.d0))
+      sq_ln2pi=dsqrt(dlog(2.d0)/pi)
+      Dens=(xCO2*Ptot*aMolAtm/Temp)
+      u_pi=(1.d0/Pi)
+      u_sqln2pi=(1.d0/sq_ln2pi)
+     
+C     Read Spectroscopic files
+C     
+      call ReadLines     
+
+C     
+C     Do Loop over the Various Bands
+C     
+      Do 1 iBand=1,nBand
+         
+c         print*, 'Band treated',iBand,'/',nBand 
+
+C     Convert Current Band Data to Considered Temperature and Pressure
+         Call ConvTP(iBand,Isot(iBand),nLines(iBand),Temp,Ptot,
+     &               SigMoy,MixFull)
+
+C     Compute constant quantity out of the loop
+         SqrTm=DSQRT(Temp/aMass(Isot(iBand)))
+
+C     
+C     Various WaveNumbers
+C     
+         SigC=SigMin-DSig
+         do 2 iSig=1,nSig 
+            SigC=SigC+DSig
+
+            if(SigC.lt.SgMnB(iband).OR
+     &           .SigC.gt.SgMxB(iband))goto 2
+C     
+C     Various Lines
+C     
+            Do 3 iLine=1,nLines(iBand)	
+
+C     Compute the Doppler Width 
+               GamD=CtGamD*Sig(iLine,iBand)*SqrTm
+               Cte=sq_ln2/GamD
+
+               PopuDipo=PopuT(iLine)*(DipoT(iLine,iBand)**2)	
+
+C
+C     Calculate Voigt profile only in a interval +/- rdmult*GamD
+               IF(dabs(Sig(iLine,iBand)-SigC).le.
+     &              (rdmult*GamD))THEN
+
+C     Call the Subroutine for calculation of the Voigt function
+                  YY=HWT(iLine)*Cte
+                  XX=(Sig(iLine,iBand)-SigC)*Cte
+                  Call HUMLIK ( 1, XX, YY, WR, WI )
+
+C     Voigt Absorption Coefficient         
+                  AbsV(iSig)=AbsV(iSig)+PopuDipo*WR/GamD
+     &              
+C     First Order Line-Mixing Absorption Coefficient        
+                  AbsY(iSig)=AbsY(iSig)+PopuDipo*
+     &                       (WR-YT(iLine)*WI)/GamD
+
+                  if(MixFull)then
+C     Complex Probability Function for the "Equivalent" Q-Lines
+                  XX=(AlphR(iLine)+SigMoy-SigC)*Cte
+                  YY=AlphI(iLine)*Cte
+                  Call HUMLIK(1,XX,YY,WR,WI)
+C     Absorption Coefficient due to W
+                  AbsW(iSig)=AbsW(iSig)+
+     &                 (SSR(iLine)*WR-SSI(iLine)*WI)/GamD
+                  endif
+
+C
+C     Shift to Lorentz profile outside +/- rdmult*GamD
+               ELSE
+
+                  AbsV(iSig)=AbsV(iSig)+PopuDipo*(u_sqln2pi)*
+     &        (u_pi)*(HWT(iLine))/
+     &               (HWT(iLine)**2+(SigC-Sig(iLine,iBand))**2)
+
+                  AbsY(iSig)=AbsY(iSig)+PopuDipo*(u_sqln2pi)*
+     &        (u_pi)*(HWT(iLine)+YT(iLine)*(SigC-Sig(iLine,iBand)))/
+     &               (HWT(iLine)**2+(SigC-Sig(iLine,iBand))**2)
+
+                  if(MixFull)then
+                    AbsW(iSig)=AbsW(iSig)+(u_sqln2pi)*
+     &        (u_pi)*DIMAG(ZS(iLine)/(dcmplx(sigC)-za(iLine)))
+              
+                  endif
+
+               ENDIF
+
+ 3          Continue     
+
+ 2       Continue     
+
+ 1    Continue     
+      
+c     Last Corrections on Results
+      SigC=SigMin-DSig
+      do 6 iSig=1,nSig 
+         SigC=SigC+DSig
+         Fact=SigC*(1.d0-DEXP(-Ct*SigC/Temp))
+         AbsV(iSig)=AbsV(iSig)*Fact*Dens*sq_ln2pi
+         AbsY(iSig)=AbsY(iSig)*Fact*Dens*sq_ln2pi
+         AbsW(iSig)=AbsW(iSig)*Fact*Dens*sq_ln2pi
+ 6    Continue     
+C     
+      Return
+      End Subroutine CompAbs
+C*********************************************************************
+C*********************************************************************
+      Subroutine ConvTP(iBand,IsotC,nLineC,Temp,Ptot,SigMoy,MixFull)
+C*********************************************************************
+C     
+C     "ConvTP": CONVert to Temperature and Pressure
+C     ..........................................................
+C     .    Subroutine to Convert the Data Read         .
+C     .     by SubRoutines "DetBand" and "ReadQ"       .
+C     .     for the current band of number 'iBand'     .
+C     .   to the conditions of temperature 'Temp' (K)  .         
+C     .        and Total Pressure 'Ptot' (atm)         .
+C     .     for all retained Lines of current Band     .
+C     ..................................................
+C     
+C     Input/Output Parameters of Routine (Arguments or Common)
+C     ---------------------------------
+C     iBand  : Number of the Current band Treated (Input)
+C     IsotC  : CO2 Isotope associated with current band (Input).
+C     nLineC : Number of lines of current band (Input).
+C     Temp   : Temperature in Kelvin (Input).
+C     Ptot   : Total Pressure in Atmosphere (Input).
+C     SigMoy : The Population-Averaged value of the Positions
+C              of the Lines in the current band (Output).
+C     
+C     Other important Output Quantities (through Common Statements)
+C     ---------------------------------------
+C     HWT   : Air Broadened HalfWidths of the Lines for the
+C             Considered Temperature and Pressure (Cm-1)
+C     PopuT : Populations of the Lower Levels of the Lines
+C             at Temperature Temp
+C     YT    : Air Broadened First Order Line Mixing Coefficients 
+C             of the Lines for the Considered Temperature and
+C             Pressure (No Unit)
+C     
+C     Accessed Files:  None
+C     --------------
+C     
+C     Called Routines: "PFCO2" (Partition Function of CO2)
+C     ---------------  "CalcW" (Compute Wlk elements from fitting law)
+C     
+C     Called By: 'CompAbs' (COMPute ABSorpton)
+C     ---------
+C     
+C     Double Precision Version
+C     
+C     F. Niro, last change 15 Jan 2005
+C*********************************************************************
+C     
+
+      Implicit None
+      include 'parameters.inc'
+      integer*4 iBand,IsotC,nLineC
+      integer*4 iLine,iLineP,Ji,Jf,lii,lff
+      real*8 SigMoy,Temp,Ptot
+      real*8 Sig,Dipo0,E,HWT0,BHW,PopuT0,S
+      real*8 HWT,PopuT,YT,DipoT
+      real*8 RatioT,RatioPart,PFCO2
+      real*8 SumWgt,SumY,Wgt,OpR,OpI
+      real*8 SSR,SSI,AlphR,AlphI,W
+      logical MixFull
+C     
+C     Data of the Lines at Ref Temperature/Pressure
+      Common/LineSg/Sig(nLmx,nBmx) 
+      Common/DipoRigid/Dipo0(nLmx,nBmx) 
+      Common/Energy/E(nLmx,nBmx) 
+      Common/GamT0/HWT0(nLmx,nBmx) 
+      Common/DTGAM/BHW(nLmx,nBmx) 
+      Common/PopTrf/PopuT0(nLmx,nBmx)
+C     Data of the Lines at (Temp,Pressure) for the Current Band
+      Common/GamT/HWT(nLmx) 
+      Common/PopuT/PopuT(nLmx)
+      Common/Jiln/Ji(nLmx,nBmx)
+      Common/Jfln/Jf(nLmx,nBmx)
+      Common/DipoTcm/DipoT(nLmx,nBmx)
+C     Data for relaxation matrix 
+      Common/DiagnR/OpR(nLmx,nLmx)
+      Common/DiagnI/OpI(nLmx,nLmx)
+C     LM 1st order coefficient
+      Common/YLT/YT(nLmx)
+C     Relaxation matrix elements	(output)
+      Common/Wmatrix/W(nLmx,nLmx)
+C Intensities and Positions+Widths of "Equivalent" Lines
+      Common/FicLSR/SSR(nLmx)
+      Common/FicLSI/SSI(nLmx)
+      Common/FicLPR/AlphR(nLmx)
+      Common/FicLPI/AlphI(nLmx)
+
+
+C----------
+C     
+C     Compute useful quantities out of the loop
+      RatioT=T0/Temp
+      RatioPart=PFCO2(IsotC,T0)/PFCO2(IsotC,Temp)	
+
+C     
+C     Treat all Lines for Temperature    
+      SumWgt=0.d0
+      SigMoy=0.d0
+      Do iLine=1,nLineC
+         PopuT(iLine)=PopuT0(iLine,iBand)*RatioPart
+     &        *dExp(-Ct*E(iLine,iBand)*(1.d0/Temp-1.d0/T0))
+         HWT(iLine)=(HWT0(iLine,iBand))			
+     &        *(RatioT**BHW(iLine,iBand))
+         Wgt=PopuT(iLine)*DipoT(iLine,iBand)**2
+         SumWgt=SumWgt+Wgt
+         SigMoy=SigMoy+(Sig(iLine,iBand)*Wgt)
+      Enddo
+      SigMoy=SigMoy/SumWgt
+
+C     
+C     Calculate the W off-diagonal elements and the Y coefficients 
+C     
+      Call CalcW(nLineC,iBand,Temp)
+
+C     
+C     Treat all Lines for Pressure   
+      Do iLine=1,nLineC
+         HWT(iLine)=Ptot*HWT(iLine)
+         YT(iLine)=Ptot*YT(iLine)
+      Enddo
+
+C     Treat all Couples of Lines for Relaxation Matrix 
+      IF (mixFull)THEN
+         Do iLine=1,nLineC
+            Do iLineP=1,nLineC
+               OpI(iLine,iLineP)=Ptot*W(iLine,iLineP)
+               if(iLine.eq.iLineP)then
+                  OpR(iLine,iLine)=Sig(iLine,iBand)-SigMoy
+               else   
+                  OpR(iLine,iLineP)=0.d0
+               endif  
+             Enddo
+         Enddo
+C     Compute the "intensities" and "Widths" of Equivalent lines
+         Call EqvLines(iBand,nLineC,SigMoy)
+      ENDIF
+
+      Return
+      End Subroutine ConvTP
+C*********************************************************************
+C*********************************************************************
+      Subroutine CalcW(nraies,iBand,Temp)	
+C*********************************************************************
+C     "CalcW": Calc the W matrix and the Y coefficients
+C     ..............................................................
+C     . Subroutine to compute the Wlk elements using the  .
+C     .	parameters readed in readW and the fitting law . 
+C     .			W(T)=W0*(T0/T)^(-B0)           .
+C     .	from the Wlk elements the Y coeffficients are  .
+C     .	        also computed and stored               .
+C     .....................................................
+C     
+C     
+C     Input Quantities (through Common Statements)
+C     ---------------------------------
+C     nraies : Integer Array of the number of lines of the current
+C     band (Input).
+C     iBand : Number of Current band Treated (Input)
+C     Temp  : Temperature in Kelvin (Input).
+C     
+C     For the other input quantities (W0,B0) parameters and the 
+C     spectroscopic parameters, see respectively the 
+C     specification in the subroutine "readW" and "readlines" 
+C     
+C     Output Quantities 
+C     ---------------------------------
+C     Wlk     : W global matrix for the considered band and temperature
+C     Yl      : Y coefficient for each line in the band
+C     
+C     
+C     Called Routines: 'Switch'
+C     ---------------  'SwitchInt'
+C     
+C     Called By:	'convTP' (CONVert to Temp and Press)
+C     ---------
+C     
+C     Double Precision Version
+C     
+C     F. Niro, last change 15 Jan 2005
+C*********************************************************************
+
+      implicit none
+      include 'parameters.inc'
+      integer*4 i,l,j,lli,llf,iBand,jji,jjf,jjip,jjfp
+      integer*4 nraies,nraiEven
+      integer*4 iR,iRp,irc
+      integer*4 ji,jf
+      integer*4 nBand,Isot,nLines,li,lf	
+      real*8 ycal,sum0,sumUP,sumLW
+      real*8 Sig,Dipo0,E,HWT,PopuT,DipoT
+      real*8 W,YT,Temp,S(nLmx)
+      real*8 W0pp,W0pq,W0pr,W0,B0,dlgT0T
+      real*8 W0qp,W0qq,W0qr
+      real*8 W0rp,W0rq,W0rr
+      real*8 B0pp,B0pq,B0pr
+      real*8 B0qp,B0qq,B0qr
+      real*8 B0rp,B0rq,B0rr
+C     Data of the Lines at Ref Temperature/Pressure
+      Common/LineSg/Sig(nLmx,nBmx) 
+      Common/DipoRigid/Dipo0(nLmx,nBmx) 
+      Common/Energy/E(nLmx,nBmx) 
+C     Data of the Lines at (Temp,Pressure) for the Current Band
+      Common/GamT/HWT(nLmx) 
+      Common/PopuT/PopuT(nLmx)
+      Common/Jiln/Ji(nLmx,nBmx)
+      Common/Jfln/Jf(nLmx,nBmx)
+      Common/DipoTcm/DipoT(nLmx,nBmx)
+C     Relaxation matrix elements	(output)
+      Common/Wmatrix/W(nLmx,nLmx)
+      Common/YLT/YT(nLmx)
+C     Characteristic of the Bands
+      Common/Bands/nBand,Isot(nBmx),nLines(nBmx),li(nBmx),lf(nBmx)
+C     Relaxation matrix elements
+      Common/Wfittedp/W0pp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0pq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0pr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Wfittedq/W0qp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0qq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0qr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Wfittedr/W0rp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0rq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,W0rr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Bfittedp/B0pp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0pq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0pr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Bfittedq/B0qp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0qq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0qr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+      Common/Bfittedr/B0rp(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0rq(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+     ,     ,B0rr(0:Nlifmax,0:Nlifmax,0:jmax,0:jmax)
+C----------
+C     
+C     
+      do i=1,nraies
+         YT(i)=0.d0
+         do j=1,nraies
+            W(i,j)=0.d0
+         enddo
+      enddo
+      
+      do ir=1,nraies
+         S(ir)=sig(iR,iband)*popuT(iR)*DipoT(ir,iBand)**2
+      enddo
+
+C     Range the ray for decreasing S
+      do i=1,nraies
+         do j=i+1,nraies
+            call  SwitchInt(Ji,j,i,iBand,nLmx,nBmx)
+            call  SwitchInt(Jf,j,i,iBand,nLmx,nBmx)
+            call  Switch(S,j,i,nraies)
+            call  SwitchTwo(sig,j,i,iBand,nLmx,nBmx)
+            call  Switch(hwT,j,i,nraies)
+            call  Switch(popuT,j,i,nraies)
+            call  SwitchTwo(Dipo0,j,i,iBand,nLmx,nBmx)
+            call  SwitchTwo(DipoT,j,i,iBand,nLmx,nBmx)
+         enddo
+      enddo
+
+C     
+C     Calculation of W
+C     
+      dlgT0T=dlog(T0/Temp)
+
+      lli=min(li(iBand),lf(iband))
+      llf=max(li(iBand),lf(iBand))
+      Do 180 iR=1,Nraies
+         if(li(iBand).le.lf(iBand))then
+            jji=ji(ir,iBand)
+            jjf=jf(ir,iBand)
+         else
+            jji=jf(ir,iBand)
+            jjf=ji(ir,iBand)
+         endif
+         Do 181 iRp=1,Nraies
+            if(li(iBand).le.lf(iBand))then
+               jjip=ji(irp,iBand)
+               jjfp=jf(irp,iBand)
+            else
+               jjip=jf(irp,iBand)
+               jjfp=ji(irp,iBand)
+            endif
+            if(jjip.gt.jji)goto 181
+
+C     Correction for asym hysothopes
+            if(Isot(iBand).gt.2.AND.Isot(iBand).ne.7.AND.
+     &           mod(abs(ji(ir,iBand)-ji(irp,iBand)),2).ne.0)goto 181
+
+            if(jji.gt.jjf.AND.jjip.gt.jjfp)then
+               W0=W0pp(lli,llf,jji,jjip)
+               B0=B0pp(lli,llf,jji,jjip)
+            else if(jji.gt.jjf.AND.jjip.eq.jjfp)then
+               W0=W0pq(lli,llf,jji,jjip)
+               B0=B0pq(lli,llf,jji,jjip)
+            else if(jji.gt.jjf.AND.jjip.lt.jjfp)then
+               W0=W0pr(lli,llf,jji,jjip)
+               B0=B0pr(lli,llf,jji,jjip)
+            else if(jji.lt.jjf.AND.jjip.gt.jjfp)then
+               W0=W0rp(lli,llf,jji,jjip)
+               B0=B0rp(lli,llf,jji,jjip)
+            else if(jji.lt.jjf.AND.jjip.eq.jjfp)then
+               W0=W0rq(lli,llf,jji,jjip)
+               B0=B0rq(lli,llf,jji,jjip)
+            else if(jji.lt.jjf.AND.jjip.lt.jjfp)then
+               W0=W0rr(lli,llf,jji,jjip)
+               B0=B0rr(lli,llf,jji,jjip)
+            else if(jji.eq.jjf.AND.jjip.gt.jjfp)then
+               W0=W0qp(lli,llf,jji,jjip)
+               B0=B0qp(lli,llf,jji,jjip)
+            else if(jji.eq.jjf.AND.jjip.eq.jjfp)then
+               W0=W0qq(lli,llf,jji,jjip)
+               B0=B0qq(lli,llf,jji,jjip)
+            else if(jji.eq.jjf.AND.jjip.lt.jjfp)then
+               W0=W0qr(lli,llf,jji,jjip)
+               B0=B0qr(lli,llf,jji,jjip)
+            endif
+
+            yCal=dexp(W0-B0*dlgT0T)		
+
+            W(irp,ir)=yCal
+            W(iR,iRP)=ycal*PopuT(iR)/PopuT(iRP)
+
+ 181     Continue
+ 180  Continue
+
+      Do iR=1,Nraies
+         Do iRp=1,Nraies
+            if(iR.ne.iRp)then
+               W(iR,iRP)=-dabs(W(iR,iRP))
+            endif
+         enddo
+      enddo
+C     
+C     Take the hw from hitran 
+C     
+      DO ir=1,nraies
+         w(ir,ir)=HWT(ir)
+      Enddo
+C     
+C     Sum rule correction
+C     
+      DO ir=1,nraies            !Fix the column
+
+         sumLW=0.d0             !Under the diagonal
+         sumUp=0.d0             !Up the diagonal
+
+         Do irp=1,nraies
+C     
+C     Correction for asym hysothopes
+C     
+            if(Isot(iBand).gt.2.AND.Isot(iBand).ne.7.AND.
+     &           mod(abs(ji(iR,iband)-ji(iRP,iband)),2).ne.0)cycle
+
+            if(irp.gt.ir)then
+               SumLW=SumLW+dabs(Dipo0(irp,iBand))*w(irp,ir)	
+            else
+               SumUp=SumUp+dabs(Dipo0(irp,iBand))*w(irp,ir)		
+            endif
+         Enddo
+         
+         do irp=ir+1,nraies
+            if (sumLW.eq.0.d0)then
+               w(irp,ir)=0.d0
+               w(iR,iRP)=0.d0
+            else
+               w(irp,ir)=w(irp,ir)*(-sumUp/sumLW)
+               w(iR,iRP)=w(irp,ir)*PopuT(iR)/PopuT(iRP)
+            endif
+         enddo
+         
+      ENDDO
+C     
+C     Build the Ym from the W
+C     
+      DO iR=1,nraies
+         sum0=0.d0
+         Do iRP=1,nraies
+            if(iRP.eq.iR)cycle
+
+
+C     Correction for asym hysothopes
+            if(Isot(iBand).gt.2.AND.Isot(iBand).ne.7.AND.
+     &           mod(abs(ji(iR,iband)-ji(iRP,iband)),2).ne.0)cycle
+
+
+C     Using detailed balance
+            sum0=sum0+2.d0*dabs(DipoT(iRP,iBand))
+     &           /dabs(DipoT(iR,iBand))*
+     &           (1.d0/(sig(iR,iBand)-sig(iRP,iBand)))*( w(iRP,iR) )
+	 Enddo
+
+         YT(iR)=sum0
+
+      ENDDO
+
+      end Subroutine CalcW
+
+C*********************************************************************
+C*********************************************************************
+      Subroutine EqvLines(iBand,nLineC,SigMoy)
+C*********************************************************************
+C "EqvLines": compute EQuiValent LINES
+C ..........................................................
+C         .     Subroutine to Compute the 'Intensities'    .
+C         .     and 'Positions+Widths' of the Equivalent   .
+C         .     Lines. A Decomposition of the OpR+iOPI     .
+C         .     Operator is made under the form PDP-1      .
+C         .   where P is the operator of the EigenVectors  .
+C         .        and D contains the EigenValues.         .
+C         ..................................................
+C
+C Input/Output Arguments of Routine
+C ---------------------------------
+C          iBand : Number of the Current band Treated (Input)
+C         nLineC : Number of lines of current band (Input).
+C         SigMoy : The Population-Averaged value of the Positions
+C                  of the Lines in the current band (Output).
+C
+C Other important Input Quantities (through Common Statements)
+C --------------------------------
+C          PopuT : Populations of the Lower Levels of the Lines
+C                  at Temperature Temp
+C          DipoT : Dipole transition Moments of the Lines
+C                  (Cm/Molecule**0.5)
+C            OpR : Diagonal Operator Whose elements are the Line
+C                  Positions (Real Part of the L+iPW operator, Cm-1)
+C            OpI : Operator whose Elements are those of the relaxation 
+C                  operator at the Considered Temperature and Pressure
+C                  (Imaginary Part of the L+iPW operator, in Cm-1)
+C
+C Other important Output Quantities (through Common Statements)
+C ---------------------------------
+C            SSR : Real Part of the Intensities of the Equivalent Lines
+C                  (Cm/Molecule)
+C            SSI : Imaginary Part of the Intensities of the Equivalent
+C                  Lines (Cm/Molecule)
+C          AlphR : Positions of the Equivalent Lines (Cm-1)
+C          AlphI : HalfWidths of the Equivalent Lines (Cm-1)
+C
+C Accessed Files:  NONE
+C --------------
+C
+C Called Routines: Matrix Diagonalization and Inversion Routine
+C ---------------  which are, according to the Library Used
+C       "ZGEEV" and "ZGETRF+ZGETRI" for the LAPACK Library
+C       "DEVCCG" and "DLINCG" for the IMSL Library
+C
+C     The LAPACK library can be downloaded for free at:
+C     http://www.netlib.org/lapack/
+C
+C  This SubRoutine is now set to run (be linked)
+C -----------------   with the IMSL Library. 
+C                    
+C     
+C     F.Niro, last change March 2005
+C
+C*********************************************************************
+C
+
+c!!!!!!
+c!     To be included if IMSL library is used
+
+c!	use MSIMSL
+
+c!!!!!!
+
+      Implicit None
+      include 'parameters.inc'
+      Integer iBand,nLineC
+      Integer iLine,iLineP
+         Double Precision PopuT,DipoT,OpR,OpI
+         Double Precision SSR,SSI,AlphR,AlphI
+         Double Precision EigVlR,EigVlI,SigMoy
+
+      Double Complex z,zOne,zZero
+      Double Complex zSum,zVec,zVecM1
+C
+C Data of the PQR Lines at (Temp,Pressure) 
+      Common/PopuT/PopuT(nLmx)
+      Common/DipoTcm/DipoT(nLmx,nBmx)
+      Common/DiagnR/OpR(nLmx,nLmx)
+      Common/DiagnI/OpI(nLmx,nLmx)
+C Intensities and Positions+Widths of "Equivalent" Lines
+      Common/FicLSR/SSR(nLmx)
+      Common/FicLSI/SSI(nLmx)
+      Common/FicLPR/AlphR(nLmx)
+      Common/FicLPI/AlphI(nLmx)
+C
+      Double Complex ZS,ZA
+      Common/Zss/ZS(nLmx)
+      Common/Zaa/ZA(nLmx)
+C Local Arrays for Treatment reauired by all libraries
+      Dimension zSum(nLmx),zVec(nLmx,nLmx)
+      Dimension EigVlR(nLmx),EigVlI(nLmx)
+      Double Complex zOp,zVal,zWrk
+      Dimension zOp(nLmx,nLmx),zVal(nLmx),zWrk(2*nLmx)
+
+C  -- LAPACK driver routine (version 3.0) --
+C     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
+C     Courant Institute, Argonne National Lab, and Rice University
+C     June 30, 1999
+C
+      CHARACTER          JOBVL, JOBVR
+      INTEGER            INFO, LDVR
+      DOUBLE PRECISION   RWORK( 2*nLmx )
+      COMPLEX*16         VR(nLmx,nLmx),VL(nLmx,nLmx)
+      INTEGER            IPIV(nLmx)
+C
+C
+C----------
+C
+      zZero=DCMPLX(0.d0,0.d0)
+      zOne=DCMPLX(1.d0,0.d0)
+C
+C     Diagonalize the (OpR+iOpI) Operator
+C
+      Do iLine=1,nLineC
+      Do iLineP=1,nLineC
+      zOp(iLine,iLineP)=DCMPLX(OpR(iLine,iLineP),OpI(iLine,iLineP))
+      Enddo
+      Enddo
+
+c!!!!!!
+c! Diagonalize with IMSL library    
+c!
+c!      Call DEVCCG(nLineC,zOp,nLmx,zVal,zVec,nLmx)
+c!
+c! end diagonalization with IMSL library
+c!!!!!!
+
+c******
+c* Diagonalize with LAPACK library    
+c*
+      Call ZGEEV('N','V',nLineC,zOp,nLmx,zVal,VL,nLmx,zVec,nLmx,
+     $                   zWrk,2*nLmx,RWORK,INFO )
+      if (INFO.ne.0)then
+         Write(*,500)'ZGEEV'
+         stop
+      endif
+c*
+c* end diagonalization with LAPACK library
+c******
+
+      Do iLine=1,nLineC
+      EigVlR(iLine)=DREAL(zVal(iLine))
+      EigVlI(iLine)=DIMAG(zVal(iLine))
+      Enddo
+C     
+      Do iLine=1,nLineC
+      z=zZero
+      Do iLineP=1,nLineC
+      Z=Z+DipoT(iLineP,iBand)*zVec(iLineP,iLine)
+      Enddo
+      zSum(iLine)=z
+      Enddo
+C
+C
+C Invert the zVec Operator
+C      
+
+c!!!!!!
+c! Begin inversion with IMSL library    
+c!
+c!      Call DLINCG(nLineC,zVec,nLmx,zVecM1,nLmx)
+c!
+c! end inversion with IMSL library    
+c!!!!!!
+
+c******
+c* Begin inversion with LAPACK library    
+c*
+      Call ZGETRF( nLineC, nLineC, zVec, nLmx, IPIV, INFO )
+      Call ZGETRI( nLineC, zVec, nLmx, IPIV, zWrk, 2*nLmx, INFO )
+      if (INFO.ne.0)then
+         Write(*,500)'ZGETRI'
+         stop
+      endif
+c*
+c* end inversion with LAPACK library    
+c******
+
+C----
+C
+      Do iLine=1,nLineC
+      z=zZero
+      Do iLineP=1,nLineC
+      Z=Z+PopuT(iLineP)*DipoT(iLineP,iBand)*zVec(iLine,iLineP)
+      Enddo
+      zSum(iLine)=zSum(iLine)*z
+      Enddo
+C       
+      DO iLine=1,nLineC
+       ZS(iLine)=zSum(iLine)
+       ZA(iLine)=dcmplx(EigVlR(iLine)+SigMoy,EigVlI(iLine))
+      ENDDO
+C
+      Do iLine=1,nLineC
+      SSR(iLine)=DREAL(zSum(iLine))
+      SSI(iLine)=DIMAG(zSum(iLine))
+      AlphR(iLine)=EigVlR(iLine)
+      AlphI(iLine)=EigVlI(iLine)
+      Enddo
+C 
+ 500  Format(1x,'************ PROBLEM !!!! ******************',
+     /       /,1x,'The Diagonalization of Operator "OpI+iOpR"',
+     /       /,1x,'By  Routine ',A6,' Called in Present',
+     /       /,1x,'Program by Routine "EqvLines" Has a Problem',
+     /       /,1x,'---> The program is Stopped',///)
+ 501  Format(1x,'************ PROBLEM !!!! ******************',
+     /       /,1x,'The Inversion of Operator "zVec"',
+     /       /,1x,'By  Routine ',A6,' Called in Present',
+     /       /,1x,'Program by Routine "EqvLines" Has a Problem',
+     /       /,1x,'---> The program is Stopped',///)
+      Return
+      End
+C*********************************************************************
+      Function PFCO2(Iso,Temp)
+C*********************************************************************
+C "PFCO2": Partition Function of CO2
+C .........................................................
+C          .    Function to Compute the Total Partition   .
+C          .    Function of the CO2 Isotope number "Iso"  .
+C          .    (the Numbering System is that of HITRAN)  .
+C          .    at Temperature 70 < "Temp"(in K) < 400    .
+C          ................................................
+C            Iso : Isotope Number (HITRAN96 convention)
+C           Temp : Temperature in Kelvin. It SHOULD BE in
+C                  the 70 K to 400 K Range
+C           PFCO2 : Rovibrational Partition Function
+c
+C A Polynomial Representation is used. This Function has been
+C Extracted from the "bd_qt.for" Fortran Program which is
+C Supplied with the HITRAN-96 Data Base.
+C
+C Accessed Files:  None
+C --------------
+C
+C Called Routines: None                               
+C ---------------                                 
+C
+C Called By: 'ConvTP' (CONVert to Temp and Press)
+C ---------
+C
+C Double Precision Version
+C
+C F. Niro, last change 15 Jan 2004
+C*********************************************************************
+C
+      Implicit None
+      include 'parameters.inc'
+      Integer*4 Iso
+      Real*8 Temp,PFCO2
+C--------
+C
+        If( (Temp.LT.70d0) .OR. (Temp.GT.500.d0) )Then
+        Write(*,1000)Temp
+ 1000   Format(1x,'The Temperature ',d10.3,' Kelvin',/,1x,
+     /        'is OUT of the RANGE for The Partition Ftn',/,1x,   
+     /        'Which is 70 to 400 K --> Stop Program')
+        Stop
+        EndIf
+C      
+        PFCO2 = Qcoef(Iso,1)
+     +       + Qcoef(Iso,2)*Temp
+     +       + Qcoef(Iso,3)*Temp*Temp
+     +       + Qcoef(Iso,4)*Temp*Temp*Temp
+C      
+        Return
+        End Function PFCO2
+C*********************************************************************
+
+**********************************************************************
+      SUBROUTINE HUMLIK ( N, X, Y, K, L )
+C*********************************************************************
+C "HUMLIK": Complex Probability Function
+C .........................................................
+C         .       Subroutine to Compute the Complex       .
+C         .        Probability Function W(z=X+iY)         .
+C         .     W(z)=exp(-z**2)*Erfc(-i*z) with Y>=0      .
+C         .    Which Appears when Convoluting a Complex   .
+C         .     Lorentzian Profile by a Gaussian Shape    .
+C         .................................................
+C
+C		    N : Number of points 
+C		    z = X+iY
+C             K : Real Part of W(z)
+C             L : Imaginary Part of W(z)
+C
+C This Routine was Taken from the Paper by R.J. Wells, page 29, Volume
+C 62 of the 1999 Issue 1 of the "Journal of Quantitative Spectroscopy
+C and Radiative Transfer"
+C Please Refer to this Paper for More Information
+C
+C Accessed Files:  None
+C --------------
+C
+C Called Routines: None                               
+C ---------------                                 
+C
+C Called By: 'CompAbs' (COMPute ABSorpton)
+C ---------
+C
+C Double Precision Version
+C
+C F. Niro, last change 15 Jan 2005
+C*********************************************************************
+C      
+
+      real*8        R0,         R1 ! Region boundaries
+      PARAMETER ( R0 = 146.7d0, R1 = 14.67d0 ) ! for R=4
+
+* Arguments
+      INTEGER N                 ! IN   Number of points
+      real*8    X(0:N-1)        ! IN   Input x array
+      real*8    Y               ! IN   Input y value >=0.0
+      real*8    K(0:N-1)        ! OUT  real*8 (Voigt) array
+      real*8    l(0:n-1)        ! OUT  Optional array
+
+* Constants
+      real*8        RRTPI       ! 1/SQRT(pi)
+      PARAMETER ( RRTPI = 0.56418958d0 )
+      real*8        Y0,       Y0PY0,         Y0Q ! for CPF12 algorithm
+      PARAMETER ( Y0 = 1.5d0, Y0PY0 = Y0+Y0, Y0Q = Y0*Y0  )
+      real*8  C(0:5), S(0:5), T(0:5)
+      SAVE  C,      S,      T
+*     SAVE preserves values of C, S and T (static) arrays between
+c procedure calls
+      DATA C / 1.0117281d0,     -0.75197147d0,        0.012557727d0,
+     &     0.010022008d0,   -0.00024206814d0,    0.00000050084806d0/
+      DATA S / 1.393237d0,       0.23115241d0,       -0.15535147d0,
+     &     0.0062183662d0,   0.000091908299d0,  -0.00000062752596d0/
+      DATA T / 0.31424038d0,     0.94778839d0,        1.5976826d0,
+     &     2.2795071d0,      3.0206370d0,         3.8897249d0 /
+
+* Local variables
+      INTEGER I, J              ! Loop variables
+      INTEGER RG1, RG2, RG3     ! y polynomial flags
+      real*8 ABX, XQ, YQ, YRRTPI ! |x|, x^2, y^2, y/SQRT(pi)
+      real*8 XLIM0, XLIM1, XLIM2, XLIM3, XLIM4 ! |x| on region boundaries
+      real*8 A0, D0, D2, E0, E2, E4, H0, H2, H4, H6 ! W4 temporary variables
+      real*8 P0, P2, P4, P6, P8, Z0, Z2, Z4, Z6, Z8
+      real*8 B1, F1, F3, F5, Q1, Q3, Q5, Q7
+      real*8 XP(0:5), XM(0:5), YP(0:5), YM(0:5) ! CPF12 temporary values
+      real*8 MQ(0:5), PQ(0:5), MF(0:5), PF(0:5)
+      real*8 D, YF, YPY0, YPY0Q  
+
+***** Start of executable code *****************************************
+
+      RG1 = 1                   ! Set flags
+      RG2 = 1
+      RG3 = 1
+      YQ  = Y*Y                 ! y^2
+      YRRTPI = Y*RRTPI          ! y/SQRT(pi)
+
+*     Region boundaries when both K and L are required or when R<>4 
+      XLIM0 = R0 - Y 
+      XLIM1 = R1 - Y
+      XLIM3 = 3.097d0*Y - 0.45d0
+*     For speed the following 3 lines should replace the 3 above if R=4
+c and L is not required   *
+*     XLIM0 = 15100.0 + Y*(40.0 + Y*3.6)
+c *
+*     XLIM1 = 164.0 - Y*(4.3 + Y*1.8)
+c *
+*     XLIM3 = 5.76*YQ
+c *
+
+      XLIM2 = 6.8d0 - Y
+      XLIM4 = 18.1d0*Y + 1.65d0
+      IF ( Y .LE. 0.000001d0 ) THEN ! When y<10^-6
+        XLIM1 = XLIM0           ! avoid W4 algorithm
+        XLIM2 = XLIM0
+      ENDIF
+*.....
+      DO I = 0, N-1             ! Loop over all points
+        ABX = dABS ( X(I) )     ! |x|
+        XQ  = ABX*ABX           ! x^2
+        IF     ( ABX .GT. XLIM0 ) THEN ! Region 0 algorithm
+          K(I) = YRRTPI / (XQ + YQ)
+          L(I) = K(I)*X(I) / Y
+
+        ELSEIF ( ABX .GT. XLIM1 ) THEN ! Humlicek W4 Region 1
+          IF ( RG1 .NE. 0 ) THEN ! First point in Region 1
+            RG1 = 0d0
+            A0 = YQ + 0.5d0     ! Region 1 y-dependents
+            D0 = A0*A0
+            D2 = YQ + YQ - 1.0d0
+            B1 = YQ - 0.5d0
+          ENDIF
+          D = RRTPI / (D0 + XQ*(D2 + XQ))
+          K(I) = D*Y   *(A0 + XQ)
+          L(I) = D*X(I)*(B1 + XQ)
+
+        ELSEIF ( ABX .GT. XLIM2 ) THEN ! Humlicek W4 Region 2 
+          IF ( RG2 .NE. 0 ) THEN ! First point in Region 2
+            RG2 = 0
+            H0 =  0.5625d0 + YQ*(4.5d0 + YQ*(10.5d0 + YQ*(6.0d0 + YQ))) ! Region 2 y-dependents
+            H2 = -4.5d0    + YQ*(9.0d0 + YQ*( 6.0d0 + YQ* 4.0d0))
+            H4 = 10.5d0    - YQ*(6.0d0 - YQ*  6.0d0)
+            H6 = -6.0d0    + YQ* 4.0d0
+            E0 =  1.875d0  + YQ*(8.25d0 + YQ*(5.5d0 + YQ))
+            E2 =  5.25d0   + YQ*(1.0d0  + YQ* 3.0d0)
+            E4 =  0.75d0*H6
+            F1 = -1.875d0  + YQ*(5.25d0 + YQ*(4.5d0 + YQ))
+            F3 =  8.25d0   - YQ*(1.0d0  - YQ* 3.0d0)
+            F5 = -5.5d0    + YQ* 3.0d0
+          ENDIF
+          D = RRTPI / (H0 + XQ*(H2 + XQ*(H4 + XQ*(H6 + XQ))))
+          K(I) = D*Y   *(E0 + XQ*(E2 + XQ*(E4 + XQ)))
+          L(I) = D*X(I)*(F1 + XQ*(F3 + XQ*(F5 + XQ)))
+
+        ELSEIF ( ABX .LT. XLIM3 ) THEN ! Humlicek W4 Region 3
+          IF ( RG3 .NE. 0 ) THEN ! First point in Region 3
+            RG3 = 0
+            Z0 = 272.1014d0 + Y*(1280.829d0 + Y*(2802.870d0 + Y*(3764 ! Region 3 y-dependents
+     &           .966d0+ Y*(3447.629d0+ Y*(2256.981d0 + Y*(1074.409d0 +
+     &           Y*(369.1989d0+ Y*(88.26741d0+ Y*(13.39880d0 + Y))))))))
+     &           )
+            Z2 = 211.678d0  + Y*(902.3066d0 + Y*(1758.336d0 + Y*(2037
+     &           .310d0+ Y*(1549.675d0 + Y*(793.4273d0 + Y*(266.2987d0+
+     &           Y*(53.59518d0 + Y*5.0d0)))))))
+            Z4 = 78.86585d0 + Y*(308.1852d0 + Y*(497.3014d0 + Y*(479
+     &           .2576d0+ Y*(269.2916d0 + Y*(80.39278d0 + Y*10.0d0)))))
+            Z6 = 22.03523d0 + Y*(55.02933d0 + Y*(92.75679d0 + Y*(53
+     &           .59518d0+ Y*10.0d0)))
+            Z8 = 1.496460d0   + Y*(13.39880d0 + Y*5.0d0)
+            P0 = 153.5168d0 + Y*(549.3954d0 + Y*(919.4955d0 + Y*(946
+     &           .8970d0+ Y*(662.8097d0+ Y*(328.2151d0 + Y*(115.3772d0 +
+     &           Y*(27.93941d0+ Y*(4.264678d0 + Y*0.3183291d0))))))))
+            P2 = -34.16955d0+ Y*(-1.322256d0+ Y*(124.5975d0 + Y*(189
+     &           .7730d0+ Y*(139.4665d0 + Y*(56.81652d0 + Y*(12.79458d0+
+     &           Y*1.2733163d0))))))
+            P4 = 2.584042d0 + Y*(10.46332d0 + Y*(24.01655d0 + Y*(29
+     &           .81482d0+ Y*(12.79568d0 + Y*1.9099744d0))))
+            P6 = -0.07272979d0+Y*(0.9377051d0+Y*(4.266322d0 +Y*1
+     &           .273316d0))
+            P8 = 0.0005480304d0 + Y*0.3183291d0
+            Q1 = 173.2355d0 + Y*(508.2585d0 + Y*(685.8378d0 + Y*(557
+     &           .5178d0+ Y*(301.3208d0 + Y*(111.0528d0 + Y*(27.62940d0+
+     &           Y*(4.264130d0 + Y*0.3183291d0)))))))
+            Q3 = 18.97431d0 + Y*(100.7375d0 + Y*(160.4013d0 + Y*(130
+     &           .8905d0+ Y*(55.88650d0 + Y*(12.79239d0+Y*1.273316d0))))
+     &           )
+            Q5 = 7.985877d0 + Y*(19.83766d0 + Y*(28.88480d0 + Y*(12
+     &           .79239d0+ Y*1.909974d0)))
+            Q7 = 0.6276985d0    + Y*(4.264130d0 + Y*1.273316d0)
+          ENDIF
+          D =1.7724538d0 / (Z0 + XQ*(Z2 + XQ*(Z4 + XQ*(Z6 + XQ*(Z8+XQ)))
+     &         ))
+          K(I) =D*(P0 + XQ*(P2 + XQ*(P4 + XQ*(P6 + XQ*P8))))
+          L(I) =D*X(I)*(Q1 + XQ*(Q3 + XQ*(Q5 + Xq*(Q7 + XQ*0.3183291d0))
+     &         ))
+
+        ELSE                    ! Humlicek CPF12 algorithm
+          YPY0 = Y + Y0
+          YPY0Q = YPY0*YPY0
+          K(I) = 0.0d0
+          L(I) = 0.0d0
+          DO J = 0, 5
+            D = X(I) - T(J)
+            MQ(J) = D*D
+            MF(J) = 1.0d0 / (MQ(J) + YPY0Q)
+            XM(J) = MF(J)*D
+            YM(J) = MF(J)*YPY0
+            D = X(I) + T(J)
+            PQ(J) = D*D
+            PF(J) = 1.0d0 / (PQ(J) + YPY0Q)
+            XP(J) = PF(J)*D
+            YP(J) = PF(J)*YPY0
+            L(I)  = L(I) + C(J)*(XM(J)+XP(J)) + S(J)*(YM(J)-YP(J))
+          ENDDO
+
+          IF ( ABX .LE. XLIM4 ) THEN ! Humlicek CPF12 Region I
+            DO J = 0, 5
+              K(I) = K(I) + C(J)*(YM(J)+YP(J)) - S(J)*(XM(J)-XP(J))
+            ENDDO
+
+          ELSE                  ! Humlicek CPF12 Region II
+            YF   = Y + Y0PY0
+            DO J = 0, 5
+              K(I) = K(I)
+     &             + (C(J)*(MQ(J)*MF(J)-Y0*YM(J)) + S(J)*YF*XM(J)) /
+     &             (MQ(J)+Y0Q)+ (C(J)*(PQ(J)*PF(J)-Y0*YP(J)) - S(J)*YF
+     &             *XP(J)) / (PQ(J)+Y0Q)
+            ENDDO
+            K(I) = Y*K(I) + dEXP ( -XQ )
+          ENDIF
+        ENDIF
+      ENDDO
+*.....
+      END SUBROUTINE HUMLIK
+**********************************************************************
+
+**********************************************************************
+      Subroutine Switch(F,j,i,N)
+**********************************************************************
+C
+C	Simple subroutine for swithcing 2 element in a vector
+C			F(j) transormed to F(i) and vice-versa
+C
+      Implicit Double Precision(a-h,o-z)
+      dimension F(N)
+      
+      temp=F(j)
+      F(j)=F(i)
+      F(i)=temp
+
+      end
+**********************************************************************
+**********************************************************************
+      Subroutine SwitchTwo(F,j,i,iB,N,Nb)
+**********************************************************************
+C
+C	Simple subroutine for swithcing 2 element in a vector
+C			F(j,iB) transormed to F(i,iB) and vice-versa
+C
+      Implicit Double Precision(a-h,o-z)
+      dimension F(N,Nb)
+      
+      temp=F(j,iB)
+      F(j,iB)=F(i,iB)
+      F(i,iB)=temp
+
+      end
+**********************************************************************
+
+**********************************************************************
+      Subroutine SwitchInt(IntF,j,i,iB,N,Nb)
+**********************************************************************
+C
+C	Same as Switch, but for a vector of integer values	
+C
+      Implicit Double Precision(a-h,o-z)
+      dimension IntF(N,Nb)
+      
+      temp=IntF(j,iB)
+      IntF(j,iB)=IntF(i,iB)
+      IntF(i,iB)=temp
+
+      end
+**********************************************************************

@@ -1,0 +1,98 @@
+cp -a /asl/data/hitran/H2016/QTIPS/*.[fF]* .
+cp -a /asl/data/hitran/H2016/QTIPS/*.CMN .
+
+cp ../Global_Data_HITRAN2012/TIPS_2012_allisotopes.f TIPS_2017_allisotopes.f
+wherever you see 2012, replace with 2017
+      CALL TIPS_2017(iMol,rTemp,iI,iG*1.d0,rQT)
+      include 'TIPS_2017_try_include1.f'
+
+mv BD_ISO_2016.for BD_ISO_2016.FOR
+mv BD_ISO_82_to_85.for BD_ISO_82_TO_85.FOR
+
+edit BD_ISO_82_TO_85.FOR (the "returns" and "continues" are wierd!!!!)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+cp ../Global_Data_HITRAN2012/TIPS_2012_try_include1.f TIPS_2017_try_include1.f
+basically keep the first few lines, change 2012 to 2017
+C***********************
+cs      Program TIPS_2017
+C*********************** 
+C    Program TIPS_2017 written by R.R. Gamache
+
+
+C***********************
+      Subroutine TIPS_2017(
+     I MOL,		! HITRAN molecule number
+     I Temp,		! temperature in K
+     I NSO82,		! isotopomer index  should really be eg 161 or 181 0r 171 for Water
+     O gi,		! state independent degeneracy factor
+     O QT)		! total internal partition sum
+C*********************** 
+
+then include and edit TIPS_2017_v1p0.for
+
+(1) these are new variables
+      INTEGER NT,I,IT
+      INTEGER MOL,NS082
+      DOUBLE PRECISION Temp,QT,gi
+      character*30 stopNgo
+(2) these are redefined variabes
+      COMMON/Temperatures/tdat
+     c      COMMON/Temperatures/tdat(NT)
+      REAL tmax(NMOL,Max_ISO)
+     c      dimension Tmax(NMOL,Max_ISO)
+
+(3) edit out their input prompts
+     I have comments "cs" in columns 1-2, have demarkrcated them using
+cs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+cs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
+and set the isotope
+cs       CALL ISO_82_TO_85 (MOL,NSO82,ISO)
+       ISO = NSO82
+
+(4) edit the common statement so that
+      COMMON/Temperatures/tdat(NT)
+becomes      
+      REAL tdat(NT)
+      COMMON/Temperatures/tdat
+
+(5) molecule 34 is a mess, the max temp was set at 10.0 and the gi,Q were set as 0. So edited this to become
+c      data Tmax(34,1)/10./  ! HO2
+      data Tmax(34,1)/1000./  ! HO2  SERGIO
+and
+      IF(MOL.EQ.34) THEN
+      c...not applicable to O
+      c      gi=0
+      c     QT = 0.
+      c sergio
+            gi=1
+            QT = 1.
+       go to 100
+      ENDIF
+
+(6) modify the output lines so that nothing is printed from TIPS_2017_try_include1.f, and the loop does not keep executing
+ 100  if(QT .gt. 0.) then
+
+c        Write(*,900) MOLID(Mol), NSO82, Temp, QT, gi
+c  900 format(//,5x,A6,' Molecule',3x,i5,' Isotopologue',/,
+c     + 5x,'Q(',f7.1,' K) = ',1pE12.4,5x,'State Independent factor=',
+c     + 0pf7.1,////)
+
+c      write (*,901) QT,Mol,NSO82, Temp,gi
+ 901  format (0pf17.12,i5,i5,f17.12,i5)
+      else
+        print *,NSO82, Temp, QT, gi
+        write(*,'(A23,A6)') ' No data available for ',MOLID(MOL)
+      endif
+c      go to 10
+c  99  STOP 'Computation finished'
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+in BD_ISO_82_to_85.for and BD_MOL_2016.FOR and BD_ISO_2016.for change all
+           Species_2016.cmn to Species_2016.cmn
+           Isotops.cmn      to Isotops.cmn
+	   MOLEC.cmn        to MOLEC.CMN
+plus declare variables
+     INTEGER NMOL,Max_ISO  into SPECIES_2016.CMN

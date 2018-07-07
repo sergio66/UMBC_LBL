@@ -1,0 +1,1 @@
+../CO2_COMMON/voigt_mix_simple2.m

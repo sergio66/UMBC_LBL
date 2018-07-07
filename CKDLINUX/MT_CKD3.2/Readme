@@ -1,0 +1,38 @@
+http://rtweb.aer.com/continuum_frame.html
+
+Thank you for your interest in MT_CKD Continuum.
+
+Here is your download link:
+
+http://rtweb.aer.com/rtweb_download.php?chk=f898e9cf561796d0049bba574cb1c3205b2bc3807cd5b
+
+Please note that this download link will expire in 2 hours.
+
+To unpack tarred and compressed files from a terminal:
+
+gunzip FILE.tar.gz; tar -xvf FILE.tar
+
+Note to Mac Users: The Mac built-in utility to decode tar.gz files may
+not operate properly on this file. In this case, please open a
+terminal window and manually uncompress and untar.
+
+If you are unable to download the files or have questions about the
+model, please send a notification to the "Reply-To:" address on this
+email.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+cd cntnm
+cd build
+gmake -f make_cntnm linuxINTELdbl
+  ../cntnm_v3.2_linux_intel_dbl
+
+cd ../run_example
+ln -s ../cntnm_v3.2_linux_intel_dbl cntnm_v3.2_linux_intel_dbl
+cp -a CNTNM.OPTDPT_mt_ckd_3.2 CNTNM.OPTDPT_mt_ckd_3.2_orig
+cp -a WATER.COEF_mt_ckd_3.2 WATER.COEF_mt_ckd_3.2_orig
+more INPUT.example
+cntnm_v3.2_linux_intel_dbl
+[sergio@maya-usr1 run_example]$ diff CNTNM.OPTDPT CNTNM.OPTDPT_mt_ckd_3.2_orig
+[sergio@maya-usr1 run_example]$ diff WATER.COEF WATER.COEF_mt_ckd_3.2_orig
+

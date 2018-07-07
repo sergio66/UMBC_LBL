@@ -1,0 +1,19 @@
+
+as you can see, there are a whole bunch of co2_param.m files!!!!!
+basically, use co2_param.m  -> co2_param_AIRS2002.m  for most bands (15,4 um)
+           use co2_param_JJOHNS2002.m  for the behaviour right at bandhead
+                                       at strong 2350 P,R, 2351 P,R branches
+           so that we "blend in stuff" to make things agree with obs
+
+also see compare_beta_doc.m
+
+co2_param_AIRS2002.m
+co2_param_JJOHNS2002.m
+co2_param_JJOHNS2002.m
+co2_param_JJOHNS2002.m.JULY3
+co2_param_JJOHNS2002.m.ORIG
+co2_param_JOHNJOHN.m
+co2_param.m  -------> symbolic link ----> co2_param_AIRS2002.m
+co2_param_RAL.m
+co2_param_RAL_NEWALL.m
+co2_param_RAL_NEW.m

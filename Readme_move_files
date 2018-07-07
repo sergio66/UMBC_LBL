@@ -1,0 +1,6 @@
+mv test* UNUSED
+mv airs_nodes UNUSED
+
+mv mst*.m UMBC_MT_CKDmodels_50_51_52_53_55_56_60/.
+
+mv  n2* N2_CONTINUUM/.

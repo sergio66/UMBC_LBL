@@ -1,0 +1,37 @@
+the guts of all the main driver files for the 4um band are essentially the 
+same! only the bands are different!!!!!!!!
+
+************************************************************************
+driver4umWORKS.m
+
+yrun_deltdeltWORKS.m   yrun_deltdeltWORKS_LONG.m  are the same
+yrun_pipiWORKS.m       yrun_pipiWORKS_LONG.m      are the same
+yrun_sigsigWORKS.m     yrun_sigsigWORKS_LONG.m    sre the same
+
+except that the files on the LHS use driver4umWORKS (which is
+code common to all bands), while the others are the complete files 
+
+these files have the input wavenumber spectra divided into 3 regions
+ie this is the old code (Feb 1999)
+region 1 : f < f1            do k=klor*ratio
+region 2 : f > f2            do k=klor*ratio
+region 3 : f1 < f < f2       do k=kfull
+with birnbaum thrown in
+
+************************************************************************
+driver4um.m
+
+yrun_deltdelt.m
+yrun_pipi.m
+yrun_sigsig.m
+
+these files have the input wavenumber spectra divided into 5 regions
+ie this is the new code (Mar 1999)
+region 1 : f < f1            do k=kcousin
+region 2 : f > f2            do k=kcousin
+region 3 : f1 < f < f2       do k=kfull
+region 4 : f1 < f < f1+1     do k=kfull,cousin blend
+region 5 : f2-1 < f < f2     do k=kfull,cousin blend
+with birnbaum thrown in
+
+************************************************************************

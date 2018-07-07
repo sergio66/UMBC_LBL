@@ -1,0 +1,50 @@
+clear
+
+/asl/opt/matlab/R2009b/bin/mexopts.sh
+
+cd ..; 
+rm *.mexa64
+cd FORTRANLINUX
+
+#use Howard's readers instead
+#echo 'mexing HITRAN reader ... '
+#/usr/local/matlab/bin/mex  mexhitd.f hitinid.f hitrdd.f  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#mv mexhitd.mexa64  ../.
+
+# g77 version
+# NOTE: g77 is not thread safe
+            FC='/sw/bin/g77'
+            FFLAGS='-fno-common'
+            FLIBS="-L/usr/lib/ -L/sw/lib -lg2c $MLIBS -lm -compatibleArrayDims"
+            FOPTIMFLAGS='-O'
+            FDEBUGFLAGS='-g'
+
+echo 'mexing voigt and looping files ... '
+echo $FFLAGS $LDFLAGS $FLIBS
+
+/asl/opt/matlab/R2009b/bin/mex  boxint2_jmh.F boxint2_jmhg.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS' 
+/asl/opt/matlab/R2009b/bin/mex  boxint2.F boxint2g.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS' 
+/asl/opt/matlab/R2009b/bin/mex  vhh1.F    vhh1g.F    FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/asl/opt/matlab/R2009b/bin/mex  vhh.F     vhhg.F     FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/asl/opt/matlab/R2009b/bin/mex  voigt.F   voigtg.F   FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/asl/opt/matlab/R2009b/bin/mex  voigt1.F  voigt1g.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/asl/opt/matlab/R2009b/bin/mex loop.F loopg.F        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/asl/opt/matlab/R2009b/bin/mex loopco2.F loopco2g.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+mv boxint2_jmh.mexa64  ../.
+mv boxint2.mexa64  ../.
+mv vhh1.mexa64     ../.
+mv vhh.mexa64      ../.
+mv voigt.mexa64    ../.
+mv voigt1.mexa64   ../.
+mv loop.mexa64     ../.
+mv loopco2.mexa64  ../.
+
+echo 'mexing water local and superlorentz lineshapes ... '
+/asl/opt/matlab/R2009b/bin/mex loop_loc.F loop_locg.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/asl/opt/matlab/R2009b/bin/mex loop_chi.F loop_chig.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/asl/opt/matlab/R2009b/bin/mex loop_chi2.F loop_chi2g.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+mv loop_loc.mexa64     ../.
+mv loop_chi.mexa64     ../.
+mv loop_chi2.mexa64     ../.
+

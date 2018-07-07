@@ -1,0 +1,30 @@
+function line=hitread(start,stop,strengthM,gasID,filename);
+%function line=hitread(start,stop,strengthM,gasID);
+%this calls read_hitran, and adds on an extra field : LINCT which is
+%the number of lines read in
+
+line=read_hitran(start,stop,strengthM,gasID,filename);
+
+line.linct=length(line.wnum);
+
+line.iso=line.iso';
+line.wnum=line.wnum';
+line.stren=line.stren';
+line.tprob=line.tprob';
+
+line.abroad=line.abroad';
+line.sbroad=line.sbroad';
+
+line.els=line.els';
+line.abcoef=line.abcoef';
+line.tsp=line.tsp';
+
+line.iusgq=line.iusgq';
+line.ilsgq=line.ilsgq';
+
+line.gasid=line.igas';
+
+if line.linct > 0
+  line.igas=line.gasid(1);
+  end
+

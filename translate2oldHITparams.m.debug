@@ -1,0 +1,77 @@
+function  lineNEW = translate2oldHITparams(lineOLD);
+
+lineOLD
+
+lineNEW.igas   = lineOLD.igas;
+lineNEW.iso    = lineOLD.iso;
+lineNEW.wnum   = lineOLD.wnum;
+lineNEW.stren  = lineOLD.stren;
+lineNEW.tprob  = lineOLD.tprob;
+lineNEW.abroad = lineOLD.abroad;
+lineNEW.sbroad = lineOLD.sbroad;
+lineNEW.els    = lineOLD.els;
+lineNEW.abcoef = lineOLD.abcoef;
+lineNEW.tsp    = lineOLD.tsp;
+lineNEW.ai     = lineOLD.ai;
+lineNEW.ref    = lineOLD.ref;
+lineNEW.linct  = lineOLD.linct;
+lineNEW.gasid  = lineOLD.gasid;
+
+lineNEW.uslq = lineOLD.uslq(:,1:9);
+lineNEW.bslq = lineOLD.bslq(:,1:9);
+
+aa = lineOLD.iusgq;
+popoU = aa;
+lala  = ~isspace(popoU); popoU = popoU(lala); 
+popoU = reshape(popoU,5,lineNEW.linct);
+popoU = popoU';
+
+aa = lineOLD.ilsgq;
+popoL = aa;
+lala  = ~isspace(popoL); popoL = popoL(lala); 
+popoL = reshape(popoL,5,lineNEW.linct);
+popoL = popoL';
+
+whos popo*
+
+ii = 1;
+  xu = str2num(lineOLD.iusgq(:,ii)); xu = xu';
+  xl = str2num(lineOLD.ilsgq(:,ii)); xl = xl';
+
+  cu = (lineOLD.iusgq(:,ii))'; lala = ~isspace(cu); cu = cu(lala);
+  cl = (lineOLD.ilsgq(:,ii))'; lala = ~isspace(cl); cl = cl(lala);
+  [popoU(1,:) popoL(1,:)]
+  [cu cl]
+
+ii = 2;
+  xu = str2num(lineOLD.iusgq(:,ii)); xu = xu';
+  xl = str2num(lineOLD.ilsgq(:,ii)); xl = xl';
+
+  cu = (lineOLD.iusgq(:,ii))'; lala = ~isspace(cu); cu = cu(lala);
+  cl = (lineOLD.ilsgq(:,ii))'; lala = ~isspace(cl); cl = cl(lala);
+  [popoU(2,:) popoL(2,:)]
+  [cu cl]
+
+pause
+
+
+whos xl xu cl cu
+
+pause
+
+for ii = 1111111111 : lineOLD.linct
+  %% this has to be changed from v1 v2 L v3 r ---> old IDs given by GENLN2
+  xu = str2num(lineOLD.iusgq(:,ii));
+  xl = str2num(lineOLD.ilsgq(:,ii));
+  lineOLD.uslq(ii,1:9);
+  lineOLD.bslq(ii,1:9);
+
+  lineNEW.iusgq(ii) = xu(5);
+  lineNEW.ilsgq(ii) = xl(5);
+
+  %lineNEW.uslq(ii,:) = lineOLD.uslq(ii,1:9);
+  %lineNEW.bslq(ii,:) = lineOLD.bslq(ii,1:9);
+  end
+
+lineOLD
+lineNEW

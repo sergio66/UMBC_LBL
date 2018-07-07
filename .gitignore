@@ -1,0 +1,86 @@
+#
+# kcarta top-level git ignore file
+#
+# The top-level ignore does two things--it sets general exclusions
+# for various file types, and excludes a list of specific directories.
+# File types can be added back in subdirectory .gitignore files as
+# needed
+
+# data & misc
+*.h5
+*.dat
+*.mat
+*.fig
+*.log
+*.core
+*.rtp
+
+# tex work files
+*.aux
+*.bbl
+*.blg
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.snm
+*.toc
+*.dvi
+
+# figures & docs
+*.gif
+*.jpg
+*.png
+*.eps
+*.pdf
+*.ps
+
+# archives and packages
+*.gz
+*.tgz
+*.tar
+*.zip
+*.bz2
+
+# executables and libs
+*.mex*
+*.x
+*.a
+*.o
+*.so
+
+# backup files
+*.bak
+*~
+
+# directories
+MEX_*
+OCO_PWang
+IPFILES
+UNUSED
+UMBC_MT_CKDmodels_50_51_52_53_55_56_60
+RUN6_DRIVERS
+RUN7_DRIVERS
+Backup*
+WORKS_*
+CO2_RAL_FITS_2200cm
+CO2_JJOHNS_FITS
+CO2_RAL_FITS
+RAL_FITS_SALSIFY
+OPTIM12.1
+Backup2010_11_28
+Run7_Strow
+SAFE_A64_Aug07_2010
+SAFE_A64
+CRIS
+GLAB
+Global_Data_HITRAN20_Unknown
+TESTHARTMANN_2007
+JMHARTMANN_2007
+CO2_MATFILES_ORIG
+HITRAN
+
+# special cases
+# scatter_*.f
+

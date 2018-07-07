@@ -1,0 +1,35 @@
+
+Matlab procedures to read HITRAN IR cross section data
+
+Version 1.1
+
+H. Motteler, 3 Apr 00
+
+
+The main Matlab procedures are
+
+  calc_xsec.m     - interpolates or extrapolates tabulated xsec
+                    data to an arbitray temperature profile; this 
+		    is the "main" xsec routine 
+
+  browse_xsec.m   - view selected tabulated or extrapolated data
+
+  summary_xsec.m  - plots a overview of all the IR xsec data
+
+  read_xsec.m     - reads a single gas HITRAN xsec file and returns 
+                    the contents in a matlab structure
+
+  split_xsec.m    - split a concatenated xsec file (e.g., HITRAN 92)
+	            into individual gas files
+
+The above procedures are documented as usual with Matlab ".m" files,
+with initial comments accessible either directly or with the matlab
+"help" command.
+
+The tar file distribution also includes a "cleaned up" version of
+the HITRAN 98 IR cross-section data.
+
+See read_xsec.txt for more information.
+
+
+

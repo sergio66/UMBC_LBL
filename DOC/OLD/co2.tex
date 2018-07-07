@@ -1,0 +1,283 @@
+%\documentclass[11pt]{elsart}
+\documentclass[11pt]{article}
+
+\usepackage{longtable}
+%\usepackage{lucbr}
+\usepackage{graphicx}
+\usepackage{color}
+%\usepackage{strow_defs}
+
+\input strowpreprint
+
+%\input ASL_defs
+
+\begin{document}
+
+%\begin{frontmatter}
+
+\title{MatlabLBLco2 : An Algorithm to compute CO2 Line-by-Line spectra}
+
+\author{Sergio De Souza-Machado, L. Larrabee Strow}
+\author{David Tobin, Howard E. Motteler, and Scott E. Hannon} 
+
+%\address{University of Maryland Baltimore County, Baltimore, MD 21250 USA}
+
+\begin{abstract}
+  This file tells the user how to modify $run6co2.m$ and its associated files 
+  so that one can vary the bands used, duration of collision and other
+  parameters.
+
+\end{abstract}
+
+%\end{frontmatter}
+
+\section{run6co2 : choosing the band}
+Basically, the code first reads in all lines from the HITRAN database, above
+a certain minimum strength and between the specified start/stop wavenumbers, 
+$modulo$ parameter xfar (typically $\pm 150 cm^{-1}$ for CO2).
+
+These lines can then be broadly broken into two categories : those which belong
+to bands for which there exists line mixing code, and those for which there
+is no linemixing code. We call these two sets of lines as those belonging to
+``bands'' and those belonging to the ``background''.
+
+At present, the code defaults to computing line mixing for all sigpi, sigsig, 
+deltpi, deldelt and pipi bands that it can handle. These are all specified
+in the section  titled ``REMOVE THE BAND DATA FROM THE BACKGROUND''. This 
+section separates the ``band'' lines from the rest of the ``background'' 
+lines, so that the lines are not used twice in the computation of the spectra.
+If the user wants to limit the bands for which line mixing is computed,
+this section has to be modified.
+
+\begin{verbatim}
+%%%%%%%%%%%%%%% REMOVE THE BAND DATA FROM THE BACKGROUND %%%%%%%%%%%%%%% 
+CO2q_sigpi = [618 648 667 720 791 2080]; 
+CO2q_delpi = [668 740 2093]; 
+bandQ=union(CO2q_sigpi,CO2q_delpi); 
+ 
+CO2pr_sigsig   = [2350 2351 2352 2353 2354]; 
+CO2pr_deltdelt = [2310 2311]; 
+CO2pr_pipi     = [2320 2321 2322]; 
+CO2pr_sigpi    = [667 720]; 
+bandPR=union(CO2pr_sigsig,CO2pr_deltdelt); 
+bandPR=union(bandPR,CO2pr_pipi); 
+bandPR=union(bandPR,CO2pr_sigpi); 
+ 
+band=union(bandQ,bandPR); 
+ 
+%ZZZ 
+%%%%%band=[2350];  
+\end{verbatim}
+
+If the user wanted to only include the main sigsig band (2350), he/she would 
+search for $ZZZ$ and then change band to band=[2350].\\
+If the user wanted to only include all the sigsig bands, he/she would 
+search for $ZZZ$ and then change band to band=[2350 2351 2352 2353 2354].\\
+
+\section{run6co2 : turning off background lines}
+Having chosen what band(s) to use, the user can now choose to either
+turn off all remaining background lines, or to use all remaining
+background lines. At present the code defaults to using all remaining 
+background lines. To turn this feature off, do another search for $ZZZ$ : you 
+should end up in the following section
+
+\begin{verbatim}
+%%%%%%%%%%%%%%%%%%%%%% do background calc  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+domesh = +1;   %this does stuff the fast way!!!!!!! ie Genln2 way 
+domesh = -1;   %this does stuff the slow way!!!!!!! add ALL lines everywhere 
+ 
+domesh = +1;   %this does stuff the fast way!!!!!!! ie Genln2 way 
+ 
+if domesh > 0 
+ fprintf(1,'\n doing BACKGROUND ... \n'); 
+%%%%%%%ZZZ 
+ for  ii=1:nwide    %OUTER LOOP OVER WIDE MESH  
+%%  for  ii=1:-1    %OUTER LOOP OVER WIDE MESH  
+\end{verbatim}
+
+If the user wants to turn off the background lines, comment out the first loop
+and uncomment the second loop (which, as you will notice, does NOTHING as it
+is not executed!!!)
+\begin{verbatim}
+%% for  ii=1:nwide    %OUTER LOOP OVER WIDE MESH  
+  for  ii=1:-1    %OUTER LOOP OVER WIDE MESH  
+\end{verbatim}
+
+\section{removeCO2lines : specifying P vs R}
+Using $band$ in $run6co2$ as specified above, only allows the user to turn 
+on/off a complete band (P and R (and mebbe Q)). If the user wants finer control
+over this, then he/she must go to file $removeCO2lines.m$.
+The $PQR$ lines for a band are coded according to 
+
+\begin{verbatim}
+%PQR is a code that tells us which bands to add in  01 = Q delt pi 
+%                                                   02 = Q sig  pi 
+ 
+%                                                  -11 = P sig  sig 
+%                                                  -12 = P delt delt 
+%                                                  -13 = P pi   pi 
+%                                                  -14 = P sig  pi 
+%                                                  -15 = P delt pi 
+ 
+%                                                  +11 = R sig  sig 
+%                                                  +12 = R delt delt 
+%                                                  +13 = R pi   pi 
+%                                                  +14 = R sig  pi 
+%                                                  +15 = R delt pi 
+%bandtype tells you which band to do eg 740 etc 
+\end{verbatim}
+
+By default, all the above codes are searched for, by specifying them all
+in an array $IndicesToSearch$. To turn on/off some branches, the user 
+must reset the $IndicesToSearch$ array, as well as go down the file and turn 
+off all unnecessary branches.
+\begin{bf}
+this is quite tricky, and I would not recommend messing with this part of 
+the code unless you know what you are doing!!!!!!!
+\end{bf}
+
+Note that at present the code has the default of using ALL branches for 
+ALL bands :
+\begin{verbatim}
+ugh=-1; %do not do the PR 15 um band line mixing 
+ugh=0;  %only do Q720,741 bands 
+ugh=+1; %do everything  
+
+ugh=+1;
+\end{verbatim}
+If the user only wanted to do two Q branches in 15 um band (Q720,740), then 
+$ugh$ should be reset to 0. 
+
+However, the user can control the branches even more delicately.
+For example, suppose the user only wanted to use the R sig sig branch.
+In $run6co2.m$ he/she would have selected $band=[2350]$, but he/she can now
+further tune this choice by uncommenting the second line below, and commenting 
+out the third line: 
+
+\begin{verbatim}
+  %this would only do the R sig sig branch!!!!!! 
+  %IndicesToSearch=[01 02     11 -12 12 -13 13 -14 14 -15 15]; 
+   IndicesToSearch=[01 02 -11 11 -12 12 -13 13 -14 14 -15 15]; 
+\end{verbatim}
+
+One sees that $-11$ is missing from the array. The user now has to search for
+$P_sigsig$, and comment out all lines in that block
+\begin{verbatim}
+%  iii = iii+1; 
+%  P_sigsig        =  [2350 2351 2352 2353 2354]; 
+%  P_sigsig_lower  =  [1    1    1     3    5]; 
+%  P_sigsig_upper  =  [9    9    9     23   25]; 
+%  P_isotope      =   [1    2    3     1    1]; 
+%  str.name(iii,1:10) = 'P_sigsig  ';  
+%  str.ID(iii,1)      = -11;    
+%  str.PQRtype(iii,1) = 'P'; 
+%  str.number(iii,1)  = 5; 
+%  str.iso(iii,1:str.number(iii,1))      = P_isotope; 
+%  str.bbb(iii,1:str.number(iii,1))      = P_sigsig;        
+%  str.thelower(iii,1:str.number(iii,1)) = P_sigsig_lower;  
+%  str.theupper(iii,1:str.number(iii,1)) = P_sigsig_upper; 
+\end{verbatim}
+without touching anything else!!!!!!!!!!!!!!!
+
+\section{co2param.m}
+This file,in subdir CO2\_COMMON, allows the user to globally control the 
+beta and duration of collision parameters, for ALL bands. 
+
+For the Q delta\_pi band, we need four parameters : beta\_pi\_self, 
+beta\_pi\_air, beta\_delt\_self,beta\_delt\_air, so these are sent out through 
+beta\_self,beta\_for,b2s,b2f, with the first two parameters (ie the 
+duration of collision) being irrelevant.
+
+For the PR delta\_pi band, we only need the duration of collision parameter,
+as all line mixing is computed using $k/klor = 0.5$. Thus the first two
+parameters sent out are important, the rest are irrelevant.
+
+For all other bands, we need the two duration of collision parameters, and the 
+the two beta parameters. Thus the last two parameters that are sent out are 
+irrelevant (and are set to 0.0)
+
+The duration of collision parameters were computed as follows. Using Dave 
+Tobin's PR\_sigsig GLOBAL fitting code, files 8,9,10 were used to determine
+duration, but since these were for for pure CO2, this is a measurement of
+duration\_self = 9.244381131571670e-03. Files 2,3,4,5,6 were used to compute 
+the duration factor for an air/Co2 mix, obtaining a value of 
+duration = 3.872568524276932e-03; assuming \\
+\begin{math}
+duration=(pself*duration\_pure+(ptotal-pself)*duration\_for)/ptotal;  
+\end{math}
+we get duration\_for = 3.590130719741353e-03;
+
+For the 4 um band, the beta values were obtained in a very similar fashion,
+yielding beta\_self = 7.178170098503445e-01, beta  = 9.815991792047214e-01,
+beta\_for=9.954682513847358e-01
+
+\begin{verbatim}
+%this file sets the beta parameters etc
+function [duration_self,duration_for,beta_self,beta_for,b2s,b2f] = ...
+         co2_param(band)
+%function [duration_self,duration_for,beta_self,beta_for,b2s,b2f] = ...
+%         co2_param(band)
+
+
+%b2s,b2f=0 for all bands except the PR_deltpi bands
+b2s=0.0;
+b2f=0.0;
+
+%use this d.of.c parameter everywhere!!!!!!!
+%this is from the files 8,9,10 in PR_sigsig/GLOBAL
+duration_self = 9.244381131571670e-03;
+
+%this is from the files 2,3,4 in PR_sigsig/GLOBAL
+duration  = 3.872568524276932e-03;
+%duration=(pself*duration_pure+(ptotal-pself)*duration_for)/ptotal; 
+%for files 2,3,4 ptotal= 1.002026315789474, pself=0.05005263157894737
+%%%%%%%%%%%%was using duration_for = 3.589841544945630e-03  ptotal=1.002
+duration_for = 3.590130719741353e-03;
+
+if ((band == 618)|(band == 648)&(band == 662)|(band == 667)|(band == 720)|...
+              (band == 791)|(band == 2080))
+  %this is for the 15 um band
+  %sigpi band   
+  %for Q branch, duration is irrelevant, so this is used by PR_sigpi/loader.m
+  %used for PQR branches
+  beta_self = 0.5358;            %self broadened        %%%%%used to be 0.5
+  beta_for  = 0.6002;            %foreign broadened     %%%%%used to be 0.62
+  
+elseif  ((band == 668)|(band == 740)|(band ==2093))
+  %this is for the 15 um band
+  %deltpi band    for Q branch, duration is irrelevant
+  beta_pi_self   = 0.5407505;  % fitted from pure Pi-Sigma data 
+  beta_pi_air    = 0.5995593;  % fitted from air-broadened Pi-Sigma data 
+  beta_delt_self = 0.4880067;  % fitted from pure Pi-Delta data 
+  beta_delt_air  = 0.72172644; % fitted from air-broadened Pi-Delta data 
+
+  beta_self     = beta_pi_self;
+  beta_for      = beta_pi_air;
+  b2s           = beta_delt_self;
+  b2f           = beta_delt_air;
+
+  %for PR branch, we DO NOT do complete line mixing ie we just use k/klor=0.5
+  %and then use the d. of .c parameter there
+  %so this file is called by PR_deltpi but just uses d. of. c
+  %this is for the 4 um band
+elseif  ((band == 2310)|(band == 2311)  |  ...                      %deltdelt
+         (band == 2320)|(band == 2321)|(band == 2322) | ...         %pipi
+         (band== 2350)|(band== 2351)|(band == 2352)|(band ==2353)| ...
+         (band==2354))                                              %isgsig
+  %this is from the files 8,9,10 in PR_sigsig/GLOBAL
+  beta_self = 7.178170098503445e-01; 
+  %this is from the files 2,3,4 in PR_sigsig/GLOBAL
+  beta  = 9.815991792047214e-01; 
+  %beta=(pself*beta_pure+(ptotal-pself)*beta_for)/ptotal; 
+  %for files 2,3,4 ptotal= 1.002026315789474, pself=0.05005263157894737
+  %%%%%%% was using beta_for=9.954824512760044e-01 (ptotal=1.002)
+  beta_for=9.954682513847358e-01;
+
+else
+  error('none of bands in this file matches YOUR band!!')
+  end
+
+
+\end{verbatim}
+
+\end{document}

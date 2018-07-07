@@ -1,0 +1,30 @@
+
+            HITRAN Database Reader and Tools
+
+                       Version 1.4
+                     for HITRAN 2004
+
+                    Howard E. Motteler
+                        12 Dec 2006
+
+
+This distribution includes a Matlab HITRAN reader,some tools for
+manipulating HITRAN files, and examples of using the Unix "sort"
+utility to merge, update, or sort a HITRAN database.
+
+The main pieces are
+
+  read_hitr.txt    - more detiled information
+  read_hitran2.m   - reference version Matlab HITRAN reader
+  read_hitran.c    - fast C mex version of Matlab HITRAN reader
+  hselect.c        - C source for the select utility
+  CHANGES          - changes from HITRAN2K to HITRAN04
+
+To compile the programs, check the path to the Matlab "mex"
+compiler (the default is /usr/local/matlab/bin) in the Makefile,
+and simply type "make".  The resulting mex file needs to be on
+the Matlab search path.
+
+The primary source for information about the HITRAN database is
+http://cfa-www.harvard.edu/HITRAN
+

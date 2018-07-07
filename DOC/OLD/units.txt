@@ -1,0 +1,10 @@
+/asl/packages/Genln2/Layers/layout.f
+
+!OUTPUT PARAMETERS:
+C    type      name    purpose                     units
+C    --------  ------  --------------------------  ---------------------
+C    REAL arr  ALAY    avg gas amount, AIRS layer  k.mol/cm^2
+C    READ arr  DZLAY   layer thickness             m
+C    REAL arr  PLAY    avg air pressure, AIRS lay  atm
+C    REAL arr  TGLAY   avg gas temp, AIRS layers   K
+C    REAL arr  TLAY    avg air temp, AIRS layers   K

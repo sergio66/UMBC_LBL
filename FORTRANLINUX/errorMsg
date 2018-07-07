@@ -1,0 +1,38 @@
+
+ min/max wavennumber of lines = 580.165200 654.998650 
+found     8334 lines in the HITRAN file ... proceeding
+gasid   3 mesh   1 start stop freq = 605.00000 606.00000
+ nrhs,nlhs =  10 1
+ here 1
+ 1
+    1 1 189
+   xxx  1 1 189
+ 2
+
+------------------------------------------------------------------------
+       Segmentation violation detected at Fri Jun 18 10:31:36 2010
+------------------------------------------------------------------------
+
+Configuration:
+  MATLAB Version:   7.9.0.529 (R2009b)
+  MATLAB License:   334413
+  Operating System: Linux 2.6.18-164.el5 #1 SMP Tue Aug 18 15:51:48 EDT 2009 x86_64
+  GNU C Library:    2.5 stable
+  Window System:    The X.Org Foundation (10400090), display localhost:15.0
+  Current Visual:   0x23 (class 4, depth 24)
+  Processor ID:     x86 Family 15 Model 1 Stepping 3, AuthenticAMD
+  Virtual Machine:  Java 1.6.0_12-b04 with Sun Microsystems Inc. Java HotSpot(TM) 64-Bit Server VM mixed mode
+  Default Encoding:  UTF-8
+
+Fault Count: 1
+
+Register State:
+  rax = 00002aaaca0f1070   rbx = 3d2800002aaac89b
+  rcx = 00002aaaca0e4560   rdx = 00002aaaca0f1098
+  rbp = 0000000041dbaf30   rsi = 000000000edac7a4
+  rdi = 0000000041dbbad2   rsp = 0000000041dbaf20
+   r8 = 0000000000000000    r9 = 0000000000000000
+  r10 = 0000000000000000   r11 = 0000000000000206
+  r12 = 00002aaaca0f1068   r13 = 00002aaaca0f1070
+  r14 = 0000000041dbbad0   r15 = 00002aaaca0e4548
+  rip = 00002b41412f845c   flg = 0000000000010202

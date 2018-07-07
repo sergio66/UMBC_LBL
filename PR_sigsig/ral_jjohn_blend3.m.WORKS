@@ -1,0 +1,134 @@
+function scum=ral_jjohn_blend3(band,prb,ffff,scumRAL,scumJJ1,scumJJ2,scumJJ3)
+
+%%% this function simply blends the scum(from RAL) and scumJJX (from JJOHNS)
+%%% where strenr > 2.0e-19, use scumRAL (this is in CO2_MATFILES/hit2350,2351)
+%%% where strenr < 2.0e-19, use scumJJ  (this is in CO2_MATFILES/hit2350,2351)
+
+%%% band,prb  = 2350, 'R'   for example
+%%% fr,strenr = line center, temperature adjusted line strength
+%%% scumRAL   = linemix computations using parameters from RAL
+%%% scumJJ1    = linemix computations using parameters from JJ, region 1
+%%% scumJJ2    = linemix computations using parameters from JJ, region 2
+
+    %%% R JULY 4, 2002
+      %%% region == 1 ==> 2380-2391
+      %%% region == 2 ==> 2391-2400
+    %%% R JULY 7, 2002
+      %%% region == 1 ==> 2380-2391
+      %%% region == 2 ==> 2391-2395
+      %%% region == 3 ==> 2395-2405
+    %%% R JULY 10, 2002
+      %%% region == 1 ==> 2380-2391  dv = 0.5
+      %%% region == 2 ==> 2391-2400  dv = 1.0
+      %%% region == 3 ==> 2400-2405  dv = 1.0
+    %%% R JULY 17, 2002
+      %%% region == 1 ==> 2380.0-2391.0  dv = 0.5
+      %%% region == 2 ==> 2391.0-2397.5  dv = 4.0
+      %%% region == 3 ==> 2397.5-2405.0  dv = 4.0
+
+    %%% P JULY 10, 2002
+      %%% region == 3 ==> 2229-2239
+      %%% region == 2 ==> 2239-2249
+      %%% region == 1 ==> 2249-2306
+    %%% P JULY 11, 2002
+      %%% region == 3 ==> 2229-2239
+      %%% region == 2 ==> 2239-2289
+      %%% region == 1 ==> 2289-2306
+
+scum = scumRAL;
+
+if ((band ~= 2350) & (band ~= 2320) & (band ~= 2310))
+  error('ral_jjohn_blend3 only handles bands == 2310,2320,2350!!!!');
+  end
+
+if ((prb == 'r') | (prb == 'R'))
+  if (band == 2350)
+    dv2 = 0.5;  region = [2380 2391];         %%july 17, 2002, damn good!
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 0.5;  region = [2289 2306];         %%july 10, 2002  not that good
+    dv2 = 0.5;  region = [2280 2306];         
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scumRAL.* weightRAL + scumJJ1.* weightJJ;
+
+    dv2 = 1.0; region = [2391 2400];         %%july 10, 2002, pretty good!
+    dv2 = 3.0; region = [2391 2397];         %%july 17, 2002, even better
+    dv2 = 3.0; region = [2391 2399];         %%july 17, 2002, damn good!
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 1.0; region = [2239 2289];         %%july 10, 2002  not that good
+    dv2 = 3.0; region = [2269 2280];         %%july 17, 2002  
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scum.* weightRAL + scumJJ2.* weightJJ;
+
+    dv2 = 1.0; region = [2400 2405];         %%july 10, 2002, pretty good
+    dv2 = 3.0; region = [2397 2405];         %%july 17, 2002, even better
+    dv2 = 4.0; region = [2399 2405];         %%july 17, 2002, damn good
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 1.0; region = [2229 2239];         %%july 10, 2002  not that good
+    dv2 = 1.0; region = [2229 2269];         %%july 17, 2002
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scum.* weightRAL + scumJJ3.* weightJJ;
+
+  elseif (band == 2320)
+    dv2 = 0.5;  region = [2376 2381];         %%july 17, 2002, damn good!
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 0.5;  region = [2250 2270];         %%july 17, 2002  damn good!
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scumRAL.* weightRAL + scumJJ1.* weightJJ;
+ 
+    dv2 = 3.0; region = [2381 2385];         %%july 17, 2002, damn good!
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 3.0; region = [2240 2250];         %%july 10, 2002  
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scum.* weightRAL + scumJJ2.* weightJJ;
+
+    dv2 = 4.0; region = [2385 2405];         %%july 17, 2002, damn good
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 1.0; region = [2220 2240];         %%july 17, 2002
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scum.* weightRAL + scumJJ3.* weightJJ;
+
+  elseif (band == 2310)
+    dv2 = 0.5;  region = [2360 2365];         %%july 17, 2002, damn good!
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 0.5;  region = [2260 2290];         %%july 17, 2002  damn good!
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scumRAL.* weightRAL + scumJJ1.* weightJJ;
+
+    dv2 = 3.0; region = [2365 2370];         %%july 17, 2002, damn good!
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 3.0; region = [2250 2260];         %%july 10, 2002  
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scum.* weightRAL + scumJJ2.* weightJJ;
+
+    dv2 = 4.0; region = [2370 2405];         %%july 17, 2002, damn good
+    weightJJ  = zeros(size(ffff));
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    dv2 = 1.0; region = [2220 2250];         %%july 17, 2002
+    weightJJ = small_leap(region,dv2,ffff,weightJJ);
+    weightRAL = 1 - weightJJ;
+    scum = scum.* weightRAL + scumJJ3.* weightJJ;
+    end
+  end
+
+
+%pp = [exp(-scumRAL);exp(-scumJJ1);exp(-scumJJ2);exp(-scumJJ3)];
+%plot(ffff,pp,ffff,exp(-scum),'.')
+%blowup
+%title('do you like the blending??');
+%pause

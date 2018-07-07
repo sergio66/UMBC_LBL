@@ -1,0 +1,575 @@
+
+We analysed RAL data, and i finally came up with a bunch of coefficients for 
+the PR line mixing in the 4 um range
+
+This is in co2_param_RAL_NEW.m
+19 Feb  8  2001 co2_param.m -> co2_param_RAL_NEW.m
+
+However, when comparing OBS-CALCS in 2385-2400 cm-1 we always have
+  tObs-tCalcs < 0 from 2385->2400 cm-1
+so calcs are too high ==> atmosphere too transeprent ==> k too low
+
+look at the N2 gas amount jacobians 
+/taro/s1/sergio/AIRSPRODUCTS_JACOBIANS/g22_jac.mat fout jout
+even a 10% change in N2 amounts (or conversely, N2 abs coeffs) will only 
+change the observed temperature by about 0.15 K
+
+so slightly CHANGE effects of line mixing beta??????
+use AIRS_FUDGE_FACTOR
+see co2_param_AIRS2002.m    
+ ... if you reduce beta, then you increase k
+     eg reduce beta by 0.999, increase k by 0.01
+ ... if you reduce duration of collision, then you increase k
+     eg reduce dur by 0.999, increase k by 0.001
+function [duration_self,duration_for,beta_self,beta_for,b2s,b2f] = ...
+         co2_param(band,ptotal,pself)
+%function [duration_self,duration_for,beta_self,beta_for,b2s,b2f] = ...
+%         co2_param(band,ptotal,pself)
+
+%%%see history of beta, doc in SPECTRA/CO2_COMMON/co2_param.m.JULY20_2002
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTANT   IMPORTANT %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% this file sets the general parameters for all bands. ie in year 1999-2002,
+%%%% we fit the R branch of the RAL data, and got linemixing,doc parameters
+%%%% which kept us very happy, especially in the 15 um region (the CAMEX and
+%%%% WINTEX data certainly said he 2380-2405 region was improved over the
+%%%% Genln2/Cousin lineshape)
+
+%%%% then came AIRS data in mid 2002 which said
+%%%%%  a) 15 um region is great!
+%%%%%  b) there are still some problems in the 2380-2405 region (as suspected)
+%%%%%  c) there is a big problem, high in the atmosphere, at 2280 cm-1
+
+%%%% so we used JJOHNS data to fix the 2380-2405 region, by using and blending
+%%%%   fits from 2380-2390, 2390-2400,2400-2405 regions
+%%%% and used Cousin lineshape to fix the 2280 region ... get linemix and doc 
+%%%%   parameters for the next strong isotope (2351) that mimic Cousin here
+%%%% and used combination of 2351 (cousin) and 2350 (R) to fix 2200-2230 cm-1
+
+%%% this file still sets general parameters for all bands, in 15 um and 4 um
+%%% regions. However, it modifies the parameters for the 2351 band
+%%% After that, PR_sigsig/yrun_sigsig.m further calls co2_param_JJOHNS2002.m 
+%%% to fine tune the parameters in the 
+%%%    2380-2390, 2390-2400,2400-2405 regions for the main (2350) isotope
+%%%    2270-2290  regions for the nextr strongest (2351) isotope
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTANT   IMPORTANT %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%this file sets the beta parameters etc using RAL data in the 4 um region
+% however OBS-CALCS imply that we have too transperent an atmosphere in
+% the 2385-2400 region, so mebbe we should slightly INCREASE kabs
+%%%%%%%%  thus we need to slightly REDUCE effect of linemixing beta %%%%%%%
+%%%%%%%%  thus we need to slightly REDUCE effect of linemixing beta %%%%%%%
+%%%%%%%%  thus we need to slightly REDUCE effect of linemixing beta %%%%%%%
+
+%b2s,b2f=0 for all bands except the PR_deltpi bands
+b2s=0.0;
+b2f=0.0;
+
+%%from RAL fits : note all were done at T = 296 K
+pt=[2.6800e+01   1.6140e+02   5.6030e+02   9.6170e+02];  pt=pt/1013.25;
+ps=[2.6800e+01   2.6800e+01   2.6800e+01   2.6800e+01];  ps=ps/1013.25;
+pf=pt-ps;
+ratio=pf./pt;
+
+%use this d.of.c parameter everywhere!!!!!!!  from RAL fits
+%%%%%%%%%%%%%%%%%%% BEST BEST BEST FOR RAL DATA %%%%%%%%%%%%%%%%%%%%%%%%%%
+dur=[10.46423654878965 6.573033770334661 5.614703762280506 5.251501801911941];
+%%%%%%%%%%%%%%%%%%% BEST BEST BEST FOR RAL DATA %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%AIRS FUDGE FACTOR
+airs_fudge_dur = 1.000;  dur = dur * airs_fudge_dur;
+dur=dur*1e-3;
+duration_self = dur(1);
+
+if ((ptotal-pself)/ptotal < ratio(3))
+  duration     = interp1(ratio,dur,(ptotal-pself)/ptotal);
+else
+  duration     = spline(ratio,dur,(ptotal-pself)/ptotal);
+  end
+
+if ((ptotal-pself)/ptotal > 0.00001)
+  duration_for = (ptotal*duration - pself*duration_self)/(ptotal-pself);
+else
+  duration_for = duration_self;
+  end
+
+
+%%%%%%%%%%%%%%%%%%%% set up beta parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if (band < 2200)    %%%%this sets up the P/Q/R branch SigPi, DeltPi mixing
+  par_beta_self =   0.5358;            %self broadened     %%%%%used to be 0.5
+  par_beta_for  =   0.6002;            %for  broadened     %%%%%used to be 0.62
+  end 
+
+if ((band == 618)|(band == 648)|(band == 662)|(band == 667)|(band == 720)|...
+              (band == 791)|(band == 1932)|(band == 2080)|(band == 2129))
+  %this is for the 15 um band
+  %sigpi band   
+  %for Q branch, duration is irrelevant, so this is used by PR_sigpi/loader.m
+  %used for PQR branches
+  beta_self = par_beta_self;    %self broadened  
+  beta_for  = par_beta_for;     %foreign broadened
+  
+elseif  ((band == 668)|(band == 740)|(band ==2093))
+  %this is for the 15 um band
+  %deltpi band    for Q branch, duration is irrelevant
+
+  %these parameters were gotten from the various Tobin files! no idea when!
+  %however, in all the obs-calcs done prior to Sept 99, these were the 
+  %parameters that were used. seem to be the best!!!!!!
+  %version1
+  beta_pi_self   = 0.5407505;  % fitted from pure Pi-Sigma data 
+  beta_pi_air    = 0.5995593;  % fitted from air-broadened Pi-Sigma data 
+  beta_delt_self = 0.4880067;  % fitted from pure Pi-Delta data 
+  beta_delt_air  = 0.72172644; % fitted from air-broadened Pi-Delta data 
+
+  %%%%%%%%since things are not working  Aug 2, 2000
+  beta_delt_self=0.51; beta_delt_air=0.89; 
+  beta_pi_self=0.54; beta_pi_air=0.60; % k89
+  
+  %beta_delt_self=0.9; beta_delt_air=0.9; beta_pi_self=0.9; 
+  %beta_pi_air=0.9; % k89new
+  
+  %beta_delt_self=0.60; beta_delt_air=0.95; beta_pi_self=0.54; 
+  %beta_pi_air=0.60; % k95
+  
+  %beta_delt_self=0.60; beta_delt_air=0.60; beta_pi_self=0.54; 
+  %beta_pi_air=0.60; % k60
+  
+  %beta_delt_self=0.00; beta_delt_air=0.00; beta_pi_self=0.00; 
+  %beta_pi_air=0.00; % k00
+
+  beta_self     = beta_pi_self;
+  beta_for      = beta_pi_air;
+  b2s           = beta_delt_self;
+  b2f           = beta_delt_air;
+
+  %for PR branch, we DO NOT do complete line mixing ie we just use k/klor=0.5
+  %and then use the d. of .c parameter there
+  %so this file is called by PR_deltpi but just uses d. of. c
+  %this is for the 4 um band
+elseif  ((band == 2310)|(band == 2311)  |  ...                  %deltdelt
+         (band == 2320)|(band == 2321)|(band == 2322) | ...     %pipi
+         (band == 2350)|(band == 2351)|(band == 2352) | ...
+         (band == 2353)|(band == 2354))                          %isgsig
+
+%%%%%%%%%%%%%%%%%%% BEST BEST BEST FOR RAL DATA %%%%%%%%%%%%%%%%%%%%%%%%%%
+  besp=[6.831266673446708 8.942573853443219 ...
+        9.369380338865858 9.502017378026286];
+%%%%%%%%%%%%%%%%%%% BEST BEST BEST FOR RAL DATA %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  %%%AIRS FUDGE FACTOR
+  airs_fudge_beta = 1.000;  besp = besp * airs_fudge_beta;
+  besp=besp*0.1;
+  beta_self = besp(1);
+
+  %beta=(pself*beta_pure+(ptotal-pself)*beta_for)/ptotal; 
+  %if ((ptotal-pself)/ptotal < ratio(4))
+  %  beta     = interp1(ratio,besp,(ptotal-pself)/ptotal);
+  %else
+  %  beta = besp(4);
+  %  end
+  if ((ptotal-pself)/ptotal < ratio(3))
+    beta = interp1(ratio,besp,(ptotal-pself)/ptotal);
+  else
+    beta = spline(ratio,besp,(ptotal-pself)/ptotal);
+    end
+
+  if ((ptotal-pself)/ptotal > 0.00001)
+    beta_for = (ptotal*beta - pself*beta_self)/(ptotal-pself);
+  else
+    beta_for = beta_self;
+    end
+  %fprintf(1,'in co2_param, bs,bf = %8.6f %8.6f \n',beta_self,beta_for)
+
+else
+  error('none of bands in this file matches YOUR band!!')
+  end
+
+%%% to maintain compatibility with PR_sigsig/driver4um when doing datafits,
+%%% have this parameter
+dofudge = -1;  
+if ((band == 2351) & (dofudge == -1))
+
+  %%%%% these comes from the CO2_COUSIN_FITS; see the ReadMe file Aug 05
+  %%%%% they sure seemed to improve the 2351 lineshapes, right at the
+  %%%%% P-R bandhead at 2270-2290 cm-1
+
+  P =  [-1.9267e-01   5.3168e-01  -3.1755e-02   1.9469e-02];
+  mod_beta = polyval(P,ptotal);
+  mod_doc = 1.000;
+
+  %%% aug 5, 2002
+  %%% at 2200 - 2250 cm-1, 
+  %%% the RAL data seems to imply using the 2350 linemixing parameters 
+  %%%   gives transmissions that are too large (t_obs - t_calcs < 0)
+  %%% the RAL data seems to imply using the 2351 Cousin linemixing parameters
+  %%%   gives transmissions that are too small (t_obs - t_calcs > 0)
+  %%% so let beta --> (betaORIG + betaCOUSIN)/2
+  %%%        beta --> (betaORIG + betaORIG * mod_beta)/2
+  %%%        beta --> betaORIG (1 + mod_beta)/2
+
+  %%% aug 9, 2002
+  %%% this improves things (OBS-CALCS for RAL DATA)
+  %%% but it still hurts the AIRS data!!!
+  %%% so comment it out, and go back to orig RAL parameters from R2350
+ % disp('modifying (basic) beta and doc for 2351 band, 636 CO2 isotope')
+ % disp('using the AVERAGE of the 2350 global results, and 2351 COUSIN center')
+ % beta_for  = beta_for  * (1 + mod_beta)/2;
+ % beta_self = beta_self * mod_beta;
+ % beta=(pself*beta_self+(ptotal-pself)*beta_for)/ptotal; 
+
+  duration_for  = duration_for  * mod_doc;
+  duration_self = duration_self * mod_doc;
+  end
+
+function [duration_self,duration_for,beta_self,beta_for,b2s,b2f] = ...
+         co2_param_JJOHNS2002(band,ptotal,pself,region)
+%function [duration_self,duration_for,beta_self,beta_for,b2s,b2f] = ...
+%         co2_param_JJOHNS2002(band,ptotal,pself,region)
+
+%%% where you see %%% JJ      ==> fits the JJOHNS data very well
+%%%               %%% JJ,RAL  ==> fits the JJOHNS + RAL quite very well
+
+%%%%% to look at birnbaum factors %%%%%%
+%path(path,'/home/sergio/SPECTRA/FORTRANLINUX');
+%doc1=0.001;  y1 =birnbaumWORKS2(000:0.25:500,250,0.1,300,doc1);
+%doc5=0.005;  y5 =birnbaumWORKS2(000:0.25:500,250,0.1,300,doc5);
+%doc10=0.010; y10=birnbaumWORKS2(000:0.25:500,250,0.1,300,doc10);
+%doc20=0.020; y20=birnbaumWORKS2(000:0.25:500,250,0.1,300,doc20);
+%plot((000:0.25:500)-250,[y1; y5; y10; y20])
+
+%%%%%%%%%%%%%%%%%%%% for 2350 band %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% use standard co2_param parameters everywhere EXCEPT
+%%%   region == 1 ==> 2380-2395
+%%%   region == 2 ==> 2390-2395
+%%%   region == 3 ==> 2395-2405
+%%%%%%%%%%%%%%%%%%%% for 2350 band %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%% for 2351 band %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% use standard co2_param parameters everywhere EXCEPT
+%%%   region == 1 ==> 2265-2290
+%%%%%%%%%%%%%%%%%%%% for 2350 band %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%this file sets the beta parameters etc using JJOHNS data in the 4 um region
+%from the AIRS data, as well as CAMEX1 and WINTEX and CLAMS, we see that the
+%obs - calcs in the 4.3 um bandhead, says that our linemixing gives atmospheres
+%that are too transperent ... so we need to "reduce" beta and thus increase abs
+%inbetween the lines
+%Looking at the JJOHNS data, this is evident. So i did some more fits
+
+%b2s,b2f=0 for all bands except the PR_deltpi bands
+b2s=0.0;
+b2f=0.0;
+
+%%% first one from RAL data sets 1
+%%% last  two are from JJOHNS data set 1 and avg JJOHNS data sets (2-4)
+%%% note all were done at T = 296 K
+pt=[2.6800e+01 1.0153e+03 1.0033e+03];  
+ps=[2.6800e+01 5.0716e+01 1.0132e+00];  
+pt=pt/1013.25; 
+ps=ps/1013.25;
+pf=pt-ps;
+ratio=pf./pt;      %%%%%now we need to sort this!!!!!!
+[Y,I] = sort(ratio);
+ratio = ratio(I);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTANT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% basically, this is  2350 stuff ................................
+%%%% but right at the end, we do some 2351 stuff at the 2280-2290 bandhole
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTANT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%use this d.of.c parameter everywhere!!!!!!!  
+if region == 3
+  %this is great for JJOHNS data, from 2395-2405 cm-1
+  dur=[10.46423654878965 5.500000000000 22.97981366176344];   %%% JJ
+  dur=[10.46423654878965 5.500000000000  5.00000000000000];   %%% JJ,RAL
+elseif region == 2
+  %this is great for JJOHNS data, from 2390-2395 cm-1
+  dur=[10.46423654878965 5.5000000000000 22.97981366176344];   %%% JJ
+  dur=[10.46423654878965 5.5000000000000  4.50000000000000];   %%% JJ,RAL
+elseif region == 1
+  %this is great for JJOHNS data, from 2380-2394 cm-1
+  dur=[10.46423654878965 24.0000000000000 22.97981366176344];  %%% JJ,RAL
+  end
+dur=dur(I)*1e-3;             %use sort index I
+duration_self = dur(1);
+
+duration     = interp1(ratio,dur,(ptotal-pself)/ptotal,'linear','extrap');
+if ((ptotal-pself)/ptotal > 0.00001)
+  duration_for = (ptotal*duration - pself*duration_self)/(ptotal-pself);
+else
+  duration_for = duration_self;
+  end
+
+%%%%%%%%%%%%%%%%%%%% set up beta parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if (band < 2200)    %%%%this sets up the P/Q/R branch SigPi, DeltPi mixing
+  par_beta_self =   0.5358;            %self broadened  %%%%%used to be 0.5
+  par_beta_for  =   0.6002;            %for  broadened  %%%%%used to be 0.62
+  end 
+
+if ((band == 618)|(band == 648)|(band == 662)|(band == 667)|(band == 720)|...
+            (band == 791)|(band == 1932)|(band == 2080)|(band == 2129))
+  %this is for the 15 um band
+  %sigpi band   
+  %for Q branch, duration is irrelevant, so this is used by PR_sigpi/loader.m
+  %used for PQR branches
+  beta_self = par_beta_self;    %self broadened  
+  beta_for  = par_beta_for;     %foreign broadened
+  
+elseif  ((band == 668)|(band == 740)|(band ==2093))
+  %this is for the 15 um band
+  %deltpi band    for Q branch, duration is irrelevant
+
+  %these parameters were gotten from the various Tobin files! no idea when!
+  %however, in all the obs-calcs done prior to Sept 99, these were the 
+  %parameters that were used. seem to be the best!!!!!!
+  %version1
+  beta_pi_self   = 0.5407505;  % fitted from pure Pi-Sigma data 
+  beta_pi_air    = 0.5995593;  % fitted from air-broadened Pi-Sigma data 
+  beta_delt_self = 0.4880067;  % fitted from pure Pi-Delta data 
+  beta_delt_air  = 0.72172644; % fitted from air-broadened Pi-Delta data 
+
+  beta_delt_self=0.51; beta_delt_air=0.89; 
+  beta_pi_self=0.54; beta_pi_air=0.60; % k89
+  
+  beta_self     = beta_pi_self;
+  beta_for      = beta_pi_air;
+  b2s           = beta_delt_self;
+  b2f           = beta_delt_air;
+
+  %for PR branch, we DO NOT do complete line mixing ie we just use k/klor=0.5
+  %and then use the d. of .c parameter there
+  %so this file is called by PR_deltpi but just uses d. of. c
+  %this is for the 4 um band
+elseif  ((band == 2310)|(band == 2311)  |  ...                  %deltdelt
+         (band == 2320)|(band == 2321)|(band == 2322) | ...     %pipi
+         (band == 2350)|(band == 2351)|(band == 2352) | ...
+         (band == 2353)|(band == 2354))                         %isgsig
+
+  %%% first one from RAL data sets 1
+  %%% last two from JJOHNS data set 1 and avg JJOHNS data sets (2-4) july3
+  if region == 3
+    %this is great for JJOHNS data, from 2395-2405 cm-1
+    besp = [6.831266673446708 9.350000000000000 7.027982578711146]; %% JJ
+    besp = [6.831266673446708 9.350000000000000 9.750000000000000]; %% JJ,RAL
+  elseif region == 2
+    %this is great for JJOHNS data, from 2390-2395 cm-1
+    besp = [6.831266673446708 9.300000000000000 7.027982578711146]; %% JJ
+    besp = [6.831266673446708 9.300000000000000 9.600000000000000]; %% JJ,RAL
+elseif region == 1
+    %this is great for JJOHNS data, from 2380-2394 cm-1
+    besp = [6.831266673446708 7.000000000000000 7.027982578711146]; %% JJ,RAL
+    end
+  besp=besp(I)*0.1;               %use sort index I
+  beta_self = besp(1);
+
+  %beta=(pself*beta_pure+(ptotal-pself)*beta_for)/ptotal; 
+  %if ((ptotal-pself)/ptotal < ratio(4))
+  %  beta     = interp1(ratio,besp,(ptotal-pself)/ptotal);
+  %else
+  %  beta = besp(4);
+  %  end
+  beta = interp1(ratio,besp,(ptotal-pself)/ptotal,'linear','extrap');
+  if ((ptotal-pself)/ptotal > 0.00001)
+    beta_for = (ptotal*beta - pself*beta_self)/(ptotal-pself);
+  else
+    beta_for = beta_self;
+    end
+ %fprintf(1,'in co2_paramJJ, bs,bf = %8.6f %8.6f \n',beta_self,beta_for)
+
+else
+  error('none of the bands in this file matches YOUR band!!')
+  end
+
+if ((band == 2351) & (region == +1))
+  %%%%%these comes from the CO2_COUSIN_FITS; see the ReadMe file Aug 05
+  P =  [-1.9267e-01   5.3168e-01  -3.1755e-02   1.9469e-02];
+  mod_beta = polyval(P,ptotal);
+  mod_doc = 1.000;
+
+  disp('modifying (region 1) beta and doc for 2351 band, 636 CO2 isotope')
+  disp('using the 2351 COUSIN center')
+  beta_for  = beta_for  * mod_beta;
+  beta_self = beta_self * mod_beta;
+  beta=(pself*beta_self+(ptotal-pself)*beta_for)/ptotal; 
+
+  duration_for  = duration_for  * mod_doc;
+  duration_self = duration_self * mod_doc;
+  end
+
+function [duration_self,duration_for,beta_self,beta_for,b2s,b2f] = ...
+         co2_param(band,ptotal,pself)
+%function [duration_self,duration_for,beta_self,beta_for,b2s,b2f] = ...
+%         co2_param(band,ptotal,pself)
+
+%this file sets the beta parameters etc using RAL data in the 4 um region
+% however OBS-CALCS imply that we have too transperent an atmosphere in
+% the 2385-2400 region, so mebbe we should slightly INCREASE kabs
+%%%%%%%%  thus we need to slightly REDUCE effect of linemixing beta %%%%%%%
+%%%%%%%%  thus we need to slightly REDUCE effect of linemixing beta %%%%%%%
+%%%%%%%%  thus we need to slightly REDUCE effect of linemixing beta %%%%%%%
+
+%b2s,b2f=0 for all bands except the PR_deltpi bands
+b2s=0.0;
+b2f=0.0;
+
+%%from RAL fits : note all were done at T = 296 K
+pt=[2.6800e+01   1.6140e+02   5.6030e+02   9.6170e+02];  pt=pt/1013.25;
+ps=[2.6800e+01   2.6800e+01   2.6800e+01   2.6800e+01];  ps=ps/1013.25;
+pf=pt-ps;
+ratio=pf./pt;
+
+%use this d.of.c parameter everywhere!!!!!!!  from RAL fits
+%%this was used upto April 2000
+%dur=[9.999997661522524 6.762294060993856 5.759869628913939 5.381980420978643];
+%%%%%% this is new 4.00pm on April 13, 2000 - fudge factor == 0.9975 --> 0.96
+%dur=[10.46423715226885 6.573035392098870 5.614703720544624 5.251501811591357];
+%%%%%% this is new 4.00pm on April 14, 2000 - used newN2 and co2 inputs
+%%%%%% as yesterday we had been using Temp=296K,unavg pressures instead of 
+%%%%%% the correct avg temps and pressures; fudge factor == 0.9975 --> 0.96
+
+%%%%%% this was fudged, using jmax = 60 on July 17, 2002
+%%%%%% fudge = [1.00 0.99567 0.99959 1.00156]
+dur=[10.46423654878965 6.544572534109112 5.612401733737971  5.259694144722923];
+%%%%%%%%%%%%%%%%%%% BEST BEST BEST FOR RAL DATA %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% this was used upto July 15, 2002
+%%%%%% global pr2350_jmax = 600 in run7co2.m
+%%%%%% dofudge = -1 in PR_sigsig/driver4um.m
+%%%%%% dofudge = +1 in PR_sigsig/yrun_sigsig.m
+dur=[10.46423654878965 6.573033770334661 5.614703762280506 5.251501801911941];
+%%%%%%%%%%%%%%%%%%% BEST BEST BEST FOR RAL DATA %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%AIRS FUDGE FACTOR
+airs_fudge_dur = 1.000;  dur = dur * airs_fudge_dur;
+dur=dur*1e-3;
+duration_self = dur(1);
+
+if ((ptotal-pself)/ptotal < ratio(3))
+  duration     = interp1(ratio,dur,(ptotal-pself)/ptotal);
+else
+  duration     = spline(ratio,dur,(ptotal-pself)/ptotal);
+  end
+
+if ((ptotal-pself)/ptotal > 0.00001)
+  duration_for = (ptotal*duration - pself*duration_self)/(ptotal-pself);
+else
+  duration_for = duration_self;
+  end
+
+
+%%%%%%%%%%%%%%%%%%%% set up beta parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if (band < 2200)    %%%%this sets up the P/Q/R branch SigPi, DeltPi mixing
+  par_beta_self =   0.5358;            %self broadened     %%%%%used to be 0.5
+  par_beta_for  =   0.6002;            %for  broadened     %%%%%used to be 0.62
+  end 
+
+if ((band == 618)|(band == 648)|(band == 662)|(band == 667)|(band == 720)|...
+              (band == 791)|(band == 1932)|(band == 2080)|(band == 2129))
+  %this is for the 15 um band
+  %sigpi band   
+  %for Q branch, duration is irrelevant, so this is used by PR_sigpi/loader.m
+  %used for PQR branches
+  beta_self = par_beta_self;    %self broadened  
+  beta_for  = par_beta_for;     %foreign broadened
+  
+elseif  ((band == 668)|(band == 740)|(band ==2093))
+  %this is for the 15 um band
+  %deltpi band    for Q branch, duration is irrelevant
+
+  %these parameters were gotten from the various Tobin files! no idea when!
+  %however, in all the obs-calcs done prior to Sept 99, these were the 
+  %parameters that were used. seem to be the best!!!!!!
+  %version1
+  beta_pi_self   = 0.5407505;  % fitted from pure Pi-Sigma data 
+  beta_pi_air    = 0.5995593;  % fitted from air-broadened Pi-Sigma data 
+  beta_delt_self = 0.4880067;  % fitted from pure Pi-Delta data 
+  beta_delt_air  = 0.72172644; % fitted from air-broadened Pi-Delta data 
+
+  %%%%%%%%since things are not working  Aug 2, 2000
+  beta_delt_self=0.51; beta_delt_air=0.89; 
+  beta_pi_self=0.54; beta_pi_air=0.60; % k89
+  
+  %beta_delt_self=0.9; beta_delt_air=0.9; beta_pi_self=0.9; 
+  %beta_pi_air=0.9; % k89new
+  
+  %beta_delt_self=0.60; beta_delt_air=0.95; beta_pi_self=0.54; 
+  %beta_pi_air=0.60; % k95
+  
+  %beta_delt_self=0.60; beta_delt_air=0.60; beta_pi_self=0.54; 
+  %beta_pi_air=0.60; % k60
+  
+  %beta_delt_self=0.00; beta_delt_air=0.00; beta_pi_self=0.00; 
+  %beta_pi_air=0.00; % k00
+
+  beta_self     = beta_pi_self;
+  beta_for      = beta_pi_air;
+  b2s           = beta_delt_self;
+  b2f           = beta_delt_air;
+
+  %for PR branch, we DO NOT do complete line mixing ie we just use k/klor=0.5
+  %and then use the d. of .c parameter there
+  %so this file is called by PR_deltpi but just uses d. of. c
+  %this is for the 4 um band
+elseif  ((band == 2310)|(band == 2311)  |  ...                  %deltdelt
+         (band == 2320)|(band == 2321)|(band == 2322) | ...     %pipi
+         (band == 2350)|(band == 2351)|(band == 2352) | ...
+         (band == 2353)|(band == 2354))                          %isgsig
+
+  %%%%%this was before April 2000  - fudge factor = 1.0
+%  besp=[6.858492724649634 8.895720470576258 ... 
+%         9.320465583739526 9.453734030764889];
+  %%%%%% this is new 3.00pm on April 13, 2000
+%  besp=[6.831610402702522  8.942621789321642 ...
+%        9.369734582258997 9.502437339211491];
+  %%%%%% this is new 4.00pm on April 13, 2000 - fudge factor == 0.9975 --> 0.96
+%  besp=[6.831266545391199 8.942573481127287 ...
+%        9.369380351382158 9.502017375162639];
+%%%%%% this is new 4.00pm on April 14, 2000 - used newN2 and co2 inputs
+%%%%%% as yesterday we had been using Temp=296K instead of the correct avg 
+%%%%%% temps and pressures; fudge factor == 0.9975 --> 0.96
+
+%%%%%% this was fudged, using jmax = 60 on July 17, 2002
+%%%%%% fudge = [1.00 0.993073 0.995393 0.987198]
+  besp=[6.831266673446708 8.88062864436041 ...
+        9.326215603644702 9.380372551552794];
+%%%%%%%%%%%%%%%%%%% BEST BEST BEST FOR RAL DATA %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% this was used upto July 15, 2002
+%%%%%% global pr2350_jmax = 600 in run7co2.m
+%%%%%% dofudge = -1 in PR_sigsig/driver4um.m
+%%%%%% dofudge = +1 in PR_sigsig/yrun_sigsig.m
+  besp=[6.831266673446708 8.942573853443219 ...
+        9.369380338865858 9.502017378026286];
+%%%%%%%%%%%%%%%%%%% BEST BEST BEST FOR RAL DATA %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  %%%AIRS FUDGE FACTOR
+  airs_fudge_beta = 1.000;  besp = besp * airs_fudge_beta;
+  besp=besp*0.1;
+  beta_self = besp(1);
+
+  %beta=(pself*beta_pure+(ptotal-pself)*beta_for)/ptotal; 
+  %if ((ptotal-pself)/ptotal < ratio(4))
+  %  beta     = interp1(ratio,besp,(ptotal-pself)/ptotal);
+  %else
+  %  beta = besp(4);
+  %  end
+  if ((ptotal-pself)/ptotal < ratio(3))
+    beta = interp1(ratio,besp,(ptotal-pself)/ptotal);
+  else
+    beta = spline(ratio,besp,(ptotal-pself)/ptotal);
+    end
+
+  if ((ptotal-pself)/ptotal > 0.00001)
+    beta_for = (ptotal*beta - pself*beta_self)/(ptotal-pself);
+  else
+    beta_for = beta_self;
+    end
+  %fprintf(1,'in co2_param, bs,bf = %8.6f %8.6f \n',beta_self,beta_for)
+
+else
+  error('none of bands in this file matches YOUR band!!')
+  end
+
