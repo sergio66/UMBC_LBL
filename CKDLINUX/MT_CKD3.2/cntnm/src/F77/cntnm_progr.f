@@ -48,7 +48,7 @@ C
 C
       IMPLICIT REAL*8           (V)                                     ! F00030
 c
-      COMMON /ABSORB/ V1ABS,V2ABS,DVABS,NPTABS,ABSRB(5050)              ? 500060
+      COMMON /ABSORB/ V1ABS,V2ABS,DVABS,NPTABS,ABSRB(5050)             ? 500060
 C
       COMMON /CVRCNT/ HNAMCNT,HVRCNT
 c

@@ -22,5 +22,6 @@ c IS THAT THE INCLUDE FILES ARE DIFFERENT!!!!!
 c************************************************************************
        include '/home/sergio/SPECTRA/CKDLINUX/dspline.F'
 c************************************************************************
-c this is MT_CKD2.5 
+c this is MT_CKD2.5
+c directly taken from LBLRTM 12.1, and probably from AER MT_CKD2.5 code
       include '/home/sergio/SPECTRA/CKDLINUX/calcon_12_1.F'

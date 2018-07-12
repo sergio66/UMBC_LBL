@@ -224,13 +224,13 @@ fprintf(1,'you have asked for CKD version %8.6f \n',CKD);
 %% end
 
 %% this is new list
-%% 0,21,23,24 are the 1990s CKD
-%% 1,25       are new MT-CKD
-%% 4 6        are derived from MT-CKD1 (cant remember how to derived 2,3,5)
-%%            are derived from MT-CKD25
+%% 0,21,23,24  are the 1990s CKD
+%% 1,25,27,32  are new MT-CKD
+%% 4 6         are derived from MT-CKD1 (cant remember how to derived 2,3,5)
+%%             are derived from MT-CKD25
 origCKD = [0 21 23 24];
 MTCKD1  = [ [1 ] [4 6]];
-MTCKD25 = [ [25] [   ]];
+MTCKD25 = [ [25  27 32]];
 allowedCKD = [origCKD MTCKD1 MTCKD25];
 if (~ismember(CKD,allowedCKD))
   disp('valid CKD versions = ')

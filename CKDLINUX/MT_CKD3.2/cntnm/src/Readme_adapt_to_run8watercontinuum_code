@@ -1,0 +1,51 @@
+cp cntnm_progr.f90 cntnm_progr_sergio.f90
+   edit cntnm_progr_sergio.f90 so that parameters are input through keyboard (or file)
+   basically insert junk1.f90 at the beginning
+
+then edit so you get rid of inputting params, and now they come in as arguments
+   see  >>>>> begin edit input params >>>>
+   see  >>>>>   end edit input params >>>>   
+
+then edit so that WK(X) is set according to what is input
+   see  >>>>> begin edit WK(X) >>>>
+   see  >>>>>   end edit WK(X) >>>>   
+
+then edit so that start/stop wavenumver set according to what is input
+   see  >>>>> begin edit V1V2DV >>>>
+   see  >>>>>   end edit V1V2DV >>>>   
+
+modify       CALL CONTNM(JRAD)  to       CALL CONTNM(JRAD,rXSelf,rXforn)
+
+modify the do 100 I=1,NPTABS loop
+
+modify the do 200 i=1,npth   loop
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+now go
+  cp contnm.f90 contnm_sergio.f90
+
+and edit so
+    SUBRT CONTNM(JRAD)  to       SUBR CONTNM(JRAD,rXSelf,rXforn)  has 3 arguments!
+and edit so you also have
+      parameter (n_absrb=150050)
+      parameter (nc=160000)
+      
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+FINALLY EDIT cntnm_progr_sergio.f90 so that
+  main program is in driver_cntnm_progr_sergio.f90
+  and it then includes cntnm_progr_sergio.f90
+  
+and everything from
+  SUBROUTINE CALCON_MTCKD_32_loc remains in cntnm_progr_sergio.f90
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+BE CAREFUL ABOUT THE INCLUDES .. if using the ../build subdir make
+   gmake -f make_cntnm_sergio_run8 linuxINTELdbl
+then the includes are NOT NEEDED (else you will have multiple definitons of
+same subroutines)
+
+but if you are making the /home/sergio/SPECTRA/CKDLINUX/calcon_3p2.F then you would
+need the includes ....

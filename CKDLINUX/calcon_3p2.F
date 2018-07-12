@@ -1,8 +1,11 @@
 c basically copied from 
-c /strowdata1/shared/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/MT_CKD2.5/cntnm/src_sergio/cntnm_progr_sergio.f
+c /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f
+
+c see /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/Readme_adapt_to_run8watercontinuum_code
+c see /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
 
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      SUBROUTINE calcon_mtckd_25_loc(CON,IDGAS,NFREQ,FREQ,FSTEP,NLAY,
+      SUBROUTINE calcon_mtckd_32_loc(CON,IDGAS,NFREQ,FREQ,FSTEP,NLAY,
      $    T,P, PARTP,AMT,rXSelf,rXForn,whichlayer)
 
       IMPLICIT NONE
@@ -45,7 +48,7 @@ c      print *,'here2 ',v1absIN,v2absIn,dvabsIN,NFREQ
 
       !! [Self Forn   o3 o2 n2]      
       IF (iGasID .EQ. 1) THEN
-        call CALCON_MTCKD_12_1_loc(paveIN,ppaveIN,taveIN,num_kmolesIN,
+        call CALCON_MTCKD_32_loc(paveIN,ppaveIN,taveIN,num_kmolesIN,
      $                 v1absIN,v2absIN,dvabsIN,NFREQ,
      $                 raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,
      $                 raFreq,raAbs,iNumPts,
@@ -146,9 +149,6 @@ c        print *,'calling calcon_mtckd_12_1_loc'
       END
 
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-c this is basically SUBR CALCON_MTCKD_06_loc in
-c /home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/MT_CKD2.5/cntnm/src_sergio/cntnm_progr_sergio.f
-
       SUBROUTINE CALCON_MTCKD_12_1_loc(
      $                paveIN,ppaveIN,taveIN,num_kmolesIN,
      $                v1absIN,v2absIN,dvabsIN,NFREQ,
@@ -805,8 +805,6 @@ c      print *,XKT,RADCN2,XKT*RADCN2
       END
 
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-! this is basically
-! /home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/MT_CKD2.5/cntnm/src_sergio/contnm_sergio.f
-      Include 'contnm_12_1.F'   
+      Include 'contnm_12_1.F'
 
 
