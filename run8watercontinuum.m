@@ -357,7 +357,8 @@ dff=ffin*nbox;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if ((local == 0)|(local==1))          
-  %local lineshape for water 
+  %local lineshape for water
+  fprintf(1,'CKD CKD_0 = %3i %3i local = %2i \n',CKD,CKD_0,local)
   out_array = do_local_lineshape_CKD(outwave,out_array,AVOG,c2,...
                    temperature,press,partpress,GasAmt,...
                    CKD,CKD_0,selfmult,formult,profname,...

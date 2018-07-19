@@ -5,7 +5,7 @@ function [out_array] = do_local_lineshape_CKD(outwave,out_array,AVOG,c2,...
 
 %% used by run8watercontinuum.m
 
-if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25]))
+if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
   fprintf(1,'\n doing CKD continuum %3i lineshape = %2i \n',CKD,local);
   dff=ffin*nbox;
 
@@ -49,16 +49,16 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25]))
         str  = ...
            'using calconwater_loc_ckd2p5,2p7,3p2 in one gulp ... ii [p T pp] CKD = ';
         fprintf(1,'%s %3i %8.6e %8.6e %8.6f %3i\n',str,ponk)
-	if (ismember(CKD_0,25)
+	if (ismember(CKD_0,25))
           scum = calconwater_loc_ckd2p5(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
-	elseif (ismember(CKD_0,27)
+	elseif (ismember(CKD_0,27))
 	  error('huh? CKD 27?')
           scum = calconwater_loc_ckd2p7(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
-	elseif (ismember(CKD_0,32)
+	elseif (ismember(CKD_0,32))
           scum = calconwater_loc_ckd3p2(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);

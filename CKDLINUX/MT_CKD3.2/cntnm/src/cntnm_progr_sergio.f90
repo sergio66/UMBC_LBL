@@ -1,3 +1,8 @@
+!module cntnm_progr_sergio
+!use ../build/contnm_sergio
+!IMPLICIT REAL*8           (V)
+!contains
+
 ! same as cntnm_progr.f except modified to only dump out coeffs for given input T
 ! ie the pressure, path length and gas amount can be defaulted to dummy values
 ! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,6 +73,7 @@
 !     individual requirements
 !
 !
+
       Use lblparams
       USE phys_consts
       USE planet_consts
@@ -86,6 +92,7 @@
       !INTEGER n_absrb,nc
       ! this is set in lblparams.f90
       !      parameter (n_absrb=150050)
+       INTEGER nc
             parameter (nc=160000)
 
 ! >>>>>>>>>>>>>>>>>>>>>>>>>>>>> end junk1.f >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -141,6 +148,11 @@
 !                                                                         F00100
       CHARACTER*8      XID,       HMOLID,      YID 
       REAL*8               SECANT,       XALTZ
+
+      character*160 line
+      integer*4 k
+      integer*4 mexPrintf
+
 !
       character*8 holn2
 !                                                                         F00120
@@ -152,10 +164,35 @@
       
       icflg = -999
 !
-      do 1, i=1,7
-         xcnt(i)=1.
- 1    continue
+!!! see /home/sergio/SPECTRA/CKDLINUX/calcon_12_1.F line 284
+!!! initialize the multipliers (weights or nm_weight) for the 7 imp gases
+!!! common /cntscl/ XSELF,XFRGN,XCO2C,XO3CN,XO2CN,XN2CN,XRAYL
 
+! orig
+!      do 1, i=1,7
+!         xcnt(i)=1.
+! 1    continue
+
+    do 1, i=1,7
+     !xcnt(i)=1.     !!use all gases
+      xcnt(i)=0.      !!use  no gases, except as given below
+  1    continue
+
+  IF (iGASID .EQ. 1) THEN
+    xcnt(1) = 1.0
+    xcnt(2) = 1.0
+  ELSEIF (iGASID .EQ. 3) THEN  
+    xcnt(4) = 1.0
+  ELSEIF (iGASID .EQ. 7)  THEN
+    xcnt(5) = 1.0
+    xcnt(6) = 1.0
+  ELSEIF (iGASID .EQ. 22) THEN
+    xcnt(5) = 1.0
+    xcnt(6) = 1.0
+  END IF
+  
+!  write (*,*), (xcnt(i),i=1,7)
+  
       do 2, i=1,5050
          absrb(i)=0.
  2    continue
@@ -213,8 +250,9 @@
 !
       iprcnt = ipr
                    CALL PRCNTM 
-      iprcnt = ipu
-                   CALL PRCNTM
+!      iprcnt = ipu
+!                   CALL PRCNTM
+
 !
 !   THE FOLLOWING IS AN EXAMPLE FOR A ONE CM PATH (SEE CNTNM.OPTDPT FOR RESULTS)
 !
@@ -332,6 +370,11 @@
     WK(7) = 0.0
   END IF
 
+!  do i=1,7
+!    write(line,*) 'i,xcnt(i),wk(i),pave,tave,line = ',i,xcnt(i),wk(i),pave,tave,nptabs
+!    k=mexPrintf(line//achar(13))
+!  end do
+
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   end edit WK(X) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !
 NMOL = 7
@@ -379,6 +422,7 @@ NMOL = 7
 !
       CALL CONTNM(JRAD,rXSelf,rXforn)
 !
+      iNumPts = NPTABS
       DO 100 I=1,NPTABS
         VI=V1ABS+FLOAT(I-1)*DVABS
         raFreq(I) = VI
@@ -409,22 +453,29 @@ NMOL = 7
 !cc are output
 !cc so may as well send in [1 10000 100] for [v1absIN v2absIN dvabsIN] and
 !cc get out 1000 points, from 10 cm-1 to 10000 cm-1, then interp them!!!
-      iNumPtsDVS = npth      
+      iNumPtsDVS = 1.0 + (v2absIN-v1absIN)/dvabsIN
+!      print *,npth,iNumPtsDVS,iNumPts   !!! npth = coarsse raFreq,raAbs output
+!                                        !!! raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS = finer output OD
+					
+      iNumPtsDVS = npth         !!! coarse output for WATER.COEF
       do 200 i=1,npth
-      vi=v1h+float(i-1)*dvh
-      raFreqDVS(i) = vi	
-      if (vi.ge.v1abs .and. vi.le.v2abs) then
-         radfld=radfn(vi,xkt)
-         csh2or=csh2o(i) * radfld
-         cfh2or=cfh2o(i) * radfld
-         raSelfDVS(i) = csh2o(i)
-         raFornDVS(i) = cfh2o(i)
-         write (ipu,930) vi, csh2o(i), cfh2o(i), csh2or, cfh2or
-  930    format(f10.2, 1p, 2e15.4,10x, 1p, 2e15.4)
-      endif
+        vi=v1h+float(i-1)*dvh
+        raFreqDVS(i) = vi	
+        if (vi.ge.v1abs .and. vi.le.v2abs) then
+          radfld=radfn(vi,xkt)
+          csh2or=csh2o(i) * radfld
+          cfh2or=cfh2o(i) * radfld
+          raSelfDVS(i) = csh2o(i)
+          raFornDVS(i) = cfh2o(i)
+          write (ipu,930) vi, csh2o(i), cfh2o(i), csh2or, cfh2or, tave
+  930     format(f10.2, 1x, 2es15.4,10x, 1x, 2es15.4, 1x, f15.4)
+        endif
   200 continue
 !
       END 
+
+!end module
+
 
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !
@@ -559,5 +610,9 @@ NMOL = 7
 !*******
 
 !!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
-!      Include 'contnm_sergio.f90'
 !!!!!  ONLY UNCOMMENT IF USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
+       Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+!!!!!  ONLY UNCOMMENT IF USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
+!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
+
+

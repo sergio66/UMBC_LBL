@@ -30,7 +30,9 @@ and edit so
 and edit so you also have
       parameter (n_absrb=150050)
       parameter (nc=160000)
-      
+
+also edit so that c_f is multiplied by rXForn and c_s by rXSelf
+
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 FINALLY EDIT cntnm_progr_sergio.f90 so that

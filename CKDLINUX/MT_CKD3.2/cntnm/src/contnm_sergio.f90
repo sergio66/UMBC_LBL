@@ -28,6 +28,8 @@
       USE phys_consts, ONLY: radcn2
       IMPLICIT REAL*8           (V)
 
+      real*8 rXSelf,rXForn
+
 !      these are set in lblparams.f90
 !      parameter (n_absrb=150050)
 !      parameter (nc=160000)
@@ -59,9 +61,16 @@
 !------------------------------------                                   
 ! for analytic derivative calculation                                   
 ! note: ipts  = same dimension as ABSRB                                 
-!       ipts2 = same dimension as C                                     
-      common /CDERIV/ icflg,iuf,v1absc,v2absc,dvabsc,nptabsc,delT_pert, &
-     &    dqh2oC(ipts),dTh2oC(ipts),dUh2o                               
+!       ipts2 = same dimension as C
+
+!      common /CDERIV/ icflg,iuf,v1absc,v2absc,dvabsc,nptabsc,delT_pert, &
+!     &    dqh2oC(ipts),dTh2oC(ipts),dUh2o
+      common /CDERIV/ icflg,iuf,v1absc,v2absc,dvabsc,nptabsc, &
+          dqh2oC(ipts),dTh2oC(ipts),dUh2o, &
+          dqco2C(ipts),dTco2C(ipts), &
+          dqo3C(ipts),dTo3C(ipts), &
+          dqo2C(ipts),dTo2C(ipts), &
+          dqn2C(ipts),dTn2C(ipts)
                                                                         
       real cself(ipts),cfrgn_aj(ipts) 
 !------------------------------------                                   
@@ -82,7 +91,10 @@
       REAL ABSBSV(n_absrb) 
 !                                                                       
       CHARACTER*18 HNAMCNT,HVRCNT 
-!                                                                       
+!
+      CHARACTER*160 LINE
+      INTEGER*4    k
+      
       equivalence (fscdid(4), iaersl) 
 !                                                                       
       EQUIVALENCE (C0,SH2OT0,CN2T0,FCO2) , (C1,SH2OT1,CT1),             &
@@ -219,7 +231,10 @@
 !     ASSIGN CVS VERSION NUMBER TO MODULE                               
 !                                                                       
       HVRCNT = '$Revision: 31651 $'
-!                                                                       
+!
+      write(line,*) 'main calc begin TAVE = ',TAVE
+!      k=mexPrintf(line//achar(13))
+	  
       RHOAVE = (PAVE/P0)*(T0/TAVE)                                      
       XKT = TAVE/RADCN2                                                 
                                                                         
@@ -384,7 +399,7 @@
 !              ---------------------------------------------------------
 !              Radiation field                                          
 !                                                                       
-               IF (JRAD.EQ.1) cself(j) = cself(j)*RADFN(VJ,XKT)         
+               IF (JRAD.EQ.1) cself(j) = cself(j)*RADFN(VJ,XKT)*rXSelf
 !              ---------------------------------------------------------
                                                                         
    20       CONTINUE                                                    
@@ -472,7 +487,7 @@
 !              ---------------------------------------------------------
 !              Radiation field                                          
 !                                                                       
-               IF (JRAD.EQ.1) c_f = c_f * RADFN(VJ,XKT)                 
+               IF (JRAD.EQ.1) c_f = c_f * RADFN(VJ,XKT) * rXForn
 !              ---------------------------------------------------------
                                                                         
                C(J)        = c_f * RFRGN                                
@@ -1101,7 +1116,10 @@
       endif                                                             
 !                                                                       
   100 continue                                                          
-                                                                        
+
+      write(line,*) 'main calc endq TAVE = ',TAVE
+!      k=mexPrintf(line//achar(13))
+
       RETURN                                                            
 !                                                                       
   900 FORMAT (/,'0    *********************************************',/, &
@@ -1327,7 +1345,7 @@
      &     'ive result depends on starting wavenumber(Aug 2008)',       &
      &     '  H2O: modification to self and foreign continuum (',       &
      &     'microwave and IR ARM data 0-600 cm-1)    (Nov 2008)',       &
-     &     '  CO2: modification from 2000-3200 cm-1 (AERI(ARM), ',      &
+     &     '  CO2: modification from 2000-3200 cm-1 (AERI(ARM),',       &
      &     'IASI AIRS measurements); Temp. dep. added(Jan 2010)',       &
      &     '  H2O: modification to self cont. 2000-3000 cm-1   ',       &
      &     '(IASI data, fit to near-IR results of              ',       &

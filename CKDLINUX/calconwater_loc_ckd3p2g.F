@@ -1,21 +1,15 @@
-! http://www.mathworks.com/matlabcentral/fileexchange/25934-fortran-95-interface-to-matlab-api-with-extras
-! change      *.f                  to      *.F
-! change      integer m_in,n_in    to      mwSize m_in,n_in
-! change      integer nlhs,nrhs    to      integer*2 nlhs,nrhs
-! change      mxCreateFull         to      mxCreateDoubleMatrix
-! include     fintrf.h
-!
-! https://www.mathworks.com/matlabcentral/answers/334280-how-should-i-mex-a-fortran-code-main-function-that-calls-other-fortran-codes-sub-function-that-in
-!
-!************************************************************************
+c http://www.mathworks.com/matlabcentral/fileexchange/25934-fortran-95-interface-to-matlab-api-with-extras
+c change      *.f                  to      *.F
+c change      integer m_in,n_in    to      mwSize m_in,n_in
+c change      integer nlhs,nrhs    to      integer*2 nlhs,nrhs
+c change      mxCreateFull         to      mxCreateDoubleMatrix
+c include     fintrf.h
 
 #include "fintrf.h"
 
       subroutine mexFunction(nlhs,plhs,nrhs,prhs)
 
-use calconwater_loc_ckd3p2
-
-      include '/home/sergio/SPECTRA/FORTRANLINUX/max.incF90'
+      include '/home/sergio/SPECTRA/FORTRANFILES/max.inc'
 
       mwpointer plhs(*),prhs(*)
       mwpointer mxGetPr,mxCreateDoubleMatrix
@@ -34,18 +28,18 @@ use calconwater_loc_ckd3p2
       real*8 idgas,nfreq,raFreq(MaxLen),fstep,nlay,ckd
       real*8 self,for
 
-! check for proper number of arguments
-!       SUBROUTINE CALCON32( CON, IDGAS, NFREQ, FREQ, FSTEP, NLAY, T, P,  
-!     $    PARTP, AMNT, ckd, selfmult,formult, WHICHLAYER) 
-!       the call is con = CALCON**( IDGAS, NFREQ, FREQ, FSTEP, NLAY, T, P,  
-!     $    PARTP, AMNT, WHICHCKD, selfmult,formult, WHICHLAYER) 
-!  freq= raFreq= array of wavenumbers = Freq(*)
-! T,P,PartP,amnt = arrays of layer variables <= 100 == T(*),P(*) etc
-! con = raa(kMaxPts) == CON(*)
-! WHICHCKD = integer = 00,21,23
-! WHICHLAYER = which gas amt et! to use
-! selfmult = parameter to multiply self part with
-! formult  = parameter to multiply for part with
+c check for proper number of arguments
+c       SUBROUTINE CALCON32( CON, IDGAS, NFREQ, FREQ, FSTEP, NLAY, T, P,  
+c     $    PARTP, AMNT, ckd, selfmult,formult, WHICHLAYER) 
+c       the call is con = CALCON**( IDGAS, NFREQ, FREQ, FSTEP, NLAY, T, P,  
+c     $    PARTP, AMNT, WHICHCKD, selfmult,formult, WHICHLAYER) 
+c  freq= raFreq= array of wavenumbers = Freq(*)
+c T,P,PartP,amnt = arrays of layer variables <= 100 == T(*),P(*) etc
+c con = raa(kMaxPts) == CON(*)
+c WHICHCKD = integer = 00,21,23
+c WHICHLAYER = which gas amt etc to use
+c selfmult = parameter to multiply self part with
+c formult  = parameter to multiply for part with
       if (nrhs .ne. 13) then
         call mexErrMsgTxt('13 input args required')
         endif
@@ -60,7 +54,7 @@ use calconwater_loc_ckd3p2
         nx(ii) = p_in
         end do
 
-! want to check sizes of input array "freq"
+c want to check sizes of input array "freq"
       m_in=mxGetM(prhs(3)) 
       n_in=mxGetN(prhs(3))
       if ((m_in .gt. MaxLen) .or. (n_in .gt. MaxLen)) then
@@ -70,7 +64,7 @@ use calconwater_loc_ckd3p2
         call mexErrMsgTxt('input wavevector needs to be 1d array')
         endif
 
-! want to check sizes of input array "T,P,PP,A"
+c want to check sizes of input array "T,P,PP,A"
       o_in=mxGetM(prhs(6)) 
       p_in=mxGetN(prhs(6))
       if ((o_in .gt. kMaxLayer) .or. (p_in .gt. kMaxLayer)) then
@@ -94,9 +88,9 @@ use calconwater_loc_ckd3p2
       forp  = mxGetPr(prhs(12))
       wlp   = mxGetPr(prhs(13))
 
-! copy right hand arguments to local arrays or variables       
-! z = calcon**()
-! note that in reality nbox and zlen are integers
+c copy right hand arguments to local arrays or variables       
+c z = calcon**()
+c note that in reality nbox and zlen are integers
       call mxCopyPtrToReal8(ip, idgas, 1)
       call mxCopyPtrToReal8(np, nfreq, 1)
       call mxCopyPtrToReal8(fp, raFreq, int(max(mx(3),nx(3))))
@@ -111,28 +105,28 @@ use calconwater_loc_ckd3p2
       call mxCopyPtrToReal8(forp, for ,1)
       call mxCopyPtrToReal8(wlp, whichlayer,1)
       
-! create a matrix for return argument and assign pointers to the 
-! output parameters z = boxint3(y,nbox,zlen)
+c create a matrix for return argument and assign pointers to the 
+c output parameters z = boxint3(y,nbox,zlen)
       plhs(1) = mxCreateDoubleMatrix(m_in,n_in,0)
       zp    = mxGetPr(plhs(1))
 
-!   do the actual computations in a subroutine
+c   do the actual computations in a subroutine
 
-! these are MT-CKD 3.2 or mods of that
+c these are MT-CKD 3.2 or mods of that
       if (int(ckd) .eq. 32) then
         print *,'the MT_CKD version = ',int(ckd)
-!        print *,int(idgas),int(nfreq),fstep,int(nlay),self,for,
-!     $          int(whichlayer)
-!        print *,'calling calcon_mtckd_25_loc .....'
-        call calcon_mtckd_32_wrap(raZ,int(idgas),int(nfreq),raFreq, &
-               fstep,int(nlay),raT,raP,raPP,raA,self,for,int(whichlayer))
+c        print *,int(idgas),int(nfreq),fstep,int(nlay),self,for,
+c     $          int(whichlayer)
+c        print *,'calling calcon_mtckd_25_loc .....'
+        call calcon_mtckd_32_loc(raZ,int(idgas),int(nfreq),raFreq,
+     $   fstep,int(nlay),raT,raP,raPP,raA,self,for,int(whichlayer))
       else
         print *,'the CKD version = ',int(ckd)
         print *,'calconwater_loc_ckd3p2 code needs <32>'
         call mexErrMsgTxt('please retry')
         end if
 
-! copy output which is stored in local array to matrix output
+c copy output which is stored in local array to matrix output
       call mxCopyReal8ToPtr(raZ, zp, max(m_in,n_in))
 
       return

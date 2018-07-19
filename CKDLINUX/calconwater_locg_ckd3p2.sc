@@ -17,7 +17,7 @@ echo $FFLAGS $LDFLAGS $FLIBS
 
 FC='gfortran90'
 FFLAGS='-fexceptions -fbackslash'
-FFLAGS="$FFLAGS -fPIC -fno-omit-frame-pointer"
+FFLAGS="$FFLAGS -fno-underscoring -fPIC -fno-omit-frame-pointer "
 FLIBS="$RPATH $MLIBS -lm"
 FOPTIMFLAGS='-O'
 FDEBUGFLAGS='-g'
@@ -27,8 +27,8 @@ FDEBUGFLAGS='-g'
 ln -s MT_CKD3.2/cntnm/build/lblparams.mod     lblparams.mod
 ln -s MT_CKD3.2/cntnm/build/phys_consts.mod   phys_consts.mod
 ln -s MT_CKD3.2/cntnm/build/planet_consts.mod planet_consts.mod
-/usr/cluster/matlab/2016b/bin/mex -c calconwater_loc_ckd3p2.F90
-/usr/cluster/matlab/2016b/bin/mex    calconwater_loc_ckd3p2g.F90 calconwater_loc_ckd3p2.o FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/cluster/matlab/2016b/bin/mex -v -c calcon_loc_mtckd_32_wrap.F90                          FFLAGS='$FFLAGS' 
+/usr/cluster/matlab/2016b/bin/mex       calconwater_loc_ckd3p2.F90 calcon_loc_mtckd_32_wrap.o FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 
 mv calcon.mexa64                 ../.
 mv calconwater.mexa64            ../.
