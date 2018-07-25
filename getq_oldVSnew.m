@@ -15,6 +15,8 @@ if length(intersect(hitran_version,hlist_qtips)) ~= 1
     find_qnew_isotopes_H08;
   elseif strcmp(hitran_version,'h12') == 1
     find_qnew_isotopes_H12;
+  elseif strcmp(hitran_version,'g15') == 1
+    find_qnew_isotopes_H16;
   elseif strcmp(hitran_version,'h16') == 1
     find_qnew_isotopes_H16;
   else

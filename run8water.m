@@ -197,6 +197,7 @@ function [outwave,out_array]=run8water(gasID,fmin,fmax,profname,topts);
 %                                   -1 to use run6 defn
 %
 %string    HITRAN         path to HITRAN database   /asl/data/hitran/h16.by.gas
+%                         path to GEISA  database   /asl/data/geisa/g15.by.gas
 %
 %real      stren_mult     multiplies ALL strengths             1.0
 %real      width_mult     multiplies ALL widths                1.0
@@ -416,7 +417,8 @@ else
 end
 fnamePOST = '.dat';
 fnameIN   = int2str(gasID);
-fname     = [fnamePRE fnameIN fnamePOST]
+fname     = [fnamePRE fnameIN fnamePOST];
+fprintf(1,'hitran file to read is %s \n',fname);
 
 %%%%%%%%%%ZZZ
 %%%%%%%%following line if we want to use latest Hitran* database
@@ -432,7 +434,8 @@ lineORIG.sbroad           = lineORIG.sbroad * width_mult;
 
 %%%%%%%%%%%%%%%%%%% LOAD IN ISOTOPE MASSES and do QTIPS %%%%%%%%%%%%%%%%%%%%%%
 %% subset for isotopes; not really needed in all its gory detail
-subset_for_isotopes; 
+%subset_for_isotopes; 
+[lineORIG,which_isotope] = subset_for_isotopes(lineORIG,which_isotope);
 
 disp('doing QTIPS')
 load_mass_iso_dat;

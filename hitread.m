@@ -32,7 +32,7 @@ hitran_version = filename(blah(4)+1:blah(4)+3);
 
 % UPDATE
 old_reader = {'h92','h96','h98','h2k'};
-new_reader = {'h04','h08','h12','h16'};
+new_reader = {'h04','h08','h12','h16','g15'};
 
 iOld = -1;
 iNew = -1;
@@ -47,6 +47,7 @@ for ii = 1 : length(new_reader)
   end
 end
 if iOld == -1 & iNew == -1
+  filename
   error('whoops : have NOT been able to figure what HITRAN version you want!')
 end
 
@@ -117,6 +118,9 @@ elseif hitran_version == 'h08'
   linker = '08';
 elseif hitran_version == 'h12'
   linker = '12';
+elseif hitran_version == 'g15'
+  disp('linking GEISA 2015 to H2016 mass,qtips etc')
+  linker = '16';
 elseif hitran_version == 'h16'
   linker = '16';
 else

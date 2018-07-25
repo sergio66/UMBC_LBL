@@ -19,9 +19,13 @@ if iCO2 > 0
     HITdir = 'H08/';
   elseif strcmp('h12',hitran_version) 
     HITdir = 'H12/';
+  elseif strcmp('g15',hitran_version)
+    disp('GEISA 2015 for CO2 .... using H16 CO2 files')
+    HITdir = 'H16/';
   elseif strcmp('h16',hitran_version) 
     HITdir = 'H16/';
   else
+    hitran_version
     error('sorry .. could not figure out which dir to link CO2_FILES');
   end
 

@@ -74,6 +74,7 @@ function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
 %                          yes water : (0,21,23) 
 %                          yes O2,N2 : (+1) 
 % string    HITRAN         path to HITRAN database   /asl/data/hitran/h16.by.gas
+%                          path to GEISA  database   /asl/data/geisa/g15.by.gas
 % 
 % real      stren_mult     multiplies ALL strengths             1.0
 % real      width_mult     multiplies ALL widths                1.0
@@ -176,7 +177,8 @@ function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
 %                          yes water : (0,21,23) 
 %                          yes O2,N2 : (+1) 
 % string    HITRAN         path to HITRAN database   /asl/data/hitran/h08.by.gas
-
+%                          path to GEISA  database   /asl/data/geisa/g15.by.gas
+%
 % real      stren_mult     multiplies ALL strengths             1.0
 % real      width_mult     multiplies ALL widths                1.0
 % real      tsp_mult       multiplies ALL pressure shifts       1.0
@@ -436,7 +438,8 @@ lineORIG.sbroad           = lineORIG.sbroad * width_mult;
 
 %%%%%%%%%%%%%%%%%%% LOAD IN ISOTOPE MASSES and do QTIPS %%%%%%%%%%%%%%%%%%%%%%
 %% subset for isotopes; not really needed in all its gory detail
-subset_for_isotopes
+%subset_for_isotopes
+[lineORIG,which_isotope] = subset_for_isotopes(lineORIG,which_isotope);
 
 lineORIG = should_I_translate2oldHITparams(lineORIG,gasID,hitran_version);
 

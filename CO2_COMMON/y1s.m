@@ -69,8 +69,8 @@ trans_ampl   = trans_ampl0;
 
 %% this part is slghtly different from y1s_WORKS_july12_2015.m as we need to re-generate first order linemix tables
 
-iNLTE_Print = -1;
 iNLTE_Print = +1;
+iNLTE_Print = -1;
 
 %% need to be correct here, consistent with topts.hitran <<<<<<<<<<<<<<<<<
 %% need to be correct here, consistent with topts.hitran <<<<<<<<<<<<<<<<<

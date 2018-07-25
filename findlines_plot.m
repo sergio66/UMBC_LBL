@@ -1,20 +1,35 @@
-function [iYes,line] = findlines_plot(wv1,wv2,gid,HITRAN);
+function [iYes,line] = findlines_plot(wv1,wv2,gid,HITRAN,HorG);
 
 if nargin < 4
   HITRAN = 2012;
   HITRAN = 2016;
+  HorG = +1;      %% HITRAN or GEISA = 1 ==> HITRAN        HITRAN or GEISA = -1 ==> GEISA
+elseif nargin < 5
+  HorG = +1;      %% HITRAN or GEISA = 1 ==> HITRAN        HITRAN or GEISA = -1 ==> GEISA
 end
 
-if HITRAN == 1992
-  hstr = '92';
-elseif HITRAN == 1996
-  hstr = '96';
-elseif HITRAN == 1998
-  hstr = '98';
-elseif HITRAN == 2000
-  hstr = '2k';
-elseif HITRAN > 2000
-  hstr = num2str(HITRAN-2000,'%02d');
+if abs(HorG) ~= 1
+  error('HorG = +/-1 for HITRAN or GEISA')
+end
+
+if HorG == 1
+  if HITRAN == 1992
+    hstr = '92';
+  elseif HITRAN == 1996
+    hstr = '96';
+  elseif HITRAN == 1998
+    hstr = '98';
+  elseif HITRAN == 2000
+    hstr = '2k';
+  elseif HITRAN > 2000
+    hstr = num2str(HITRAN-2000,'%02d');
+  end
+elseif HorG == -1
+  if HITRAN == 2015
+    hstr = '15';
+  else
+    error('only have GEISA 2015')
+  end
 end
 
 t0 = 300;
@@ -31,11 +46,16 @@ gasID = gid;
 %%fnamePRE = '/asl/data/hitran/h92.by.gas/g';
 %fnamePRE = '/salsify/scratch4/h96.by.gas/g';
 
-fnamePRE = ['/asl/data/hitran/h' hstr '.by.gas/g'];
+if HorG == 1
+  fnamePRE = ['/asl/data/hitran/h' hstr '.by.gas/g'];
+else
+  fnamePRE = ['/asl/data/geisa/g' hstr '.by.gas/g'];
+end
 
 fnamePOST    = '.dat';
 fnameIN      = int2str(gasID);
 hitlin_fname = [fnamePRE fnameIN fnamePOST];
+fprintf(1,'in findlines_plot.m we are opening %s for lineparams for gasID %2i \n',hitlin_fname,gasID)
 
 start = wv1;
 stop  = wv2;

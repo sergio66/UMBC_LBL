@@ -712,7 +712,7 @@ lineORIG.abroad           = lineORIG.abroad * width_mult;
 lineORIG.sbroad           = lineORIG.sbroad * width_mult;
 
 %% subset for isotopes; not really needed in all its gory detail
-[lineORIG,which_isotopes] = subset_for_isotopes; 
+[lineORIG,which_isotopes] = subset_for_isotopes(lineORIG,which_isotope);
 
 %%%%%%%%
 
@@ -925,8 +925,13 @@ else
 end 
 
 if strengthM < 1e-50
-  if (lineORIG.linct ~= line.linct)
+  if (lineORIG.linct ~= line.linct) & length(strfind(fname,'hitran')) > 0
+    fprintf(1,'using HITRAN database so things should have been fine %s \n',fname)    
     error('findUnionNew somehow missed some lines (strengthM == 0)')
+  elseif (lineORIG.linct ~= line.linct) & length(strfind(fname,'geisa')) > 0
+    fprintf(1,'using GEISA database so things could have been messy %s \n',fname)    
+    addpath /home/sergio/MATLABCODE
+    disp('WARNING ... findUnionNew somehow missed some lines (ugh)')
   end
 end 
 

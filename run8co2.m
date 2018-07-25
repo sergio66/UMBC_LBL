@@ -104,7 +104,8 @@ function [outwave,out_array]=run8co2(gasID,fmin,fmax,profname,topts);
 %                         'I','i' for first order linemix
 %                         'F','f' for full line mixin
 %
-%string    HITRAN         path to HITRAN database   /asl/data/hitran/h16.by.gas
+%string    HITRAN          path to HITRAN database   /asl/data/hitran/h16.by.gas
+%                          path to GEISA  database   /asl/data/geisa/g15.by.gas
 %
 %char      IO             '1' for first order line mixing          '1'
 %                         '0' for no line mixing
@@ -563,16 +564,20 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if hartmann_linemix == -1
   disp('----------> branching to run8co2_linemixUMBC <----------------');
-  if nargin == 5
+  if nargin == 4
+    [outwave,out_array] = run8co2_linemixUMBC(gasID,fmin,fmax,profname);
+  elseif nargin == 5
     toptsL = topts;
     if isfield(topts,'hartmann_linemix')
       toptsL = rmfield(toptsL,'hartmann_linemix');
     end
+    [outwave,out_array] = run8co2_linemixUMBC(gasID,fmin,fmax,profname,toptsL);
   end
-  [outwave,out_array] = run8co2_linemixUMBC(gasID,fmin,fmax,profname,toptsL);
 elseif hartmann_linemix == 0
   disp('----------> branching to run8 <----------------');
-  if nargin == 5
+  if nargin == 4
+    [outwave,out_array] = run8(gasID,fmin,fmax,profname);
+  elseif nargin == 5
     toptsN = topts;
     if isfield(topts,'hartmann_linemix')
       toptsN = rmfield(toptsN,'hartmann_linemix');
@@ -589,7 +594,9 @@ elseif hartmann_linemix == 0
   end
 elseif hartmann_linemix == +1
   disp('----------> branching to run8co2_hartmann <----------------');
-  if nargin == 5
+  if nargin == 4
+    [outwave,out_array] = run8co2_hartmann(gasID,fmin,fmax,profname);
+  elseif nargin == 5
     toptsH = topts;
     if isfield(toptsH,'hartmann_linemix')
       toptsH = rmfield(toptsH,'hartmann_linemix');
@@ -599,8 +606,6 @@ elseif hartmann_linemix == +1
       toptsH.LVG = topts.LVF;
     end
     [outwave,out_array] = run8co2_hartmann(gasID,fmin,fmax,profname,toptsH);
-  elseif nargin == 4
-    [outwave,out_array] = run8co2_hartmann(gasID,fmin,fmax,profname);
   end
 end
 
