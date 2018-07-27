@@ -19,6 +19,8 @@ if iCO > 0
     HITdir = 'H08/';
   elseif strcmp('h12',hitran_version) 
     HITdir = 'H12/';
+  elseif strcmp('g15',hitran_version) 
+    HITdir = 'H16/';
   elseif strcmp('h16',hitran_version) 
     HITdir = 'H16/';
   else
@@ -29,6 +31,7 @@ if iCO > 0
   frand   = ['ugh' randstr];
   frand   = mktemp('ugh');
 
+  fprintf(1,'in update_co_matfiles_hitread.m we are currently in %s \n',pwd)
   COmatfilesdir0 = pwd; 
   COmatfilesdir = pwd; 
   COmatfilesdir = [COmatfilesdir '/CO_MATFILES/'];

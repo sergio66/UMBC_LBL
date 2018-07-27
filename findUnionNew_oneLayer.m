@@ -128,4 +128,4 @@ theindex = 1 : length(line.wnum);
   newline.bslq   = line.bslq(theindex,:); 
   newline.ref    = line.ref(theindex,:); 
 
-newline
+newline;

@@ -1,0 +1,23 @@
+Dear Sergio
+please find attached some fortran software and two data files that should be used as follows
+  rewvn2continuum.zip
+  
+- The subroutine "LECN2" should be called early, likely the best is to call it in the main program. It reads the two
+ASCII data files, named "CT-N2.N2" and "CT-N2.H2O"
+
+- Then whenever you need a value of the CIA by N2, you use the FUNCTION "CTN2(SIGMA,PN2,PH2O,PTOT,T)"
+where SIGMA, PN2, PH2O, PTOT, T are input values of the wavenumber (cm-1), the N2 partial pressure (atm),
+the H2O partial pressure (atm), the total pressure (atm), and the temperature (K). This function returns "CTN2" which is
+the N2 absorption coefficient (in cm-1) at wavenumber sigma for the chosen input gas conditions
+
+Note that everything is in Double precision
+
+Please keep me informed of your progresses/results or problems
+
+Best regards
+Jean-Michel
+
+% ref : Effect of humiity on the absorption continua of CO2 and N2 near 4 um :
+% calculations, comparisons with measurements, consequences on atmospheric spectra
+% JM Hartmann, C. Boulet, D. Tran, H. Tran, Y. Baranov
+% Journal of Chemical Phycis, v 148 pg 54304 (2018)

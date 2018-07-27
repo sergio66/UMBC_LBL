@@ -1,0 +1,72 @@
+%% see Icarus v306 (2018) pg 116-121 : Tran, Turbet, Chelin, Landsheere
+%% MEasurements and modeling of absorption by CO2+H2O cmixtures in the spectral region beyond the CO2 v3 band
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+07/04/2018
+
+Dear Sergio,
+
+Please find below the Table for the measured values of CA(CO2/H2O) in
+the high frequency wing of the nu3 band of CO2. Since we measured
+spectra at 50, 70 and 90°C and did not see any temperature dependence
+for the CA(CO2/H2O), I cannot produce this CA at various
+temperatures. In the absence of any other measurement and calculation,
+one can assume that this CA is independent of temperature.
+
+Best Regards
+
+Ha
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+07/02/2018
+Dear Sergio, below are some answers
+
+1- oncerning the intensities, you should convert them to the
+considered temperature using units of cm-1/(molecule cm-2) and then
+multiply them by 2.68678e19
+
+2- When doin this you should include all CO2 lines, not only the nu_3 ones
+
+3- Concerning the half-widths: Fits you should use H2O broadened half
+widths, NOT air broadened (a referece providing their values should be
+given in the paper (Sung et al if I remember properly). Then, if you
+make a caculation at 1 amagat, you should multiply them by the
+pressure P(atm) = T/T_0 where T_0=273.15 and T is the temperature of
+interest.
+
+These two changes should significantly increase your results, since;
+(1) the broaening of CO2 lines by H2O is sinificantly larger than that
+by air (basically a factor of 1.8), and (2) the pressure corresponding
+to a density of 1 magat at 323 K is greater than 1
+
+I will see if my colleague Ha can send you a fortran program today
+Best regards
+JM
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+06/26/2018
+Dear Sergio
+
+We do not have a code to compute the CO2 absorption broadened by H2O
+by taking LM into account.  What I suggest you to do is what we did,
+which is the following
+
+1 You compute the CO2 absorption in dry air using your tools (from
+LBLRTM if I understood properly)? Now concerning the influence of
+collisions with H2O, you can compte the absorption in the wings by
+using the expressions and chi factor given in the attached paper. THis
+is what we did: we computed a binary CO2+H2O continuum (normalized by
+the product of the H2O and CO2 densities used in the calculation with
+the chi factor) as a function of wavenumber and temperature and
+tabulated it. We then include its contribution to the absorption by
+simply interpolating and multiplying by the product of the densities
+of CO2 and H2O. Although this is somehow a "patch" it is simple to
+implement
+
+I hope this answers your question. DO not hesitate to contact me if you need further information
+Best regards
+Jean-Michel
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
