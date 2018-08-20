@@ -47,12 +47,15 @@ extension = [num2str(CKD) '.bin'];
 fname  = ['/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf' extension];
 fname  = ['/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf' extension];
 fname2 = ['/asl/data/kcarta/KCARTADATA/General/CKDieee_le/CKDSelf' extension];
+
 fprintf(1,'opening %s \n %s \n',fname,fname2);
-exist(fname)
-exist(fname2)
+[exist(fname) exist(fname2)]
 if exist(fname) ~= 0
+  fprintf(1,'fname = %s for SELF already exists \n',fname)
   error('SELF outfile already exists')
-end  
+end
+
+
 %error('self32 WOW')
 fid = fopen(fname,'w','ieee-le');
 
@@ -113,9 +116,9 @@ fname  = ['/home/sergio/KCARTADATA/General/CKDieee_le/CKDFor' extension];
 fname  = ['/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor' extension];
 fname2 = ['/asl/data/kcarta/KCARTADATA/General/CKDieee_le/CKDFor' extension];
 fprintf(1,'opening %s \n %s \n',fname,fname2);
-exist(fname)
-exist(fname2)
+[exist(fname) exist(fname2)]
 if exist(fname) ~= 0
+  fprintf(1,'fname = %s for FORN already exists \n',fname)
   error('FORN outfile already exists')
 end  
 %error('forn25 WOW')

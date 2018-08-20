@@ -291,7 +291,8 @@
 
   pave = paveIN
   tave = taveIN
-  VMRH2O = ppaveIN/paveIN
+  VMRH2O = ppaveIN/paveIN         !! assume we are doing WV
+  
   xlength = 1000 * num_kmolesIN   !! change from kmoles/cm2 to moles/cm2
   xlength = xlength * 10000       !! change to moles/m2
   xlength = xlength * 8.3144598 * tave/(ppaveIN*100)  !! pressure changed from mb to N/m2
@@ -321,8 +322,8 @@
 
 !      WK(2) = 0.
 ! ozone:
-!      WK(3) = 3.75E-6 * W_dry
-      WK(3) = 0.
+      WK(3) = 3.75E-6 * W_dry
+!      WK(3) = 0.
 ! water vapor:
       if (abs(vmrh2o-1.) .lt. 1.e-05) then
          wk(1) = wtot
@@ -330,10 +331,16 @@
          WK(1) = VMRH2O * W_dry
       endif
 !
-      WBROAD=WN2+WA
+      IF ((iGasID .EQ. 1) .OR. (iGasID .EQ. 3)) THEN
+        WBROAD=WN2+WA+WK(7)
+      ELSE
+        WBROAD=WN2+WA
+      ENDIF
+      
 !
       NMOL = 7
-
+      print *,'before ',iGasID,WK(1),WK(2),WK(3),WK(7),WK(22)
+      
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> begin edit WK(X) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   IF (iGasID .EQ. 1) THEN

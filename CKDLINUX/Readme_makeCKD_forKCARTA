@@ -1,0 +1,26 @@
+for CKD3.2
+-----------
+
+download tar file from AER
+then untar and compile and test it
+
+then adapt to this SPECTRA/CKDLINUX
+    calcon_loc_mtckd_32_wrap.F90
+  needs
+    MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90
+  and is compiled by
+    calconwater_locg_ckd3p2.sc
+    
+then run eg ckd_lookupBIN_v32_ieee_le.m
+
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf32.bin_orig';
+[xks32, xfreq32, temp] = contread(fname);
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor32.bin_orig';
+[xkf32, xfreq32, temp] = contread(fname);
+
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf32.bin';
+[ks32, freq32, temp] = contread(fname);
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor32.bin';
+[kf32, freq32, temp] = contread(fname);
+
+figure(1); plot(freq32,ks32./xks32,'bx-',freq32,kf32./xkf32,'r.-');

@@ -36,9 +36,13 @@ semilogy(wax(:,1),wax(:,2),'b',wax(:,1),wax(:,3),'r',...
          freq25,ks25(1,:),'c',freq25,kf25(1,:),'m')
 pause(1)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%{
 topts.useruser = +1;
 topts.CKD      = 25;
-[fr,krun8] = run8watercontinuum(1,500,3000,'IPFILES/junk',topts);
+[fr,krun_25] = run8watercontinuum(1,500,3000,'IPFILES/junk',topts);
+topts.CKD      = 32;
+[fr,krun_32] = run8watercontinuum(1,500,3000,'IPFILES/junk',topts);
+%}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% CKD 32
@@ -49,8 +53,10 @@ topts.CKD      = 25;
 woo = load('/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/run_example/woo296');
 woo = load('/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/run_example/woo300');
 
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf32.bin_orig';
 fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf32.bin';
 [ks32, freq32, temp] = contread(fname);
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor32.bin_orig';
 fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor32.bin';
 [kf32, freq32, temp] = contread(fname);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -173,6 +179,8 @@ cself = QWV*P/1013*WVMR*woo(:,2).*radfield;
 cforn = QWV*P/1013*(1-WVMR)*woo(:,3).*radfield;
 odsergio = cself + cforn;
 
+%{
 odlblrtm = load('/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/run_example/od300');
-figure(3); plot(odlblrtm(:,1),odlblrtm(:,2),'b.-',v,odsergio,'r',fr,krun8/15,'ko-')
+figure(3); plot(odlblrtm(:,1),odlblrtm(:,2),'b.-',v,odsergio,'r',fr,krun_25/15,'ko-',,fr,krun_32/15,'go-')
 axis([fr(1) fr(end) 0 2e-4]); grid
+%}
