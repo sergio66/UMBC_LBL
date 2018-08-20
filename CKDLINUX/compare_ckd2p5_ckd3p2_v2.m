@@ -1,8 +1,27 @@
 addpath /home/sergio/SPECTRA
 dirN = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/';
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-wax = load('xWATER.COEF');
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+disp('reading in raw files supplied with CKD')
+ckdraw25 = load('/home/sergio/SPECTRA/CKDLINUX/MT_CKD2.5/cntnm/WATER.COEF_matlab_296K');
+ckdraw25 = load('/home/sergio/SPECTRA/CKDLINUX/MT_CKD2.5/cntnm/WATER.COEF_matlab_300K');
+
+ckdraw32 = load('/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/run_example/WATER.COEF_matlab_296K');
+ckdraw32 = load('/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/run_example/WATER.COEF_matlab_300K');
+
+figure(3); plot(ckdraw25(:,1)./ckdraw32(:,1))
+
+figure(3); ii=2:3; plot(ckdraw25(:,1),ckdraw32(:,ii)./ckdraw25(:,ii))
+  title('raw CKD32/CKD25'); hl = legend('self','forn');
+figure(4); ii=2:3; plot(ckdraw25(:,1),ckdraw32(:,ii)./ckdraw25(:,ii))
+  axis([600 3000 0.5 2])
+  title('raw CKD32/CKD25'); hl = legend('self','forn');
+disp('ret to continue'); pause
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure(1)
+%wax = load('xWATER.COEF');
+wax = ckdraw25;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% CKD 25
 fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf25.bin';
@@ -40,13 +59,42 @@ t300 = find(temp >= 300,1);
 figure(1); semilogy(freq25,ks25,'b',freq32,ks32,'r'); title('Self (b)2.5 (r) 3.2')
 figure(2); semilogy(freq25,kf25,'b',freq32,kf32,'r'); title('Forn (b)2.5 (r) 3.2')
 
-
 %figure(1); semilogy(freq,ks25,'b',freq,kf32,'r'); title('Self (b)2.5 (r) 3.2')
 %figure(2); semilogy(freq,kf25,'b',freq,ks32,'r'); title('Forn (b)2.5 (r) 3.2')
 %figure(2); semilogy(freq,ks32,'b',freq,kf32,'r'); title('Forn (b)2.5 (r) 3.2')
 
 plot(freq25,ks25,'b',freq32,ks32,'r'); title('Self')
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+f10 = 600:10:3000;
+for ii = 1 : 31
+  kss25(ii,:) = interp1(freq25,ks25(ii,:),f10);
+  kff25(ii,:) = interp1(freq25,kf25(ii,:),f10);
+  kss32(ii,:) = interp1(freq32,ks32(ii,:),f10);
+  kff32(ii,:) = interp1(freq32,kf32(ii,:),f10);
+end
+
+plot(f10,kss32./kss25,'b',f10,kff32./kff25,'r')
+title('from kCARTA (b)s32/s25 (r) f32/f25')
+
+ksraw25 = interp1(ckdraw25(:,1),ckdraw25(:,2),f10);
+kfraw25 = interp1(ckdraw25(:,1),ckdraw25(:,3),f10);
+ksraw32 = interp1(ckdraw32(:,1),ckdraw32(:,2),f10);
+kfraw32 = interp1(ckdraw32(:,1),ckdraw32(:,3),f10);
+
+figure(1)
+plot(f10,kss32(t300,:)./kss25(t300,:),'b',f10,kff32(t300,:)./kff25(t300,:),'r',...
+     f10,ksraw25./kss25(t300,:),'c.-',f10,kfraw25./kff25(t300,:),'m.-');
+title('roughly 296-300 K from kCARTA and raw')
+  hl = legend('s32/s25','f32/f25','raws25/s25','rawf25/f25'); grid
+
+figure(2)
+plot(f10,kss32(t300,:)./kss25(t300,:),'b',f10,kff32(t300,:)./kff25(t300,:),'r',...
+     f10,ksraw32./kss32(t300,:),'c.-',f10,kfraw32./kff32(t300,:),'m.-');
+title('from kCARTA and raw')
+  hl = legend('s32/s25','f32/f25','raws32/s32','rawf32/f32'); grid
+
+disp('ret to continue'); pause
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% with no radiation term ie just like kCARTA this needs v tanh*v/T)

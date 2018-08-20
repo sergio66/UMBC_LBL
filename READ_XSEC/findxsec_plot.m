@@ -7,7 +7,9 @@ if nargin < 4
   HITRAN = 2016;
 end
 
-addpath /home/sergio/HITRAN2UMBCLBL/READ_XSEC
+%addpath /home/sergio/HITRAN2UMBCLBL/READ_XSEC
+addpath /home/sergio/SPECTRA/READ_XSEC
+%addpath /home/sergio/SPECTRA/READ_XSEC_GEISA
 
 t0 = 300;
 dv = 10;
@@ -20,8 +22,12 @@ tv = ttorad(wv,t0);
 %% gname{id} = gid2mol(gid,HITRAN);
 
 id = gid-51+1;
-if id >= 1 & id <= 31
+if id >= 1 & id <= 31 & mod(HITRAN,4) == 0
+  disp('looking for HITRAN xcec')
   fnameIN = gid2mol(gid,HITRAN);
+elseif id >= 1 & id <= 31 & mod(HITRAN,4) ~= 4
+  disp('looking for GEISA xcec')
+  fnameIN = gid2mol(gid,HITRAN);  
 else
   error('invalid xsec gasid : must be between 51-81');
 end
@@ -31,13 +37,14 @@ end
 if HITRAN == 1998
   fnamePRE ='/asl/data/hitran/xsec98.ok/'; idd = 1998;
 elseif HITRAN == 2008
-  fnamePRE = '/asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/Junk/'; 
-           idd=2008;
-  fnamePRE = '/asl/data/hitran/HITRAN08_SERGIO/Xsec/'; idd=2008;
+  fnamePRE = '/asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/Junk/'; idd=2008;
+  fnamePRE = '/asl/data/hitran/HITRAN08_SERGIO/Xsec/';                      idd=2008;
 elseif HITRAN == 2012
   fnamePRE = '/asl/data/hitran/H2012/IR-XSect/Uncompressed-files/'; idd=2012;
 elseif HITRAN == 2016
   fnamePRE = '/asl/data/hitran/H2016/IR-XSect/Uncompressed-files/'; idd=2016;
+elseif HITRAN == 2015
+  fnamePRE = '/asl/data/geisa/G2015/2015.IR-XSect/Uncompressed-files/';  idd=2016;
 end
 
 fnamePOST='.xsc';

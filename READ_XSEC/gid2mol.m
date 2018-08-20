@@ -129,7 +129,7 @@ elseif idd >= 2012
     case 88, gstr = 'ClOOCl_IR12';    % 88
   end
 
-  if gid >= 51 & gid <= 81 & idd >= 2016    
+  if gid >= 51 & gid <= 81 & idd >= 2015    
     ystr = num2str(idd);
     gstr = [gstr(1:end-2) ystr];
   end

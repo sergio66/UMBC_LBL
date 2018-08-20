@@ -13,6 +13,12 @@ function iYes = findxsec_plot_fast(wn1,wn2,bands)
 iYes = -1;
 
 numbands = length(bands.v1);
+if numbands == 0
+  wn1
+  wn2
+  iYes = -1;
+  disp('oh oh nothing found')
+end
 
 iCnt = 1;
 while iCnt <= numbands & iYes < 0

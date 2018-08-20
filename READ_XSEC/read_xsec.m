@@ -57,10 +57,12 @@ end
     gd = '/asl/data/hitran/H2008/IR-XSect/Uncompressed-files/'; idd=2008;
   elseif HITRAN == 2012 
     gd = '/asl/data/hitran/H2012/IR-XSect/Uncompressed-files/'; idd=2012;
+  elseif HITRAN == 2015 
+    gd = '/asl/data/geisa/G2015/2015.IR-XSect/Uncompressed-files/'; idd=2015;
   elseif HITRAN == 2016 
     gd = '/asl/data/hitran/H2016/IR-XSect/Uncompressed-files/'; idd=2016;
   else
-    error('need HITRAN == 1998 2008 2012 2016')
+    error('need HITRAN == 1998 2008 2012 (G)2015 2016')
   end
 %end
 
@@ -73,6 +75,12 @@ end
 % open the xsec gas data file
 gf = [gd, '/', gf];
 fprintf(1,'looking to open and read %s \n',gf)
+if ~exist(gf)
+  fprintf(1,'OOPS %s does not exist !!! Exiting read_xsec.m!!! \n',gf);
+  xs = [];
+  return
+end
+
 [fid, msg] = fopen(gf, 'r');
 if fid == -1
   error(msg);

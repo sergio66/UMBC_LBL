@@ -1,3 +1,5 @@
+c compile with f77 cntnm_progr.f -o cntnm_progr
+
 C     path:      $Source: /storm/rc1/cvsroot/rc/cntnm/cntnm_progr.f,v $
 C     author:    $Author: mshep $
 C     revision:  $Revision: 1.5 $
@@ -165,6 +167,7 @@ C
 
       PAVE = 1013.
       TAVE =  296.
+      TAVE =  300.      
 c
       VMRH2O = 0.01
 C

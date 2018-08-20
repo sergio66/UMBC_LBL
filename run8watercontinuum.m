@@ -24,6 +24,7 @@ function [outwave,out_array] = ...
 %%% CKD 6          is  CKD1 with Scott's fixes (Apr 2003) applied to SELF + FOREIGN
 %%%                    as opposed to CKD5, which only applies to SELF
 %%%           /home/sergio/SPECTRA/CKDLINUX/tunmlt_iasi_may09X.dat'; %% for v6
+%%  CKD 25,32 latest MT-CKD
 
 %%%%  same as run6watercontinuum, except we have {topts} = vargin
 % [outwave,out_array]=run6watercontinuum(gasID,fmin,fmax,...
@@ -106,7 +107,7 @@ function [outwave,out_array] = ...
 %    1     ?       ?     q v tanh(c2 v/2T) (296/T)                ps CS + pf CF
 
 % integer   CKD            continumm no (-1)                      25
-%                          yes water : (0,21,23,24,51,55) 
+%                          yes water : (0,21,23,24,51,55,1,5,6,25,32 ....) 
 %                          yes O2,N2 : (+1) 
 %
 % real     selfmult        multiplier for self part of contiuum  0<x<1
@@ -371,6 +372,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [junkx,junky] = size(out_array);
 
+%% this is ONLY for CKD 4 and 6, since we multiply MT-CKD 1 by Scott adjustments
 if ((divide == +1) & (min(outwave) <= 2830) & (max(outwave) >= 605))
   figure(2); clf; 
   if ((selfmult >= 0.999999) & (formult <= 0.00000001) & ...

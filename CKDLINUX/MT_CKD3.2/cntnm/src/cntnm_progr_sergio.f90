@@ -294,13 +294,14 @@
   VMRH2O = ppaveIN/paveIN
   xlength = 1000 * num_kmolesIN   !! change from kmoles/cm2 to moles/cm2
   xlength = xlength * 10000       !! change to moles/m2
-  xlength = xlength * 8.31 * tave/(ppaveIN*100)  !! pressure changed from mb to N/m2
+  xlength = xlength * 8.3144598 * tave/(ppaveIN*100)  !! pressure changed from mb to N/m2
   xlength = xlength * 100         !! change from m to cm
   print *,' xlength = ',xlength/100,' meters'
 
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> end edit input params >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !
 !     It may be preferable to specifiy the water column directly!
+!     ALOSMT is in phys_consts.f90
 !
       WTOT = ALOSMT*(PAVE/1013.)*(273./TAVE)* xlength
 !
@@ -341,7 +342,8 @@
 !c        WK(3) = WK(3)*rXozone
 !c        WK(7) = WK(7)*rXoxygen
 !c        WN2   = WN2  *rXnitrogen
-    WK(1) = WK(1)
+    WK(1) = WK(1)                     !before Aug 2018
+    WK(1) = wtot * ppaveIN/paveIN     !after Aug 2018
     WK(2) = 0.0
     WK(3) = 0.0
     WK(7) = 0.0

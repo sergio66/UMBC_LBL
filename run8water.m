@@ -399,12 +399,15 @@ TheLayers=MinLayer:Step:MaxLayer;
 %%%%%%%%%%%%%%%%%% DEFINE OUTPUT ARRAYS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %define output freq array, output 100 layer matrix
 %output point spacing grid
-output_spacing=nbox*ffin;
+output_spacing = nbox*ffin;
 %eg 605:0.0025:629.9975;
-fmaxUSE    = fmax-output_spacing;
-outwave    = fmin:output_spacing:fmaxUSE; 
-lennnn = (1:length(outwave))-1; outwave = fmin+lennnn*output_spacing;  %<-----
-out_array  = zeros(NumLayers,length(outwave));
+fmaxUSE       = fmax-output_spacing;
+outwave       = fmin:output_spacing:fmaxUSE; 
+lennnn        = (1:length(outwave))-1; outwave = fmin+lennnn*output_spacing;  %<-----
+out_array     = zeros(NumLayers,length(outwave));
+checkstart    = (nbox+1)/2;
+%fprintf(1,'nbox = %2i ffin = %8.6e outout_spacing = %8.6e f1x,f2x,len = %8.6e %8.6e %6i fx((nbox+1)/2) = %8.6f \n',nbox,ffin,output_spacing,outwave(1),outwave(end),length(outwave),outwave(checkstart));
+fprintf(1,'nbox = %2i ffin = %8.6e outout_spacing = %8.6e f1x,f2x,len = %8.6e %8.6e %6i = %8.6f \n',nbox,ffin,output_spacing,outwave(1),outwave(end),length(outwave));
 
 %%%%%%% READ IN RELEVANT DATA FROM HITRAN DATABASE  %%%%%%%%%%%%%%%%%%%%%%%%
 %% fnamePRE='/salsify/scratch4/h96.by.gas/g';        %H96 -- old
@@ -612,6 +615,7 @@ for  ii=1:nwide    %OUTER LOOP OVER WIDE MESH
 %plot(fine_freq,outvect,'o-'); hold on
 %pause(0.1)
       scum=boxint2(outvect,nbox);
+%      fprintf(1,'ii,nwide = %3i %3i foutvect(1) = %8.6f  foutvect(end) = %8.6f foutvect(checkstart) = %8.6f \n',ii,nwide,fine_freq(1),fine_freq(end),fine_freq(checkstart))
       out_array(nn,thechunk)=out_array(nn,thechunk)+scum;
     end 
 

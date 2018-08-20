@@ -21,3 +21,52 @@ Jean-Michel
 % calculations, comparisons with measurements, consequences on atmospheric spectra
 % JM Hartmann, C. Boulet, D. Tran, H. Tran, Y. Baranov
 % Journal of Chemical Phycis, v 148 pg 54304 (2018)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Yes, indeed this is what you can do or, simply use the provided function
+settig Ptot=0
+and addig the result to your dry air value
+Best regards
+Jean-Michel
+
+On Wed, 25 Jul 2018 17:56:04 -0400, Sergio DeSouza-Machado
+<sergio@umbc.edu> wrote:
+> Dear Jean-Michel
+>
+> Thanks for the code. I got it running but before putting it into kCARTA
+I
+> have a simple question. I noticed the last line of function CTN2 is
+>
+>       CTN2=DN2*(Bair*(DTOT-DH2O)+BH2O*DH2O)
+>
+> kCARTA already includes the N2 continuum in the 4 um calculations. So I
+> presume I should modify the above line to be simply
+>
+>      CTN2=DN2*BH2O*DH2O
+>
+> and then multiply by the layer length (in cm)  to convert to
+dimensionless
+> OD, and then add this on to the total OD?
+>
+> Regards
+>
+> Sergio
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Sorry Sergio
+
+I made a mistake in my previous mail. If you use my routine and only
+want the N2+H2O contribution, you should not set Ptot=0 but Ptot=PH2O
+
+
+Best regards
+Jean-Michel
+
+So basically this is same as what I wrote originally ... DTO == DH2O means first part
+of equations is zeroed out
+>      CTN2=DN2*(Bair*(DTOT-DH2O)+BH2O*DH2O)
+and you are left with
+>      CTN2=DN2*(Bair*(DTOT-DH2O)*0.0 + BH2O*DH2O)
+>      CTN2=DN2*BH2O*DH2O

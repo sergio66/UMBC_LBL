@@ -3,9 +3,6 @@
 ! All Rights Reserved
 
 ! these water subroutines calculate the continuum for WATER(ID=1)
-! and are based entirely in the KCARTA routines, except NO jacobians
-
-! similarly the O2 and N2 subroutines are based ENTIRELY on GENLN2 stuff
 
 ! note we are using        REAL CON(*),WHICHLAYER instead of
 !                          REAL CON(KMAXLAYER,KMAXPTS)
@@ -15,9 +12,6 @@
 ! because of memeory problems 
 ! and so we do        DO 10 ILAY=whichlayer,whichlayer
 ! instead of          DO 10 ILAY=1,NLAY
-
-! NOTE THIS IS SAME BASE CODE AS CALCONWATER.F --- THE ONLY DIFFERENCE
-! IS THAT THE INCLUDE FILES ARE DIFFERENT!!!!!
 
 !MODULE calconwater_loc_ckd3p2
 !IMPLICIT NONE
@@ -69,6 +63,11 @@
 !      print *,'here1 ',iGasID,paveIN,ppaveIN,taveIN,num_kmolesIN
 !      print *,'here2 ',v1absIN,v2absIn,dvabsIN,NFREQ
 
+! see ~/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/Readme_adapt_to_run8watercontinuum_code
+!    and MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90
+! see ~/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/Readme_adapt_to_run8watercontinuum_code
+!    and MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90
+
       !! [Self Forn   o3 o2 n2]      
       IF (iGasID .EQ. 1) THEN
         call CALCON_MTCKD_32_loc(paveIN,ppaveIN,taveIN,num_kmolesIN, &
@@ -80,7 +79,12 @@
         print *,'Error : need iGasID = 1 for WV not',iGasID
         STOP
       END IF
-      
+
+! see ~/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/Readme_adapt_to_run8watercontinuum_code
+!    and MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90
+! see ~/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/Readme_adapt_to_run8watercontinuum_code
+!    and MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90
+
       !! now interp raAbs onto CON
 !      print *,'now need to interp iNumPts onto NFREQ',iNumPts,NFREQ
 !      print *,raFreq(1),raAbs(1),raFreq(iNumPts),raAbs(iNumPts)

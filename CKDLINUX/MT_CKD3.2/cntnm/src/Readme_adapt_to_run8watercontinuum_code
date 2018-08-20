@@ -41,6 +41,9 @@ FINALLY EDIT cntnm_progr_sergio.f90 so that
   
 and everything from
   SUBROUTINE CALCON_MTCKD_32_loc remains in cntnm_progr_sergio.f90
+
+also look at
+  driver_cntnm_progr_sergio.f90
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
