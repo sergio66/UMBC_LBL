@@ -8,6 +8,12 @@ c T    = temperature
 c m    = molecular mass (amu)
 c brd  = broadening
 
+c this is basically the Paper by J. Humlicek, which
+C is Available in Page 309 of Volume 21 of the 1979 Issue of
+C the Journal of Quantitative Spectroscopy and Radiative Transfer
+
+C also used in HITRAN LM 2018
+      integer n_in
       real*8 wr(n_in),wi(n_in),v(n_in),v0,Temp,m,brd
 
 c local variables
@@ -17,7 +23,7 @@ c local variables
       real*8 wr1(n_in),wr2(n_in),wi1(n_in),wi2(n_in)
       real*8 xr1(n_in),xr2(n_in),yr1,yr2,y1,y2,y3
 
-      integer ii,jj,n_in,region1(n_in),region2(n_in),len1,len2
+      integer ii,jj,region1(n_in),region2(n_in),len1,len2
       integer iTruth
 
       T(1) = 0.314240376

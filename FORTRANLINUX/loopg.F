@@ -169,8 +169,16 @@ c      do ii = 1,10
 c        print *,'gateway',ii,raMass_iso(ii)
 c        end do      
 
-      if (abs(rlvg) .GT. 2) then
-        print *,'need LVG = -2 -1 0 +1 +2, not ',rlvg
+c      = -3   voigt                  voigt1R         HUMLICEK = used in HITTRAN LM 2018 
+c rlvg = -2 : voigt without pedestal vhh2RI_basement VOIVEC = GENLN2
+c        -1 : lerentz
+c         0 : vanhuber               vhh2RI          VOIVEC = GENLN2
+c         1 : voigt                  voigt2R         VOIVEC = GENLN2
+c         2 : speed dependent
+c      = +3   vanhuber               vhh1RI           HUMLICEK = used in HITTRAN LM 2018
+
+      if (abs(rlvg) .GT. 3) then
+        print *,'need LVG = -3 -2 -1 0 +1 +2 +3, not ',rlvg
         stop
       end if 
       if (rlvg .EQ. 2) then

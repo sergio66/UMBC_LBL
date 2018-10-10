@@ -1,10 +1,10 @@
-      subroutine voigt2R(wr,v,v0,Temp,m,brd,n_in)
+      subroutine voigt2RI(wr,wi,v,v0,Temp,m,brd,n_in)
 c this is the CURRENT GENLN2 routine
 c this is the same as voivec2.f in ../Genln2
 c this is the same as vhh2RI.f  in this subdir  except we only return wr 
 c                                               (not wi)
 
-c subroutine voigt1(wr,wi,0,Temp,m,brd,n_in)
+c subroutine voigtXRI(wr,wi,0,Temp,m,brd,n_in)
 c this is the Van Huber lineshape : using the more accurate dave tobin approx
 c and gets the real and imag parts of the fcn
 c v    = frequency array

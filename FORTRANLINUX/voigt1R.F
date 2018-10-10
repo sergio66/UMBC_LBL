@@ -7,6 +7,12 @@ c Tempr= temperature
 c m    = molecular mass (amu)
 c brd  = broadening
 
+c this is basically the Paper by J. Humlicek, which
+C is Available in Page 309 of Volume 21 of the 1979 Issue of
+C the Journal of Quantitative Spectroscopy and Radiative Transfer
+
+C also used in HITRAN LM 2018
+
       include 'max.inc' 
 
       real*8 wr(MaxLen),wi(MaxLen),v(MaxLen),v0,Tempr,m,brd

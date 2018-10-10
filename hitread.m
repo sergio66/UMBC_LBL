@@ -33,6 +33,7 @@ hitran_version = filename(blah(4)+1:blah(4)+3);
 % UPDATE
 old_reader = {'h92','h96','h98','h2k'};
 new_reader = {'h04','h08','h12','h16','g15'};
+new_reader = {'h04','h08','h12','h16','g15','h17','h18'};  %% h17 and h18 are junk so we can read in old/new HITRAN LM databases for CO2
 
 iOld = -1;
 iNew = -1;
@@ -122,6 +123,10 @@ elseif hitran_version == 'g15'
   disp('linking GEISA 2015 to H2016 mass,qtips etc')
   linker = '16';
 elseif hitran_version == 'h16'
+  linker = '16';
+elseif hitran_version == 'h17'
+  linker = '16';
+elseif hitran_version == 'h18'
   linker = '16';
 else
   error('hitread.m unknown hitran version for mass')
@@ -283,8 +288,10 @@ if (ee ~= 0) %% ee ~= 0 ==> exists; check to see if it is version we want
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% UPDATE CO2_MATFILES
-update_co2_matfiles_hitread
+if hitran_version ~= 'h17' & hitra_version ~= 'h18'
+  % UPDATE CO2_MATFILES
+  update_co2_matfiles_hitread
 
-% UPDATE CO_MATFILES
-%update_co_matfiles_hitread  %% when I was trying CO line mixing
+  % UPDATE CO_MATFILES
+  %update_co_matfiles_hitread  %% when I was trying CO line mixing
+end

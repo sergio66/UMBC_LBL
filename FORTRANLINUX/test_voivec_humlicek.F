@@ -1,5 +1,12 @@
-      subroutine loop(outvect,ziso,mass_iso,brd,strength, 
-     $   centerfreq,calcfreq,tempr,numlines,sizewave,numisotopes,lvg)
+c# -u  : turn off implicit typing of variables
+c# -g  : generate debugging information (turns off optimization)
+c# -C  : do run time subscript range checking
+c# -w0 : inform about unused variables
+c# -O3 : heavy optimization
+c# -64 : 64-bit objects (libraries must match)
+c# -us : puts trailing underscore
+
+c ifort -u -C -extend-source 132 -O3 test_voivec_humlicek.F
 
 c      = -3   voigt                  voigt1RI        HUMLICEK = used in HITTRAN LM 2018 
 c rlvg = -2 : voigt without pedestal vhh2RI_basement VOIVEC = GENLN2
@@ -9,7 +16,6 @@ c         1 : voigt                  voigt2RI        VOIVEC = GENLN2
 c         2 : speed dependent
 c      = +3   vanhuber               vhh1RI           HUMLICEK = used in HITTRAN LM 2018
 
-c      include 'max.inc' 
       include '/home/sergio/SPECTRA/FORTRANFILES/max.inc'
 
       integer numlines,sizewave,numisotopes,lvg
@@ -27,16 +33,31 @@ c        print *,'in loop.f, n_in .gt. MaxLen',n_in,MaxLen
 c        STOP
 c      END IF
 
-      IF (numlines .gt. kMaxBandLines) THEN
-        print *,'in loop.f, numlines   > kMaxBandLines',numlines,kMaxBandLines
-        STOP
-      END IF
+c      IF (numlines .gt. kMaxBandLines) THEN
+c        print *,'in loop.f, numlines   > kMaxBandLines',numlines,kMaxBandLines
+c        STOP
+c      END IF
 
-      do ii=1,sizewave
-        outvect(ii)=0.0
-        yr(ii)=0.0
-        yi(ii)=0.0
-      end do
+      kk = 1
+      brd(1) = 0.01
+      strength(1) = 1
+       mass = 40.0
+       ziso(1) = 1
+       mass_iso(1) = 44
+       tempr = 270.0
+       numlines = 1
+              
+       print *,'Enter centerfreq : '
+       read *,centerfreq(1)
+       print *,'Enter lvg : '
+       read *,lvg
+       print *,lvg,centerfreq(1)
+       sizewave = 10000
+       do ii=1,sizewave
+         calcfreq(ii) = 580 + 0.025*(ii-1)
+         yr(ii)=0.0
+         yi(ii)=0.0	 
+       end do
 
 c voigt humlicek >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       if (lvg .eq. -3) then    
@@ -44,6 +65,7 @@ c        print *,'computing voigt humlicek for ',numlines,' lines'
         do kk=1,numlines
           !compute the line shape
           mass=mass_iso(idint(ziso(kk)))
+	  print *,kk,numlines,mass
 c this is the complex voigter from Humlicek
           call voigt1RI(yr,yi,calcfreq,centerfreq(kk),tempr,mass,brd(kk),
      $             sizewave)
@@ -138,11 +160,13 @@ c          print *,kk,ziso(kk),idint(ziso(kk)),numisotopes,mass
             outvect(ii)=outvect(ii)+yr(ii)*strength(kk)
           end do          
         end do
-
-
       endif
 
-      return
+      do ii = 1,sizewave
+        print *,ii,calcfreq(ii),yr(ii)
+      end do
+      
+      stop
       end
 
 c ***********************************************************************

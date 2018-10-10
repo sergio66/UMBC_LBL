@@ -19,6 +19,12 @@ if length(intersect(hitran_version,hlist_qtips)) ~= 1
     find_qnew_isotopes_H16;
   elseif strcmp(hitran_version,'h16') == 1
     find_qnew_isotopes_H16;
+  elseif strcmp(hitran_version,'h17') == 1
+    %% these are fake for HITRAN LM
+    find_qnew_isotopes_H16;
+  elseif strcmp(hitran_version,'h18') == 1
+    %% these are fake for HITRAN LM  
+    find_qnew_isotopes_H16;
   else
     hitran_version
     error('looking for H04/H08/H12/H16 in new_q')

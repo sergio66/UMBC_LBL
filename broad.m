@@ -5,8 +5,8 @@ function [brd] = broad(press,press_self,press_ref,air,self,m,T,iGas)
 %   press       =  current AIRS pressure in atm
 %   press_self  =  current self pressure in atm
 %   press_ref   =  current reference pressure in atm
-%   air         =  air broadening cm-1/atm at 296 k
-%   self        =  air broadening cm-1/atm at 296 k
+%   air         =  air  broadening cm-1/atm at 296 k
+%   self        =  self broadening cm-1/atm at 296 k
 %   m           =  power relationship to scale brd wrt temperature
 %   T           =  temperature
 %   iGas        =  GAS ID
@@ -68,7 +68,8 @@ else                                %%%%%%%%%% CO2
   slf = slfs + slfb;
 
   brdf = (press-press_self)*air.*(296.0/T).^(m);
-  brds = (press_self)*slf.*(296.0/T).^(0.685);
+  %brds = (press_self)*slf.*(296.0/T).^(0.685);    %% for years and years
+  brds = (press_self)*slf.*(296.0/T).^(m);        %% try this Oct 2018
   brd  = brdf + brds;
 end
 

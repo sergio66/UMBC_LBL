@@ -7,8 +7,8 @@ c T    = temperature
 c m    = molecular mass (amu) 
 c brd  = broadening 
  
-      real*8 wr(n_in),v(n_in),v0,Temp,m,brd 
       integer ii,n_in 
+      real*8 wr(n_in),v(n_in),v0,Temp,m,brd 
       real*8 brd2,pi_brd 
  
       brd2=brd*brd 
@@ -34,8 +34,8 @@ c T    = temperature
 c m    = molecular mass (amu) 
 c brd  = broadening 
  
-      real*8 wr(n_in),v(n_in),v0,Temp,m,brd 
       integer ii,n_in 
+      real*8 wr(n_in),v(n_in),v0,Temp,m,brd 
       real*8 brd2,pi_brd,basmnt
  
       brd2=brd*brd 
@@ -66,9 +66,9 @@ c T    = temperature
 c m    = molecular mass (amu) 
 c brd  = broadening
 c basement = precomputed basement term 
- 
-      real*8 wr(n_in),v(n_in),v0,Temp,m,brd
+
       integer ii,n_in 
+      real*8 wr(n_in),v(n_in),v0,Temp,m,brd
       real*8 brd2,pi_brd,basmnt
  
       do ii=1,n_in 
