@@ -48,7 +48,7 @@ function [outwave,out_array]=run8co2(gasID,fmin,fmax,profname,topts);
 %     turn off full linemixing (!!!!what a waste)
 %       topts.LVF = 'V'
 % (b) turn on GENLN2-92 lineshape and cousin 
-%       topts.LVF = 'G'
+%       topts.LVF = 'G92'
 %       topts.birn = 'c'
 %       topts.HITRAN='/asl/data/hitran/h92.by.gas';
 %      see history note (14) below
@@ -96,7 +96,7 @@ function [outwave,out_array]=run8co2(gasID,fmin,fmax,profname,topts);
 %char      LVF            'L','l' for lorentz                     'F'
 %                         'V','v' for voigt/vaan Huber
 %                         'F','f' for full line mixin
-%                         'G','g' for GENLN2-92 lineshape : 
+%                         'G92','g92' for GENLN2-92 lineshape : 
 %                            Q branch linemixing in the Q deltpi,Qsigpi bands
 %                            all other bands/branches - only cousin lineshape
 %      see history note (14) below
@@ -377,7 +377,7 @@ homepath=[currentdir '/'];
 %char      LVF            'L','l' for lorentz                     'F'
 %                         'V','v' for voigt/vaan Huber
 %                         'F','f' for full line mixing
-%                         'G','g' for GENLN2-92 lineshape : 
+%                         'G92','g92' for GENLN2-92 lineshape : 
 %                            Q branch linemixing in the Q deltpi,Qsigpi bands
 %                            all other bands/branches - only cousin lineshape
 %char      NIF            (V)oigt,F(I)rstOrder,(F)ull linemix 'F'
@@ -531,7 +531,7 @@ z=checkpar(fstep,ffin,fmed,nbox,fcor,fmax,fmin,xnear,xmed,xfar);
 if (z ~= 1) 
   error('there is an error in your parameters')
 end
-allowedLVF=['l','L','v','V','f','F','G','g'];
+allowedLVF={'l','L','v','V','f','F','G92','g92'};
 if (isempty(intersect(LVF,allowedLVF)))
   error('there is an error in your LVF parameter')
 end
@@ -549,7 +549,7 @@ if ((IO == '1') & ((birn=='C')|(birn=='c')))
 end
 
 if ( ((LVF == 'f')|(LVF == 'F')) & ((birn=='C')|(birn=='c')) )
-  error('cannot have line mixing AND cousin turned on; try LVF == ''g'' ')
+  error('cannot have line mixing AND cousin turned on; try LVF == ''g92'' ')
 end
 
 if ( ((LVF == 'f')|(LVF == 'F')) )

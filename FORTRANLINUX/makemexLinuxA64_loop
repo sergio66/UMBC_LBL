@@ -18,7 +18,7 @@ rm ../loop.mexa64
             FFLAGS='-fno-common'
             FLIBS="-L/usr/lib/ -L/sw/lib -lg2c $MLIBS -lm -compatibleArrayDims"
             FOPTIMFLAGS='-O'
-            FDEBUGFLAGS='-g'
+            FDEBUGFLAGS='-g -u'
 
 echo 'mexing voigt and looping files ... '
 echo $FFLAGS $LDFLAGS $FLIBS

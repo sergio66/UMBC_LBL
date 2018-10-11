@@ -412,7 +412,7 @@ end
 %char      LVF            'L','l' for lorentz                     'F'
 %                         'V','v' for voigt/vaan Huber
 %                         'F','f' for full line mixing
-%                         'G','g' for GENLN2-92 lineshape : 
+%                         'G92','g92' for GENLN2-92 lineshape : 
 %                            Q branch linemixing in the Q deltpi,Qsigpi bands
 %                            all other bands/branches - only cousin lineshape
 %
@@ -589,7 +589,8 @@ z=checkpar(fstep,ffin,fmed,nbox,fcor,fmax,fmin,xnear,xmed,xfar);
 if (z ~= 1) 
   error('there is an error in your parameters')
 end
-allowedLVF=['l','L','v','V','f','F','G','g'];
+allowedLVF={'l','L','v','V','f','F','G92','g92','gh','GH','gH','Gh','vh','VH','vH','Vh'}; %% also allow Humlicek
+allowedLVF={'l','L','v','V','f','F','G92','g92'};
 if (isempty(intersect(LVF,allowedLVF)))
   error('there is an error in your LVF parameter')
 end
@@ -607,7 +608,7 @@ if ((IO == '1') & ((birn=='C')|(birn=='c')))
 end
 
 if ( ((LVF == 'f')|(LVF == 'F')) & ((birn=='C')|(birn=='c')) )
-  error('cannot have line mixing AND cousin turned on; try LVF == ''g'' ')
+  error('cannot have line mixing AND cousin turned on; try LVF == ''g92'' ')
 end
 
 if ( ((LVF == 'f')|(LVF == 'F')) )
@@ -1243,7 +1244,7 @@ if ((num_band > 0) & (noloops > 0))
       LVF  = LVF_user;
       birn = birn_user;
       IO   = IO_user; 
-      if ((LVF_user == 'g') | (LVF_user == 'G'))
+      if ((LVF_user == 'g92') | (LVF_user == 'G92'))
         if ((PQR(iii) == 01) | (PQR(iii) == 02)) 
           %%the Q deltpi,sigpi bands need first order line mixing, no cousin
           LVF  = 'V';

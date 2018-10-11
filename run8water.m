@@ -74,7 +74,14 @@ function [outwave,out_array]=run8water(gasID,fmin,fmax,profname,topts);
 %real      str_far        min line strength for far wing lines     0.0
 %real      str_near       min line strength for near wing lines    0.0
 %
-%char      LVG            (L)orentz,Voi(G)t,(V)anHuber             'V'
+% char      LVG            (W)ithout basement == what LBLRTM has for "weak molecules" 
+%%                            ie other than CO2 or WV
+%                          these are mostly Voivec = GENLN2 voigt
+%                          (L)orentz,Voi(G)t,(V)anHuber             'V'
+%                          (S)peed dependent voigt
+%                          these are mostly Humlicek voigt                          
+%                          Voi(GH)t,(VH)anHuber
+%
 %integer   CKD            continumm no (-1)                         -1
 %                         yes water : (0,21,23) 
 %                         yes O2,N2 : (+1) 
@@ -183,7 +190,14 @@ function [outwave,out_array]=run8water(gasID,fmin,fmax,profname,topts);
 %real      str_far        min line strength for far wing lines     0.0
 %real      str_near       min line strength for near wing lines    0.0
 %
-%char      LVG            (L)orentz,Voi(G)t,(V)anHuber             'V'
+% char      LVG            (W)ithout basement == what LBLRTM has for "weak molecules" 
+%                            ie other than CO2 or WV
+%                          these are mostly Voivec = GENLN2 voigt
+%                          (L)orentz,Voi(G)t,(V)anHuber             'V'
+%                          (S)peed dependent voigt
+%                          these are mostly Humlicek voigt                          
+%                          Voi(GH)t,(VH)anHuber
+%
 %integer   CKD            continumm no (-1)                         -1
 %                         yes water : (0,21,23) 
 %                         yes O2,N2 : (+1) 
@@ -279,10 +293,50 @@ end
 %%%%%%%% (2) vhh,vhh1       (vhh is faster than tobin's vhh1)
 
 allowedline=['l','L','v','V','g','G'];
+okdokey = intersect(allowedline,LVG);
+if (length(okdokey) ~= 1)
+  error('lineshape must be W or L or V or G or S');
+end
+
 okdokey=intersect(allowedline,LVG);
 if (length(okdokey) ~= 1)
   error('lineshape must be L or V or G');
 end
+
+if ((LVG == 'l') | (LVG == 'L'))
+  lvgNum = -1;
+elseif ((LVG == 'v') | (LVG == 'V'))
+  lvgNum = 0;
+elseif ((LVG == 'g') | (LVG == 'G'))
+  lvgNum = 1;
+end
+
+allowedline = {'w','W','l','L','v','V','g','G','s','S'};                                         %% these are basically GENLN2 voivec
+allowedline = {'w','W','l','L','v','V','g','G','s','S','gh','GH','gH','Gh','vh','VH','vH','Vh'}; %% also allow Humlicek
+okdokey = intersect(allowedline,LVG);
+if (length(okdokey) ~= 1)
+  error('lineshape must be W or L or V or G or S');
+end
+
+%% first five use GENLN2 Voivec
+if ((LVG == 'w') | (LVG == 'W'))      %% without basement, just like WV
+  lvgNum = -2;
+elseif ((LVG == 'l') | (LVG == 'L'))
+  lvgNum = -1;
+elseif ((LVG == 'v') | (LVG == 'V'))
+  lvgNum = 0;
+elseif ((LVG == 'g') | (LVG == 'G'))
+  lvgNum = 1;
+elseif ((LVG == 's') | (LVG == 'S'))
+  lvgNum = 2;
+%% last two use Humlicek
+elseif ((LVG == 'vh') | (LVG == 'VH') | (LVG == 'vH') | (LVG == 'Vh'))
+  lvgNum = 3;
+elseif ((LVG == 'gh') | (LVG == 'GH') | (LVG == 'gH') | (LVG == 'Gh'))
+  lvgNum = -3;
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if (gasID ~= 1) 
   error('GasID must be 1 : this version is for water only!')
@@ -317,14 +371,6 @@ if ((local >= 0) & (abs(xfar-25) > 0.0001))
     fstep = xfar;
     newparams.fstep = xfar;
   end
-end
-
-if ((LVG == 'l') | (LVG == 'L'))
-  lvgNum = -1;
-elseif ((LVG == 'v') | (LVG == 'V'))
-  lvgNum = 0;
-elseif ((LVG == 'g') | (LVG == 'G'))
-  lvgNum = 1;
 end
 
 if (CKD > 0) 

@@ -67,9 +67,13 @@ function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
 % real      str_near       min line strength for near wing lines    0.0
 % 
 % char      LVG            (W)ithout basement == what LBLRTM has for "weak molecules" 
-%%                            ie other than CO2 or WV
+%                            ie other than CO2 or WV
+%                          these are mostly Voivec = GENLN2 voigt
 %                          (L)orentz,Voi(G)t,(V)anHuber             'V'
 %                          (S)peed dependent voigt
+%                          these are mostly Humlicek voigt                          
+%                          Voi(GH)t,(VH)anHuber
+%
 % integer   CKD            continumm no (-1)                         -1
 %                          yes water : (0,21,23) 
 %                          yes O2,N2 : (+1) 
@@ -170,9 +174,13 @@ function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
 % real      str_near       min line strength for near wing lines    0.0
 % 
 % char      LVG            (W)ithout basement == what LBLRTM has for "weak molecules" 
-%%                            ie other than CO2 or WV
-%                          (L)orentz,Voi(G)t,(V)anHuber    'V'
+%                            ie other than CO2 or WV
+%                          these are mostly Voivec = GENLN2 voigt
+%                          (L)orentz,Voi(G)t,(V)anHuber             'V'
 %                          (S)peed dependent voigt
+%                          these are mostly Humlicek voigt                          
+%                          Voi(GH)t,(VH)anHuber
+%
 % integer   CKD            continumm no (-1)               -1
 %                          yes water : (0,21,23) 
 %                          yes O2,N2 : (+1) 
@@ -302,12 +310,25 @@ if (gasID == 7 | gasID == 22)
   end
 end
 
-allowedline = ['w','W','l','L','v','V','g','G','s','S'];
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% see FORTRANLINUX/loop.F
+%      = -3   voigt                  voigt1RI        HUMLICEK = used in HITTRAN LM 2018 
+% rlvg = -2 : vhh without pedestal vhh2RI_basement VOIVEC = GENLN2
+%        -1 : lerentz
+%         0 : vanhuber               vhh2RI          VOIVEC = GENLN2
+%         1 : voigt                  voigt2RI        VOIVEC = GENLN2
+%         2 : speed dependent
+%      = +3   vanhuber               vhh1RI           HUMLICEK = used in HITTRAN LM 2018
+
+allowedline = {'w','W','l','L','v','V','g','G','s','S'};                                         %% these are basically GENLN2 voivec
+allowedline = {'w','W','l','L','v','V','g','G','s','S','gh','GH','gH','Gh','vh','VH','vH','Vh'}; %% also allow Humlicek
 okdokey = intersect(allowedline,LVG);
 if (length(okdokey) ~= 1)
   error('lineshape must be W or L or V or G or S');
 end
 
+%% first five use GENLN2 Voivec
 if ((LVG == 'w') | (LVG == 'W'))      %% without basement, just like WV
   lvgNum = -2;
 elseif ((LVG == 'l') | (LVG == 'L'))
@@ -318,7 +339,14 @@ elseif ((LVG == 'g') | (LVG == 'G'))
   lvgNum = 1;
 elseif ((LVG == 's') | (LVG == 'S'))
   lvgNum = 2;
+%% last two use Humlicek
+elseif ((LVG == 'vh') | (LVG == 'VH') | (LVG == 'vH') | (LVG == 'Vh'))
+  lvgNum = 3;
+elseif ((LVG == 'gh') | (LVG == 'GH') | (LVG == 'gH') | (LVG == 'Gh'))
+  lvgNum = -3;
 end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %see that all parameters makes sense
 z = checkpar(fstep,ffin,fmed,nbox,fcor,fmax,fmin,xnear,xmed,xfar);

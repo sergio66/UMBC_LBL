@@ -50,7 +50,7 @@ function [outwave,out_array] = run8co2_weakbackgnd(gasID,fmin,fmax,profname,topt
 %     turn off full linemixing (!!!!what a waste)
 %       topts.LVF = 'V'
 % (b) turn on GENLN2-92 lineshape and cousin 
-%       topts.LVF = 'G'
+%       topts.LVF = 'G92'
 %       topts.birn = 'c'
 %       topts.HITRAN='/asl/data/hitran/h92.by.gas';
 %      see history note (14) below
@@ -564,7 +564,7 @@ z=checkpar(fstep,ffin,fmed,nbox,fcor,fmax,fmin,xnear,xmed,xfar);
 if (z ~= 1) 
   error('there is an error in your parameters')
   end
-allowedLVF=['l','L','v','V','f','F','G','g'];
+allowedLVF={'l','L','v','V','f','F','G92','g92'};
 if (isempty(intersect(LVF,allowedLVF)))
   error('there is an error in your LVF parameter')
   end

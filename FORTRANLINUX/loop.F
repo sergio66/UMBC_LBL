@@ -2,7 +2,7 @@
      $   centerfreq,calcfreq,tempr,numlines,sizewave,numisotopes,lvg)
 
 c      = -3   voigt                  voigt1RI        HUMLICEK = used in HITTRAN LM 2018 
-c rlvg = -2 : voigt without pedestal vhh2RI_basement VOIVEC = GENLN2
+c rlvg = -2 : vhh without pedestal   vhh2RI_basement VOIVEC = GENLN2
 c        -1 : lerentz
 c         0 : vanhuber               vhh2RI          VOIVEC = GENLN2
 c         1 : voigt                  voigt2RI        VOIVEC = GENLN2
@@ -45,8 +45,8 @@ c        print *,'computing voigt humlicek for ',numlines,' lines'
           !compute the line shape
           mass=mass_iso(idint(ziso(kk)))
 c this is the complex voigter from Humlicek
-          call voigt1RI(yr,yi,calcfreq,centerfreq(kk),tempr,mass,brd(kk),
-     $             sizewave)
+          call voigt1RI(yr,yi,calcfreq,centerfreq(kk),tempr,mass,
+     $             brd(kk),sizewave)
           do ii=1,sizewave
             outvect(ii)=outvect(ii)+yr(ii)*strength(kk)
           end do          
@@ -54,7 +54,7 @@ c this is the complex voigter from Humlicek
 
 c GENLN2 voigt without basement >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       elseif (lvg .eq. -2) then    
-c        print *,'computing GENLN2 voivec voigt without pedestal for ',numlines,' lines'    
+c        print *,'computing GENLN2 voivec VHH without pedestal for ',numlines,' lines'    
         do kk=1,numlines
           !compute the line shape
           mass=mass_iso(idint(ziso(kk)))
@@ -101,8 +101,8 @@ c        print *,'computing Genln2 voivec Voigt lineshape for ',numlines,' lines
           !compute the line shape
           mass=mass_iso(idint(ziso(kk)))
 c this is the complex voigter currently being used by Genln2 (voivec)
-          call voigt2RI(yr,yi,calcfreq,centerfreq(kk),tempr,mass,brd(kk),
-     $             sizewave)
+          call voigt2RI(yr,yi,calcfreq,centerfreq(kk),tempr,mass,
+     $             brd(kk),sizewave)
           do ii=1,sizewave
             outvect(ii)=outvect(ii)+yr(ii)*strength(kk)
           end do          

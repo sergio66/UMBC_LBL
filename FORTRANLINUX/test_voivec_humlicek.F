@@ -9,7 +9,7 @@ c# -us : puts trailing underscore
 c ifort -u -C -extend-source 132 -O3 test_voivec_humlicek.F
 
 c      = -3   voigt                  voigt1RI        HUMLICEK = used in HITTRAN LM 2018 
-c rlvg = -2 : voigt without pedestal vhh2RI_basement VOIVEC = GENLN2
+c rlvg = -2 : vhh   without pedestal vhh2RI_basement VOIVEC = GENLN2
 c        -1 : lerentz
 c         0 : vanhuber               vhh2RI          VOIVEC = GENLN2
 c         1 : voigt                  voigt2RI        VOIVEC = GENLN2
@@ -76,7 +76,7 @@ c this is the complex voigter from Humlicek
 
 c GENLN2 voigt without basement >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       elseif (lvg .eq. -2) then    
-c        print *,'computing GENLN2 voivec voigt without pedestal for ',numlines,' lines'    
+c        print *,'computing GENLN2 voivec VHH without pedestal for ',numlines,' lines'    
         do kk=1,numlines
           !compute the line shape
           mass=mass_iso(idint(ziso(kk)))
