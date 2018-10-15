@@ -117,6 +117,8 @@ function [outwave,out_array]=run8water(gasID,fmin,fmax,profname,topts);
 %                                  (dXmin and dXmax)
 %                       so eg 'XXXXXX' would do nothing
 %
+% integer strongestline  picks out the strongest line so you can do your calc for one line only -1
+%
 %
 %restrictions :
 %(1) xnear <= xmed <= xfar        
@@ -235,6 +237,8 @@ fstep         = 1.0;
 xnear         = 1.0;
 xmed          = 2.0;
 xfar          = 25.0;
+strongestline = -1;
+
 if fmin > 2830 | fmin < 605
   newparams = runXtopts_params_smart(fmin);
   ffin  = newparams.ffin;
@@ -267,7 +271,8 @@ allowedparams = [{'ffin'},     {'fmed'},         {'fcor'},     {'fstep'},  ...
                  {'LVG'},      {'CKD'},          {'HITRAN'},               ...
                  {'selfmult'}, {'formult'},      {'local'},                ...
                  {'stren_mult'},   {'width_mult'},  {'tsp_mult'},          ...
-                 {'which_isotope'}, {'iLayDo'},     {'str_unc'} ];
+                 {'which_isotope'}, {'iLayDo'},     {'str_unc'},           ...
+                 {'strongestline'}];
 
 %read in {topts}
 if nargin == 5
@@ -527,6 +532,33 @@ elseif ((NumLayers == 1) & (number_of_lines > 0))
                       gasID,mass_iso,OptDepth_close,which_isotope,TheLayers); 
   number_of_lines = line.linct;   
 end 
+
+if strongestline == +1
+  boo = find(line.stren == max(line.stren),1);
+  semilogy(line.wnum,line.stren,line.wnum(boo),line.stren(boo),'ro');
+  thefields = fieldnames(line);
+  for ii = 1 : length(thefields)
+    str = ['junk = line.' thefields{ii} ';'];
+    eval(str);
+    [mmjunk,nnjunk] = size(junk);
+    if mmjunk == 1 & nnjunk == 1
+      str = ['newjunk.' thefields{ii} ' = line.' thefields{ii} ';'];
+      eval(str);
+    elseif mmjunk == 1 & nnjunk > 1
+      str = ['newjunk.' thefields{ii} ' = line.' thefields{ii} '(boo);'];
+      eval(str);
+    elseif mmjunk > 1 & nnjunk > 1
+      str = ['newjunk.' thefields{ii} ' = line.' thefields{ii} '(boo,:);'];
+      eval(str);
+    end
+  end
+  newjunk.linct = 1;
+  line = newjunk;
+  line.wnum = round(line.wnum);
+  number_of_lines = line.linct;  
+  disp('found strongest line')
+  line
+end
 
 if (line.linct == 0) 
   disp('found NO lines in the HITRAN database!!!!');

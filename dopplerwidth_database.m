@@ -1,4 +1,4 @@
-% function [y] = dopplerwidth_database(v0,T,m)
+%% function [y] = dopplerwidth_database(v0,T,m)
 
 figure(1); clf;
 

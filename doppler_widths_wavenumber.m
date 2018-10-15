@@ -9,7 +9,9 @@ v0 = 200 : 1 : 3200;  %% FIR-NIR
 m  = 48;
 m  = 44;
 mass    = m*amu;
-T  = [100 150 200 250 300 350]; 
+T  = [100 150 200 250 300 350];
+T  = [100 : 10 : 350];
+T  = [200 : 20 : 320];
 for ii = 1 : length(T)
   y(ii,:) =  v0.*sqrt(2*log(2)*k*T(ii)/mass/c_light/c_light);
 end

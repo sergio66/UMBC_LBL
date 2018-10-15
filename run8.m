@@ -99,6 +99,8 @@ function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
 %                                  (dXmin and dXmax)
 %                       so eg 'XXXXXX' would do nothing
 %
+% integer strongestline  picks out the strongest line so you can do your calc for one line only -1
+%
 % restrictions :
 % (1) xnear <= xmed <= xfar        
 % (2) xnear >= fstep
@@ -207,6 +209,7 @@ fstep         = 1.0;
 xnear         = 1.0;
 xmed          = 2.0;
 xfar          = 25.0;
+strongestline = -1;
 
 %% xfar = max(xfar,25.0);    %%% <<<< new
 if gasID == 2
@@ -258,9 +261,10 @@ str_unc       = [];
 allowedparams = [{'ffin'},     {'fmed'},         {'fcor'},     {'fstep'}, ...
                  {'xnear'},    {'xmed'},         {'xfar'},                ...
                  {'nbox'},     {'strength_far'}, {'strength_near'},       ...
-                 {'LVG'},      {'CKD'},                       {'HITRAN'},           ...
-                 {'stren_mult'},   {'width_mult'},            {'tsp_mult'},         ...
-                 {'which_isotope'}, {'O2O3N2continuumVers'},  {'iLayDo'},{'str_unc'}];
+                 {'LVG'},      {'CKD'},                       {'HITRAN'},            ...
+                 {'stren_mult'},   {'width_mult'},            {'tsp_mult'},          ...
+                 {'which_isotope'}, {'O2O3N2continuumVers'},  {'iLayDo'},            ...
+                 {'str_unc'},       {'strongestline'}];
 
 %read in {topts} 
 if nargin == 5
@@ -522,6 +526,34 @@ elseif ((NumLayers == 1) & (number_of_lines > 0))
                       A,B,C,D,G,hitran_version,mass_info,...
                       gasID,mass_iso,OptDepth_close,which_isotope,TheLayers);
   number_of_lines = line.linct;  
+end
+
+if strongestline == +1
+  boo = find(line.stren == max(line.stren),1);
+  semilogy(line.wnum,line.stren,line.wnum(boo),line.stren(boo),'ro');
+  thefields = fieldnames(line);
+  for ii = 1 : length(thefields)
+    str = ['junk = line.' thefields{ii} ';'];
+    eval(str);
+    [mmjunk,nnjunk] = size(junk);
+    if mmjunk == 1 & nnjunk == 1
+      str = ['newjunk.' thefields{ii} ' = line.' thefields{ii} ';'];
+      eval(str);
+    elseif mmjunk == 1 & nnjunk > 1
+      str = ['newjunk.' thefields{ii} ' = line.' thefields{ii} '(boo);'];
+      eval(str);
+    elseif mmjunk > 1 & nnjunk > 1
+      str = ['newjunk.' thefields{ii} ' = line.' thefields{ii} '(boo,:);'];
+      eval(str);
+    end
+  end
+  newjunk.linct = 1;
+  line = newjunk;
+  number_of_lines = line.linct;  
+  fprintf(1,'rounding linecenter from %12.5f to %12.5f \n',line.wnum,round(line.wnum))
+  line.wnum = round(line.wnum);
+  disp('found strongest line')
+  line
 end
 
 if (number_of_lines <= 0)

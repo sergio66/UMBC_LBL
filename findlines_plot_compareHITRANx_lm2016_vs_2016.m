@@ -2,7 +2,7 @@ function [iYes1,line1,iYes2,line2] = findlines_plot_compareHITRANx_lm2016_vs_201
 
 addpath /home/sergio/MATLABCODE
 
-if nargin < 4
+if nargin < 5
   %% looking at the linemix database
   HITRAN2 = 2017;  %% right now symbolic link to ../h16.by.gas/CO2/new_lm_g2.dat_Mar20_10.43am    which is based on orig LM linemix database downloaded from HITRAN in 2017
   HITRAN2 = 2018;  %% right now symbolic link to ../h16.by.gas/CO2/new_lm_g3_0.dat_Oct06_08.20am  which is based on new database sent to me by Iouli in Aug 2018
