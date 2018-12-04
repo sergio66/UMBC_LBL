@@ -54,31 +54,34 @@
       print *,'Enter [v1 v2 dv] : '
       read *,v1absIN,v2absIN,dvabsIN
 
+      print *,'Enter [irand] : '
+      read *,irand
+
       !! [Self Forn   o3 o2 n2]      
       IF (iGasID .EQ. 1) THEN
         call CALCON_MTCKD_32_loc(paveIN,ppaveIN,taveIN,num_kmolesIN,     &
                               v1absIN,v2absIN,dvabsIN,                   &
                               raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,  &
                               raFreq,raAbs,iNumPts,                      &
-                              iGasID, 1.0, 1.0, 0.0, 0.0, 0.0)
+                              iGasID, 1.0, 1.0, 0.0, 0.0, 0.0, irand)
       ELSEIF (iGasID .EQ. 3) THEN
         call CALCON_MTCKD_32_loc(paveIN,ppaveIN,taveIN,num_kmolesIN,     &
                               v1absIN,v2absIN,dvabsIN,                   &
                               raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,  &
                               raFreq,raAbs,iNumPts,                      &
-                              iGasID, 0.0, 0.0, 1.0, 0.0, 0.0)
+                              iGasID, 0.0, 0.0, 1.0, 0.0, 0.0, irand)
       ELSEIF (iGasID .EQ. 7) THEN
         call CALCON_MTCKD_32_loc(paveIN,ppaveIN,taveIN,num_kmolesIN,    &
                               v1absIN,v2absIN,dvabsIN,                  &
                               raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS, &
                               raFreq,raAbs,iNumPts,                     &
-                              iGasID, 0.0, 0.0, 0.0, 1.0, 0.0)
+                              iGasID, 0.0, 0.0, 0.0, 1.0, 0.0, irand)
       ELSEIF (iGasID .EQ. 22) THEN
         call CALCON_MTCKD_32_loc(paveIN,ppaveIN,taveIN,num_kmolesIN,     &
                               v1absIN,v2absIN,dvabsIN,                   &
                               raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,  &
                               raFreq,raAbs,iNumPts,                      &
-                              iGasID, 0.0, 0.0, 0.0, 0.0, 1.0)
+                              iGasID, 0.0, 0.0, 0.0, 0.0, 1.0, irand)
       ELSE
         print *,'Error : need iGasID = 1,3,7,22 for WV,O3,O3,N2, not',iGasID
         STOP

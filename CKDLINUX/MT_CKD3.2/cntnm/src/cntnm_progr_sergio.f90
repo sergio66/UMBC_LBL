@@ -38,12 +38,14 @@
                 v1absIN,v2absIN,dvabsIN,                    &
                 raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,   &
                 raFreq,raAbs,iNumPts,                       &
-                iGasID,rXSelf,rXForn,rXozone,rXoxygen,rXnitrogen)
+                iGasID,rXSelf,rXForn,rXozone,rXoxygen,rXnitrogen, &
+		irand)
 
 ! input pave,ppave in mb,
 !       tave       in K
 !       num_kmoles in kilomoles/cm2
 !       v1absIN,v2absIN,dvabsIN in cm-1
+!       irand is an integer random placeholder
 !
 ! output coarser output wavenumber (at spacing 10 cm-1) : raFreqDVS
 !        self continuum coeffs at coarse spacing        : raSelfDVS
@@ -88,6 +90,7 @@
       real*8 raFreqDVS(kMaxPtsDVS),raSelfDVS(kMaxPtsDVS),raFornDVS(kMaxPtsDVS)
       real*8 raFreq(kMaxPts),raAbs(kMaxPts)
       INTEGER iGasID
+      INTEGER irand
 
       !INTEGER n_absrb,nc
       ! this is set in lblparams.f90
@@ -153,6 +156,11 @@
       integer*4 k
       integer*4 mexPrintf
 
+      character*120 filename
+      character*1   sgid1
+      character*2   sgid2      
+      character*4   sfreq
+      character*8   srand
 !
       character*8 holn2
 !                                                                         F00120
@@ -205,7 +213,18 @@
       ipr = 66
       ipu = 7
 !
-      OPEN (ipr,FILE='CNTNM.OPTDPT')
+      filename = 'CNTNM.OPTDPT'
+      write(sfreq,'(i4)') nint(v1absIN)
+      write(srand,'(i8)') irand
+      if (iGASID .GE. 10) THEN
+        write(sgid2,'(i2)') iGASID
+      filename = 'CNTNM.OPTDPT_' // sgid2 // '_' // sfreq // '_' // srand
+      else
+        write(sgid1,'(i1)') iGASID
+      filename = 'CNTNM.OPTDPT_' // sgid1 // '_' // sfreq // '_' // srand
+      endif
+      print *,'writing to ',filename
+      OPEN (ipr,FILE=filename)
       OPEN (ipu,FILE='WATER.COEF')
 !
       print *
@@ -291,7 +310,11 @@
 
   pave = paveIN
   tave = taveIN
-  VMRH2O = ppaveIN/paveIN         !! assume we are doing WV
+  IF (iGasID .EQ. 1) THEN
+    VMRH2O = ppaveIN/paveIN         !! assume we are doing WV
+  ELSE
+    VMRH2O = 0.0
+  END IF
   
   xlength = 1000 * num_kmolesIN   !! change from kmoles/cm2 to moles/cm2
   xlength = xlength * 10000       !! change to moles/m2
@@ -343,6 +366,9 @@
       
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> begin edit WK(X) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+    !  x_vmr_o2  = wk(7)/wtot
+    !  x_vmr_n2  = 1. - x_vmr_h2o - x_vmr_o2
+
   IF (iGasID .EQ. 1) THEN
 !c        WK(1) = WK(1)*rXSelf
 !c        WK(2) = 0.0
@@ -363,20 +389,29 @@
     WK(7) = 0.0
     WN2   = 0.0
   ELSEIF (iGasID .EQ. 7) THEN
-    WK(7) = WK(1)
+    !  x_vmr_o2  = wk(7)/wtot
+    !  x_vmr_n2  = 1. - x_vmr_h2o - x_vmr_o2
+    ! http://acmg.seas.harvard.edu/people/faculty/djj/book/bookchap1.html  MixRatio of N2 and O2
     WK(7) = wtot * ppaveIN/paveIN
     WK(1) = 0.0
     WK(2) = 0.0
     WK(3) = 0.0
-    WN2   = 0.0
+    WN2   = 0.0                              !!! orig prior to Nov 2018
+    WN2   = wtot * (ppaveIN)/paveIN          !!! new Nov 2018
+    WN2   = wtot * (paveIN-ppaveIN)/paveIN   !!! new Nov 2018
+    WN2   = WK(7) * 0.78/0.21                !!! new Dec 2018    
+    WK(22) = WN2
   ELSEIF (iGasID .EQ. 22) THEN
-    WN2   = WK(1)
+    !  x_vmr_o2  = wk(7)/wtot                             
+    !  x_vmr_n2  = 1. - x_vmr_h2o - x_vmr_o2  
     WN2   = wtot * ppaveIN/paveIN
     WK(22) = WN2
     WK(1) = 0.0
     WK(2) = 0.0
     WK(3) = 0.0
-    WK(7) = 0.0
+    WK(7) = 0.0                              !!! orig prior to Nov 2018
+    WK(7) = wtot * (paveIN-ppaveIN)/paveIN   !!! new Nov 2018
+    WK(7) = WK(22) * 0.21/0.78               !!! new Dec 2018
   END IF
 
 !  do i=1,7
@@ -437,7 +472,7 @@ NMOL = 7
         raFreq(I) = VI
         raAbs(I)  = ABSRB(I)
 100   WRITE (ipr, 910) VI, ABSRB(I) 
-910   FORMAT(F10.3,1P,E12.3)
+910   FORMAT(F20.8,1P,E20.12)
 !
 !      WRITE (7,920) tave
 !
@@ -620,7 +655,7 @@ NMOL = 7
 
 !!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
 !!!!!  ONLY UNCOMMENT IF USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
-       Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+!       Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
 !!!!!  ONLY UNCOMMENT IF USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
 !!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
 

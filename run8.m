@@ -1,5 +1,8 @@
 function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
 
+%tic
+%tic0 = tic;
+
 % ********* also need lots of stuff from Global_Data_HITRAN2004 **************
 % same as run7.m except it does "load mass.dat" and the rest of the isotope
 % stuff, a little more smartly than does run7.m
@@ -254,7 +257,8 @@ tsp_mult      = 1.0;
 iLayDo        = -1;
 which_isotope = 0;            % default use all isotopes
 O2O3N2continuumVers = 3;      % used this is making H2008 database
-  %% allowed versions are [1,3,4] and [0 for only continuum (NO lines)]
+O2O3N2continuumVers = 5;      % used this is making H2016 database together with MTCKD3.2
+  %% allowed versions are [1,3,4,5] and [0 for only continuum (NO lines)]
   %% see CKDLINUX/calcong.F
 str_unc       = [];
 
@@ -847,7 +851,20 @@ if (docontinuum == 1 & O2O3N2continuumVers < 0)
 
 elseif (docontinuum == 1 & O2O3N2continuumVers > 0)
   disp('N2 or O2 : adding on continuum OD')
-  if (length(outwave) <= MaxLen)          %can do it in one big chunk!
+  [mm0,nn0] = size(out_array);
+  if O2O3N2continuumVers == 5 & nn0 <= 10001
+     homedirx = pwd;
+     cd /home/sergio//SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/
+     [fr5,od5] = wrapper_run8_gas7_gas22_continuum(gasID,fmin,fmax,0.0005,profname);
+     out_array = out_array + od5;
+     cder = ['cd ' homedirx];
+     eval(cder);
+  elseif O2O3N2continuumVers == 5 & nn0 > 10001
+     addpath /home.sergio//SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/
+     error('ooops need to increase array sizes for wrapper_run8_gas7_gas22_continuum MTCKD3.2')
+     [fr5,od5] = wrapper_run8_gas7_gas22_continuum(gasID,fmin,fmax,0.0005,profname);
+     out_array = out_array + od5;
+  elseif (O2O3N2continuumVers ~= 5) & (length(outwave) <= MaxLen)          %can do it in one big chunk!
     for jj=MinLayer:Step:MaxLayer %INNER LOOP 1..100 = bottom -> top
       nn=(jj-MinLayer)/Step+1;
       switch O2O3N2continuumVers
@@ -860,13 +877,16 @@ elseif (docontinuum == 1 & O2O3N2continuumVers > 0)
         case 4
           tempjunk = calconV4(gasID,length(outwave),outwave,1,length(press),...
                   temperature,press,partpress,GasAmt,CKD,jj);
-       otherwise
-         error('only have o2/n2/o3 continuum Vers 1,3,4');
-     end
+        case 5
+          tempjunk = calconV_MTCKD3p2(gasID,length(outwave),outwave,1,length(press),...
+                  temperature,press,partpress,GasAmt,CKD,jj);
+        otherwise
+          error('only have o2/n2/o3 continuum Vers 1,3,4,5');
+      end
       out_array(nn,:) = out_array(nn,:)+tempjunk;
-    end
+    end     %% for loop
 
-  else %have to break it into frequency intervals
+  elseif O2O3N2continuumVers ~= 5 & (length(outwave) > MaxLen) %have to break it into frequency intervals
     for jj = MinLayer:Step:MaxLayer %LOOP 1..100 = bottom -> top
       nn = (jj-MinLayer)/Step+1;
       index0 = 1:10000;
@@ -884,8 +904,11 @@ elseif (docontinuum == 1 & O2O3N2continuumVers > 0)
           case 4
             tempjunk = calconV4(gasID,length(index),outwave(index),1,...
               length(press),temperature,press,partpress,GasAmt,CKD,jj);
+          case 5
+            tempjunk = calconV_MTCKD3p2(gasID,length(index),outwave(index),1,...
+              length(press),temperature,press,partpress,GasAmt,CKD,jj);
           otherwise
-            error('only have o2/n2/o3 continuum Vers 1,3,4');
+            error('only have o2/n2/o3 continuum Vers 1,3,4,5');
       end
 
         out_array(nn,index) = out_array(nn,index)+tempjunk;
@@ -904,8 +927,11 @@ elseif (docontinuum == 1 & O2O3N2continuumVers > 0)
           case 4
             tempjunk = calconV4(gasID,length(index),outwave(index),1,...
               length(press),temperature,press,partpress,GasAmt,CKD,jj);
+          case 5
+            tempjunk = calconV_MTCKD3p2(gasID,length(index),outwave(index),1,...
+              length(press),temperature,press,partpress,GasAmt,CKD,jj);
           otherwise
-            error('only have o2/n2/o3 continuum Vers 1,3,4');
+            error('only have o2/n2/o3 continuum Vers 1,3,4,5');
       end
         out_array(nn,index) = out_array(nn,index)+tempjunk;
       end
@@ -916,39 +942,13 @@ elseif (docontinuum == 1 & O2O3N2continuumVers > 0)
 elseif (docontinuum == 2)
   disp('N2 or O2 : replacing OD with continuum OD')
   error('why bother with this???????')
-  if (length(outwave) <= MaxLen)          %can do it in one big chunk!
-    for jj = MinLayer:Step:MaxLayer %INNER LOOP 1..100  =  bottom -> top
-      nn = (jj-MinLayer)/Step+1;
-      tempjunk = calcon(gasID,length(outwave),outwave,1,length(press),...
-                  temperature,press,partpress,GasAmt,CKD,jj);
-      out_array(nn,:) = tempjunk;
-    end
-
-  else %have to break it into frequency intervals
-    for jj = MinLayer:Step:MaxLayer %LOOP 1..100  =  bottom -> top
-      nn = (jj-MinLayer)/Step+1;
-      index0 = 1:10000;
-      number = floor(length(outwave)/10000);
-
-      for kk = 1:number             %LOOP OVER FREQUENCY INTERVALS
-        index = index0+(kk-1)*10000;
-        tempjunk = calcon(gasID,length(index),outwave(index),1,...
-            length(press),temperature,press,partpress,GasAmt,CKD,jj);
-        out_array(nn,index) = tempjunk;
-      end
-
-      %%see if anything left over
-      if (index(length(index))+1 <=  length(outwave)) 
-        index = index(length(index))+1:length(outwave);
-        tempjunk = calcon(gasID,length(index),outwave(index),1,...
-              length(press),temperature,press,partpress,GasAmt,CKD,jj);
-        out_array(nn,index) = tempjunk;
-      end
-
-    end
-  end            %%%%if then else loop
 end
 
 %******************************************************
-cpptotal = cputime-cpptotal
+cpptotal = cputime-cpptotal;
 semilogy(outwave,out_array);
+
+%toc
+%toc0 = toc;
+%fprintf(1,'toc-tic = %12.6f mins    cpptotal = %12.6f mins \n',(toc0-tic0)/60,cpptotal/60)
+fprintf(1,'cpptotal = %12.6f mins \n',cpptotal/60)

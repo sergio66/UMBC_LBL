@@ -1,0 +1,96 @@
+<<<< ALSO SEE Readme_adapt_to_run8watercontinuum_code in cntnm/src directory >>>>
+<<<<           and/or bottom of this Readme            >>>>
+
+<<<< ALSO SEE Readme_adapt_to_run8watercontinuum_code in cntnm/src directory >>>>
+<<<<           and/or bottom of this Readme            >>>>
+
+<<<< ALSO SEE Readme_adapt_to_run8watercontinuum_code in cntnm/src directory >>>>
+<<<<           and/or bottom of this Readme            >>>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+http://rtweb.aer.com/continuum_frame.html
+
+Thank you for your interest in MT_CKD Continuum.
+
+Here is your download link:
+
+http://rtweb.aer.com/rtweb_download.php?chk=f898e9cf561796d0049bba574cb1c3205b2bc3807cd5b
+
+Please note that this download link will expire in 2 hours.
+
+To unpack tarred and compressed files from a terminal:
+
+gunzip FILE.tar.gz; tar -xvf FILE.tar
+
+Note to Mac Users: The Mac built-in utility to decode tar.gz files may
+not operate properly on this file. In this case, please open a
+terminal window and manually uncompress and untar.
+
+If you are unable to download the files or have questions about the
+model, please send a notification to the "Reply-To:" address on this
+email.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+cd cntnm
+cd build
+gmake -f make_cntnm linuxINTELdbl
+  ../cntnm_v3.2_linux_intel_dbl
+
+cd ../run_example
+ln -s ../cntnm_v3.2_linux_intel_dbl cntnm_v3.2_linux_intel_dbl
+cp -a CNTNM.OPTDPT_mt_ckd_3.2 CNTNM.OPTDPT_mt_ckd_3.2_orig
+cp -a WATER.COEF_mt_ckd_3.2 WATER.COEF_mt_ckd_3.2_orig
+more INPUT.example
+cntnm_v3.2_linux_intel_dbl
+[sergio@maya-usr1 run_example]$ diff CNTNM.OPTDPT CNTNM.OPTDPT_mt_ckd_3.2_orig
+[sergio@maya-usr1 run_example]$ diff WATER.COEF WATER.COEF_mt_ckd_3.2_orig
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Then I went back to cntnm/src and copied/modified files so I can adappt to run8
+
+-rw-rw-r-- 1 sergio pi_strow  26037 Nov 30 15:29 cntnm_progr_sergio.f90
+-rw-rw-r-- 1 sergio pi_strow 700481 Jul 13 15:40 contnm_sergio.f90
+-rw-rw-r-- 1 sergio pi_strow   4976 Jul 11 21:46 driver_cntnm_progr_sergio.f90
+
+now the simple thing to do is to go to build and type
+  gmake -f make_cntnm_sergio_run8 linuxGNUdbl
+and if you are lucky it will work
+and if you are unlucky it will not, probably giving errors such as
+  cntnm_sergio_run8_v3.2_linux_gnu_dbl.obj/contnm_sergio.o:(.bss+0x0): multiple definition of `cntinf_'
+  cntnm_sergio_run8_v3.2_linux_gnu_dbl.obj/cntnm_progr_sergio.o:(.bss+0x10): first defined here
+  cntnm_sergio_run8_v3.2_linux_gnu_dbl.obj/contnm_sergio.o:(.bss+0x8): multiple definition of `bs296_'
+  cntnm_sergio_run8_v3.2_linux_gnu_dbl.obj/cntnm_progr_sergio.o:(.bss+0x18): first defined here
+because ... one of these calls the other unless you comment things out !!!
+
+!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
+!!!!!  ONLY UNCOMMENT IF USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc        
+include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'                  
+!!!!!  ONLY UNCOMMENT IF USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc        
+!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
+
+>>>>>> 
+BECAUSE THE FOLLIOWING IS TRYING TO BE A STANDALONE SCRIPT !!!!!!!!
+../../../calconwater_locg_ckd3p2.sc is what produces a mex file for run8
+its mex interface is      calcon_loc_mtckd_32_wrap.F90
+and this function calls
+       call CALCON_MTCKD_32_loc(paveIN,ppaveIN,taveIN,num_kmolesIN, &
+                               v1absIN,v2absIN,dvabsIN,                       &
+                               raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,      &
+                               raFreq,raAbs,iNumPts,                          &
+	                       iGasID, rXSelf, rXForn, 0.0d0, 0.0d0, 0.0d0)
+
+which is accomplished using
+      include 'MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90'
+
+
+so you have to make sure there is no infinite loop between
+  cntnm_progr_sergio.f90
+and
+  driver_cntnm_progr_sergio.f90
+calling each other  
+>>>>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

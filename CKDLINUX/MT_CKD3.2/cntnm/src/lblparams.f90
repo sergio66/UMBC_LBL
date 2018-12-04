@@ -32,8 +32,15 @@ MODULE lblparams   ! Parameters for array dimensions in lblrtm
       integer, parameter :: IM2=MXPDIM-2, MXTRAC=41
       integer, parameter :: NFPTS=2001, NFMX=1.3*NFPTS
       integer, parameter :: NMAXCO=4040, NUMZ = 101
-      integer, parameter :: IPTS=5050, IPTS2=6000
-      integer, parameter :: N_ABSRB=5050, nzeta=101
+
+! orig code      
+!      integer, parameter :: IPTS=5050, IPTS2=6000
+!      integer, parameter :: N_ABSRB=5050, nzeta=101
+
+! sergio to use with run8
+      integer, parameter :: IPTS=60000, IPTS2=70000
+      integer, parameter :: N_ABSRB=60000, nzeta=101
+
       integer, parameter :: NT=119, Nmax=600
       integer, parameter :: NN_TBL=10000, NDIM=2410, ND2=5000
       integer, parameter :: MAXSTATE=26

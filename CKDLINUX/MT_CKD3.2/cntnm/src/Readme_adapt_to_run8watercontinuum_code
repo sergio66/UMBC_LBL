@@ -1,3 +1,18 @@
+<<<< ALSO SEE ReadmeOrElse in main MT-CKD3.2 directory >>>>
+<<<<           and/or bottom of this Readme            >>>>
+
+<<<< ALSO SEE ReadmeOrElse in main MT-CKD3.2 directory >>>>
+<<<<           and/or bottom of this Readme            >>>>
+
+<<<< ALSO SEE ReadmeOrElse in main MT-CKD3.2 directory >>>>
+<<<<           and/or bottom of this Readme            >>>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+contnm_sergio.f90 line 253  VIL (very important line, esp if you are only trying N2 continuum)
+      x_vmr_n2  = 1. - x_vmr_h2o - x_vmr_o2
+      
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 cp cntnm_progr.f90 cntnm_progr_sergio.f90
    edit cntnm_progr_sergio.f90 so that parameters are input through keyboard (or file)
    basically insert junk1.f90 at the beginning
