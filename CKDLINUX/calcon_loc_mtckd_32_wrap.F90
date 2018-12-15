@@ -17,6 +17,13 @@
 !IMPLICIT NONE
 !CONTAINS
 
+!>>>>>>>>
+!see
+!calconwater_locg_ckd3p2.sc
+!/usr/cluster/matlab/2016b/bin/mex -v -c calcon_loc_mtckd_32_wrap.F90                          FFLAGS='$FFLAGS'
+!/usr/cluster/matlab/2016b/bin/mex       calconwater_loc_ckd3p2.F90 calcon_loc_mtckd_32_wrap.o FFLAGS='$FFLAGS'  
+!>>>>>
+
 !************************************************************************
        include '/home/sergio/SPECTRA/CKDLINUX/dspline.F90'
 !************************************************************************
@@ -28,16 +35,18 @@
 
       IMPLICIT NONE
 
+      include '/home/sergio/SPECTRA/FORTRANLINUX/max.incF90'
+      
       INTEGER NPTABS
 
       INTEGER IDGAS, NFREQ, NLAY, whichlayer
       REAL*8 FREQ(*), FSTEP, T(*), P(*),PARTP(*),AMT(*),CON(*)
       real*8 rXSelf,rXForn
 
-      INTEGER iVers
+      INTEGER iVers,iRand
 
       integer iGasID,kMaxPtsDVS,kMaxPts,iNumPtsDVS,iNumPts
-      PARAMETER (kMaxPtsDVS = 25000)    !!! at coarser spacing
+      PARAMETER (kMaxPtsDVS = 250000)    !!! at coarser spacing
       PARAMETER (kMaxPts    = 2500010)   !!! at user spacing
       real*8 num_kmolesIN,ppaveIN,taveIN,paveIN
       real*8 v1absIN,v2absIN,dvabsIN
@@ -70,11 +79,13 @@
 
       !! [Self Forn   o3 o2 n2]      
       IF (iGasID .EQ. 1) THEN
+        irand = 12345678
+! this is in ~/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90	
         call CALCON_MTCKD_32_loc(paveIN,ppaveIN,taveIN,num_kmolesIN, &
                       v1absIN,v2absIN,dvabsIN,                       &
                       raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,      &
                       raFreq,raAbs,iNumPts,                          &
-                      iGasID, rXSelf, rXForn, 0.0d0, 0.0d0, 0.0d0)
+                      iGasID, rXSelf, rXForn, 0.0d0, 0.0d0, 0.0d0,irand)
       ELSE
         print *,'Error : need iGasID = 1 for WV not',iGasID
         STOP

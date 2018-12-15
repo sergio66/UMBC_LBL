@@ -5,11 +5,15 @@ function [out_array] = do_local_lineshape_CKD(outwave,out_array,AVOG,c2,...
 
 %% used by run8watercontinuum.m
 
+MaxLenX = 50000;
 if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
   fprintf(1,'\n doing CKD continuum %3i lineshape = %2i \n',CKD,local);
+  haha = [outwave(1) outwave(end) mean(diff(outwave))];
+  fprintf(1,'  outwave(1) outwave(end) diff(outwave) = %20.12f %20.12f %20.12f \n',haha);
+  fprintf(1,'  length(outwave)  MaxLen = %8i %8i \n',length(outwave),MaxLen)  
   dff=ffin*nbox;
 
-  if (length(outwave) <= MaxLen)          %can do it in one big chunk!
+  if (length(outwave) <= MaxLenX)          %can do it in one big chunk!
     for jj=MinLayer:Step:MaxLayer %INNER LOOP 1..100 = bottom -> top
       nn=(jj-MinLayer)/Step+1;
       if (CKD_0 == 50)
@@ -86,15 +90,15 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
     end
 
 
- else % have to break it into frequency intervals
+  else % have to break it into frequency intervals
     disp('using calconwater_loc in mini gulps...')
     for jj=MinLayer:Step:MaxLayer %LOOP 1..100 = bottom -> top
       nn=(jj-MinLayer)/Step+1;
-      index0=1:(MaxLen-10);
-      number=floor(length(outwave)/(MaxLen-10));
+      index0=1:(MaxLenX-10);
+      number=floor(length(outwave)/(MaxLenX-10));
 
       for kk=1:number             %LOOP OVER FREQUENCY INTERVALS
-        index=index0+(kk-1)*(MaxLen-10);
+        index=index0+(kk-1)*(MaxLenX-10);
         if (CKD_0 == 50)
           scum = mst50(outwave(index),temperature,press,partpress,...
                      GasAmt,CKD_0,selfmult,formult,jj,profname);

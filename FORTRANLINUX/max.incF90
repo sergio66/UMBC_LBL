@@ -8,7 +8,7 @@
 !              eg (755-730)/0.0005 = 50000
 !        4 = number tacked on to arrays so boxint(y,5) can be done  
       integer MaxLen,MaxLenJMH
-      parameter(MaxLen=200010)
+      parameter(MaxLen=2500010)      
       parameter(MaxLenJMH=4450010)
 
 ! assume max number of any of P,Q,R lines = 300

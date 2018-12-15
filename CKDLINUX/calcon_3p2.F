@@ -5,7 +5,7 @@ c see /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/Readme_adapt_to_run8wate
 c see /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
 
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      SUBROUTINE calcon_mtckd_32_loc(CON,IDGAS,NFREQ,FREQ,FSTEP,NLAY,
+      SUBROUTINE calcon_mtckd_32_loc_call(CON,IDGAS,NFREQ,FREQ,FSTEP,NLAY,
      $    T,P, PARTP,AMT,rXSelf,rXForn,whichlayer)
 
       IMPLICIT NONE
@@ -52,7 +52,7 @@ c      print *,'here2 ',v1absIN,v2absIn,dvabsIN,NFREQ
      $                 v1absIN,v2absIN,dvabsIN,NFREQ,
      $                 raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,
      $                 raFreq,raAbs,iNumPts,
-     $                 iGasID, rXSelf, rXForn, 0.0d0, 0.0d0, 0.0d0)
+     $                 iGasID, rXSelf, rXForn, 0.0d0, 0.0d0, 0.0d0,12345678)
       ELSE
         print *,'Error : need iGasID = 1 for WV not',iGasID
         STOP

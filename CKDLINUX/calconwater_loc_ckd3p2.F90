@@ -9,6 +9,13 @@
 !
 !https://github.com/jtilly/mex
 !
+!>>>>>>>>
+!see
+!calconwater_locg_ckd3p2.sc
+!/usr/cluster/matlab/2016b/bin/mex -v -c calcon_loc_mtckd_32_wrap.F90                          FFLAGS='$FFLAGS'
+!/usr/cluster/matlab/2016b/bin/mex       calconwater_loc_ckd3p2.F90 calcon_loc_mtckd_32_wrap.o FFLAGS='$FFLAGS'  
+!>>>>>
+!
 ! symbol table
 ! nm calcon_loc_mtckd_32_wrap.o
 ! nm calconwater_loc_ckd3p2.mexa64

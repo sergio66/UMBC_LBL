@@ -5,6 +5,15 @@ c change      integer nlhs,nrhs    to      integer*2 nlhs,nrhs
 c change      mxCreateFull         to      mxCreateDoubleMatrix
 c include     fintrf.h
 
+c >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+c >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+c >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+c OLD no longer used .F code ... look at the .F90 code !!!!!!
+c                                calconwater_locg_ckd3p2.sc
+c >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+c >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+c >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 #include "fintrf.h"
 
       subroutine mexFunction(nlhs,plhs,nrhs,prhs)
@@ -131,5 +140,3 @@ c copy output which is stored in local array to matrix output
 
       return
       end
-
-

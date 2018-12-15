@@ -37,9 +37,13 @@
 ! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEW >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ! >>>>>>>>>>>>>>>>>>>>>>>>>>>> begin junk1.f >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+     include '/home/sergio/SPECTRA/FORTRANLINUX/max.incF90'
+     
       integer iGasID,kMaxPtsDVS,kMaxPts,iNumPtsDVS,iNumPts
-      PARAMETER (kMaxPtsDVS = 1000)     !!! at coarser spacing
-      PARAMETER (kMaxPts    = 100000)   !!! at user spacing
+!      PARAMETER (kMaxPtsDVS = 1000)     !!! at coarser spacing
+!      PARAMETER (kMaxPts    = 100000)   !!! at user spacing
+      PARAMETER (kMaxPtsDVS = 25000)    !!! at coarser spacing
+      PARAMETER (kMaxPts    = 2500010)   !!! at user spacing
       real*8 num_kmolesIN,ppaveIN,taveIN,paveIN
       real*8 v1absIN,v2absIN,dvabsIN
       real*8 raFreqDVS(kMaxPtsDVS),raSelfDVS(kMaxPtsDVS),raFornDVS(kMaxPtsDVS)

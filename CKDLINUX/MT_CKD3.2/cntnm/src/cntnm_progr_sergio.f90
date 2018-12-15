@@ -75,16 +75,19 @@
 !     individual requirements
 !
 !
-
       Use lblparams
       USE phys_consts
       USE planet_consts
       IMPLICIT REAL*8           (V)                                     ! F00030
 
+      include '/home/sergio/SPECTRA/FORTRANLINUX/max.incF90'
+      
       REAL*8    rXSelf,rXForn,rXozone,rXoxygen,rXnitrogen
       integer kMaxPtsDVS,kMaxPts,iNumPtsDVS,iNumPts
-      PARAMETER (kMaxPtsDVS = 1000)     !!! at coarser spacing
-      PARAMETER (kMaxPts    = 100000)   !!! at user spacing
+!      PARAMETER (kMaxPtsDVS = 1000)     !!! at coarser spacing
+!      PARAMETER (kMaxPts    = 100000)   !!! at user spacing
+      PARAMETER (kMaxPtsDVS = 250000)    !!! at coarser spacing
+      PARAMETER (kMaxPts    = 2500010)   !!! at user spacing
       real*8 num_kmolesIN,ppaveIN,taveIN,paveIN
       real*8 v1absIN,v2absIN,dvabsIN
       real*8 raFreqDVS(kMaxPtsDVS),raSelfDVS(kMaxPtsDVS),raFornDVS(kMaxPtsDVS)
@@ -654,9 +657,11 @@ NMOL = 7
 !*******
 
 !!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
-!!!!!  ONLY UNCOMMENT IF USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
-!       Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
-!!!!!  ONLY UNCOMMENT IF USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
+!!!>>  ONLY UNCOMMENT IF COMPILING USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
+!!! >> test that using eg topts.CKD = 32; [d,w] = run8watercontinuum(1,605,2830,'IPFILES/waterone',topts);
+       Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+!!! >> test that using eg topts.CKD = 32; [d,w] = run8watercontinuum(1,605,2830,'IPFILES/waterone',topts);
+!!! >> ONLY UNCOMMENT IF COMPILING USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
 !!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
 
 
