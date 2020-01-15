@@ -109,7 +109,10 @@ if (do_makefile > 0)
   %now see if the .mat file exists with these parameters
   doexist = alreadyexist(gasID,homepath,band,start,stop,vers,strengthM,1);
   
-  if (doexist  < 0)  %.mat file DNE .... create it
+  if (doexist  > 0)  %.mat file already exists
+    fprintf(1,'%s already exists \n',[homepath 'CO2_MATFILES/hit' num2str(band) '.mat'])
+
+  elseif (doexist  < 0)  %.mat file DNE .... create it
     strQ = ['save ' homepath 'CO2_MATFILES/hit'];
 
     %line = hittomat2(start,stop,vers,strengthM,gasID);

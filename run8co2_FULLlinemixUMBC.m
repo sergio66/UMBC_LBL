@@ -4,6 +4,13 @@ function [outwave,out_array,out_linemixarray]=run8co2_FULLlinemixUMBC(...
 % same as run8co2_linemixUMBC.m except it ONLY DOES full linemixing
 %
 
+%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+%% to create the line files per band eg CO2_MATFILES/H16/hit618.mat
+%% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
+%% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
+%% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
+%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 %gasID = 2;
 %fmin = 1905; fmax = 1930;
 %profname = 'IPFILES/co2_std_layer70';

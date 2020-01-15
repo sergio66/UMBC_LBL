@@ -115,7 +115,10 @@ elseif unctype == 2
   themin(9) = 00;       themax(9) = 01;       %% code 9
 
   themax(1:3) = 20;   %% codes 0,1,2  Dec 15, 2017 new
- 
+  if gid == 3 & abs(fr0-1000) < 250
+    themax(1:3) = 3;   %% codes 0,1,2  from Brian Drouin email and JSQRT 2017 paper
+  end
+
   themin = themin/100;
   themax = themax/100;
 

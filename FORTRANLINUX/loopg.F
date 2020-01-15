@@ -37,7 +37,8 @@ c wavenumber    = vector over which to compute line shapes         (sizewave x 1
 c tempr       = layer temperature                                  (1 x 1)
 c numlines    = number of line centers
 c sizewave    = number of wavevector points to compute shapes over
-c LVG         = -2 for w/o basement, -1 for lor, 0 for vanhuber, 1 for voigt, 2 for SpeedDependentVoigt
+c LVG         = -2 for w/o basement, -1 for lor, << DEFAULT 0 for vanhuber >>, 
+c                                   ,+1 for voigt, 2 for SpeedDependentVoigt
 
 #include "fintrf.h"
       subroutine mexFunction(nlhs,plhs,nrhs,prhs)
@@ -172,7 +173,7 @@ c        end do
 c      = -3   voigt                  voigt1R         HUMLICEK = used in HITTRAN LM 2018 
 c rlvg = -2 : voigt without pedestal vhh2RI_basement VOIVEC = GENLN2
 c        -1 : lerentz
-c         0 : vanhuber               vhh2RI          VOIVEC = GENLN2
+c         0 : vanhuber               vhh2RI          VOIVEC = GENLN2  <<< DEFAULT >>>
 c         1 : voigt                  voigt2R         VOIVEC = GENLN2
 c         2 : speed dependent
 c      = +3   vanhuber               vhh1RI           HUMLICEK = used in HITTRAN LM 2018

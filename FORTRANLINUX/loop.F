@@ -4,7 +4,7 @@
 c      = -3   voigt                  voigt1RI        HUMLICEK = used in HITTRAN LM 2018 
 c rlvg = -2 : vhh without pedestal   vhh2RI_basement VOIVEC = GENLN2
 c        -1 : lerentz
-c         0 : vanhuber               vhh2RI          VOIVEC = GENLN2
+c         0 : vanhuber               vhh2RI          VOIVEC = GENLN2  <<< DEFAULT >>>
 c         1 : voigt                  voigt2RI        VOIVEC = GENLN2
 c         2 : speed dependent
 c      = +3   vanhuber               vhh1RI           HUMLICEK = used in HITTRAN LM 2018
@@ -81,6 +81,7 @@ c        print *,'computing Lorentz lineshape for ',numlines,' lines'
         end do
 
 c GENLN2 voivec van huber >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+c <<<< DEFAULT >>>>
       elseif (lvg .eq. 0) then
 c        print *,'computing GENLN2 voivec VHH lineshape for ',numlines,' lines'          
         do kk=1,numlines

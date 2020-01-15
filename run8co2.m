@@ -1,5 +1,12 @@
 function [outwave,out_array]=run8co2(gasID,fmin,fmax,profname,topts);
 
+%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+%% to create the line files per band eg CO2_MATFILES/H16/hit618.mat
+%% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
+%% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
+%% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
+%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 % load /carrot/s1/sergio/IASIPRODUCTS_JACOBIANS/STD/g2_jac.mat
 % semilogy(fout,sum(abs(jout'))); look for bands where the sum > 10^0 (==1)
 % new default (topts.hartmann_linemix = +1)
@@ -559,6 +566,15 @@ end
 allowedNIF=['v','V','i','I','f','F'];
 if (isempty(intersect(NIF,allowedNIF)))
   error('there is an error in your NIF parameter')
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+len_estimate = (fmax-fmin)/25*10000; %% in IR, 25 cm-1 = 10000 pts AFTER boxcar
+if len_estimate * nbox > 200000
+  fprintf(1,'estimate 25 cm-1 span = 10000 points after %2i boxcar integration \n',nbox)
+  fprintf(1,'so for ffin = finemode, you need to x %5i the number of estimated output points \n',nbox)
+  fprintf(1,'currently have parameter(MaxLen=200010) \n')
+  error('please reduce fmax-fmin')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

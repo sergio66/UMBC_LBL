@@ -23,6 +23,19 @@ figure(1)
 %wax = load('xWATER.COEF');
 wax = ckdraw25;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CKD 1 or 6
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf6.bin';
+[ks6, freq6, temp] = contread(fname);
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor6.bin';
+[kf6, freq6, temp] = contread(fname);
+t300 = find(temp >= 300,1);
+
+semilogy(wax(:,1),wax(:,2),'b',wax(:,1),wax(:,3),'r',...
+         freq6,ks6(t300,:),'c',freq6,kf6(t300,:),'m')
+semilogy(wax(:,1),wax(:,2),'b',wax(:,1),wax(:,3),'r',...
+         freq6,ks6(1,:),'c',freq6,kf6(1,:),'m')
+pause(1)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% CKD 25
 fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf25.bin';
 [ks25, freq25, temp] = contread(fname);
@@ -62,8 +75,11 @@ fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor32.bin';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 t300 = find(temp >= 300,1);
-figure(1); semilogy(freq25,ks25,'b',freq32,ks32,'r'); title('Self (b)2.5 (r) 3.2')
-figure(2); semilogy(freq25,kf25,'b',freq32,kf32,'r'); title('Forn (b)2.5 (r) 3.2')
+figure(1); semilogy(freq25,ks25(t300,:),'b',freq32,ks32(t300,:),'r',freq6,ks6(t300,:),'k'); 
+  title('Self (b)2.5 (r) 3.2 (k)1,6')
+figure(2); semilogy(freq25,kf25(t300,:),'b',freq32,kf32(t300,:),'r',freq6,kf6(t300,:),'k'); 
+  title('Forn (b)2.5 (r) 3.2 (k)1,6')
+disp('ret to continue'); pause
 
 %figure(1); semilogy(freq,ks25,'b',freq,kf32,'r'); title('Self (b)2.5 (r) 3.2')
 %figure(2); semilogy(freq,kf25,'b',freq,ks32,'r'); title('Forn (b)2.5 (r) 3.2')

@@ -69,7 +69,7 @@ if gid ~= 7 & gid ~= 22
 
   if line.linct > 0
     iYes = +1;
-    semilogy(line.wnum,line.stren,'.')
+    semilogy(line.wnum,line.stren,'.'); title(['gasID = ' num2str(gasID)])
   end
 
 elseif gid == 7
@@ -77,7 +77,7 @@ elseif gid == 7
   line = hitread(start,stop,0,gasID,hitlin_fname,-1);
   if line.linct > 0
     iYes = +1;
-    semilogy(line.wnum,line.stren,'.')
+    semilogy(line.wnum,line.stren,'.'); title(['gasID = ' num2str(gasID)])
   end
   %% also add on continuum check as needed
   if wv1 <= 1850 & wv2 >= 1340
@@ -89,7 +89,7 @@ elseif gid == 22
   %% N2
   if line.linct > 0
     iYes = +1;
-    semilogy(line.wnum,line.stren,'.')
+    semilogy(line.wnum,line.stren,'.'); title(['gasID = ' num2str(gasID)])
   end
   %% also add on continuum check as needed
   if wv1 <= 350 & wv2 >= 0

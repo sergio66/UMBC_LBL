@@ -324,7 +324,7 @@ end
 %      = -3   voigt                  voigt1RI        HUMLICEK = used in HITTRAN LM 2018 
 % rlvg = -2 : vhh without pedestal vhh2RI_basement VOIVEC = GENLN2
 %        -1 : lerentz
-%         0 : vanhuber               vhh2RI          VOIVEC = GENLN2
+%         0 : vanhuber               vhh2RI          VOIVEC = GENLN2    <<< DEFAULT >>>>
 %         1 : voigt                  voigt2RI        VOIVEC = GENLN2
 %         2 : speed dependent
 %      = +3   vanhuber               vhh1RI           HUMLICEK = used in HITTRAN LM 2018
