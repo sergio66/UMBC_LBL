@@ -28,7 +28,15 @@ current_dir = pwd;
 
 blah = findstr('/',filename);
 %%look at the fourth occurence
-hitran_version = filename(blah(4)+1:blah(4)+3);
+if length(blah) == 5
+  disp('usual data version eg /asl/data/hitran/h16.by.gas/g2.dat')
+  hitran_version = filename(blah(4)+1:blah(4)+3);  %% eg /asl/data/hitran/h16.by.gas/g2.dat
+  iHiTemp = -1;
+elseif length(blah) == 6
+  disp('HITEMP version eg /asl/data/hitran/HITEMP/h16.by.gas/g2.dat')
+  hitran_version = filename(blah(5)+1:blah(5)+3);  %% eg /asl/data/hitran/HITEMP/h16.by.gas/g2.dat
+  iHiTemp = +1;
+end
 
 % UPDATE
 old_reader = {'h92','h96','h98','h2k'};
@@ -37,6 +45,7 @@ new_reader = {'h04','h08','h12','h16','g15','h17','h18'};  %% h17 and h18 are ju
 
 iOld = -1;
 iNew = -1;
+%% first try REGULAR
 for ii = 1 : length(old_reader)
   if strcmp(old_reader(ii),hitran_version)
     iOld = +1;
@@ -57,7 +66,7 @@ if iOld > 0
   %line = read_hitran(start,stop,strengthM,gasID,filename);
   fprintf(1,'--> using old MATLAB reader for HITRAN version %s : %s \n',hitran_version,filename)
   line = read_hitranOLD_H92_H2k(start,stop,strengthM,gasID,filename);
-else
+elseif iOld < 0
   fprintf(1,'--> using new MEX reader for HITRAN version %s : %s\n',hitran_version,filename)
   % cd /asl/matlab2012/read_hitr06
   % cd /asl/matlab/read_hitr06
