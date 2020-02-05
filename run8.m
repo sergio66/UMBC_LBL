@@ -217,8 +217,9 @@ strongestline = -1;
 %% xfar = max(xfar,25.0);    %%% <<<< new
 if gasID == 2
   fprintf(1,' asking for run8 to do CO2, so set xfar = 500 cm-1 \n')
-  fprintf(1,' asking for run8 to do CO2, so set xfar = 500 cm-1 \n')
+  fprintf(1,' asking for run8 to do CO2, so set xfar = 200 cm-1 \n')
   xfar = 500;
+  xfar = 200;
 end  
 
 if (fmin > 2830 | fmin < 605)
@@ -234,8 +235,9 @@ if (fmin > 2830 | fmin < 605)
   %% xfar = max(xfar,25.0);    %%% <<<< new
   if gasID == 2
     fprintf(1,' asking for run8 to do CO2, so set xfar = 500 cm-1 \n')
-    fprintf(1,' asking for run8 to do CO2, so set xfar = 500 cm-1 \n')
+    fprintf(1,' asking for run8 to do CO2, so set xfar = 200 cm-1 \n')
     xfar = 500;
+    xfar = 200;
   end  
 end
 

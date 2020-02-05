@@ -30,127 +30,419 @@ c   end
 
 c **********************************************************************
       integer npts,ndoc,ntemp
-      parameter(npts=2001,ntemp=7,ndoc=10)
+!      parameter(npts=2001,ntemp=7,ndoc=10)
+      parameter(npts=2001,ntemp=29,ndoc=10)
 
-      integer         i,j,iTau,iTemp,nl,nh,nstp,IOUN
+      integer         i,j,iTau,iTemp,nl,nh,nstp,IOUN,iRead
       real*8          tautau,fdif,fchi,df,chil,chiu,chif,chip
       real*8          vbc,vtc,dvc,temp(ntemp),doc(ndoc)
 
-      real*8 chi100(npts,ndoc),chi150(npts,ndoc),chi200(npts,ndoc)
-      real*8 chi250(npts,ndoc),chi300(npts,ndoc),chi350(npts,ndoc)
-      real*8 chi400(npts,ndoc)
+      real*8 Tmax
+
+c      real*8 chi100(npts,ndoc),chi150(npts,ndoc),chi200(npts,ndoc)
+c      real*8 chi250(npts,ndoc),chi300(npts,ndoc),chi350(npts,ndoc)
+c      real*8 chi400(npts,ndoc),chi450(npts.ndoc),chi500(npts,ndoc)
+c      real*8 chi550(npts,ndoc),chi600(npts,ndoc),chi650(npts,ndoc)
+c      real*8 chi700(npts,ndoc),chi750(npts,ndoc),chi800(npts,ndoc)
+c      real*8 chi850(npts,ndoc),chi900(npts,ndoc),chi950(npts,ndoc)
+c      real*8 chi1000(npts,ndoc),chi1050(npts.ndoc),chi1100(npts,ndoc)
+c      real*8 chi1150(npts,ndoc),chi1200(npts,ndoc),chi1250(npts,ndoc)
+c      real*8 chi1300(npts,ndoc),chi1350(npts.ndoc),chi1400(npts,ndoc)
+c      real*8 chi1450(npts,ndoc),chi1500(npts,ndoc)
+      real*8 chiT(ntemp,npts,ndoc)
       real*8 chi111,chi211,chi121,chi221,chi112,chi212,chi122,chi222
 
 c we have 10 d of c parameters tau2=1e-3*(1,3,5,...,19) (ndoc=10)
-c we have 7 temperatures : 100,150,200,250,300,350,400  (ntemp=7)
+c we have 07 temperatures : 100,150,200,250,300,350,400  (ntemp=7)
+c we have 29 temperatures : 100:50:1500                  (ntemp=29)
 c the frequency spacing of the y's is 0.25
 c the dnu's range from -250 to +250 in steps of 0.25    (npts=2001)
-      data temp/100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0/
+      data temp/ 100.0,  150.0,  200.0,  250.0,  300.0,  350.0,  400.0,
+     +           450.0,  500.0,  550.0,  600.0,  650.0,  700.0,  750.0, 
+     +           800.0,
+     +           850.0,  900.0,  950.0, 1000.0, 1050.0, 1100.0, 1150.0, 
+     +          1200.0, 1250.0, 1300.0, 1350.0, 1400.0, 1450.0, 1500.0/
+
       data doc/1.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0/
       data vbc,vtc,dvc/-250.0,+250.0,0.25/
 
 c******************************* read in data section ***********************
 
+c orig Tmax = 400, now changed to 1500 
+      Tmax = 400.0 
+      Tmax = 1500.0
       if (n_in .gt. MaxLen) THEN
         print *, 'in birnbaum.f n_in .gt. MaxLen'
         CALL MEXERRMSGTXT('POOEY')
-        END IF
+      END IF
 
       if ((tau2 .lt. 1e-3) .or. (tau2 .gt. 28e-3)) then
         print *,'ooops!!! tau2 = ',tau2
         call mexErrMsgTxt('tau has to be between 1-28 exp-3')
-        endif
-      if ((T .lt. 100.0) .or. (T .gt. 400.0)) then
+      endif
+      if ((T .lt. 100.0) .or. (T .gt. Tmax)) then  
+c used to be max 400 K, now changed to max 1500 K        
         print *,'ooops!!! t = ',T
-        call mexErrMsgTxt('temp has to be between 100-400')
-        endif
+        call mexErrMsgTxt('temp has to be between 100-1500')
+      endif
 
 c lookup table produced using birn_lookupNEW.m, which is a script file
 c previous version read in the text file      include 'birn_lookup.dat'
 
 c now we load in bbiirrnn.dat 
       IOUN=10
-c this uses the asymmetric functions that Dave Tobin used in his thesis
-c see birn_lookupNEW.m
-       open(unit=IOUN,FILE='../FORTRANLINUX/bbiirrnn.dat',STATUS='OLD',
-     $                                   FORM='UNFORMATTED')
 
+c this was prior to SOMETIME
 c this uses the symmetric functions that Scott Hannon thinks to use
 c see birn_lookupNEW2.m
 c      open(unit=IOUN,FILE='../FORTRANLINUX/bbiirrnn2.dat',STATUS='OLD',
 c     $                                   FORM='UNFORMATTED')
 
-      read(IOUN) dd
-      if (abs(dd-temp(1)) .ge. 1e-2) then
-        print *,'hmm : current temp should be 100, not ',dd
-        call mexErrMsgTxt('pooey')
-        end if
-      do j=1,ndoc
-        read(IOUN) (chi100(i,j),i=1,npts)
-        end do
+c this was prior to Feb 2020
+c this uses the asymmetric functions that Dave Tobin used in his thesis
+c see birn_lookupNEW.m
+c       open(unit=IOUN,FILE='../FORTRANLINUX/bbiirrnn.dat',STATUS='OLD',
+c     $                                   FORM='UNFORMATTED')
 
-      read(IOUN) dd
-      if (abs(dd-temp(2)) .ge. 1e-2) then
-        print *,'hmm : current temp should be 150, not ',dd
-        call mexErrMsgTxt('pooey')
-        end if
-      do j=1,ndoc
-        read(IOUN) (chi150(i,j),i=1,npts)
-        end do
+c this is after Feb 2020
+c this uses the asymmetric functions that Dave Tobin used in his thesis
+c see birn_lookupNEW.m
+      iRead = 0
+      open(unit=IOUN,FILE='../FORTRANLINUX/bbiirrnn_HITEMP.dat',
+     $                      STATUS='OLD',FORM='UNFORMATTED')
 
+      iRead = iRead + 1
       read(IOUN) dd
-      if (abs(dd-temp(3)) .ge. 1e-2) then
-        print *,'hmm : current temp should be 200, not ',dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
         call mexErrMsgTxt('pooey')
-        end if
+      end if
       do j=1,ndoc
-        read(IOUN) (chi200(i,j),i=1,npts)
-        end do
+c        read(IOUN) (chi100(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
 
+      iRead = iRead + 1
       read(IOUN) dd
-      if (abs(dd-temp(4)) .ge. 1e-2) then
-        print *,'hmm : current temp should be 250, not ',dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
         call mexErrMsgTxt('pooey')
-        end if
+      end if
       do j=1,ndoc
-        read(IOUN) (chi250(i,j),i=1,npts)
-        end do
+c        read(IOUN) (chi150(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
 
+      iRead = iRead + 1
       read(IOUN) dd
-      if (abs(dd-temp(5)) .ge. 1e-2) then
-        print *,'hmm : current temp should be 300, not ',dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
         call mexErrMsgTxt('pooey')
-        end if
+      end if
       do j=1,ndoc
-        read(IOUN) (chi300(i,j),i=1,npts)
-        end do
+c        read(IOUN) (chi200(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
 
+      iRead = iRead + 1
       read(IOUN) dd
-      if (abs(dd-temp(6)) .ge. 1e-2) then
-        print *,'hmm : current temp should be 350, not ',dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
         call mexErrMsgTxt('pooey')
-        end if
+      end if
       do j=1,ndoc
-        read(IOUN) (chi350(i,j),i=1,npts)
-        end do
+c        read(IOUN) (chi250(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
 
+      iRead = iRead + 1
       read(IOUN) dd
-      if (abs(dd-temp(7)) .ge. 1e-2) then
-        print *,'hmm : current temp should be 400, not ',dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
         call mexErrMsgTxt('pooey')
-        end if
+      end if
       do j=1,ndoc
-        read(IOUN) (chi400(i,j),i=1,npts)
-        end do
+c        read(IOUN) (chi300(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi350(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi400(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi450(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi500(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi550(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi600(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi650(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi700(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi750(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi800(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi850(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi900(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi950(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1000(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1050(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1100(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1150(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1200(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1250(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1300(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1350(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1400(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1450(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
+
+      iRead = iRead + 1
+      read(IOUN) dd
+      if (abs(dd-temp(iRead)) .ge. 1e-2) then
+        print *,'hmm : current temp ',dd, ' should be ',temp(iRead)
+        call mexErrMsgTxt('pooey')
+      end if
+      do j=1,ndoc
+c        read(IOUN) (chi1500(i,j),i=1,npts)
+        read(IOUN) (chiT(iRead,i,j),i=1,npts)
+      end do
 
       close(IOUN)
+
+      if (iRead .ne. ntemp) then
+        print *,'hmm : should have read ',ntemp,' Temps, not ',iread
+        call mexErrMsgTxt('iRead NE NTEMP')
+      end if 
 c******************************* end of data section ***********************
 
       nl=1
       nh=n_in
       nstp=1
 
-c find which temps (100,150,200,...,400) bracket the needed temp
+c find which temps (100,150,200,...,max(temp)) bracket the needed temp
       j=-1
       tautau=T
       iTemp=1
@@ -163,7 +455,7 @@ c find which temps (100,150,200,...,400) bracket the needed temp
         i=i+1
         goto 10
       else
-        print *,'sorry : temp is outside 100:150:...:400'
+        print *,'sorry : temp is outside 100:150:...:1500'
         call mexErrMsgTxt('pooey')
         end if
       if (iTemp .lt. 1) iTemp = 1
@@ -204,61 +496,14 @@ c        end do
         fchi = vbc + (j - 1)*dvc 
         df=(fdif-fchi)/dvc
 
-        if (iTemp .eq. 1) then 
-          chi111=chi100(j,iTau)
-          chi211=chi100(j+1,iTau)
-          chi121=chi100(j,iTau+1)
-          chi221=chi100(j+1,iTau+1)
-          chi112=chi150(j,iTau)
-          chi212=chi150(j+1,iTau)
-          chi122=chi150(j,iTau+1)
-          chi222=chi150(j+1,iTau+1)
-        elseif (iTemp .eq. 2) then 
-          chi111=chi150(j,iTau)
-          chi211=chi150(j+1,iTau)
-          chi121=chi150(j,iTau+1)
-          chi221=chi150(j+1,iTau+1)
-          chi112=chi200(j,iTau)
-          chi212=chi200(j+1,iTau)
-          chi122=chi200(j,iTau+1)
-          chi222=chi200(j+1,iTau+1)
-        elseif (iTemp .eq. 3) then 
-          chi111=chi200(j,iTau)
-          chi211=chi200(j+1,iTau)
-          chi121=chi200(j,iTau+1)
-          chi221=chi200(j+1,iTau+1)
-          chi112=chi250(j,iTau)
-          chi212=chi250(j+1,iTau)
-          chi122=chi250(j,iTau+1)
-          chi222=chi250(j+1,iTau+1)
-        elseif (iTemp .eq. 4) then 
-          chi111=chi250(j,iTau)
-          chi211=chi250(j+1,iTau)
-          chi121=chi250(j,iTau+1)
-          chi221=chi250(j+1,iTau+1)
-          chi112=chi300(j,iTau)
-          chi212=chi300(j+1,iTau)
-          chi122=chi300(j,iTau+1)
-          chi222=chi300(j+1,iTau+1)
-        elseif (iTemp .eq. 5) then 
-          chi111=chi300(j,iTau)
-          chi211=chi300(j+1,iTau)
-          chi121=chi300(j,iTau+1)
-          chi221=chi300(j+1,iTau+1)
-          chi112=chi350(j,iTau)
-          chi212=chi350(j+1,iTau)
-          chi122=chi350(j,iTau+1)
-          chi222=chi350(j+1,iTau+1)
-        elseif (iTemp .eq. 6) then 
-          chi111=chi350(j,iTau)
-          chi211=chi350(j+1,iTau)
-          chi121=chi350(j,iTau+1)
-          chi221=chi350(j+1,iTau+1)
-          chi112=chi400(j,iTau)
-          chi212=chi400(j+1,iTau)
-          chi122=chi400(j,iTau+1)
-          chi222=chi400(j+1,iTau+1)
-          endif
+        chi111=chiT(iTemp,j,iTau)
+        chi211=chiT(iTemp,j+1,iTau)
+        chi121=chiT(iTemp,j,iTau+1)
+        chi221=chiT(iTemp,j+1,iTau+1)
+        chi112=chiT(iTemp+1,j,iTau)
+        chi212=chiT(iTemp+1,j+1,iTau)
+        chi122=chiT(iTemp+1,j,iTau+1)
+        chi222=chiT(iTemp+1,j+1,iTau+1)
 
 c       do the interpolation in Tau, at temp iTemp
         chil=chi111 + (chi211-chi111)*df

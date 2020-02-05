@@ -8,7 +8,7 @@ c              eg (755-705)/0.0005 = 100000
 c              eg (755-730)/0.0005 = 50000
 c        4 = number tacked on to arrays so boxint(y,5) can be done  
       integer MaxLen,MaxLenJMH
-      parameter(MaxLen=200010)
+      parameter(MaxLen=5000010)
       parameter(MaxLenJMH=4450010)
 
 c assume max number of any of P,Q,R lines = 300
@@ -22,8 +22,12 @@ c assume max number of any of layers = 100
 c assume max number of lines in a band = 10000
       integer kMaxBandLines
 c      parameter(kMaxBandLines=50000)   !! before Nov 2007
-      parameter(kMaxBandLines=200000)
+      parameter(kMaxBandLines=2500000)
 
 c assume max number of isotopes per molcule = 20
       integer kMaxIsotopes
       parameter(kMaxIsotopes=20)
+
+c this is for MTCKD 2.5 : 20000 pts can be output at 10 cm-1 res
+      integer kCKDcoarse
+      parameter (kCKDcoarse = 25000)

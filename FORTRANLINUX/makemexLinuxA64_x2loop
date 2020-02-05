@@ -1,6 +1,8 @@
 #clear
 
-/usr/cluster/matlab/2016b/bin/mexopts.sh
+## this may not be needed anymore
+##/asl/opt/matlab/R2009b/bin/mexopts.sh
+##/usr/cluster/matlab/2016b/bin/mexopts.sh
 
 rm ../x2loop.mexa64
 #cd FORTRANLINUX
@@ -16,7 +18,10 @@ rm ../x2loop.mexa64
 echo 'mexing x2loop files ... '
 echo $FFLAGS $LDFLAGS $FLIBS
 
-/usr/cluster/matlab/2016b/bin/mex x2loop.F x2loopg.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+### replace 2015???? /asl/opt/matlab/R2009b/bin/mex      with    /usr/cluster/matlab/2016b/bin/mex
+### replace Feb 2020 /usr/cluster/matlab/2016b/bin/mex   with    /usr/ebuild/software/MATLAB/2018b/bin/mex
+
+/usr/ebuild/software/MATLAB/2018b/bin/mex  x2loop.F x2loopg.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 
 mv x2loop.mexa64     ../.
 echo 'done mexing x2loop files ... '

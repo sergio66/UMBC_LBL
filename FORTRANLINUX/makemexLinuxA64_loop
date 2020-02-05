@@ -1,7 +1,8 @@
 clear
 
+## this may not be needed anymore
 ##/asl/opt/matlab/R2009b/bin/mexopts.sh
-/usr/cluster/matlab/2016b/bin/mexopts.sh
+##/usr/cluster/matlab/2016b/bin/mexopts.sh
 
 rm ../loop.mexa64
 #cd FORTRANLINUX
@@ -23,16 +24,17 @@ rm ../loop.mexa64
 echo 'mexing voigt and looping files ... '
 echo $FFLAGS $LDFLAGS $FLIBS
 
-### replace /asl/opt/matlab/R2009b/bin/mex with /usr/cluster/matlab/2016b/bin/mex
+### replace 2015???? /asl/opt/matlab/R2009b/bin/mex      with    /usr/cluster/matlab/2016b/bin/mex
+### replace Feb 2020 /usr/cluster/matlab/2016b/bin/mex   with    /usr/ebuild/software/MATLAB/2018b/bin/mex
 
-#/usr/cluster/matlab/2016b/bin/mex  boxint2_jmh.F boxint2_jmhg.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS' 
-#/usr/cluster/matlab/2016b/bin/mex  boxint2.F boxint2g.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS' 
-#/usr/cluster/matlab/2016b/bin/mex  vhh1.F    vhh1g.F    FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-#/usr/cluster/matlab/2016b/bin/mex  vhh.F     vhhg.F     FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-#/usr/cluster/matlab/2016b/bin/mex  voigt.F   voigtg.F   FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-#/usr/cluster/matlab/2016b/bin/mex  voigt1.F  voigt1g.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-/usr/cluster/matlab/2016b/bin/mex loop.F loopg.F        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-#/usr/cluster/matlab/2016b/bin/mex loopco2.F loopco2g.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2018b/bin/mex  boxint2_jmh.F boxint2_jmhg.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS' 
+#/usr/ebuild/software/MATLAB/2018b/bin/mex  boxint2.F    boxint2g.F      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS' 
+#/usr/ebuild/software/MATLAB/2018b/bin/mex  vhh1.F       vhh1g.F         FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2018b/bin/mex  vhh.F        vhhg.F          FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2018b/bin/mex  voigt.F      voigtg.F        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2018b/bin/mex  voigt1.F     voigt1g.F       FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/ebuild/software/MATLAB/2018b/bin/mex  loop.F       loopg.F         FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+/usr/ebuild/software/MATLAB/2018b/bin/mex  loopco2.F    loopco2g.F      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 
 #mv boxint2_jmh.mexa64  ../.
 #mv boxint2.mexa64  ../.
@@ -41,12 +43,12 @@ echo $FFLAGS $LDFLAGS $FLIBS
 #mv voigt.mexa64    ../.
 #mv voigt1.mexa64   ../.
 mv loop.mexa64     ../.
-#mv loopco2.mexa64  ../.
+mv loopco2.mexa64  ../.
 
 #echo 'mexing water local and superlorentz lineshapes ... '
-#/usr/cluster/matlab/2016b/bin/mex loop_loc.F loop_locg.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-#/usr/cluster/matlab/2016b/bin/mex loop_chi.F loop_chig.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-#/usr/cluster/matlab/2016b/bin/mex loop_chi2.F loop_chi2g.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2018b/bin/mex loop_loc.F loop_locg.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2018b/bin/mex loop_chi.F loop_chig.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2018b/bin/mex loop_chi2.F loop_chi2g.F FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 #mv loop_loc.mexa64     ../.
 #mv loop_chi.mexa64     ../.
 #mv loop_chi2.mexa64     ../.

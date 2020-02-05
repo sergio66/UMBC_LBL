@@ -71,8 +71,11 @@ c z = boxint3(y,v0,T,m,brd)
       if ((rtau2p .lt. 1e-3) .or. (rtau2p .gt. 28e-3)) then
         call mexErrMsgTxt('tau has to be between 1-19 exp-3')
         endif
-      if ((rTp .lt. 100.0) .or. (rTp .gt. 400.0)) then
-        call mexErrMsgTxt('temp has to be between 100-400')
+c      if ((rTp .lt. 100.0) .or. (rTp .gt. 400.0)) then
+c        call mexErrMsgTxt('temp has to be between 100-400')
+c        endif
+      if ((rTp .lt. 100.0) .or. (rTp .gt. 1500.0)) then
+        call mexErrMsgTxt('temp has to be between 100-1500')
         endif
         
 c create a matrix for return argument and assign pointers to the 

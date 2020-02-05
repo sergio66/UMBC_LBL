@@ -131,7 +131,7 @@ c both voigt and lorentz already have the v/vo(j) factor
       end
 
 c ***********************************************************************
-      include 'vhh2RI.f'
-      include 'lorentz.f'
-      include 'cousin1.f'
-      include 'birnbaum.f'
+      include 'vhh2RI.F'
+      include 'lorentz.F'
+      include 'cousin1.F'
+      include 'birnbaum.F'

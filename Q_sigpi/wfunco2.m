@@ -85,6 +85,14 @@ elseif ((band == 662) & (mod(stuff.evenodd,2) == 1))  %odd jq's
 % The square of the difference will be minimized via the least squares
 % optimization method.
 
+if length(widthq) ~= length(wq_tape)
+  fprintf(1,'oops HITEMP problems?? [length(widthq) length(wq_tape)] = %6i %6i \n',[length(widthq) length(wq_tape)])
+  junk = zeros(size(wq_tape));
+  junk(1:length(widthq))              = widthq;
+  junk(length(widthq)+1:length(junk)) = mean(widthq);
+  widthq = junk;
+end
+
 dif=(widthq-wq_tape)';   
 if (band == 662)
   jqplot=(2:2:no_lines);
@@ -99,8 +107,7 @@ if (band == 662)
   %ylabel('Width');title('Fitting for a1,a2,a3 via widths');
   %subplot(212);         plot(jqplot,dif)
   %xlabel('f');ylabel('Diff.');pause(1)
-
-  end
+end
 
 %lq=1:length(wq_tape);
 %plot(lq,widthq,lq,wq_tape)

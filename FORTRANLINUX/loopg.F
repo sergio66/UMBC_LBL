@@ -68,6 +68,10 @@ c      include 'max.inc'
       real*8 raCenterFreq(kMaxBandLines)
 
       integer MM,jj,kk,ii
+      
+      integer*4, external :: mexPrintf
+      integer*4 :: kprint
+      character(len=80) :: line
 
 c      print *,'nrhs,nlhs = ',nrhs,nlhs                   
 c       print *,'boooooooooooooooooooooooo 0',nrhs
@@ -101,23 +105,31 @@ c want to check sizes of input vectors
         m_in=mxGetM(prhs(ii)) 
         n_in=mxGetN(prhs(ii))
         if ((m_in .gt. MaxLen) .or. (n_in .gt. MaxLen)) then
-          print *,'loopg.F : checking array number ii = '
-          print *,ii,m_in,n_in,MaxLen
-          call mexErrMsgTxt('array size has to be smaller than MaxLen')
+c          print *,'loopg.F : checking array number ii = '
+          write(line,*) 'loopg.F : checking array number ii = ',ii
+          kprint = mexPrintf(line//achar(10))
+c          print *,ii,m_in,n_in,MaxLen
+          write(line,*) 'm_in   = ',m_in
+          kprint = mexPrintf(line//achar(10))
+          write(line,*) 'n_in   = ',n_in
+          kprint = mexPrintf(line//achar(10))
+          write(line,*) 'MaxLen = ',MaxLen
+          kprint = mexPrintf(line//achar(10))
+          call mexErrMsgTxt('loopg.F : array size > MaxLen')
           endif
         if ((ii .ne. 2) .and. (ii .ne. 6)) then   
         !mass.ISO, wavenumbers arrays are different
           if (m_in .ne. jj) then
             print *,'checking array number ii = ',ii
-            call mexErrMsgTxt('array 1 and this have diff dimensions')         
+            call mexErrMsgTxt('loopg.F : array 1,var : diff dimensions')
             endif
           if (n_in .ne. kk) then
             print *,'checking array number ii = ',ii
-            call mexErrMsgTxt('array 1 and this have diff dimensions')         
+            call mexErrMsgTxt('loopg.F : array 1,var : diff dimensions')         
             endif
           endif
         if ((m_in .ne. 1)  .and.  (n_in .ne. 1)) then
-          call mexErrMsgTxt('args 1:6 are arrays')
+          call mexErrMsgTxt('loopg.F : args 1:6 are arrays')
           endif
         enddo
 

@@ -80,6 +80,6 @@ c        end if
       end
 
 c ***********************************************************************
-      include 'lorentz.f'
-      include 'cousin1.f'
-      include 'birnbaum.f'
+      include 'lorentz.F'
+      include 'cousin1.F'
+      include 'birnbaum.F'
