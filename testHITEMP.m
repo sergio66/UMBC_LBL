@@ -1,3 +1,8 @@
+disp('also look at /home/sergio/MATLABCODE/QUICKTASKS_TELECON/CrIS_gascell_Jan2020/look_at_blue_spike.m');
+disp('also look at /home/sergio/MATLABCODE/QUICKTASKS_TELECON/CrIS_gascell_Jan2020/look_at_blue_spike.m');
+disp('also look at /home/sergio/MATLABCODE/QUICKTASKS_TELECON/CrIS_gascell_Jan2020/look_at_blue_spike.m');
+
+
 f1 = 2300; f2 = 2600;
 f1 = 2375; f2 = 2425;
 f1 = 2375; f2 = 2400;

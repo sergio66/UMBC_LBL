@@ -256,6 +256,7 @@ strength_near = 0.0;
 LVG           = 'V';
 CKD           = -1;
 HITRAN        = '/asl/data/hitran/h16.by.gas';
+HITRAN        = '/asl/rta/hitran/h16.by.gas';
 selfmult      = 1.0;
 formult       = 1.0;
 local         = 0;

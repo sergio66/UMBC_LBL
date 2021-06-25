@@ -27,8 +27,16 @@ addpath /home/sergio/SPECTRA/read_hitr06/
 current_dir = pwd;
 
 blah = findstr('/',filename);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% filename
+% HITRAN0 = '/asl/data/hitran/h16.by.gas/g2.dat';
+% HITRAN1 = '/asl/rta/hitran/h16.by.gas//g2.dat';  %% this would totally fool it (ie the //) so WATCH OUT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%look at the fourth occurence
 if length(blah) == 5
+  disp('usual data version eg /asl/rta/hitran/h16.by.gas/g2.dat')
   disp('usual data version eg /asl/data/hitran/h16.by.gas/g2.dat')
   hitran_version = filename(blah(4)+1:blah(4)+3);  %% eg /asl/data/hitran/h16.by.gas/g2.dat
   iHiTemp = -1;

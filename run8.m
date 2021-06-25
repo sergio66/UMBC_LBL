@@ -253,6 +253,7 @@ else
   CKD = -1;
 end
 HITRAN        = '/asl/data/hitran/h16.by.gas';
+HITRAN        = '/asl/rta/hitran/h16.by.gas';
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;

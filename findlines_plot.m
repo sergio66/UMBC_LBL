@@ -48,8 +48,10 @@ gasID = gid;
 
 if HorG == 1
   fnamePRE = ['/asl/data/hitran/h' hstr '.by.gas/g'];
+  fnamePRE = ['/asl/rta/hitran/h' hstr '.by.gas/g'];
 else
   fnamePRE = ['/asl/data/geisa/g' hstr '.by.gas/g'];
+  fnamePRE = ['/asl/rta/geisa/g' hstr '.by.gas/g'];
 end
 
 fnamePOST    = '.dat';
