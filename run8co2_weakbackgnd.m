@@ -458,6 +458,7 @@ LVF           = 'V';             %%%  <--- note this, instead of 'F' ******
 CKD           = -1;
 HITRAN        = '/asl/data/hitran/h2k.by.gas';
 HITRAN        = '/asl/data/hitran/h16.by.gas';
+HITRAN        = '/asl/data/hitran/h20.by.gas';
 IO            = '0';             %%%  <--- note this, instead of '1' ******
 birn          = 'c';             %%%  <--- note this, instead of "b" ******
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE

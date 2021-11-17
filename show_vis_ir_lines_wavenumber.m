@@ -23,8 +23,10 @@ elseif hitV == 2012
   fname = '/asl/data/hitran/h12.by.gas/';
 elseif hitV == 2016
   fname = '/asl/data/hitran/h16.by.gas/';
+elseif hitV == 2020
+  fname = '/asl/data/hitran/h20.by.gas/';
 else
-  error('1992, 1996, 1998, 2000, 2004, 2008, 2012, 2016 ...')
+  error('1992, 1996, 1998, 2000, 2004, 2008, 2012, 2016, 2020 ...')
 end
 
 %{

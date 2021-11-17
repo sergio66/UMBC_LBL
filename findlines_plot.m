@@ -3,6 +3,7 @@ function [iYes,line] = findlines_plot(wv1,wv2,gid,HITRAN,HorG);
 if nargin < 4
   HITRAN = 2012;
   HITRAN = 2016;
+  HITRAN = 2020;
   HorG = +1;      %% HITRAN or GEISA = 1 ==> HITRAN        HITRAN or GEISA = -1 ==> GEISA
 elseif nargin < 5
   HorG = +1;      %% HITRAN or GEISA = 1 ==> HITRAN        HITRAN or GEISA = -1 ==> GEISA

@@ -10,7 +10,7 @@ profname = 'IPFILES/co2_std_layer70';
 
 %% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 %% to create the line files per band eg CO2_MATFILES/H16/hit618.mat
-%% to create the line files per band eg CO2_MATFILES/H16/hit618.mat
+%% to create the line files per band eg CO2_MATFILES/H20/hit618.mat
 %% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
 %% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
 %% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
@@ -476,6 +476,7 @@ strength_far  = 0.0;
 strength_near = 0.0;
 LVF           = 'F';
 HITRAN        = '/asl/data/hitran/h16.by.gas';
+HITRAN        = '/asl/data/hitran/h20.by.gas';
 IO            = '1';
 birn          = 'b';
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE

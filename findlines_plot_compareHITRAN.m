@@ -6,6 +6,7 @@ if nargin < 4
   HITRAN1 = 2008;
   HITRAN2 = 2012;
   HITRAN2 = 2016;
+  HITRAN2 = 2020;
 end
 
 if HITRAN1 == HITRAN2

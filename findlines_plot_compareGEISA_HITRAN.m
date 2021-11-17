@@ -6,9 +6,11 @@ figure(1)
 if nargin < 4
   GEISA = 2015;
   HITRAN = 2016;
+  HITRAN = 2020;
 end
 if nargin < 5
   HITRAN = 2016;
+  HITRAN = 2020;
 end
 
 if GEISA ~= 2015

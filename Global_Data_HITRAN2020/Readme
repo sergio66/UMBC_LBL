@@ -1,0 +1,105 @@
+IPS2021 : ifort -o TIPS_2021_allisotopes.x -names uppercase -extend-source 132 -O3 TIPS_2021_allisotopes.f
+
+mkdir /home/sergio/SPECTRA/Global_Data_HITRAN2020/
+look at the detailed Readme there -- reproduced below
+
+cp -a /asl/data/hitran/H2020/QTIPS/*.[fF]* .
+cp -a /asl/data/hitran/H2020/QTIPS/*.CMN .
+
+mv BD_ISO_2020.for BD_ISO_2020.FOR
+mv BD_ISO_82_to_85.for BD_ISO_82_TO_85.FOR
+
+edit BD_ISO_82_TO_85.FOR (the "returns" and "continues" are wierd!!!!)
+
+cp ../Global_Data_HITRAN2012/TIPS_2012_allisotopes.f TIPS_2021_allisotopes.f
+wherever you see 2012, replace with 2021
+      CALL TIPS_2021(iMol,rTemp,iI,iG*1.d0,rQT)
+      include 'TIPS_2021_try_include1.f'   >>>>>>>>>>> which is basically TIPS_2021.FOR but turned into a subroutine, and edited as below
+
+>>>>>>><<<<<<<
+
+cp ../Global_Data_HITRAN2012/TIPS_2012_try_include1.f TIPS_2021_try_include1.f
+basically keep the first few lines, change 2012 to 2021
+and then
+  delete everything, physically
+  include TIPS_2021.FOR
+  make the main program into subroutine, see below
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+C***********************
+cs      Program TIPS_2021
+C***********************
+C    Program TIPS_2021 written by R.R. Gamache
+
+
+
+
+C***********************
+      Subroutine TIPS_2021(
+     I MOL,             ! HITRAN molecule number
+     I Temp,            ! temperature in K
+     I NSO82,           ! isotopomer index  should really be eg 161 or 181 0r 171 for Water
+     O gi,              ! state independent degeneracy factor
+     O QT)              ! total internal partition sum
+C***********************
+
+then include and edit TIPS_2021.FOR
+
+(1) these are new variables
+      INTEGER NT,I,IT
+      INTEGER MOL,NS082
+      DOUBLE PRECISION Temp,QT,gi
+      character*30 stopNgo
+(2) these are redefined variabes
+c      COMMON/TEMPERATURES/TDAT(NT)
+      DOUBLE PRECISION tdat(NT)
+      COMMON/Temperatures/tdat
+
+      DOUBLE PRECISION tmax(NMOL,Max_ISO)
+c      DIMENSION TMAX(NMOL,MAX_ISO)
+
+(3) edit out their input prompts
+     I have comments "cs" in columns 1-2, have demarcated them using
+cs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+cs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+and set the isotope
+cs       CALL ISO_82_TO_85 (MOL,NSO82,ISO)
+         ISO = NSO82  !!! YAY NEED THIS since we are not using eg 161 171  but using 1 2 ....
+
+(4) molecule 34 is a mess, the max temp was set at 10.0 and the gi,Q were set as 0. So edited this to become
+c      data Tmax(34,1)/10./  ! HO2
+      data Tmax(34,1)/1000./  ! HO2  SERGIO
+and
+      IF(MOL.EQ.34) THEN
+      c...not applicable to O
+      c      gi=0
+      c     QT = 0.
+      c sergio
+            gi=1
+            QT = 1.
+       go to 100
+      ENDIF
+
+(5) modify the output lines so that nothing is printed from TIPS_2021_try_include1.f, and the loop does not keep executing
+ 100  if(QT .gt. 0.) then
+cxsergio         WRITE(*,900) MOLID(MOL), NSO82, TEMP, QT, GI
+cxsergio   900 FORMAT(//,5X,A6,' MOLECULE',3X,I5,' ISOTOPOLOGUE',/,
+cxsergio      + 5X,'Q(',F7.1,' K) = ',1PE12.4,5X,'STATE INDEPENDENT FACTOR=',
+cxsergio      + 0PF7.1,////)
+      ELSE
+        print *,NSO82, Temp, QT, gi
+        WRITE(*,'(A23,A6)') ' NO DATA AVAILABLEFOR ',MOLID(MOL)
+      ENDIF
+c      go to 10
+c  99  STOP 'Computation finished'
+
+>>>>>>><<<<<<<
+
+in BD_ISO_82_TO_85.FOR and BD_MOL_2020.FOR and BD_ISO_2020.for change all
+           Species_2020.cmn to Species_2020.cmn
+           Isotops.cmn      to Isotops.cmn
+           MOLEC.cmn        to MOLEC.CMN
+plus declare variables
+     INTEGER NMOL,Max_ISO  into SPECIES_2016.CMN
+
+>>>>>>><<<<<<<

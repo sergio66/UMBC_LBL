@@ -12,6 +12,7 @@ function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
 % default database = '/asl/data/hitran/h08.by.gas';
 % default database = '/asl/data/hitran/h12.by.gas';
 % default database = '/asl/data/hitran/h16.by.gas;'
+% default database = '/asl/data/hitran/h20.by.gas;'
 % ********* also need lots of stuff from Global_Data_HITRAN2004 **************
 
 % same as run6.m, except parameters come in thru {param}; others are defaulted
@@ -254,6 +255,7 @@ else
 end
 HITRAN        = '/asl/data/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h16.by.gas';
+HITRAN        = '/asl/rta/hitran/h20.by.gas';
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;

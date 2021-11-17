@@ -17,7 +17,7 @@ blah = findstr('/',filename);
 hitran_version = filename(blah(4)+1:blah(4)+3);
 
 old_reader = {'h92','h96','h98','h2k'};
-new_reader = {'h04','h08','h12','h16'};
+new_reader = {'h04','h08','h12','h16','h20'};
 
 iOld = -1;
 iNew = -1;
@@ -48,7 +48,7 @@ else
 
 end
 
-%iVers = input('Enter HITRAN version 92 96 98 2k 04 08 12 16: ');
+%iVers = input('Enter HITRAN version 92 96 98 2k 04 08 12 16 20: ');
 %database = ['/asl/data/hitran/h' iVers '.by.gas'];
 %if iOld > 0
 %  fprintf(1,'using old MEX reader for HITRAN version %s \n',hitran_version)

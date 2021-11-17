@@ -1,7 +1,7 @@
 function [outwave,out_array]=run8co2(gasID,fmin,fmax,profname,topts);
 
 %% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-%% to create the line files per band eg CO2_MATFILES/H16/hit618.mat
+%% to create the line files per band eg CO2_MATFILES/H20/hit618.mat
 %% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
 %% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
 %% make sure you have run driver_makeDAVEhitlin for latest HITRAN!!!
@@ -24,6 +24,7 @@ function [outwave,out_array]=run8co2(gasID,fmin,fmax,profname,topts);
 % this meant I have to move the "load mass.dat command to AFTER hitread.m
 %
 % default database = '/asl/data/hitran/h16.by.gas';
+% default database = '/asl/data/hitran/h20.by.gas';
 % for all "efitter.m" code have changed   leastsq --> lsqnonlin
 % for all "wfunco2er.m" code have changed leastsq --> lsqnonlin W/O JACOBIANS!
 % ********* also need lots of stuff from Global_Data_HITRAN2004 **************
@@ -442,6 +443,7 @@ iVersHartmann = 2010;                          % use his newest code
 LVF           = 'F';
 NIF           = 'F';
 HITRAN        = '/asl/data/hitran/h16.by.gas';
+HITRAN        = '/asl/data/hitran/h20.by.gas';
 IO            = '1';
 birn          = 'b';
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE

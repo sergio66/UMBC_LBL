@@ -49,7 +49,8 @@ end
 % UPDATE
 old_reader = {'h92','h96','h98','h2k'};
 new_reader = {'h04','h08','h12','h16','g15'};
-new_reader = {'h04','h08','h12','h16','g15','h17','h18'};  %% h17 and h18 are junk so we can read in old/new HITRAN LM databases for CO2
+new_reader = {'h04','h08','h12','h16','g15','h17','h18'};        %% h17 and h18 are junk so we can read in old/new HITRAN LM databases for CO2
+new_reader = {'h04','h08','h12','h16','g15','h17','h18','h20'};  %% h17 and h18 are junk so we can read in old/new HITRAN LM databases for CO2
 
 iOld = -1;
 iNew = -1;
@@ -145,6 +146,8 @@ elseif hitran_version == 'h17'
   linker = '16';
 elseif hitran_version == 'h18'
   linker = '16';
+elseif hitran_version == 'h20'
+  linker = '20';
 else
   error('hitread.m unknown hitran version for mass')
 end
@@ -225,10 +228,12 @@ elseif hitran_version == 'h12'
   linker = '12';
 elseif hitran_version == 'h16'
   linker = '16';
+elseif hitran_version == 'h20'
+  linker = '20';
 end
 
 % UPDATE
-all_hitran_versions = {'h92','h96','h98','h2k','h04','h08','h12','h16'};
+all_hitran_versions = {'h92','h96','h98','h2k','h04','h08','h12','h16','h20'};
 
 symlinker = ['!/bin/ln -s qtips' linker '.m qtips.m']; 
 
@@ -255,7 +260,7 @@ end
 %hlist_qtips = {'h92','h96','h98','h2k','h04'};    %% these can use old qtips
 % UPDATE
 hlist_qtips = {'h92','h96','h98','h2k'};           %% these can use old qtips
-hlist_qnew = {'h04','h08','h12','h16'};            %% these can use new lagrange
+hlist_qnew = {'h04','h08','h12','h16','h20'};      %% these can use new lagrange
 
 disp(' run8 will use old polynomial qtips for these HITRAN versions ');
 for lll = 1 : length(hlist_qtips)
