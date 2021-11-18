@@ -12,7 +12,8 @@ c brd  = broadening
 
       include 'max.inc' 
 
-      real*8 wr(MaxLen),wi(MaxLen),v(MaxLen),v0,Temp,m,brd
+c      real*8 wr(MaxLen),wi(MaxLen),v(MaxLen),v0,Temp,m,brd
+      real*8 wr(*),wi(*),v(*),v0,Temp,m,brd
       integer n_in
 
 c PROGRAM        VOIVEC     SUBROUTINE          

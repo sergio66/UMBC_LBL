@@ -13,7 +13,7 @@ c see /salsify/packages/Genln2/Genln2/vlocal_newshp.f
       real*8 strength(kMaxBandLines),outvect(MaxLen)
       real*8 centerfreq(kMaxBandLines),calcfreq(MaxLen),tempr
 
-      real*8 yr(MaxLen),yi(MaxLen),mass,br,bi
+      real*8 yr(MaxLen),yi(MaxLen),mass,br(1),bi(1)
       integer ii,kk
       integer explicit_turn_off
 
@@ -39,18 +39,19 @@ c       basment = 0.31830988*STRPAR*WIDPAR/(625.0 + WIDPAR**2)
           mass=mass_iso(idint(ziso(kk)))
 c compute the basement term
 c this is just the wavenumber 25 cm-1 away from line center
+c oops till Nov 2021 this was call vhh2RI(br,bi
           call vhh2RI(br,bi,centerfreq(kk)-25,centerfreq(kk),
      $             tempr,mass,brd(kk),1)
           
           if (lvg .eq. -1) then    !Lorentz lineshape
             call lorentz_base2(yr,calcfreq,centerfreq(kk),tempr,mass,
-     $             brd(kk),sizewave,br)        
+     $             brd(kk),sizewave,br(1))        
           elseif (lvg .eq. 0) then    !VanHuber lineshape
             call vhh2RI_base2(yr,yi,calcfreq,centerfreq(kk),tempr,mass,
-     $             brd(kk),sizewave,br)
+     $             brd(kk),sizewave,br(1))
           elseif (lvg .eq. +1) then    !Voigt lineshape
             call voigt2R_base2(yr,yi,calcfreq,centerfreq(kk),tempr,
-     $             mass,brd(kk),sizewave,br)
+     $             mass,brd(kk),sizewave,br(1))
             end if
           do ii=1,sizewave
             outvect(ii)=outvect(ii)+yr(ii)*strength(kk)

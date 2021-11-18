@@ -47,8 +47,9 @@ c ps          = self pressure
       integer chichip,linetypep,pfp,psp
       real*8 raOutVect(MaxLen),raZiso(MaxLen),rmass_isop(20)
       real*8 raBrd(MaxLen),raStrength(MaxLen),raCenterFreq(MaxLen)
-      real*8 raWavenumber(MaxLen),rtemprp,rnumlinesp,rsizewavep
-      real*8 rchichip,rlinetypep,rpfp,rpsp,mm,oo,kk
+      real*8 raWavenumber(MaxLen),rtemprp(1),rnumlinesp(1),rsizewavep(1)
+      real*8 rchichip(1),rlinetypep(1),rpfp(1),rpsp(1)
+      real*8 mm,oo,kk
 
       mwSize m_in,n_in
       integer o_in,p_in,k_in,l_in,ii

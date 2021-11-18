@@ -21,7 +21,7 @@ c -64 -mips4'
       integer mxGetPr,mxCreateDoubleMatrix
 
       integer zp,yp,v0p,Tp,mp,brdp
-      real*8 raY(MaxLen),raZ(MaxLen),rTp,rv0p,rmp,rbrdp,mx
+      real*8 raY(MaxLen),raZ(MaxLen),rTp(1),rv0p(1),rmp(1),rbrdp(1),mx
 
       mwSize m_in,n_in
              

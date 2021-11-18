@@ -49,28 +49,29 @@ c                                   ,+1 for voigt, 2 for SpeedDependentVoigt
 c      include 'max.inc'
 
       mwpointer plhs(*),prhs(*)
-      mwpointer mxGetPr,mxCreateDoubleMatrix
+      mwpointer  mxGetPr,mxCreateDoubleMatrix
 
       integer*2 nlhs,nrhs   
 
-      mwSize mxGetM,mxGetN,mx(10),nx(10)
-      mwSize m_in,n_in
-      mwSize k_in,o_in
+      mwSize  mxGetM,mxGetN,mx(10),nx(10)
+      mwSize  m_in,n_in
+      mwSize  k_in,o_in
 
-      mwPointer outvectp
+      mwPointer  outvectp
       real*8 raOutvect(MaxLen)
 
-      mwPointer zisop,mass_isop,brdp,strengthp,centerfreqp
-      mwPointer wavenumberp,temprp,numlinesp,sizewavep,lvgp
-      real*8 raWavenumber(MaxLen),rtempr,rnumlines,rsizewave,rlvg
+      mwPointer  zisop,mass_isop,brdp,strengthp,centerfreqp
+      mwPointer  wavenumberp,temprp,numlinesp,sizewavep,lvgp
+      real*8 raWavenumber(MaxLen)
+      real*8 rtempr(1),rnumlines(1),rsizewave(1),rlvg(1)
       real*8 raZiso(kMaxBandLines),raMass_iso(kMaxIsotopes)
       real*8 raBrd(kMaxBandLines),raStrenght(kMaxBandLines)
       real*8 raCenterFreq(kMaxBandLines)
 
       integer MM,jj,kk,ii
       
-      integer*4, external :: mexPrintf
-      integer*4 :: kprint
+      integer*4  mexPrintf
+      integer*4 kprint
       character(len=80) :: line
 
 c      print *,'nrhs,nlhs = ',nrhs,nlhs                   
@@ -190,11 +191,11 @@ c         1 : voigt                  voigt2R         VOIVEC = GENLN2
 c         2 : speed dependent
 c      = +3   vanhuber               vhh1RI           HUMLICEK = used in HITTRAN LM 2018
 
-      if (abs(rlvg) .GT. 3) then
+      if (abs(rlvg(1)) .GT. 3) then
         print *,'need LVG = -3 -2 -1 0 +1 +2 +3, not ',rlvg
         stop
       end if 
-      if (rlvg .EQ. 2) then
+      if (rlvg(1) .EQ. 2) then
         print *,'need LVG = +2 (speed dep voigt) to be implemented'
         stop
       end if 

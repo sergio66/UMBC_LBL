@@ -44,9 +44,9 @@ c LVG         = -1 for lor, 0 for vanhuber, 1 for voigt
 
       integer outvectp,zisop,mass_isop,brdp,strengthp,centerfreqp
       integer wavenumberp,temprp,numlinesp,sizewavep,lvgp
-      real*8 raOutvect(MaxLen),raZiso(MaxLen),rmass_isop(20),rlvgp
+      real*8 raOutvect(MaxLen),raZiso(MaxLen),rmass_isop(20),rlvgp(1)
       real*8 raBrd(MaxLen),raStrenght(MaxLen),raCenterFreq(MaxLen)
-      real*8 raWavenumber(MaxLen),rtemprp,rnumlinesp,rsizewavep
+      real*8 raWavenumber(MaxLen),rtemprp(1),rnumlinesp(1),rsizewavep(1)
 
       mwSize m_in,n_in
       integer k_in,MM,o_in,jj,kk,ii
