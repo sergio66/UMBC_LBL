@@ -1,0 +1,71 @@
+clear
+
+## this may not be needed anymore
+##/asl/opt/matlab/R2009b/bin/mexopts.sh
+##/usr/cluster/matlab/2016b/bin/mexopts.sh
+
+## see https://www.mathworks.com/matlabcentral/answers/99389-how-do-i-determine-the-currently-selected-compiler-before-using-the-mex-command-in-matlab-7-0-r14
+## type 
+##    boo = mex.getCompilerConfigurations
+## to see whihi compiler is being used, with which flags
+## Name = g++,gcc,gfortran and MexOpt = '/umbc/ebuild-soft/skylake/software/MATLAB/2021b/bin/glnxa64/mexopts/gfortran6.xml'
+##
+## Matlab uses whatever is stored in the $FC environment variable as the
+## Fortran compiler, so you can change the version by setting the
+## environment variable when you call mex: mex
+## FC=$path_to_your_gfortran_version_here timestwo.F
+##
+## https://www.mathworks.com/help/matlab/matlab_external/build-fortran-mex-file.html
+## copyfile(fullfile(matlabroot,'extern','examples','refbook','timestwo.F'),'/home/sergio/SPECTRA/','f')
+## copyfile(fullfile(matlabroot,'extern','include','fintrf.h'), '/home/sergio/SPECTRA/')
+## mex timestwo.F
+
+#rm ../*.mexa64
+
+#use Howard's readers instead
+#echo 'mexing HITRAN reader ... '
+#/usr/local/matlab/bin/mex  mexhitd.f hitinid.f hitrdd.f  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#mv mexhitd.mexa64  ../.
+
+# g77 version
+# NOTE: g77 is not thread safe
+#            FC='/sw/bin/g77'
+#            FFLAGS='-fno-common'
+#            FLIBS="-L/usr/lib/ -L/sw/lib -lg2c $MLIBS -lm -compatibleArrayDims -fallow-argument-mismatch"
+#            FOPTIMFLAGS='-O'
+#            FDEBUGFLAGS='-g -u'
+#
+#            FC='/usr/ebuild/software/GCCcore/8.2.0/bin/gfortran'
+#            FFLAGS=$FFLAGS ' -fallow-invalid-boz'
+
+echo 'mexing voigt and looping files ... '
+echo '<<<< see Readme_MEXFLAGS.txt to see how to add flags >>>>'
+echo $FFLAGS $LDFLAGS $FLIBS $FC
+
+echo 'mexing voigt and looping files ... '
+echo '<<<< see Readme_MEXFLAGS.txt to see how to add flags >>>>'
+echo $FFLAGS $LDFLAGS $FLIBS $FC
+
+### replace 2015???? /asl/opt/matlab/R2009b/bin/mex             with    /usr/cluster/matlab/2016b/bin/mex
+### replace Feb 2020 /usr/cluster/matlab/2016b/bin/mex          with    /usr/ebuild/software/MATLAB/2018b/bin/mex
+### replace Nov 2021 /usr/ebuild/software/MATLAB/2018b/bin/mex  with    /usr/ebuild/software/MATLAB/2021b/bin/mex
+
+########################################################################
+echo 'mexing water local and superlorentz lineshapes ... '
+#/usr/ebuild/software/MATLAB/2021b/bin/mex  GFORTRAN='/usr/ebuild/software/GCCcore/8.2.0/bin/gfortran'   loop_loc.F loop_locg.F        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2021b/bin/mex  GFORTRAN='/usr/ebuild/software/GCCcore/8.2.0/bin/gfortran'   loop_chi.F loop_chig.F        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#/usr/ebuild/software/MATLAB/2021b/bin/mex  GFORTRAN='/usr/ebuild/software/GCCcore/8.2.0/bin/gfortran'   loop_chi2.F loop_chi2g.F      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+
+#mex   loop_loc.F loop_locg.F        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#mex   loop_chi.F loop_chig.F        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#mex   loop_chi2.F loop_chi2g.F      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+
+mex   loop_loc.F  loop_locg.F
+mex   loop_chi.F  loop_chig.F
+mex   loop_chi2.F loop_chi2g.F
+
+mv loop_loc.mexa64     ../.
+mv loop_chi.mexa64     ../.
+mv loop_chi2.mexa64     ../.
+

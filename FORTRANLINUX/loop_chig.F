@@ -51,7 +51,7 @@ c selfp       = self (h20) path pressure
       real*8 raOutvect(MaxLen),raZiso(MaxLen),rmass_isop(20),rlvgp(1)
       real*8 raBrd(MaxLen),raStrenght(MaxLen),raCenterFreq(MaxLen)
       real*8 raWavenumber(MaxLen),rtemprp(1),rnumlinesp(1),rsizewavep(1)
-      real*8 rtotalp,rselfp
+      real*8 rtotalp(1),rselfp(1)
 
       mwSize m_in,n_in
       integer k_in,MM,o_in,jj,kk,ii

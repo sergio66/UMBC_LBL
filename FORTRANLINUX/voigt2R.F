@@ -15,7 +15,8 @@ c brd  = broadening
 
       include 'max.inc'
 
-      real*8 wr(MaxLen),v(MaxLen),v0,Temp,m,brd
+c      real*8 wr(MaxLen),v(MaxLen),v0,Temp,m,brd
+      real*8 wr(*),v(*),v0,Temp,m,brd
       integer n_in
 
       real*8 wi(MaxLen)

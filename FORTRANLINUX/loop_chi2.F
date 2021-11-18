@@ -39,7 +39,7 @@ C                 line center.
       real*8 centerfreq(kMaxBandLines),calcfreq(MaxLen),tempr
       real*8 pair,ph2o
 
-      real*8 yr(MaxLen),yi(MaxLen),mass,br,bi
+      real*8 yr(MaxLen),yi(MaxLen),mass,br(1),bi(1),center(1)
       integer ip,kk,j
      
       real*8 prs,prf,chifac,base,fdif,fchi,df,chif,chis
@@ -153,7 +153,7 @@ C       calculate the usual lineshape (lorentz,voigt or vhh)
           call vhh2RI(yr,yi,calcfreq,centerfreq(kk),tempr,mass,
      $             brd(kk),sizewave)
         elseif (lvg .eq. +1) then   !Voigt lineshape
-          call voigt2R(yr,yi,calcfreq,centerfreq(kk),tempr,
+          call voigt2R(yr,calcfreq,centerfreq(kk),tempr,
      $             mass,brd(kk),sizewave)
           endif
           
@@ -198,11 +198,12 @@ ccc        CHIFAC=PRF*WFX(I25WX) + PRS*WSX(I25WX)
 
 c then compute the basement lorentz term
 c this is just the wavenumber 25 cm-1 away from line center
-        call vhh2RI(br,bi,centerfreq(kk)-25,centerfreq(kk),
+        center(1) = centerfreq(kk)-25
+        call vhh2RI(br,bi,center,centerfreq(kk),
      $             tempr,mass,brd(kk),1)
 
 c combine basement lorentz term with basement chi term, at 25cm-1
-        base=chifac*br
+        base=chifac*br(1)
 
 C       Apply the chi factor to the Voigt result and subtract the 
 C       basement term. 
