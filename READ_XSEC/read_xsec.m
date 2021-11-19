@@ -45,6 +45,7 @@ avogkm = 6.0221367e+26;
 if nargin <= 2
   HITRAN = 2012;
   HITRAN = 2016;  
+  HITRAN = 2020;  
 end
 
 % set default directory for xsec data
@@ -61,8 +62,10 @@ end
     gd = '/asl/data/geisa/G2015/2015.IR-XSect/Uncompressed-files/'; idd=2015;
   elseif HITRAN == 2016 
     gd = '/asl/data/hitran/H2016/IR-XSect/Uncompressed-files/'; idd=2016;
+  elseif HITRAN == 2020 
+    gd = '/asl/data/hitran/H2020/IR-XSect/Uncompressed-files/'; idd=2020;
   else
-    error('need HITRAN == 1998 2008 2012 (G)2015 2016')
+    error('need HITRAN == 1998 2008 2012 (G)2015 2016 2020')
   end
 %end
 

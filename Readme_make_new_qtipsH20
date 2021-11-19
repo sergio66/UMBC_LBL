@@ -49,17 +49,24 @@ AND
 %%%%%%%%%%%%%%%%%%%%%%%%%
 ALSO HAVE TO DO XSEC
 MAKE SURE YOU READ /asl/data/hitran/H2016/Readme_XSEC_H16_51_81
-After tediously downloading xsec data fiels fro the HITRAN website, in that dir essentially run
--rwxrwxr-x 1 sergio pi_strow 1303 Mar  6 14:02 unzipper_xsec.sc
--rwxrwxr-x 1 sergio pi_strow  807 Mar  6 13:46 mkdir_xsec.sc
--rwxrwxr-x 1 sergio pi_strow 1951 Mar  6 13:42 scper_fromHITRAN.sc
-  plus
--rw-rw-r-- 1 sergio pi_strow 5607 Mar  6 14:57 convert_xsec_multiplefiles2onefile.m
 
+since most of this is irrelevant (the files are very similar to H2016, so no need to do all the below)
+
+>>>>>
+  After tediously downloading xsec data filess from the HITRAN website, in that dir essentially run
+  -rwxrwxr-x 1 sergio pi_strow 1303 Mar  6 14:02 unzipper_xsec.sc
+  -rwxrwxr-x 1 sergio pi_strow  807 Mar  6 13:46 mkdir_xsec.sc
+  -rwxrwxr-x 1 sergio pi_strow 1951 Mar  6 13:42 scper_fromHITRAN.sc
+    plus
+  -rw-rw-r-- 1 sergio pi_strow 5607 Mar  6 14:57 convert_xsec_multiplefiles2onefile.m
+>>>>>
+  
 /home/sergio/SPECTRA/READ_XSEC : 
 -rw-r--r-- 1 sergio pi_strow    4311 Mar  2 11:39 read_xsec.m  has to know about eg
   /asl/data/hitran/H2012/IR-XSect/Uncompressed-files/
   /asl/data/hitran/H2016/IR-XSect/Uncompressed-files/  
+  /asl/data/hitran/H2020/IR-XSect/Uncompressed-files/  
+
 while these two
 -rw-r--r-- 1 sergio pi_strow 5104 Mar  2 09:44 gid2mol.m
 -rw-r--r-- 1 sergio pi_strow 3227 Mar  2 10:22 findxsec_plot.m
@@ -69,14 +76,14 @@ have been modified so that they take into acount HITRAN YEAR
 /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2016/MAKEIR_ALL_H16
 [sergio@maya-usr1 MAKEIR_ALL_H16]$ grep -in findxsec *.m
 
-loop_filelist_xsecN.m:52:      woo = findxsec_plot_fast(wn,wn+dv,bands);
+loop_filelist_xsecN.m:52:            woo = findxsec_plot_fast(wn,wn+dv,bands);
 clust_runXtopts_mkxsecNvfiles.m:46:  woo = findxsec_plot_fast(wn,wn+dv,bands);
-xsec_done_already.m:32:  woo = findxsec_plot_fast(wn,wn+dv,bands);
+xsec_done_already.m:32:              woo = findxsec_plot_fast(wn,wn+dv,bands);
 
-clust_runXtopts_savexsecN_file.m:73:      [iYes,gf] = findxsec_plot(fmin,fmax,gasid,2016);
-filelist_xsecN.m:41:    [iYes,line] = findxsec_plot(wn-dwn,wn+dwn,gid,2016);
-loop_filelist_xsecN_slow.m:50:      [iYes,line] = findxsec_plot(wn-dwn,wn+dwn,gid,2016);
-runXtopts_savexsecX.m:47:      [iYes,gf] = findxsec_plot(fmin,fmax,gasid,2016);
+clust_runXtopts_savexsecN_file.m:73:      [iYes,gf]   = findxsec_plot(fmin,fmax,gasid,2016);
+filelist_xsecN.m:41:                      [iYes,line] = findxsec_plot(wn-dwn,wn+dwn,gid,2016);
+loop_filelist_xsecN_slow.m:50:            [iYes,line] = findxsec_plot(wn-dwn,wn+dwn,gid,2016);
+runXtopts_savexsecX.m:47:                 [iYes,gf]   = findxsec_plot(fmin,fmax,gasid,2016);
 
 /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2016/MAKEIR_ALL_H16/clust_runXtopts_savexsecN_file.m
   calls [iYes,gf] = findxsec_plot(fmin,fmax,gasid,2016);
@@ -88,21 +95,29 @@ Note : in /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2016/MAKEIR_ALL_H16
   originally I used the H12 xsec database so did nothing
   then I downloaded H2016 for gases 51-63, so had     to switch to H2012 for gases 64-81
   now  I downloaded H2016 for gases 51-81, so no need to switch to H2012
+  now  I downloaded H2020 for gases 51-81, so no need to switch to H2012
 grep -in iSwitchXsecDataBase *.m
 
 [sergio@maya-usr1 MAKEIR_ALL_H16]$ grep -in iSwitchXsecDataBase *.m
 clust_runXtopts_mkxsecNvfiles.m:42:iSwitchXsecDataBase = 0063;  %% originally we had H2016 for g51-63 and H2012 for g64-81
 clust_runXtopts_mkxsecNvfiles.m:43:iSwitchXsecDataBase = 9999;  %% now we have       H2016 for g51-81
+clust_runXtopts_mkxsecNvfiles.m:43:iSwitchXsecDataBase = 9999;  %% now we have       H2020 for g51-81
+
 clust_runXtopts_mkxsecNvfiles.m:44:if gid <= iSwitchXsecDataBase
 clust_runXtopts_savexsecN_file.m:83:      iSwitchXsecDataBase = 0063;  %% originally we had H2016 for g51-63 and H2012 for g64-81
 clust_runXtopts_savexsecN_file.m:84:      iSwitchXsecDataBase = 9999;  %% now we have       H2016 for g51-81
+clust_runXtopts_savexsecN_file.m:84:      iSwitchXsecDataBase = 9999;  %% now we have       H2020 for g51-81
 clust_runXtopts_savexsecN_file.m:85:      if gasid <= iSwitchXsecDataBase
 clust_runXtopts_savexsecN_file.m:114:	  if gasid <= iSwitchXsecDataBase
+
 loop_filelist_xsecN.m:45:  iSwitchXsecDataBase = 0063;  %% originally we had H2016 for g51-63 and H2012 for g64-81
 loop_filelist_xsecN.m:46:  iSwitchXsecDataBase = 9999;  %% now we have       H2016 for g51-81
+loop_filelist_xsecN.m:46:  iSwitchXsecDataBase = 9999;  %% now we have       H2020 for g51-81
 loop_filelist_xsecN.m:50:    if gg <= iSwitchXsecDataBase
+
 xsec_done_already.m:54:iSwitchXsecDataBase = 0063;  %% originally we had H2016 for g51-63 and H2012 for g64-81
 xsec_done_already.m:55:iSwitchXsecDataBase = 9999;  %% now we have       H2016 for g51-81
+xsec_done_already.m:55:iSwitchXsecDataBase = 9999;  %% now we have       H2020 for g51-81
 xsec_done_already.m:56:if gasid <= iSwitchXsecDataBase
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,8 +127,8 @@ ls -lt /asl/data/hitran/H2008/Global_Data/
 
 cd /asl/data/hitran/H2020/QTIPS
 unzip QTpy.zip
-unzip TIPS_2017_v1p0.zip
-unzip BD_TIPS_2017_v1p0.zip
+unzip TIPS_2021_v1p0.zip
+unzip BD_TIPS_2021_v1p0.zip
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Idotope Masses

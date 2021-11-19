@@ -16,6 +16,8 @@ if nargin == 1
   idd = 1998;   %% these are the H1998 ones
   idd = 2008;   %% these are the H2008 ones
   idd = 2012;   %% these are the H2012 ones
+  idd = 2016;   %% these are the H2016 ones
+  idd = 2020;   %% these are the H2020 ones
 else
   idd = year;
 end

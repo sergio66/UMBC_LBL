@@ -8,6 +8,15 @@ by replacing 10.2.0 with 8.2.0 in
        LDDEBUGFLAGS=&quot;$LDDEBUGFLAGS&quot;" GFORTRAN_INSTALLDIR="/usr/ebuild/software/GCCcore/8.2.0/bin" GFORTRAN_LIBDIR="/umbc/ebuild-soft/skylake/software/GCCcore/8.2\
 .0/lib64" GFORTRAN_VERSION="8.2.0"/>
 
+
+OR AT UNIX COMMAND LINE do eg
+  mex -v loop_chi2.F
+to see what mex is doing
+
+can try to reset compiler using eg
+ mex -v FC="/usr/ebuild/software/GCCcore/8.2.0/bin/gfortran" loop_chi2.F
+but hmmm, dos this really work?????
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 https://jponttuset.cat/matlab2014-mex-flags/

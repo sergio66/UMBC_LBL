@@ -5,6 +5,7 @@ xhead = struct;
 if nargin < 4
   HITRAN = 2012;
   HITRAN = 2016;
+  HITRAN = 2020;
 end
 
 %addpath /home/sergio/HITRAN2UMBCLBL/READ_XSEC
@@ -45,6 +46,8 @@ elseif HITRAN == 2016
   fnamePRE = '/asl/data/hitran/H2016/IR-XSect/Uncompressed-files/'; idd=2016;
 elseif HITRAN == 2015
   fnamePRE = '/asl/data/geisa/G2015/2015.IR-XSect/Uncompressed-files/';  idd=2016;
+elseif HITRAN == 2020
+  fnamePRE = '/asl/data/hitran/H2020/IR-XSect/Uncompressed-files/'; idd=2020;
 end
 
 fnamePOST='.xsc';
