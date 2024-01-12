@@ -1,3 +1,6 @@
+addpath /home/sergio/SPECTRA/CKDLINUX
+addpath /home/sergio/SPECTRA
+
 %script file to produce BINARY fortran look up table at 1.0 cm-1
 %run this from the main SPECTRA directory
 
@@ -42,12 +45,21 @@ topts.formult  = 0.0;
 [m,n]=size(ks);
 
 extension = [num2str(CKD) '.bin'];
-fname  = ['/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf' extension];
-fname2 = ['/asl/data/kcarta/KCARTADATA/General/CKDieee_le/CKDSelf' extension];
-fprintf(1,'%s %s \n',fname,fname2);
-exist(fname)
-exist(fname2)
-error('self25 WOW')
+% fname  = ['/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf' extension];
+% fname2 = ['/asl/data/kcarta/KCARTADATA/General/CKDieee_le/CKDSelf' extension];
+
+iSymLink = +1;
+fname = ['/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf' extension];  
+fname2 = ['/XYZ/asl/rta/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf' extension];  %% these are symbolic links to each other
+
+fprintf(1,'opening %s \n %s \n',fname,fname2);
+[exist(fname) exist(fname2)]
+if exist(fname) ~= 0
+  fprintf(1,'fname = %s for SELF already exists \n',fname)
+  error('SELF outfile already exists')
+end
+
+%error('self25 WOW')
 fid = fopen(fname,'w','ieee-le');
 
 fstart = fr(1);
@@ -84,9 +96,11 @@ for i = 1:m
    end
 fclose(fid);
 
-copier = ['!/bin/cp ' fname ' ' fname2];
-fprintf(1,' the copy string is %s \n',copier);
-eval(copier);
+if iSymLink < 0
+  copier = ['!/bin/cp ' fname ' ' fname2];
+  fprintf(1,' the copy string is %s \n',copier);
+  eval(copier);
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %do for
@@ -95,17 +109,28 @@ eval(copier);
 %   0,1,1,loc,'../CKDLINUX/watercont');
 topts.selfmult = 0.0;
 topts.formult  = 1.0;
+rmer = ['!/bin/rm CNTNM.OPTDPT WATER.COEF']; eval(rmer)
 [fr,kf] = run8watercontinuum(1,100,3001,'../CKDLINUX/watercont',topts);
+figure(1); semilogy(fr,ks); title('Self 25'); 
+figure(2); semilogy(fr,kf); title('Forn 25'); disp('ret'); pause
 
 [m,n]=size(kf);
 
 extension = [num2str(CKD) '.bin'];
-fname = ['/home/sergio/KCARTADATA/General/CKDieee_le/CKDFor' extension];
-fname2 = ['/asl/data/kcarta/KCARTADATA/General/CKDieee_le/CKDFor' extension];
-fprintf(1,'%s %s \n',fname,fname2);
-exist(fname)
-exist(fname2)
-error('forn25 WOW')
+%fname = ['/home/sergio/KCARTADATA/General/CKDieee_le/CKDFor' extension];
+%fname2 = ['/asl/data/kcarta/KCARTADATA/General/CKDieee_le/CKDFor' extension];
+
+iSymLink = +1;
+fname = ['/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor' extension];  
+fname2 = ['/XYZ/asl/rta/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor' extension];  %% these are symbolic links to each other
+
+fprintf(1,'opening %s \n %s \n',fname,fname2);
+if exist(fname) ~= 0
+  fprintf(1,'fname = %s for FORN already exists \n',fname)
+  error('FORN outfile already exists')
+end  
+
+%error('forn25 WOW')
 fid = fopen(fname,'w','ieee-le');
 
 fstart = fr(1);
@@ -142,7 +167,10 @@ for i = 1:m
    end
 fclose(fid);
 
-copier = ['!/bin/cp ' fname ' ' fname2];
-fprintf(1,' the copy string is %s \n',copier);
-eval(copier);
+if iSymLink < 0
+  copier = ['!/bin/cp ' fname ' ' fname2];
+  fprintf(1,' the copy string is %s \n',copier);
+  eval(copier);
+end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

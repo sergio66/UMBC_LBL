@@ -40,18 +40,18 @@ for ii = 1 : length(oo1)
   end
 end
 wah = find(isfinite(oo21));
-figure(1); plot(line1.wnum(oo1(wah)),line2.stren(oo2(oo21(wah)))./line1.stren(oo1(wah))); grid
+figure(3); plot(line1.wnum(oo1(wah)),line2.stren(oo2(oo21(wah)))./line1.stren(oo1(wah))); grid
     title(['STREN iso=1 ' num2str(HITRAN2) '/' num2str(HITRAN1)]); 
-figure(2); semilogy(line2.wnum(oo2(oo21(wah))),line2.stren(oo2(oo21(wah))),'rx',line1.wnum(oo1(wah)),line1.stren(oo1(wah)),'b.'); grid
+    ylim([0 2])
+figure(4); semilogy(line2.wnum(oo2(oo21(wah))),line2.stren(oo2(oo21(wah))),'rx',line1.wnum(oo1(wah)),line1.stren(oo1(wah)),'b.'); grid
     title(['STREN iso=1 (r)' num2str(HITRAN2) '(b)' num2str(HITRAN1)]); 
-disp('ret')
 
 if length(I) > 0
   fprintf(1,'found %8i out of %8i common wavenumbers, plotting the strens and linewidths \n',length(I),length(line1.wnum))
-  figure(3);
-  semilogy(line2.wnum,line2.stren,'r.',line1.wnum,line1.stren,'bo'); grid
+  figure(5);
+  semilogy(line2.wnum,line2.stren,'rx',line1.wnum,line1.stren,'bo'); grid
     title(['STREN (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]);
-  figure(4); clf
+  figure(6); clf
     wah = min(max(line1.iso),max(line2.iso));
     oo1 = find(line1.iso == 1);     oo2 = find(line2.iso == 1);
       semilogy(line2.wnum(oo2),line2.stren(oo2),'ro',line1.wnum(oo1),line1.stren(oo1),'m.')
@@ -68,44 +68,44 @@ if length(I) > 0
     
   iDo = input('Do you want them plotted (-1) log(strn) or (+1) difference in stren ? ');
   if iDo <= 0
-    figure(4); clf; semilogy(line1.wnum(i1),line1.stren(i1),'b.',line2.wnum(i2),line2.stren(i2),'r+'); grid
+    figure(7); clf; semilogy(line1.wnum(i1),line1.stren(i1),'b.',line2.wnum(i2),line2.stren(i2),'r+'); grid
     title(['STREN (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
     grid on
   elseif iDo > 0
-    figure(4); clf; plot(line1.wnum(i1),line2.stren(i2) - line1.stren(i1),'k+'); grid
+    figure(7); clf; plot(line1.wnum(i1),line2.stren(i2) - line1.stren(i1),'k+'); grid
     title(['STREN ' num2str(HITRAN2) '-' num2str(HITRAN1)]); 
     grid on
   end
 
-  figure(5);
+  figure(8);
   semilogy(line2.wnum,line2.abroad,'r.',line1.wnum,line1.abroad,'bo'); grid
     title(['ABROAD (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
   iDo = input('Do you want them plotted (-1) broadening or (+1) difference in air broadening ? ');
   if iDo <= 0
-    figure(6); clf; plot(line1.wnum(i1),line1.abroad(i1),'b.',line2.wnum(i2),line2.abroad(i2),'r+'); grid
+    figure(9); clf; plot(line1.wnum(i1),line1.abroad(i1),'b.',line2.wnum(i2),line2.abroad(i2),'r+'); grid
     title(['ABROAD (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
     grid on
   elseif iDo > 0
-    figure(6); clf; plot(line1.wnum(i1),line2.abroad(i2) - line1.abroad(i1),'k+'); grid
+    figure(9); clf; plot(line1.wnum(i1),line2.abroad(i2) - line1.abroad(i1),'k+'); grid
     title(['ABROAD ' num2str(HITRAN2) '-' num2str(HITRAN1)]); 
     grid on
   end
 
-  figure(7);
+  figure(10);
   semilogy(line2.wnum,line2.sbroad,'r.',line1.wnum,line1.sbroad,'bo'); grid
     title(['SBROAD (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
   iDo = input('Do you want them plotted (-1) broadening or (+1) difference in self broadening ? ');
   if iDo <= 0
-    figure(8); clf; plot(line1.wnum(i1),line1.sbroad(i1),'b.',line2.wnum(i2),line2.sbroad(i2),'r+'); grid
+    figure(11); clf; plot(line1.wnum(i1),line1.sbroad(i1),'b.',line2.wnum(i2),line2.sbroad(i2),'r+'); grid
     title(['SBROAD (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
     grid on
   elseif iDo > 0
-    figure(8); clf; plot(line1.wnum(i1),line2.sbroad(i2) - line1.sbroad(i1),'k+'); grid
+    figure(11); clf; plot(line1.wnum(i1),line2.sbroad(i2) - line1.sbroad(i1),'k+'); grid
     title(['SBROAD ' num2str(HITRAN2) '-' num2str(HITRAN1)]); 
     grid on
   end
 
-  figure(9);
+  figure(12);
   semilogx(line1.wnum(i1),line1.abroad(i1)-line2.abroad(i2),'b.',line1.wnum(i1),line1.sbroad(i1)-line2.sbroad(i2),'r.'); grid
   semilogx(line1.stren(i1),line1.abroad(i1)-line2.abroad(i2),'b.',line1.stren(i1),line1.sbroad(i1)-line2.sbroad(i2),'r.'); grid
   xlabel('strength'); ylabel('\delta broad'); title('(b) air (r) self')
@@ -125,13 +125,13 @@ if length(I) > 0
     junk2.sbroad(ii) = line2.sbroad(iso2(boo));
     junk2.tsp(ii) = line2.tsp(iso2(boo));
   end
-  figure(10); plot(line1.wnum(iso1)-junk2.wnum)
-  figure(10); plot(line1.wnum(iso1),line1.stren(iso1)-junk2.stren)
-  figure(10);
+  figure(13); plot(line1.wnum(iso1)-junk2.wnum)
+  figure(13); plot(line1.wnum(iso1),line1.stren(iso1)-junk2.stren)
+  figure(13);
     semilogx(line1.stren(iso1),line1.abroad(iso1)-junk2.abroad,'b.',...
              line1.stren(iso1),line1.sbroad(iso1)-junk2.sbroad,'r.')
     xlabel('strength'); ylabel('\delta broad'); title('(b) air (r) self')  
   %}
   
-  figure(4); figure(6); figure(8); figure(9);
+  %figure(4); figure(6); figure(8); figure(9);
 end

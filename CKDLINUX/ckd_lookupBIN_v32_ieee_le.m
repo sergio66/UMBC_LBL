@@ -1,3 +1,6 @@
+addpath /home/sergio/SPECTRA/CKDLINUX
+addpath /home/sergio/SPECTRA
+
 %script file to produce BINARY fortran look up table at 1.0 cm-1
 %run this from the main SPECTRA directory
 
@@ -54,7 +57,6 @@ if exist(fname) ~= 0
   fprintf(1,'fname = %s for SELF already exists \n',fname)
   error('SELF outfile already exists')
 end
-
 
 %error('self32 WOW')
 fid = fopen(fname,'w','ieee-le');
@@ -158,7 +160,7 @@ for i = 1:m
    end
 fclose(fid);
 
-%copier = ['!/bin/cp ' fname ' ' fname2];
-%fprintf(1,' the copy string is %s \n',copier);
-%eval(copier);
+copier = ['!/bin/cp ' fname ' ' fname2];
+fprintf(1,' the copy string is %s \n',copier);
+eval(copier);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

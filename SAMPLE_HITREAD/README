@@ -1,0 +1,48 @@
+SAMPLE HITREAD : Sergio DeSouza-Machado, Dec 2021
+
+Main Contents
+  DATA
+    g5.dat : HITRAN data for g5 (CO) stripped of any DOS characters
+  C CODE
+    Makefile : edit it so HDIR and MBIN are correct
+               type "make" at the unix prompt
+    alternatively, type "mex -compatibleArrayDims read_hitran.c hutils.c" at the Matlab prompt
+    These both make the C reader "read_hitran.mexa64" which reads in the 160 character tape
+  MATLAB CODE
+    driver_findlines_plot.m  : << main driver that calls these next two files >>
+                               can modify this to read in different wavenumbers (wv1,wv2) and/or gasID combinations as needed
+    hitread.m                : calls one or both of [read_hitran.mexa64, read_hitran2.m] for CO
+    translate2oldHITparams.m : translates the 15 character IUSGQ,ILSGQ into 3 characters
+    read_hitran2.m           : alternative, Matlab based reader of 160 character HITRAN tape
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+            HITRAN Database Reader and Tools
+
+                       Version 1.4
+                     for HITRAN 2004
+
+                    Howard E. Motteler
+                        12 Dec 2006
+
+
+This distribution includes a Matlab HITRAN reader,some tools for
+manipulating HITRAN files, and examples of using the Unix "sort"
+utility to merge, update, or sort a HITRAN database.
+
+The main pieces are
+
+  read_hitr.txt    - more detiled information
+  read_hitran2.m   - reference version Matlab HITRAN reader
+  read_hitran.c    - fast C mex version of Matlab HITRAN reader
+  hselect.c        - C source for the select utility
+  CHANGES          - changes from HITRAN2K to HITRAN04
+
+To compile the programs, check the path to the Matlab "mex"
+compiler (the default is /usr/local/matlab/bin) in the Makefile,
+and simply type "make".  The resulting mex file needs to be on
+the Matlab search path.
+
+The primary source for information about the HITRAN database is
+http://cfa-www.harvard.edu/HITRAN
+
