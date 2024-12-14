@@ -1,0 +1,109 @@
+See freq_boundaries.m and edit the "dirout" so your files will be saved where you want
+EG for me, they will all be saved in /asl/s1/sergio/H2012_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/
+  and then there wil be subdirs for each gas eg g1.dat, g2.dat etc
+  dirout = ['/asl/s1/sergio/H2012_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/g' num2str(gid) '.dat'];
+ 
+Then if these are directories you used before, blow the old files (dangerous dangerous) using
+  all_gases_REMOVE_dangerous.m
+
+once gone, they're gone!!!!!!!
+
+Now get ready for what you need
+
+A) you really only need to do these steps ONCE
+   Create file lists of the gases/chunks needed by running
+     loop_filelist_gN.m
+     loop_filelist_xsecN.m
+
+   This will create 
+     gN_ir_list.txt  gN_ir_xseclist.txt
+
+B) Update your 100 layer profile and save it in oneprof.mat
+   Make sure this mat file contains a "refpro" structure that is in EXACTLY the 
+   same format as seen in /home/sergio/HITRAN2UMBCLBL/REFPROF/refproTRUE.mat
+
+refpro = 
+
+    glist: [73x1 double]
+    mpres: [100x1 double]
+    mtemp: [100x1 double]
+    gamnt: [100x73 double]
+    gpart: [100x73 double]
+     plev: [101x1 double]
+
+   If your profile is less than 100 layers, I suggest filling the botom layers
+   with junk eg mtemp(1:4) = 300K, gamnt(1:4,:) = 0.0, gpart(1:4,:) = 0.0;
+  
+   Actually the code should run with eg 97 layers, give it a whirl and let me know if it crashes!
+
+   See as an example rtp_prof_to_oneprof.m
+
+C) Now you are ready to run off the OD database
+       clustcmd -q short -n 64 clust_runXtopts_savexsecN_file.m gN_xseclist.txt    ### very very very very fast
+
+       ## clust_runXtopts_savegasN_file.sc
+       clustcmd -q medium       -n 64 clust_runXtopts_savegasN_file.m gN_list.txt
+       clustcmd -q long_contrib -n 64 clust_runXtopts_savegasN_file.m gN_list.txt
+
+       ## clust_runXtopts_savegas1_file.sc
+       clustcmd -q medium       -n 64 clust_runXtopts_savegas1_file.m 605:25:2830
+       clustcmd -q long_contrib -n 64 clust_runXtopts_savegas1_file.m 605:25:2830
+
+      ************ 
+      NOTE : After you figure out which gas(es) are the ottleneck in a particular band
+      you can run "randomize_filelist.m" to generate a random filelist WITHOUT these gases,
+      so you can separatey run off a fresh copy of eg
+       clustcmd -q long_contrib -n 64 clust_runXtopts_savegasN_file.m gN_list_permute.txt
+      ************ 
+
+  d) check the progress by running
+       gas_done_already_g1(1)
+       
+       Here blue = chunks needed, red = chunks done, so 
+         if red and blue overlap, you're done!!!
+       loop_gas_done_already    
+       loop_xsec_done_already   
+
+     can blow away files of zero size using 
+       loop_rmerX
+     or dangerously blow away ALL (empty/full files) using
+       all_gases_REMOVE_dangerous.m
+
+DONE!
+
+All the gases will be of the form
+  stdFREQ_GID_6.mat
+where FREQ is the wavenumber chunk (eg 830), GID is the gasID (eg 2) and don;t worry about _6 
+(I copied blindly from existing code where we do 11 Toffsets from -50 : 10 : +50, so the sixth
+element corresponds to Toffset = 0)
+
+For WV, you will see eg
+  ls -lt /asl/s1/sergio/H2012_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/g1.dat/
+total 7560
+-rw-r--r-- 1 sergio pi_strow 7738818 Feb 13 16:24 stdH2O605_1_6_2.mat
+
+where the _6 is as above, and _2 is a pressure multiplier offset index 
+where  poffset = [0.1, 1.0, 3.3, 6.7, 10.0]; so the second index
+corresponds to a multiplier of 1
+
+
+eg
+ ls -lt /asl/s1/sergio/H2012_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/g52.dat/
+total 75280
+-rw-rw---- 1 sergio pi_strow 6134557 Feb 13 16:38 std1180_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7654294 Feb 13 16:38 std1055_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7710050 Feb 13 16:38 std1080_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7720259 Feb 13 16:38 std1105_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7722755 Feb 13 16:38 std1130_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7715235 Feb 13 16:38 std1155_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7677742 Feb 13 16:38 std855_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7725688 Feb 13 16:38 std880_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7705793 Feb 13 16:38 std905_52_6.mat
+-rw-rw---- 1 sergio pi_strow 6152936 Feb 13 16:38 std930_52_6.mat
+-rw-rw---- 1 sergio pi_strow 1571378 Feb 13 16:38 std1030_52_6.mat
+-rw-rw---- 1 sergio pi_strow 1569895 Feb 13 16:38 std830_52_6.mat
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Now pull in the ODs according to chunk, and run them through RadTrransfer code
+

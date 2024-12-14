@@ -1,0 +1,10 @@
+See Readme for full details
+1A) Edit dirout in   freq_boundaries.m
+1B) Run              freq_boundaries.m
+
+2) Run               loop_filelist_gN.m
+
+3A) Edit             rtp_prof_to_oneprof0.m
+3B) Run              rtp_prof_to_oneprof0.m
+
+4) sbatch --array=1,2,3,4,5,6,9,12 sergio_matlab_makegas.sbatch

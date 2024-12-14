@@ -18,8 +18,8 @@ thisdir(length(thisdir)+1) = '/';
 iUseDatabase = -1;  %%slow
 iUseDatabase = +1;  %%fast 
 if iUseDatabase < 0
-  infile  = mktemp('new_bt_f77_in.');
-  outfile = mktemp('new_bt_f77_out.');
+  infile  = mktemp('new_bt_f77_in.txt');
+  outfile = mktemp('new_bt_f77_out.txt');
 
   %%      print *,'Enter iMol iNumISO  rT : ' 
   theT    = 296.0;
@@ -55,8 +55,8 @@ end
 %outfile = [thisdir 'new_bt_f77_out.' rstr];
 %infile  = mktemp([thisdir 'new_bt_f77_in.']);
 %outfile = mktemp([thisdir 'new_bt_f77_out.']);
-infile  = mktemp('new_bt_f77_in');
-outfile = mktemp('new_bt_f77_out');
+infile  = mktemp('new_bt_f77_in.txt');
+outfile = mktemp('new_bt_f77_out.txt');
 
 %%      print *,'Enter iMol iNumISO  rT : ' 
 theT    = tempr;
