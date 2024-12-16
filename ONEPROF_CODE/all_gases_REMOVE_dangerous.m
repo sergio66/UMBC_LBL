@@ -36,10 +36,10 @@ end
 %% empty out individual dirs
 for gid = 1 : 110
   freq_boundaries
-  thedir = dir([dirout 'std*.mat']);
+  thedir = dir([dirout '/prof*.mat']);
   if length(thedir) > 0
     fprintf(1,'emptying out dir for gasID %3i \n',gid);
-    rmer = ['!/bin/rm ' dirout 'std*.mat'];
+    rmer = ['!/bin/rm ' dirout '/prof*.mat'];
     eval(rmer);
   end
 end

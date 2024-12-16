@@ -1,3 +1,13 @@
+%% Note : ONEPROF0 is basically just /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20 (ie older code)
+%% Note : ONEPROF0 is basically just /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20 (ie older code)
+%% Note : ONEPROF0 is basically just /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20 (ie older code)
+
+%% ONEPROF_CODE is newer, copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
+%% ONEPROF_CODE is newer, copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
+%% ONEPROF_CODE is newer, copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 See freq_boundaries.m and edit the "dirout" so your files will be saved where you want
 EG for me, they will all be saved in /asl/s1/sergio/H2012_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/
   and then there wil be subdirs for each gas eg g1.dat, g2.dat etc

@@ -1,20 +1,33 @@
-function [outwave,all_out_array] = run8watercontinuum_rtp(gasID,fmin,fmax,rtpfname,topts,iProfID);
+function [outwave,all_out_array] = run8watercontinuum_rtp(gasID,fmin,fmax,rtpfname,topts,iProfID,iSortPtotal_Hi2Lo);
 
 %% WARNING : expects the wavenumber grid to be 0.0025 cm-1 when it pre-defines all_out_array
 %% WARNING : expects the wavenumber grid to be 0.0025 cm-1 when it pre-defines all_out_array
 %% WARNING : expects the wavenumber grid to be 0.0025 cm-1 when it pre-defines all_out_array
 
+%% see run8watercontinuum.m : if topts.devide == -1, then you get the correct OD
 
 [h,ha,p,pa] = rtpread(rtpfname);
 if h.pfields ~= 1
   error('expect layers profiles')
 end
 
+addpath /home/sergio/MATLABCODE/
+addpath /home/sergio/MATLABCODE/CRODGERS_FAST_CLOUD/
+
+if ~isfield(p,'plays')
+  disp('adding p.plays')
+  p = make_rtp_plays(p);
+end
+
 if nargin == 4
   topts = [];
   iProfID = 1 : length(p.stemp);
+  iSortPtotal_Hi2Lo = -1;
 elseif nargin == 5
   iProfID = 1 : length(p.stemp);
+  iSortPtotal_Hi2Lo = -1;
+elseif nargin == 6
+  iSortPtotal_Hi2Lo = -1;
 end
 
 if length(iProfID) > 1
@@ -46,11 +59,19 @@ for ii = 1 : length(iProfID)
   figure(1); clf
   fprintf(1,'profile %5i of %5i \n',ii,length(iProfID));
   mr = mr_all(:,iProfID(ii));
-  [hx,px] = subset_rtp(h,p,[],[],iProfID(ii));
+  [hx,px] = subset_rtp_allcloudfields(h,p,[],[],iProfID(ii));
   fid = fopen('IPFILES/junk_wc.txt','w');
   fopen(fid);
   nn = px.nlevs-1;
-  junk = [ones(nn,1) px.plevs(1:nn)/1013.25 px.plevs(1:nn).*mr(1:nn)/1013.25 px.ptemp(1:nn) px.gas_1(1:nn)/6.023e26];
+
+  junk = [ones(nn,1) px.plays(1:nn)/1013.25 px.plays(1:nn).*mr(1:nn)/1013.25 px.ptemp(1:nn) px.gas_1(1:nn)/6.023e26];
+  if iSortPtotal_Hi2Lo > 0
+    %% see eg SPECTRA/ONEPROF_CODE/driver_rta.m
+    boo = junk(:,2);
+    [Y,I] = sort(boo,'descend');
+    junk = junk(I,:);
+  end
+
   fprintf(fid,'%3i %8.5e %8.5e %8.5f %8.5e \n',junk');
   fclose(fid);
   profname = 'IPFILES/junk_wc.txt';
@@ -60,7 +81,7 @@ for ii = 1 : length(iProfID)
     [outwave,out_array] = run8watercontinuum(gasID,fmin,fmax,profname,topts);
   end
   [mmm,nnn] = size(out_array);
-  whos outwave out_array
+  %whos outwave out_array
   woof = (1:nn) + (oomax-nn);  %% assumes lay 1 = gnd, lay nn = toa
   woof = (1:nn);               %% assumes lay 1 = toa, lay nn = gnd
   all_out_array(ii,woof,:) = out_array;

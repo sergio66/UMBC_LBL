@@ -24,9 +24,11 @@ gid = 1;
 %% the main driver file was individual_clust_runXtopts_savegasN_file.m
 
 %% now we call "rtp_prof_to_oneprof1.m which passes SHTUFF into "
-%% [theprof] = rtp_prof_to_oneprof1(fname,5);
+%% [rtpProf] = rtp_prof_to_oneprof1(fname,5);
 %%
-%% theprof has ALREADY been made
+%% rtpProf has ALREADY been made
+load oneprof.mat
+glist = rtpProf.glist;
 
 freq_boundaries
 
@@ -45,6 +47,13 @@ else
   return
 end
 
+gasind = find(glist == gid);
+if length(gasind) == 0
+  glist
+  gid
+  error('cannot find gas in oneprof.mat')
+end
+
 %% qtips04.m : for water the isotopes are 161  181  171  162  182  172
 while fmin <= wn2
   fmax = fmin + dv;
@@ -53,17 +62,17 @@ while fmin <= wn2
     fprintf(1,'gas freq = %3i %6i \n',gg,fmin);
     gasid = gg;  
 
-    tprof = refpro.mtemp + pp*10;
+    tprof = rtpProf.mtemp + pp*10;
     for mm = 2
 
       iYes = findlines_plot(fmin-25,fmax+25,1); 
 
-      fout = [dirout '/stdH2O' num2str(fmin)];
+      fout = [dirout '/profH2O' num2str(fmin)];
       fout = [fout '_' num2str(gg) '_' num2str(pp+6) '_' num2str(mm) '.mat'];
       if exist(fout,'file') == 0 & iYes > 0
         toucher = ['!touch ' fout]; %% do this so other runs go to diff chunk 
         eval(toucher);
-        profile = [(1:100)' refpro.mpres refpro.gpart(:,gg)*poffset(mm)  tprof refpro.gamnt(:,gg)]';
+        profile = [(1:100)' rtpProf.mpres rtpProf.gpart(:,gg)*poffset(mm)  tprof rtpProf.gamnt(:,gg)]';
         fip = ['IPFILES/std_gx' num2str(gg) 'x_' num2str(pp+6) '_' num2str(mm)];
         fid = fopen(fip,'w');
         fprintf(fid,'%3i %10.8f %10.8f %7.3f %10.8e \n',profile);
@@ -75,9 +84,7 @@ while fmin <= wn2
 %        topts.which_isotope = [-1 4];;        %% use all isotopes except 4 = HDO
         [w,d] = run8water(gasid,fmin,fmax,fip,topts);  
 
-        fout = [dirout '/stdH2O' num2str(fmin)];
-        fout = [fout '_' num2str(gg) '_' num2str(pp+6) '_' num2str(mm) '.mat'];
-        saver = ['save ' fout ' w d '];
+        saver = ['save ' fout ' w d profile '];
         eval(saver);
       elseif exist(fout,'file') > 0 & iYes > 0
         fprintf(1,'file %s already exists \n',fout);

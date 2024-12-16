@@ -47,7 +47,7 @@ function [outwave,out_array] = ...
 %
 % divide   self    for    divide by                              result
 % ----------------------------------------------------------------------
-%   -1     ?       ?          1               qvtanh(c2v/2T)(296/T)(psCS+pfCF)
+%   -1     ?       ?          1               qvtanh(c2v/2T)(296/T)(psCS+pfCF) = total ODcon
 %    1     1       0     q v tanh(c2 v/2T) (296/T) * ps           CS
 %    1     0       1     q v tanh(c2 v/2T) (296/T) * (p-ps)       CF
 %    1     ?       ?     q v tanh(c2 v/2T) (296/T)                ps CS + pf CF

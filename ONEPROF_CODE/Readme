@@ -1,14 +1,21 @@
-%% this is baically copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
-%% this is baically copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
-%% this is baically copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
+%% ONEPROF_CODE is newer, copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
+%% ONEPROF_CODE is newer, copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
+%% ONEPROF_CODE is newer, copied and modified/updated from /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20
+
+%% Note : ONEPROF0 is basically just /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20 (ie older code)
+%% Note : ONEPROF0 is basically just /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20 (ie older code)
+%% Note : ONEPROF0 is basically just /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2020/MAKEIR_ONEPROF_H20 (ie older code)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 0) Peliminary
 
 See freq_boundaries.m and edit the "dirout" so your files will be saved where you want
 EG for me, they will all be saved in /asl/s1/sergio/H2012_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/
-  and then there wil be subdirs for each gas eg g1.dat, g2.dat etc
   dirout = ['/asl/s1/sergio/H2012_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/g' num2str(gid) '.dat'];
+This 
+  automatically stores the profile into PROFILES/oneprof_FNAME_profnum.mat
+  updates the symbolic link eg          oneprof.mat -> PROFILES/oneprof_regr49_pbl_1.mat
  
 Then if these are directories you used before, blow the old files (dangerous dangerous) using
   all_gases_REMOVE_dangerous.m

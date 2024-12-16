@@ -68,7 +68,7 @@ while fmin <= wn2
 
       [iYes,gf] = findxsec_plot(fmin,fmax,gasid); 
       fprintf(1,'gas freq = %3i %6i %3i %3i\n',gasid,fmin,iYes,tt);
-      fout = [dirout '/std' num2str(fmin) '_' num2str(refpro.glist(gq)) '_' num2str(tt+6) '.mat'];
+      fout = [dirout '/profXSEC' num2str(fmin) '_' num2str(refpro.glist(gq)) '_' num2str(tt+6) '.mat'];
 
       ee = exist(fout,'file');
       if ee > 0

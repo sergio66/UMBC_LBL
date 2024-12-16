@@ -18,9 +18,10 @@ gids = setdiff(gids,[30 35 42]);  %% those 3 gases NOT present in breakout of HI
 
 fid1 = fopen('g1_ir_list.txt','w');
 fidN = fopen('gN_ir_list.txt','w');
+fidX = fopen('gN_ir_xseclist.txt','w');
+
 nbox = 5;
 pointsPerChunk = 10000;
-
 gid = 1; freq_boundaries
 
 for ii = 1 : length(gids)
@@ -65,19 +66,25 @@ for ii = 1 : length(gids)
           if gg == 1
             str = [num2str(gg,'%02d') num2str(wn,'%05d') num2str(tt,'%02d')];
             fprintf(fid1,'%s\n',str);
-          else
+          elseif gg <= 50 
             str = [num2str(gg,'%02d') num2str(wn,'%05d') num2str(tt,'%02d')];
             fprintf(fidN,'%s\n',str);
+          elseif gg >= 51 
+            str = [num2str(gg,'%02d') num2str(wn,'%05d') num2str(tt,'%02d')];
+            fprintf(fidX,'%s\n',str);
           end
         end
       end
     end
   fprintf(1,'  >>> need to make %3i chunks for gas %2i \n',iCnt,gid)
   end
-
 end
+
 fclose(fid1);
 fclose(fidN);
+fclose(fidX);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 command = ['more g1_ir_list.txt | wc -l']; %eval(command)
 %[status,cmdout] = system(command,'-echo');
@@ -88,4 +95,9 @@ command = ['more gN_ir_list.txt | wc -l']; %eval(command)
 %[status,cmdout] = system(command,'-echo');
 [status,cmdout] = system(command);
 fprintf(1,'have %5i lines in gN_ir_list.txt \n',str2num(cmdout));
+
+command = ['more gN_ir_xseclist.txt | wc -l']; %eval(command)
+%[status,cmdout] = system(command,'-echo');
+[status,cmdout] = system(command);
+fprintf(1,'have %5i lines in gN_ir_xseclist.txt \n',str2num(cmdout));
 

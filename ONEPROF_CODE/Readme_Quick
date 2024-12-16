@@ -1,4 +1,7 @@
 See Readme for full details
+
+Start with "all_gases_REMOVE_dangerous" to blow away exisiting .amt files with ODs
+
 1A) Edit dirout in   freq_boundaries.m
 1B) Run              freq_boundaries.m
 
