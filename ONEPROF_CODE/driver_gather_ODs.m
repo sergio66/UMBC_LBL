@@ -1,7 +1,9 @@
 nbox = 5;
 pointsPerChunk = 10000;
 
-dirSAVE = '/asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/SAVE/PBLTEST/ChrisLayers/';
+%dirSAVE = '/asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/SAVE/PBLTEST/ChrisLayers/';
+%dirSAVE = '/asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/SAVE/PBLTEST/AIRSLayers/';
+set_file_names
 
 lser = ['ls -lt ' dirSAVE ' | wc -l'];
 [status,cmd] = system(lser);
@@ -22,13 +24,18 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-glist = [1 2 3 4 5 6 9 12];
-for gg = 1 : length(glist)
-  gid = glist(gg); freq_boundaries
-  thedir = dir([dirout '/*.mat']);
-  if length(thedir) > 0
-    cper = ['!/bin/cp -a ' dirout '/*.mat ' dirSAVE '/.'];
-    eval(cper)
+iEasyOrHard = +1;
+if iEasyOrHard > 0
+  cper = ['!/bin/cp -a /asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/*/*.mat ' dirSAVE];
+  eval(cper);
+else
+  glist = [1 2 3 4 5 6 9 12];
+  for gg = 1 : length(glist)
+    gid = glist(gg); freq_boundaries
+    thedir = dir([dirout '/*.mat']);
+    if length(thedir) > 0
+      cper = ['!/bin/cp -a ' dirout '/*.mat ' dirSAVE '/.'];
+      eval(cper)
+    end
   end
 end
-

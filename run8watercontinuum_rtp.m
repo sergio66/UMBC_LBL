@@ -7,7 +7,7 @@ function [outwave,all_out_array] = run8watercontinuum_rtp(gasID,fmin,fmax,rtpfna
 %% see run8watercontinuum.m : if topts.devide == -1, then you get the correct OD
 
 [h,ha,p,pa] = rtpread(rtpfname);
-if h.pfields ~= 1
+if h.ptype ~= 1
   error('expect layers profiles')
 end
 
@@ -52,8 +52,6 @@ mr_all(101,:) = 0;
 %                                column 3 = layer partial pressure (atm)
 %                                column 4 = layer temperature (k)
 %                                column 5 = layer gas amnt (kilomolecules/cm2)
-
-topts
 
 for ii = 1 : length(iProfID)
   figure(1); clf

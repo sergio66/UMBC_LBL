@@ -1,13 +1,23 @@
 See Readme for full details
 
 Start with "all_gases_REMOVE_dangerous" to blow away exisiting .amt files with ODs
+        or "rmer_ODs_dangerous.sc"
+
+00) Edit set_file_names as it impacts (3) (5) (6)   ******** 
 
 1A) Edit dirout in   freq_boundaries.m
 1B) Run              freq_boundaries.m
 
 2) Run               loop_filelist_gN.m
 
-3A) Edit             rtp_prof_to_oneprof0.m
-3B) Run              rtp_prof_to_oneprof0.m
+3) Run               rtp_prof_to_oneprof0.m
 
 4) sbatch --array=1,2,3,4,5,6,9,12 sergio_matlab_makegas.sbatch
+   or really, run_cluster.sc
+
+5) Gather togther into "dirSAVE" using driver_gather_ODs.m or even easier use these 3 lines from there
+      set_file_names
+      cper = ['!/bin/cp -a /asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/*/*.mat ' dirSAVE]
+      eval(per)
+
+6) Run driver_rta.m

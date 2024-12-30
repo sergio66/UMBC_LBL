@@ -1,9 +1,16 @@
 addpath /asl/matlib/rtptools
 addpath /asl/matlib/h4tools
 
-fname = input('Enter layers rtp file : ');
 %% fname = '/asl/s1/sergio/pin_feb2002_sea_airsnadir_op.sun.rtp';
 %% fname = '/home/chepplew/projects/klayers_wrk/regr49_pbl.op.rtp';
+
+set_file_names
+%fname = input('Enter layers rtp file : ');
+%iProf = input('enter which profile : ');
+
+fname = frtp; 
+fprintf(1,'will look at profile %4i from rtp file = %s \n',iProf,fname)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ee = exist(fname);
 if ee > 0
@@ -25,8 +32,6 @@ if gunit(1) ~= 1 & h.ptype < 1
 else
   fprintf(1,'there are %6i profiles in %s \n',length(p.stemp),fname);
 end
-
-iProf = input('enter which profile : ');
 
 nlays = p.nlevs(iProf) - 1;
 

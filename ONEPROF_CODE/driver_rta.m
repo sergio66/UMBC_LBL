@@ -1,11 +1,11 @@
 addpath /home/sergio/SPECTRA
+addpath /asl/matlib//h4tools
+addpath /asl/matlib//aslutil
+addpath /home/sergio/MATLABCODE
+addpath /home/sergio/MATLABCODE/CRODGERS_FAST_CLOUD
 
-frtp    = '/home/chepplew/projects/klayers_wrk/regr49_pbl.op.rtp'; iProf = 1;
-junkout = '/asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/g1.dat/profH2O1205_1_6_2.mat';
-junkout = '/asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/g2.dat/prof1230_2_6.mat';
-fone    = 'PROFILES/oneprof_regr49_pbl_1.mat';
+set_file_names
 
-dirSAVE = '/asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/SAVE/PBLTEST/ChrisLayers/';
 glist = [1 2 3 4 5 6 9 12];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -21,7 +21,12 @@ junk = load(junkout);
 junkP = junk.profile(2,:);
 junkT = junk.profile(4,:);
 
+if isfield(p,'rcalc')
+  sarta_calc = rad2bt(h.vchan,p.rcalc);
+end
+
 printarray([junkone.rtpProf.mpres*1013  pxP junkP'*1013   junkone.rtpProf.mtemp pxT junkT'])
+fprintf(1,'read in data from %s and %s \n',frtp,dirSAVE)
 
 junk = input('Enter +1/default to proceed, -1 to stop : ');
 if length(junk) == 0
@@ -34,14 +39,18 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+stemp = 304.0
+
 nbox = 5;
 pointsPerChunk = 10000;
 gid = 1; freq_boundaries
 
-wall   = [];
-rall   = [];
-wgtall = [];
-
+wall     = [];
+rall     = [];
+radNall  = [];
+wgtall   = [];
+contrall = [];
+odall    = [];
 
 iF = 0;
 for freqchunk = wn1 : 25 : wn2
@@ -75,6 +84,7 @@ for freqchunk = wn1 : 25 : wn2
      od = od + out_array;
 
     else
+
       fin = [dirSAVE '/prof' num2str(freqchunk) '_' num2str(gid) '_6.mat'];
       if exist(fin)
         filefound(iF,gg) = +1;
@@ -92,26 +102,39 @@ for freqchunk = wn1 : 25 : wn2
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   tsurf = profileT(end);
+  tsurf = stemp;
+
   rad = ttorad(w,tsurf);
+  radN(length(profileT)+1,:) = rad;
   for ll = length(profileT) : -1 : 1
     T = profileT(ll);
     tau = od(ll,:);
     x = exp(-tau);
     rad = rad .* x + ttorad(w,T).*(1-x);
+    radN(ll,:) = rad;
     if ll > 1
       wah = od(1:ll-1,:);
       wah = sum(wah,1);
       wgt(ll,:) = (1-x).*exp(-wah);
+
+      contr(ll,:) = ttorad(w,T).*(1-x) .*exp(-wah);
+
       %figure(1); plot(w,exp(-wah)); ylabel('T(ll->TOA'); title(num2str(ll)); 
       %figure(2); plot(w,wgt(ll,:)); ylabel('W G T ');    title(num2str(ll)); 
       %pause(0.1)
     else
       wgt(ll,:) = (1-x);
+      contr(ll,:) = ttorad(w,T).*(1-x);
     end
   end
-  wall = [wall w];
-  rall = [rall rad];
-  wgtall = [wgtall wgt];
+  contr = contr./(ones(length(profileT),1)*rad);
+  wall     = [wall    w];
+  rall     = [rall    rad];
+  radNall  = [radNall radN];
+  wgtall   = [wgtall   wgt];
+  contrall = [contrall contr];
+  odall    = [odall    od];
+
   figure(1); clf; plot(w,rad2bt(w,rad))
   figure(2); clf; pcolor(w,profileP,wgt); set(gca,'ydir','reverse'); shading interp; colorbar
 
@@ -120,23 +143,47 @@ for freqchunk = wn1 : 25 : wn2
 
 end       %% loop over ff
 
-figure(1); clf
-semilogy(profileT,profileP*1013); set(gca,'ydir','reverse'); ylim([0.01 1000])
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[fc,qc] = quickconvolve(wall,rall,0.5,0.5);
-plot(wall,rad2bt(wall,rall),fc,rad2bt(fc,qc))
+plot_rta_calcs
 
-figure(2); clf
-[fc,wgc] = quickconvolve(wall,wgtall,0.5,0.5);
-pcolor(fc,1013*profileP,wgc');; shading interp; colorbar; colormap jet; %% set(gca,'ydir','reverse')
-pcolor(fc,1013*profileP,wgc');; shading interp; colorbar; colormap jet; set(gca,'ydir','reverse'); set(gca,'yscale','linear')
-ylim([100 1000])
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure(3); clf
-kcarta    = load('/asl/s1/sergio/AIRSPRODUCTS_JACOBIANS/TRP/wgtfcn_jac.mat');
-kcartarad = load('/asl/s1/sergio/AIRSPRODUCTS_JACOBIANS/TRP/wgtfcn_jac.mat');
-airslevels = load('/home/sergio/MATLABCODE/airslevels.dat');
-airslays = plevs2plays(airslevels);
-airslays = airslays(4:100);
-pcolor(kcarta.fout,airslays,kcarta.jout'); colormap jet; colorbar; xlim([min(fc) max(fc)]); shading interp; set(gca,'ydir','reverse')
-ylim([100 1000])
+iSave = input('save (-1/+1) : ');
+if length(iSave) == 0
+  iSave = -1;
+end
+if iSave > 0
+  if findstr(dirSAVE,'ChrisLayers')
+    saver = ['save ' dirSAVE '/pbl100_simple_rta.mat wall rall fc odc radNc pxP pxT'];
+  elseif findstr(dirSAVE,'AIRSLayers')
+    saver = ['save ' dirSAVE '/airs100_simple_rta.mat wall rall fc odc radNc pxP pxT'];
+  end
+  eval(saver)
+end
+
+return
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+iSave = input('show summary of PBL and AIRS rad transfer? (-1/+1) : ');
+if iSave > 0
+  airsrad = load('/asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/SAVE/PBLTEST/AIRSLayers/airs100_simple_rta.mat');
+  pblrad  = load('/asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/SAVE/PBLTEST/ChrisLayers/pbl100_simple_rta.mat');
+  
+  figure(1); clf; plot(airsrad.wall,rad2bt(airsrad.wall,airsrad.rall),airsrad.wall,rad2bt(airsrad.wall,pblrad.rall))
+    title('BT TOA (b) AIRS (r) PBL')
+  figure(2); clf; plot(airsrad.wall,rad2bt(airsrad.wall,airsrad.rall)-rad2bt(airsrad.wall,pblrad.rall))
+    title('BTD TOA AIRS-PBL')
+  
+  figure(3); clf; pcolor(airsrad.fc,1:100,log10(pblrad.odc'./airsrad.odc')); ylabel('log10(PBL OD/AIRS OD)'); 
+    shading interp; title('Expect different ODs \newline since different layering'); colorbar
+    set(gca,'ydir','reverse')
+  figure(4); clf; pcolor(airsrad.fc,1:101,rad2bt(airsrad.fc,airsrad.radNc)'-rad2bt(airsrad.fc,pblrad.radNc)'); ylabel('BTD AIRS-PBL'); 
+    shading interp; title('Expect different BTs in middle atm \newline since different layering'); colorbar
+    set(gca,'ydir','reverse')
+
+  figure(5); clf; semilogy(airsrad.pxT,airsrad.pxP,pblrad.pxT,pblrad.pxP); set(gca,'ydir','reverse'); xlabel('T [K]'); ylabel('P [mb]'); ylim([0 1000])
+  figure(6); clf; semilogy(airsrad.pxT,1:100,pblrad.pxT,1:100); set(gca,'ydir','reverse'); xlabel('T [K]'); ylabel('layer number')
+  figure(7); clf; semilogy(airsrad.pxT-pblrad.pxT,1:100); set(gca,'ydir','reverse'); xlabel('AIRS-PBL \delta T [K]'); ylabel('layer number'); plotaxis2;
+end

@@ -1,0 +1,1 @@
+/bin/rm /asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/*/*.mat

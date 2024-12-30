@@ -8,6 +8,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+LOOK at "Readme_Quick"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 0) Peliminary
 
 See freq_boundaries.m and edit the "dirout" so your files will be saved where you want
@@ -19,6 +23,8 @@ This
  
 Then if these are directories you used before, blow the old files (dangerous dangerous) using
   all_gases_REMOVE_dangerous.m
+OR
+  rmer_ODs_dangerous.sc
 
 once gone, they're gone!!!!!!!
 
@@ -60,6 +66,7 @@ refpro =
 
 C) Now you are ready to run off the OD database
        sbatch --array=1,2,3,4,5,6,9,12 --output='/dev/null' sergio_matlab_makegas.sbatch
+       or really, run_cluster.sc
 
   d) check the progress by running
        gas_done_already_g1(1)
@@ -77,7 +84,7 @@ C) Now you are ready to run off the OD database
 DONE!
 
 All the gases will be of the form
-  stdFREQ_GID_6.mat
+  profFREQ_GID_6.mat
 where FREQ is the wavenumber chunk (eg 830), GID is the gasID (eg 2) and don;t worry about _6 
 (I copied blindly from existing code where we do 11 Toffsets from -50 : 10 : +50, so the sixth
 element corresponds to Toffset = 0)
@@ -94,20 +101,26 @@ corresponds to a multiplier of 1
 eg
  ls -lt /asl/s1/sergio/H2012_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/g52.dat/
 total 75280
--rw-rw---- 1 sergio pi_strow 6134557 Feb 13 16:38 std1180_52_6.mat
--rw-rw---- 1 sergio pi_strow 7654294 Feb 13 16:38 std1055_52_6.mat
--rw-rw---- 1 sergio pi_strow 7710050 Feb 13 16:38 std1080_52_6.mat
--rw-rw---- 1 sergio pi_strow 7720259 Feb 13 16:38 std1105_52_6.mat
--rw-rw---- 1 sergio pi_strow 7722755 Feb 13 16:38 std1130_52_6.mat
--rw-rw---- 1 sergio pi_strow 7715235 Feb 13 16:38 std1155_52_6.mat
--rw-rw---- 1 sergio pi_strow 7677742 Feb 13 16:38 std855_52_6.mat
--rw-rw---- 1 sergio pi_strow 7725688 Feb 13 16:38 std880_52_6.mat
--rw-rw---- 1 sergio pi_strow 7705793 Feb 13 16:38 std905_52_6.mat
--rw-rw---- 1 sergio pi_strow 6152936 Feb 13 16:38 std930_52_6.mat
--rw-rw---- 1 sergio pi_strow 1571378 Feb 13 16:38 std1030_52_6.mat
--rw-rw---- 1 sergio pi_strow 1569895 Feb 13 16:38 std830_52_6.mat
+-rw-rw---- 1 sergio pi_strow 6134557 Feb 13 16:38 prof1180_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7654294 Feb 13 16:38 prof1055_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7710050 Feb 13 16:38 prof1080_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7720259 Feb 13 16:38 prof1105_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7722755 Feb 13 16:38 prof1130_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7715235 Feb 13 16:38 prof1155_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7677742 Feb 13 16:38 prof855_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7725688 Feb 13 16:38 prof880_52_6.mat
+-rw-rw---- 1 sergio pi_strow 7705793 Feb 13 16:38 prof905_52_6.mat
+-rw-rw---- 1 sergio pi_strow 6152936 Feb 13 16:38 prof930_52_6.mat
+-rw-rw---- 1 sergio pi_strow 1571378 Feb 13 16:38 prof1030_52_6.mat
+-rw-rw---- 1 sergio pi_strow 1569895 Feb 13 16:38 prof830_52_6.mat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Now pull in the ODs according to chunk, and run them through RadTrransfer code
+Now pull in the ODs according to chunk, 
 
+5) Gather togther into "dirSAVE" using driver_gather_ODs.m or even easier use these 3 lines from there
+      set_file_names
+      cper = ['!/bin/cp -a /asl/s1/sergio/H2020_RUN8_NIRDATABASE/ONE_PROFILE_IR_605_2830/*/*.mat ' dirSAVE]
+      eval(per)
+
+6) Run driver_rta.m
