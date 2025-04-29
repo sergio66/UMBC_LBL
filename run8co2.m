@@ -444,6 +444,7 @@ LVF           = 'F';
 NIF           = 'F';
 HITRAN        = '/asl/data/hitran/h16.by.gas';
 HITRAN        = '/asl/data/hitran/h20.by.gas';
+HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
 IO            = '1';
 birn          = 'b';
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE

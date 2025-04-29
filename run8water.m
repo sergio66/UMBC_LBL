@@ -259,6 +259,7 @@ CKD           = -1;
 HITRAN        = '/asl/data/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h20.by.gas';
+HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
 selfmult      = 1.0;
 formult       = 1.0;
 local         = 0;
@@ -460,8 +461,10 @@ outwave       = fmin:output_spacing:fmaxUSE;
 lennnn        = (1:length(outwave))-1; outwave = fmin+lennnn*output_spacing;  %<-----
 out_array     = zeros(NumLayers,length(outwave));
 checkstart    = (nbox+1)/2;
-%fprintf(1,'nbox = %2i ffin = %8.6e outout_spacing = %8.6e f1x,f2x,len = %8.6e %8.6e %6i fx((nbox+1)/2) = %8.6f \n',nbox,ffin,output_spacing,outwave(1),outwave(end),length(outwave),outwave(checkstart));
-fprintf(1,'nbox = %2i ffin = %8.6e outout_spacing = %8.6e f1x,f2x,len = %8.6e %8.6e %6i = %8.6f \n',nbox,ffin,output_spacing,outwave(1),outwave(end),length(outwave));
+
+junk = [nbox ffin output_spacing outwave(1) outwave(end) length(outwave) outwave(checkstart)];
+%fprintf(1,'nbox = %2i ffin = %8.6e output_spacing = %8.6e f1x,f2x,len = %8.6e %8.6e %6i fx((nbox+1)/2) = %8.6f \n',junk);
+fprintf(1,'nbox = %2i ffin = %8.6e output_spacing = %8.6e f1x,f2x,len = %8.6e %8.6e %6i \n',nbox,ffin,output_spacing,outwave(1),outwave(end),length(outwave));
 
 %%%%%%% READ IN RELEVANT DATA FROM HITRAN DATABASE  %%%%%%%%%%%%%%%%%%%%%%%%
 %% fnamePRE='/salsify/scratch4/h96.by.gas/g';        %H96 -- old

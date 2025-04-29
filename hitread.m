@@ -22,7 +22,7 @@ function [line,hitran_version,hlist_qtips] = ...
 
 addpath /asl/matlib/aslutil
 addpath /asl/matlib/read_hitr06/
-addpath /home/sergio/SPECTRA/read_hitr06/
+addpath /home/sergio/git/SPECTRA/read_hitr06/
 
 current_dir = pwd;
 
@@ -34,7 +34,7 @@ blah = findstr('/',filename);
 % HITRAN1 = '/asl/rta/hitran/h16.by.gas//g2.dat';  %% this would totally fool it (ie the //) so WATCH OUT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%look at the fourth occurence
+%% look at the fourth occurence or fifth occurence
 if length(blah) == 5
   %disp('usual data version eg /asl/rta/hitran/h16.by.gas/g2.dat')
   %disp('usual data version eg /asl/data/hitran/h16.by.gas/g2.dat')
@@ -47,6 +47,23 @@ elseif length(blah) == 6
   hitran_version = filename(blah(5)+1:blah(5)+3);  %% eg /asl/data/hitran/HITEMP/h16.by.gas/g2.dat
   iHiTemp = +1;
 end
+
+%% look at the fourth occurence or fifth occurence
+if length(blah) == 8
+  %disp('usual data version eg /asl/rta/hitran/h16.by.gas/g2.dat')
+  %disp('usual data version eg /asl/data/hitran/h16.by.gas/g2.dat')
+  disp('usual data version eg /umbc/xfs3/strow/asl/rta/hitran/h16.by.gas/g2.dat')
+  hitran_version = filename(blah(7)+1:blah(7)+3);  %% eg /asl/data/hitran/h16.by.gas/g2.dat
+  iHiTemp = -1;
+elseif length(blah) == 9
+  %disp('HITEMP version eg /asl/data/hitran/HITEMP/h16.by.gas/g2.dat')
+  %disp('HITEMP version eg /asl/data/hitran/HITEMP/h20.by.gas/g2.dat')
+  disp('HITEMP version eg /umbc/xfs3/strow/asl/rta/hitran/HITEMP/h20.by.gas/g2.dat')
+  hitran_version = filename(blah(8)+1:blah(8)+3);  %% eg /asl/data/hitran/HITEMP/h16.by.gas/g2.dat
+  iHiTemp = +1;
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % UPDATE
 old_reader = {'h92','h96','h98','h2k'};

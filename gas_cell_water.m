@@ -10,6 +10,8 @@ mb2atm   = 1/1013.25;
 
 press       = input('Enter total pressure  : ');  
 temperature = input('Enter temperature (in C) : ');  
+partpress   = input('Enter gas partial pressure  : ');  
+GasAmt      = input('Enter path cell length (in cm) ');  
 
 addpath /home/sergio/MATLABCODE/CONVERT_GAS_UNITS/
 [p_wat, p_ice]=svp(temperature+273);
@@ -20,9 +22,6 @@ elseif units == 2
   p_wat = p_wat * 760;
 end
 fprintf(1,'at a temp of %8.4f K, the svp_wat is %8.6f \n',temperature+273,p_wat);
-
-partpress   = input('Enter gas partial pressure  : ');  
-GasAmt      = input('Enter path cell length (in cm) ');  
 
 temperature = temperature + tc2k;
 
@@ -38,14 +37,21 @@ elseif units == 3
   end 
  
 % change to kmoles cm-2
-GasAmt=GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2   
+GasAmt        = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2   
 gascellparams = [press partpress temperature GasAmt]; 
 
 fprintf(1,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',gascellparams) 
 
-fid = fopen('IPFILES/gas_cell_water','w');
+if ~exist('tempfilename')
+  tempfilename = '/home/sergio/git/SPECTRA/IPFILES/gas_cell_water';
+  tempfilename = 'IPFILES/gas_cell_water';
+end
+  
+profname = tempfilename;
+fid = fopen(tempfilename,'w');
 fprintf(fid,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',gascellparams);
 fclose(fid);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% do run8water
 
@@ -60,17 +66,21 @@ x1 =  830; x2 =  930;
 x1 = 2080; x2 = 2205;
 x1 = spectral(1); x2 = spectral(2);
 
-[w,d8kc]    = run8water(1,x1,x2,'IPFILES/cris_cell_water_kcarta');
+[w,d8kc]    = run8water(1,x1,x2,profname);
 topts.CKD = 1;
-[w,d8conkc] = run8watercontinuum(1,x1,x2,...
-                           'IPFILES/cris_cell_water_kcarta',topts);
+[w,d8conkc] = run8watercontinuum(1,x1,x2,profname,topts);
 
-disp('saving to gas_cell_water.mat ....');
-str = input('Enter comment : ');
-gasID = [1 101 102 103];
-array = gascellparams;
-
-saver = ['save gas_cell_water.mat str w d8kc d8conkc  gasID array']; eval(saver);
+iSave = input('Save to gas_cell_water.mat (-1 NO default/+1 YES)  : ');
+if length(iSave) == 0
+  iSave = -1;
+end
+if iSave > 0
+  disp('saving to gas_cell_water.mat ....');
+  str = input('Enter comment : ');
+  gasID = [1 101 102 103];
+  array = gascellparams;
+  saver = ['save gas_cell_water.mat str w d8kc d8conkc  gasID array']; eval(saver);
+end
 
 clf;
 plot(w,(d8conkc+d8kc))

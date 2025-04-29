@@ -13,7 +13,9 @@ function [lineNEW,which_isotope] = subset_for_isotopes(lineORIG,which_isotope0)
 
 %% see qtips04.m
 fprintf(1,'there are %2i unique isotopes for gas %2i \n',length(unique(lineORIG.iso)),lineORIG.igas)
-unique(lineORIG.iso)
+%unique(lineORIG.iso)
+addpath /home/sergio/git/MATLABCODE_Git
+printarray(unique(lineORIG.iso))
 disp(' ')
 
 lineNEW       = lineORIG;

@@ -1,10 +1,13 @@
 units = input('Enter pressure units (1) atm (2) torr (3) mb : '); 
+
+spectral = input('Enter [start stop] wavenumber : ');
  
 tc2k = 273.15;
 MGC = 8.314674269981136  ;    
 torr2mb  = 1013.25 / 760; 
 torr2atm = 1 / 760; 
 mb2atm   = 1/1013.25; 
+
 press       = input('Enter total pressure  : ');  
 partpress   = input('Enter gas partial pressure  : ');  
 temperature = input('Enter temperature (in C) : ');  
@@ -24,20 +27,38 @@ elseif units == 3
   end 
  
 %change to kmoles cm-2   
-GasAmt=GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2   
-array = [press partpress temperature GasAmt]; 
+GasAmt        = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2   
+gascellparams = [press partpress temperature GasAmt]; 
 
-fprintf(1,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',array) 
+fprintf(1,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',gascellparams) 
 
-fid = fopen('IPFILES/cris_cell_co2','w');
-fprintf(fid,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',array);
+if ~exist('tempfilename')
+  tempfilename = '/home/sergio/git/SPECTRA/IPFILES/gas_cell_co2';
+  tempfilename = 'IPFILES/gas_cell_co2';
+end
+
+fid = fopen('tempfilename','w');
+fprintf(fid,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',gascellparams);
 fclose(fid);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-[w,d7]    = run7co2(2,630,830,'IPFILES/cris_cell_co2');
-[wa,d8ha] = run8co2(2,630,730,'IPFILES/cris_cell_co2');   %% hartman
-[wb,d8hb] = run8co2(2,730,830,'IPFILES/cris_cell_co2');   %% hartman
-d8 = [d8ha d8hb]
 
-[w,d7simple] = run7(2,630,830,'IPFILES/cris_cell_co2');
+x1 =  830; x2 =  930;
+x1 = 2080; x2 = 2205;
+x1 = spectral(1); x2 = spectral(2);
 
-save run7_hartman w d7 d8
+%[w,d7simple] = run7(2,630,830,tempfilename);
+%[w,d7]       = run7co2(2,x1,x2,tempfilename);
+ [wa,d8ha]    = run8co2(2,x1,x2,tempfilename);   %% hartman
+%[wb,d8hb]    = run8co2(2,x1,x2,tempfilename);   %% hartman
+%d8 = [d8ha d8hb]
+
+d8 = d8ha;
+
+iSave = input('Save to gas_cell_co2.mat (-1 NO default/+1 YES)  : ');
+if length(iSave) == 0
+  iSave = -1;
+end
+if iSave > 0
+  disp('saving to gas_cell_co2.mat ....');
+  save gas_cell_co2.mat w d8
+end
