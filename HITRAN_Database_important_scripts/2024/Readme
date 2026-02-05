@@ -1,0 +1,125 @@
+Line-by-Line search
+
+Go to
+  https://hitran.org/lbl/#
+
+1) click on ALL gases (all radiobuttons, gases 1-61
+2) select isotoplogues, select all
+   eg 7 for H2O, 10 for CO2 etc
+3) select wavenumber
+   0
+   blank (no limit)
+4) select output options
+   .par (160 characters)
+ 5) Start data search
+ 
+These files are ready after you click on the time icon after a while
+wget https://hitran.org/results/6984229e.bib
+wget https://hitran.org/results/6984229e.bib.html
+wget https://hitran.org/output-format-readmes/readme-1.txt
+wget https://hitran.org/results/6984229e.par
+
+cp ../H2020/make_breakapart.m make_breakapartH2024.m
+edit it so
+  cd /umbc/xfs3/strow/asl/rta/hitran/H2024
+and
+  fhitranver = 'h24.by.gas';
+and
+  fTAPE7 = '6984229e.par'; %% H2024 downloaded from HITRAN website, Feb 5, 2026
+
+run make_breakapartH2024.m
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Now get g30.35,42,55 separately by going back to
+  https://hitran.org/lbl/#
+NO NO NO NO
+# wget https://hitran.org/files/LBLstatic/30/30_hit24.zip
+# wget https://hitran.org/files/LBLstatic/35/35_hit24.zip
+# wget https://hitran.org/files/LBLstatic/42/42_hit24.zip
+# wget https://hitran.org/files/LBLstatic/55/55_hit24.zip
+
+YES YES YES YES
+click on them to download to local machine, then
+Sergios-Mac-mini:DOwnloads $ ls -lt *.zip
+-rw-r--r--@ 1 sergiodesouza-machado  staff   70453509 Feb  5 00:43 55_hit24.zip
+-rw-r--r--@ 1 sergiodesouza-machado  staff   24703747 Feb  5 00:43 42_hit24.zip
+-rw-r--r--@ 1 sergiodesouza-machado  staff    8509089 Feb  5 00:43 30_hit24.zip
+-rw-r--r--@ 1 sergiodesouza-machado  staff     823569 Feb  5 00:36 35_hit24.zip
+-rw-r--r--@ 1 sergiodesouza-machado  staff        280 Jan 27 17:50 airs_l1c_srf_tables_lls_new.hdf.zip
+-rw-r--r--@ 1 sergiodesouza-machado  staff      44796 Jan 27 12:31 ScreenCapture.zip
+-rw-r--r--@ 1 sergiodesouza-machado  staff  147818918 Jan  7 09:11 drive-download-20260107T141130Z-3-001.zip
+Sergios-Mac-mini:DOwnloads $ scp *.zip sergio@chip.rs.umbc.edu:///umbc/xfs3/strow/asl/rta/hitran/H2024/.
+
+run remainder of make_breakapartH2024.m
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[sergio@c24-52 H2024]$ ls -lt ../h24.by.gas/
+total 6077388
+-rw-rw-r-- 1 sergio pi_sergio 437564995 Feb  5 00:46 g55.dat
+-rw-rw-r-- 1 sergio pi_sergio 149096304 Feb  5 00:46 g42.dat
+-rw-rw-r-- 1 sergio pi_sergio   5184039 Feb  5 00:46 g35.dat
+-rw-rw-r-- 1 sergio pi_sergio  54100347 Feb  5 00:46 g30.dat
+-rw-rw-r-- 1 sergio pi_sergio   1610000 Feb  5 00:30 g61.dat
+-rw-rw-r-- 1 sergio pi_sergio   5018531 Feb  5 00:30 g60.dat
+-rw-rw-r-- 1 sergio pi_sergio  34717879 Feb  5 00:30 g59.dat
+-rw-rw-r-- 1 sergio pi_sergio  62376552 Feb  5 00:30 g58.dat
+-rw-rw-r-- 1 sergio pi_sergio  55205773 Feb  5 00:30 g57.dat
+-rw-rw-r-- 1 sergio pi_sergio  12113801 Feb  5 00:30 g56.dat
+-rw-rw-r-- 1 sergio pi_sergio  28697767 Feb  5 00:30 g54.dat
+-rw-rw-r-- 1 sergio pi_sergio 162816724 Feb  5 00:30 g53.dat
+-rw-rw-r-- 1 sergio pi_sergio   9801358 Feb  5 00:30 g52.dat
+-rw-rw-r-- 1 sergio pi_sergio   1675366 Feb  5 00:29 g51.dat
+-rw-rw-r-- 1 sergio pi_sergio  10652887 Feb  5 00:29 g50.dat
+-rw-rw-r-- 1 sergio pi_sergio  49896154 Feb  5 00:29 g49.dat
+-rw-rw-r-- 1 sergio pi_sergio  11555775 Feb  5 00:29 g48.dat
+-rw-rw-r-- 1 sergio pi_sergio   2301495 Feb  5 00:29 g47.dat
+-rw-rw-r-- 1 sergio pi_sergio    334558 Feb  5 00:29 g46.dat
+-rw-rw-r-- 1 sergio pi_sergio   2936640 Feb  5 00:29 g45.dat
+-rw-rw-r-- 1 sergio pi_sergio  40211843 Feb  5 00:29 g44.dat
+-rw-rw-r-- 1 sergio pi_sergio  40489890 Feb  5 00:29 g43.dat
+-rw-rw-r-- 1 sergio pi_sergio   7675675 Feb  5 00:29 g41.dat
+-rw-rw-r-- 1 sergio pi_sergio   5942671 Feb  5 00:29 g40.dat
+-rw-rw-r-- 1 sergio pi_sergio   3415293 Feb  5 00:29 g39.dat
+-rw-rw-r-- 1 sergio pi_sergio  12498591 Feb  5 00:29 g38.dat
+-rw-rw-r-- 1 sergio pi_sergio    701638 Feb  5 00:29 g37.dat
+-rw-rw-r-- 1 sergio pi_sergio    204470 Feb  5 00:29 g36.dat
+-rw-rw-r-- 1 sergio pi_sergio       322 Feb  5 00:29 g34.dat
+-rw-rw-r-- 1 sergio pi_sergio   6247444 Feb  5 00:29 g33.dat
+-rw-rw-r-- 1 sergio pi_sergio  32388209 Feb  5 00:29 g32.dat
+-rw-rw-r-- 1 sergio pi_sergio  17416819 Feb  5 00:29 g31.dat
+-rw-rw-r-- 1 sergio pi_sergio  29640744 Feb  5 00:29 g29.dat
+-rw-rw-r-- 1 sergio pi_sergio  19607546 Feb  5 00:29 g28.dat
+-rw-rw-r-- 1 sergio pi_sergio  11370303 Feb  5 00:29 g27.dat
+-rw-rw-r-- 1 sergio pi_sergio  14928242 Feb  5 00:29 g26.dat
+-rw-rw-r-- 1 sergio pi_sergio  20444263 Feb  5 00:29 g25.dat
+-rw-rw-r-- 1 sergio pi_sergio  35351575 Feb  5 00:29 g24.dat
+-rw-rw-r-- 1 sergio pi_sergio  24385060 Feb  5 00:29 g23.dat
+-rw-rw-r-- 1 sergio pi_sergio    204148 Feb  5 00:28 g22.dat
+-rw-rw-r-- 1 sergio pi_sergio   2620436 Feb  5 00:28 g21.dat
+-rw-rw-r-- 1 sergio pi_sergio  56426797 Feb  5 00:28 g20.dat
+-rw-rw-r-- 1 sergio pi_sergio 201656042 Feb  5 00:28 g19.dat
+-rw-rw-r-- 1 sergio pi_sergio   1851661 Feb  5 00:28 g18.dat
+-rw-rw-r-- 1 sergio pi_sergio    764911 Feb  5 00:28 g17.dat
+-rw-rw-r-- 1 sergio pi_sergio   1445780 Feb  5 00:28 g16.dat
+-rw-rw-r-- 1 sergio pi_sergio   8573572 Feb  5 00:28 g15.dat
+-rw-rw-r-- 1 sergio pi_sergio   3221610 Feb  5 00:28 g14.dat
+-rw-rw-r-- 1 sergio pi_sergio   9161383 Feb  5 00:28 g13.dat
+-rw-rw-r-- 1 sergio pi_sergio 181039992 Feb  5 00:28 g12.dat
+-rw-rw-r-- 1 sergio pi_sergio  18696125 Feb  5 00:28 g11.dat
+-rw-rw-r-- 1 sergio pi_sergio  40157747 Feb  5 00:28 g10.dat
+-rw-rw-r-- 1 sergio pi_sergio 156984338 Feb  5 00:28 g9.dat
+-rw-rw-r-- 1 sergio pi_sergio  61873105 Feb  5 00:28 g8.dat
+-rw-rw-r-- 1 sergio pi_sergio   4952682 Feb  5 00:28 g7.dat
+-rw-rw-r-- 1 sergio pi_sergio  76237042 Feb  5 00:28 g6.dat
+-rw-rw-r-- 1 sergio pi_sergio    866341 Feb  5 00:28 g5.dat
+-rw-rw-r-- 1 sergio pi_sergio  83095964 Feb  5 00:28 g4.dat
+-rw-rw-r-- 1 sergio pi_sergio  78478806 Feb  5 00:28 g3.dat
+-rw-rw-r-- 1 sergio pi_sergio  86230795 Feb  5 00:27 g2.dat
+-rw-rw-r-- 1 sergio pi_sergio  78988049 Feb  5 00:27 g1.dat
+
+
+COPY THIS TO                        /home/sergio/git/UMBC_LBL/HITRAN_Database_important_scripts/2024
+
+cp -a Readme *.m *.sc *.pdf *.txt   /home/sergio/git/UMBC_LBL/HITRAN_Database_important_scripts/2024/.

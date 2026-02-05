@@ -1,0 +1,123 @@
+Oct 2021 | 📢 The data on this website corresponds to the HITRAN2020 edition
+Dear Colleagues,
+
+The data on this website corresponds to the HITRAN2020 edition of the
+database. The HITRAN2020paper describing the new edition is available
+in Open Access
+
+Gordon, I.E., Rothman, L.S., Hargreaves, R.J., Hashemi, R., Karlovets,
+E.V., Skinner, F.M., Conway, E.K., Hill, C., Kochanov, R.V., Tan, Y.,
+Wcisło, P., Finenko, A.A., Nelson, K., Bernath, P.F., Birk, M.,
+Boudon, V., Campargue, A., Chance, K.V., Coustenis, A., Drouin, B.J.,
+Flaud, J. –M., Gamache, R.R., Hodges, J.T., Jacquemart, D., Mlawer,
+E.J., Nikitin, A.V., Perevalov, V.I., Rotger, M., Tennyson, J., Toon,
+G.C., Tran, H., Tyuterev, V.G., Adkins, E.M., Baker, A., Barbe, A.,
+Canè, E., Császár, A.G., Dudaryonok, A., Egorov, O., Fleisher, A.J.,
+Fleurbaey, H., Foltynowicz, A., Furtenbacher, T., Harrison, J.J.,
+Hartmann, J. –M., Horneman, V. –M., Huang, X., Karman, T., Karns, J.,
+Kassi, S., Kleiner, I., Kofman, V., Kwabia–Tchana, F., Lavrentieva,
+N.N., Lee, T.J., Long, D.A., Lukashevskaya, A.A., Lyulin, O.M.,
+Makhnev, V.Y., Matt, W., Massie, S.T., Melosso, M., Mikhailenko, S.N.,
+Mondelain, D., Müller, H.S.P., Naumenko, O.V., Perrin, A., Polyansky,
+O.L., Raddaoui, E., Raston, P.L., Reed, Z.D., Rey, M., Richard, C.,
+Tóbiás, R., Sadiek, I., Schwenke, D.W., Starikova, E., Sung, K.,
+Tamassia, F., Tashkun, S.A., Auwera, J. Vander, Vasilenko, I.A.,
+Vigasin, A.A., Villanueva, G.L., Vispoel, B., Wagner, G., Yachmenev,
+A., Yurchenko, S.N. The HITRAN2020 molecular spectroscopic
+database. J. Quant. Spectrosc. Radiat. Transf. (2021) 107949.
+doi:10.1016/j.jqsrt.2021.107949.]
+
+==> Note that we are constantly making ongoing improvements and
+additions to many molecular bands. Updates, improvements, and
+corrections to the edition are posted in the "Database Updates" panel
+located on the home page of the HITRAN website. When citing the
+database, it is recommended to indicate if an updated version of the
+HITRAN2020 edition was used.
+
+Please e-mail us (info@hitran.org) a summary of any serious problems you encounter (or successes or suggestions).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Dear Colleagues,
+
+  The new edition of the HITRAN database (HITRAN2016) has passed testing and is now available.
+
+ This message gives you the instructions for accessing the HITRAN
+ database compilation.  The current edition is HITRAN2016, and it can
+ be accessed via our new dynamic web-interface HITRANonline at
+ www.hitran.org . The line-by-line portion of HITRAN has now been cast
+ into a new SQL structure that underlies this interface, and this has
+ allowed us to add more information including sophisticated line-shape
+ parameters. Particularly significant is that the amount of molecules
+ for which we provide sets of IR cross-sections has increased six fold
+ and is now over 300.
+ 
+  Use of the HITRAN database is free.  We ask users to please cite the
+  article describing the database when publishing or presenting
+  results based on HITRAN.  This is a good idea in order to indicate
+  to your readers which database, that is, which edition you have
+  employed.  The article describing the 2016 edition of HITRAN is
+  already accepted and available online in Open Access
+  (doi:10.1016/j.jqsrt.2017.06.038). It will appear in print in a
+  Special Issue of the Journal of Quantitative Spectroscopy and
+  Radiative Transfer that is expected to come out this year. The
+  citation is:
+
+I.E. Gordon, L.S. Rothman, C. Hill, R.V. Kochanov, Y. Tan,
+P.F. Bernath, M. Birk, V. Boudon, A. Campargue, K.V. Chance,
+B.J. Drouin, J.-M. Flaud, R.R. Gamache, J.T. Hodges, D. Jacquemart,
+V.I. Perevalov, A. Perrin, K.P. Shine, M.-A.H. Smith, J. Tennyson,
+G.C. Toon, H. Tran, V.G. Tyuterev, A. Barbe, A.G. Császár, V.M. Devi,
+T. Furtenbacher, J.J. Harrison, J.-M. Hartmann, A. Jolly,
+T.J. Johnson, T. Karman, I. Kleiner, A.A. Kyuberis, J. Loos,
+O.M. Lyulin, S.T. Massie, S.N. Mikhailenko, N. Moazzen-Ahmadi,
+H.S.P. Müller, O.V. Naumenko, A.V. Nikitin, O.L. Polyansky, M. Rey,
+M. Rotger, S.W. Sharpe, K. Sung, E. Starikova, S.A. Tashkun, J. Vander
+Auwera, G. Wagner, J. Wilzewski, P. Wcisło, S. Yu, E.J. Zak, The
+HITRAN2016 Molecular Spectroscopic Database,
+J. Quant. Spectrosc. Radiat. Transf. (2017). doi:10.1016/j.jqsrt.2017.06.038.
+
+We also request that users cite the original sources for the
+parameters.  These references are efficiently provided for every
+parameter in the line-by-line compilation and for the cross-sections.
+
+It is also worth recalling that the HITRAN compilation also provides
+collision-induced absorption data for many collisional pairs as well
+as aerosol coefficients of refraction.
+
+Detailed documentation is provided on the website along with auxiliary
+programs. We especially want to point users’ attention to HAPI (HITRAN
+Application Programming Interface) <http://www.hitran.org/hapi>. HAPI
+is a set of routines in Python aimed to provide remote access to
+functionality and data given by the new project HITRANonline.  HAPI
+enables flexible downloading of data. It also offers much more
+sophisticated processing of data taken from HITRANonline, including
+the ability to calculate several types of high-resolution spectra and
+convolved spectra, and the use of the flexible Hartmann-Tran profile
+(HTP).
+
+==> Note that we are still making ongoing improvements to many
+molecular bands.  Updates, improvements, and corrections to the
+edition are posted in the "Database Updates" panel located on the home
+page of the HITRAN web-site.  When citing the database it is
+recommended to indicate if an updated version of the HITRAN2016
+edition was used.
+
+Please e-mail to us (info@hitran.org) a summary of any serious
+problems you encounter (or successes or suggestions).
+
+Sincerely,
+Iouli Gordon--
+==============================================
+ Dr. Iouli Gordon
+ Harvard-Smithsonian Center for Astrophysics, MS#50
+ Atomic and Molecular Physics Division
+ 60 Garden Street
+ Cambridge MA 02138-1516
+ USA
+
+ e-mail: igordon@cfa.harvard.edu
+ Tel: (617) 496-2259
+ www.cfa.harvard.edu/~igordon
+ Project website: www.hitran.org
+==============================================

@@ -1,0 +1,7 @@
+mkdir H2008
+cd H2008
+wget -r -nH --cut-dirs=2 -nc ftp://cfa-ftp.harvard.edu/pub/HITRAN2008
+
+mkdir H2012
+cd H2012
+wget -r -nH --cut-dirs=2 -nc ftp://cfa-ftp.harvard.edu/pub/HITRAN2012

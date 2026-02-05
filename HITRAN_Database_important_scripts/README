@@ -1,0 +1,15 @@
+
+HITRAN98      - a copy of the HITRAN 98 CD
+
+h98.by.gas    - hitran98 broken out by gas, and restricted
+                to the band 400 to 3000 1/cm, to make access
+		by read_hitran slightly faster
+
+xsec98.ok     - cleaned up merger of HITRAN 98 with earlier
+		cross section data, for procedures read_xsec 
+		and calc_xsec
+
+HITRAN2k      - selected parts of HITRAN 2000, plus updates
+
+h2k.by.gas    - HITRAN2k broken out by gas, unix format files.
+

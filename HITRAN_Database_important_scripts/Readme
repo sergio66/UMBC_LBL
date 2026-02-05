@@ -1,0 +1,34 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+see ../run8.m
+
+HITRAN        = '/asl/data/hitran/h16.by.gas';
+HITRAN        = '/asl/rta/hitran/h16.by.gas';
+HITRAN        = '/asl/rta/hitran/h20.by.gas';
+HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[sergio@c24-52 HITRAN_Database_important_scripts]$ ls /umbc/xfs3/strow/asl/rta/hitran/
+fix04.sc                 h04.by.gas  h17.by.gas  H2016       h2k.oldiso  HITEMP    HITRAN98                 updates2.tmp
+fix08.sc                 h08.by.gas  h18.by.gas  H2020       h92.by.gas  HITRAN04  newtothmod.txt           updates.tmp
+fix2k.sc                 h12.by.gas  H2008       h20.by.gas  h96.by.gas  HITRAN2k  README                   xsec98.ok
+get_rid_of_silly_DOS.sc  h16.by.gas  H2012       h2k.by.gas  h98.by.gas  HITRAN96  Readme_WGET_H2008_H2012
+
+[sergio@c24-52 UMBC_LBL]$ ls /umbc/xfs3/strow/asl/rta/hitran/h20.by.gas/
+g10.dat  g14.dat  g18.dat  g21.dat  g25.dat  g29.dat  g32.dat  g36.dat  g3.dat               g42.dat  g46.dat  g4.dat  g8.dat
+g11.dat  g15.dat  g19.dat  g22.dat  g26.dat  g2.dat   g33.dat  g37.dat  g3_missinglines.dat  g43.dat  g47.dat  g5.dat  g9.dat
+g12.dat  g16.dat  g1.dat   g23.dat  g27.dat  g30.dat  g34.dat  g38.dat  g40.dat              g44.dat  g48.dat  g6.dat
+g13.dat  g17.dat  g20.dat  g24.dat  g28.dat  g31.dat  g35.dat  g39.dat  g41.dat              g45.dat  g49.dat  g7.dat
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+cp -a /umbc/xfs3/strow/asl/rta/hitran/*.sc                     .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/*.tmp                    .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/xsec98.ok                .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/newtothmod.txt           .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/README                   .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/Readme_WGET_H2008_H2012  .
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ls -ltR  /umbc/xfs3/strow/asl/rta/hitran/H2020 >& list_H2020_entiredir.txt

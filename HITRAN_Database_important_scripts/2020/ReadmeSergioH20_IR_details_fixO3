@@ -1,0 +1,7 @@
+#2. You are right about ozone it was a blunder missing 16O3 lines in
+# the 850-980 cm-1 region. Apparently the DLR line list that otherwise
+# had the best parameters had this region missing. It is restored now
+# if you wanted to re-download it.
+mv ../h20.by.gas/g3.dat ../h20.by.gas/g3_missinglines.dat
+
+tr -d '\015\032' < O3_23nov2021/619dad18.par  > ../h20.by.gas/g3.dat

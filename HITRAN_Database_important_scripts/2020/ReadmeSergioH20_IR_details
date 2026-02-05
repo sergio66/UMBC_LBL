@@ -1,0 +1,427 @@
+Using same reference database as used for H04,H08
+                                          H12,H16
+
+cd /home/sergio/HITRAN2UMBCLBL/REFPROF
+
+refpro3.mat : 
+  reference profiles used in LBL from 2000 to late 2009
+-rw-r--r-- 1 sergio users    73584 Nov 14  2009 refpro3.mat
+lrwxrwxrwx 1 sergio pi_strow    11 Jun  9 11:58 refproTRUE.mat -> refpro3.mat
+
+refprof_usstd2010_lbl.mat : 
+  reference profiles used in LBL from July 2010 onwards
+  generated using  make_refprof_usstd2010_lbl.m
+-rw-r--r-- 1 sergio pi_strow 108332 Jul 15 17:50 refprof_usstd2010_lbl.mat
+lrwxrwxrwx 1 sergio pi_strow     25 Jul 15 18:02 refproTRUE.mat -> refprof_usstd2010_lbl.mat
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+To make the new distribution of files that can be read with the mexed HITRAN
+reader, do the following
+A) See Readme which tells you where the H2020 lineparameter data is
+
+   for xsec data there are 324 files!!!!! I did
+     mkdir XSEC
+     cd XSEC
+     wwget http://www.hitran.org/suppl/xsec/cross_section_data/
+     mv www.hitran.org/suppl/xsec/cross_section_data/*.zip .
+     mv www.hitran.org/suppl/xsec/cross_section_data/index.html .
+     /bin/rm -R www.hitran.org
+
+hitran.org/suppl/TIPS/TIPS2021/
+   for QTIPS
+     mkdir QTIPS
+     cd QTIPS
+     %wwget http://www.hitran.org/suppl/TIPS/         (navigate to website, under DataAccess --> Supplemental --> TIPS)
+     wwget https://hitran.org/suppl/TIPS/TIPS2021/   (navigate to website, under DataAccess --> Supplemental --> TIPS)
+     ls hitran.org/suppl/TIPS/TIPS2021/
+     mv  hitran.org/suppl/TIPS/TIPS2021/*.zip .
+     mv  hitran.org/suppl/TIPS/TIPS2021/*.txt .
+     mv  hitran.org/suppl/TIPS/TIPS2021/*.html .     
+     mv  hitran.org/suppl/TIPS/TIPS2021/*.pdf .     
+     /bin/rm -R hitran.org
+
+  can also get the LM (CO2 linemixing) using same ideas
+  
+B) cp  ../H2016/make_breakapart.m .
+   edit it so it reads more recent data (H2020 stuff)
+   From the WEBSITE  gases 30 (SF6), 35 (ClONO2), 42 (CF4) are special?? (as usual)
+     wwget https://www.cfa.harvard.edu/hitran/HITRAN2012/HITRAN2012/Supplemental/
+   then move them to G30_35_42
+   finally run "make_breakapart"
+
+also look at ReadmeSergioH20_IR_details_fixO3
+  since I noticed the 880-980 cm-1 lines were missing, and Iouli agreed
+   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%{ SO THIS IS IRRELEVANT
+  1) bring the HITRAN distribution from taro
+  cd /asl/data/hitran/HITRAN08_SERGIO/HITRAN2008/By-Molecule/Compressed-files
+  scp from taro *_hit08.zip
+  [in 2012 case, they were already in HITRAN2012/HITRAN2012/HITRAN2012/By-Molecule/Compressed-files/]
+
+  2) unzip the line-by-line files  <<<<<<<<<<<<-------------------
+  cd /asl/data/hitran/HITRAN12_SERGIO/Lines
+    unzipperHIT12  !!! run this script, which unzips newest files distributed in H12 data and looks like
+      unzip ../By-Molecule/Compressed-files/01_hit12.zip
+      unzip ../By-Molecule/Compressed-files/02_hit12.zip
+      unzip ../By-Molecule/Compressed-files/03_hit12.zip
+      ...
+      unzip ../By-Molecule/Compressed-files/40_hit12.zip
+      unzip ../By-Molecule/Compressed-files/41_hit12.zip
+   
+    unzipperHIT08  !!! run this script, which unzips older  files distributed in H12 data and looks like
+      unzip ../By-Molecule/Compressed-files/04_hit08.zip
+      unzip ../By-Molecule/Compressed-files/08_hit08.zip
+      ....
+
+  3) if necessary, look for updates, and unzip them eg ******
+  update_unzipper
+  ** these are updates to the line by line database
+
+  4) if necessary, look for supplementals, and unzip them eg ******
+  supplemental_unzipper
+  ** these are supplementals to the line by line database for gid 30,35,41,42
+  ** which means they do not have all hot band lines, and so it might be
+  ** better to look at the corresponding xsec equivalent which are 81,61,80,54
+  ** respectively (see /KCARTA/DOC/gasids_H2008)
+
+  5) strip out extra characters and store into h08.by.gas
+  cd /asl/data/hitran
+    fix12          !!!! run this script, which looks like
+
+  #!/bin/sh  
+  #  
+  # build the local HITRAN datbase from HITRAN04 plus updates
+  # run in /asl/data/hitran
+
+  tr -d '\015\032' < HITRAN12_SERGIO/Lines/01_hit12.par   > h12.by.gas_allwavenumbers/g1.dat
+  tr -d '\015\032' < HITRAN12_SERGIO/Lines/02_hit12.par   > h12.by.gas_allwavenumbers/g2.dat
+  tr -d '\015\032' < HITRAN12_SERGIO/Lines/03_hit12.par   > h12.by.gas_allwavenumbers/g3.dat
+  tr -d '\015\032' < HITRAN12_SERGIO/Lines/04_hit12.par   > h12.by.gas_allwavenumbers/g4.dat
+  tr -d '\015\032' < HITRAN12_SERGIO/Lines/05_hit12.par   > h12.by.gas_allwavenumbers/g5.dat
+  tr -d '\015\032' < HITRAN12_SERGIO/Lines/06_hit12.par   > h12.by.gas_allwavenumbers/g6.dat
+  tr -d '\015\032' < HITRAN12_SERGIO/Lines/07_hit12.par   > h12.by.gas_allwavenumbers/g7.dat
+  ...
+%}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+6) unzip the xsec files <<<<<<<<<<<<-------------------
+cd /asl/data/hitran/HITRAN08_SERGIO/Xsec
+unzipper      !! run this script, which looks like
+
+unzip /asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/C2F6_IR01.zip
+unzip /asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/C6H6_IR08.zip
+unzip /asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/CCl4_IR00.zip
+unzip /asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/CFC-113_IR00.zip
+unzip /asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/CFC-114_IR00.zip
+
+Then you need to go to eg 
+/home/sergio/SPECTRA/Global_Data_HITRAN2008/
+and modify codes 
+
+-rwxr-xr-x 1 sergio users  622663 2010-05-01 08:56 TIPS_2008_allisotopes.x
+-rw-r--r-- 1 sergio users  234378 2010-05-01 08:54 TIPS_2008_try_include1.f
+-rw-rw-rw- 1 sergio users     968 2010-05-01 08:53 BD_ISO_82_TO_85.FOR
+-rw-r--r-- 1 sergio users     801 2010-04-30 18:23 TIPS_2008_allisotopes.f
+-rw-r--r-- 1 sergio users  232052 2010-04-30 18:22 BD_TIPS_2003_try_include1.f
+-rwxr-xr-x 1 sergio users  622384 2010-04-30 18:14 BD_TIPS_2003_allisotopes.x
+-rw-rw-rw- 1 sergio users    3555 2010-04-30 18:12 BD_ISO_2002.FOR
+-rw-rw-rw- 1 sergio users     691 2010-04-30 18:05 BD_MOL.FOR
+-rw-r--r-- 1 sergio users     858 2010-04-30 17:57 BD_TIPS_2003_allisotopes.f
+-rw-r--r-- 1 sergio users    1883 2010-04-30 17:42 converter_mass08.m
+-rw-r--r-- 1 sergio users    5899 2010-04-30 16:38 MOLPARAM.txt.simple
+-rw-r--r-- 1 sergio users    1638 2010-04-30 13:58 co2vibs
+-rwxr-xr-x 1 sergio users  351029 2010-04-30 13:57 mapHITRAN_v1v2lv3r.x
+-rw-r--r-- 1 sergio users   14446 2010-04-30 13:56 mapHITRAN_v1v2lv3r.f
+-rw-r--r-- 1 sergio users   16488 2010-04-30 13:55 BD_Vibs.for
+-rw-r--r-- 1 sergio users    8589 2010-04-30 12:20 mass08.dat
+-rw-r--r-- 1 sergio users    6808 2010-04-30 11:26 molparam1.txt
+
+as well as fix a few codes in /home/sergio/SPECTRA which look for files in
+  /home/sergio/SPECTRA/Global_Data_HITRAN20XY/  
+
+Go to /home/sergio/SPECTRA
+  Edit and make find_qnewABCD_H12.m
+  Edit          hitread.m                       so it can incude H16
+                hitread_simple.m                so it can incude H16
+                show_vis_ir_lines_wavenumber.m  so they can ask for H16
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+README is Howard's main readme
+
+Look for his data on taro:/strowdata1/taro2/s2/motteler/absdat_2007_10_06
+
+Make sure you correctly set the start/stop wavenumbers 
+                        set the inpute/output directories
+in each .m file eg
+
+  wn1 = 605; 
+  wn2 = 630-15; 
+  fmin = wn1;  
+  topts = runXtopts_params_smart(fmin);  
+  topts = runXtopts_params_smart(500);  
+  dv = topts.ffin*nbox*pointsPerChunk; 
+
+a) Produce the ODS using run8 or run8water or xsec25
+b) Speed up the OD production using nodes that are freed up
+c) Put together the 11 files (and 5 pressure offsets) into one big file
+d) Compress the ODs
+e) Output the SVD compressions into f77 binary format
+f) update KCARTA/INCLUDE/kcarta.param, KCARTA/INCLUDE/pre_defined.param
+g) update HT2007.param for kCARTA (using scripts in KCARTA/UTILITY and 
+   KCARTA/SCRIPTS)
+h) write up a new CKD database
+
+Warning for VIS/UV
+See paper by J.Orphal, K.Chance/ JQSRT v82 (2003) pgs 491-504
+a) special NIR/VIS/UV xsec files, see MAKENIR4 and MAKEVIS1 and MAKEUV1
+   Essentially look for lines in the usual HITRAN files, and then look for 
+   lines in the xsec directories. Add together d0 + dxsec = d
+   This is all taken care of in "runXtopts_mkgxsecvfiles.m"
+b) O2_O2 dimer abs coeff has units of sigma = cm5/molecules2
+   kCARTA uses units Q = mol/cm2. If Z = path length then 
+      Q/Z Q/Z Z sigma = unitless = Q^2 /Z sigma
+   (see paper by Zender, JGR v104 pg 24471 (1999)
+   This is taken care of in runXtopts_savexsec.m --> calc_xsec_UV.m
+     Quick sanity check : according to paper by Zender the atmospheric
+     sum(Q/Z * Q/Z * Z) column (where Q = molecules/cm2 for O2 and Z is layer 
+     thickness) is about 15e43 molecules^2/cm^5 while the cross 
+     section at 17000 cm-1 is about 1e-45 cm^5/molecules^2. So column OD ~ 1e-2
+c) for ozone in the VIS, we use Li Zhu's datafiles (stored in 
+   SPECTRA/VISIBLE_OD) as this includes some very weak absorption from ozone 
+   between 14000-22000 cm-1
+   This taken care of in runXtopts_savexsec.m --> calc_xsec_UV_ozone_li_zhu.m
+     Quick sanity check : according to paper by Orphal, at 17000 cm-1,
+     the O3 cross section is about 0.5*1e-17*1e-3 cm2/molecule
+     dd = load('/home/sergio/SPECTRA/IPFILES/std_g3 or std_gx3_6')
+     We have total about sum(dd(:,5)) = 1.5480e-08 kilomoles/cm2
+     or 9.3239e18 molcules/cm2 in the column
+     So the column OD is about 0.0466 !!!!!
+d) still need to worry about BrO,OClO,NO3
+   eg NO3 cross section is 2e-17 cm2/molecule at 15000 cm-1
+   Looks like NO3 concentration is about 1-10 ppt. So if atmospheric density
+   is about 2.5e19 molecules/cm3 * (air column = 30 km = 30*10^3*10^2)
+   ==> 7.5e25 molecules/cm2 of air ==> for 10 ppt there are 
+   7.5e13 molecules/cm2 of NO3 ==> column OD = 7.5e13 X 2e-17 = 1.5e-3
+  So for now, ignore these gases
+
+e) Still need to worry about Rayleigh
+f) cannot find SO2 UV xsec between 30000-40000 cm0-1 (this is what OMI uses!)
+
+X : Useful files on home/sergio/SPECTRA      
+    Useful files on home/sergio/SPECTRA/READ_XSEC
+
+  show_vis_ir_lines_wavenumber_individualgas.m
+  findlines_plot.m
+  findxsec_plot.m
+  dopplerwidth_database.m
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+A WV_IR : SCRIPT CODE TO MAKE THE WV OPTICAL DEPTHS DATABASE (UNCOMPRESSED)
+/home/sergio/HITRAN2UMBCLBL/MAKEIR/2012/MAKEIR_WV_H12
+
+freq_boundaries.m       for g1   (which is all isotopes except for HDO  605-2830 cm-1
+freq_boundaries_g103.m  for g103 (which is HDO = isotope 4), 605-1930 and 2405-2830 cm-1
+  set the start/stop frequency, [dv ffin] params and output directories here
+
+filelist_g1.m
+  makes file list GGABCDETT where GG = gasID (1..99) ABCDE=chunk start  TT = toffset(1..11)
+  so that you can run following file via cluscmd
+clust_runXtopts_savegas1_file.m
+  for an individual node you are on, this script loops through calling 
+  run8water.m for each wavenumber chunk
+
+filelist_g103.m
+  makes file list GGABCDETT where GG = gasID (103) ABCDE=chunk start  TT = toffset(1..11)
+  so that you can run following file via cluscmd
+clust_runXtopts_savegas103_file.m
+  for an individual node you are on, this script loops through calling 
+  run8water.m for each wavenumber chunk
+
+clust_runXtopts_savegas1_file.m
+clust_runXtopts_savegas103_file.m
+  same as above, but run by hand, slow as it only does one chunk (eg 605) so it has to
+    loop over tt (-50,-40 ... +40,+50)
+      loop over pp (0.1,0.3,1.0,3.0,10)
+
+clust_runXtopts_savegas103_cleanupfile.m
+  if some files not made by clust_runXtopts_savegas103_file.m, this is "hand" loop that goes 
+  through and makes missing files
+
+runXtopts_mkg1vfiles.m
+runXtopts_mkg103vfiles.m
+  after you have made all chunks, then you need to put them into huge files so that compression
+  routines can be run
+
+OTHER MISC CODE
+
+rmerx
+  if some files exist but have size 0, re-running clust* will not help out, so blow the files away
+
+gas_done_already(gid)
+loop_gas_done already
+  calls gas_done_already(gid) to let you know how the OD computation is
+  progressing for each gas
+
+DON'T FORGET
+  For 605-2830 and 2830-3330 cm-1 we broke up WV into (a) HDO and (b) everything but HDO
+  So after doing the compression, put these into the /asl/data/KCARTADATA/H2012.hdo-ieee.le
+
+  ***>>> And then separately run combine_g1_g103.m (which is a SUM of the two), compress
+  ***>>> the sum, and put that into /asl/data/KCARTADATA/H2012.SUM_ALLISO-ieee.le
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+B MOLGAS_IR : SCRIPT CODE TO MAKE THE MOL gases 3-42 (other than CO2) 
+   OPTICAL DEPTHS DATABASE (UNCOMPRESSED)
+
+/home/sergio/HITRAN2UMBCLBL/MAKEIR/2012/MAKEIR_ALL_H12
+
+filelist_gN.m, loop_filelist_gN.m
+  makes file list GGABCDETT where GG = gasID (1..99) ABCDE=chunk start  TT = toffset(1..11)
+  so that you can run following file via clustcmd
+clust_runXtopts_savegasN_file.m
+  for an individual node you are on, this script loops through calling 
+  run8.m for each wavenumber chunk for specified gas
+
+clust_runXtopts_mkgNvfiles.m
+  after you have made all chunks, then you need to put them into huge files so that compression
+  routines can be run
+
+OTHER MISC CODE
+
+freq_boundaries.m       for gN   
+  set the start/stop frequency, [dv ffin] params and output directories here
+
+loop_rmerxN
+  if some files exist but have size 0, re-running clust* will not help out, so blow the files away
+
+loop_gas_done already
+gas_done_already
+  calls gas_done_already(gid) to let you know how the OD computation is
+  progressing for each gas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+B CO2 : SCRIPT CODE TO MAKE THE CO2 gas 2 
+   OPTICAL DEPTHS DATABASE (UNCOMPRESSED)
+
+You have options of eg running
+   run8co2_voigt
+   run8co2_linemixUMBC
+   run8co2_hartman
+
+Can go to eg HITRAN2UMBCLBL/MAKEIR/H2012/MAKEIR_CO2_HARTMANN_H12 and run the 
+  freq_boundaries.m                 note how this has "hartmann" appended at end of dirout
+  filelist_g2.m                     to make the fileist driver text file
+  clust_runXtopts_savegas2_file.m   clustcmd to generate the ODs
+  gas_done_already.m                to see the progress
+  clust_runXtopts_mkg2vfiles.m      to put things together for compression
+  loop_rmerxN.m                     to remove empty files
+
+The go to CMPRUN and run comprunIR_OTHERS, producing files in eg
+  /asl/s1/sergio/H2012_RUN8_NIRDATABASE/IR_605_2830/g2.dat/linemixUMBC/kcomp
+  
+Note you could end up with OD = NaN esp with UMBC linemixing (oops) so in
+MAKEIR_CO2_LINEMIXUMBC_H12 we have
+  find_nan_put_zeros.m
+which finds the NaNs in the compressed files (made after running comprunIR_OTHERS.m)
+and replaces them with zeros; these compressed files are saved in eg
+  /asl/s1/sergio/H2012_RUN8_NIRDATABASE/IR_605_2830/g2.dat/linemixUMBC/kcompNOZEROS
+
+Then make sure fortran/mat2for/loop_mat2forIR.m points to this "corrected" dir!!!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+B XSECGAS_IR : SCRIPT CODE TO MAKE THE XSEC gases 51-81 
+   OPTICAL DEPTHS DATABASE (UNCOMPRESSED)
+
+/home/sergio/HITRAN2UMBCLBL/MAKEIR/2012/MAKEIR_ALL_H12
+
+filelist_xsecN.m, loop_filelist_xsecN.m
+  makes file list GGABCDETT where GG = gasID (1..99) ABCDE=chunk start  TT = toffset(1..11)
+  so that you can run following file via clustcmd
+clust_runXtopts_savexsecN_file.m
+  for an individual node you are on, this script loops through calling 
+  calc_xsec for each wavenumber chunk for specified gas
+
+clust_runXtopts_mkxsecNvfiles.m
+  after you have made all chunks, then you need to put them into huge files so that compression
+  routines can be run
+
+OTHER MISC CODE
+
+freq_boundaries.m       for gN   
+  set the start/stop frequency, [dv ffin] params and output directories here
+
+loop_rmerxN
+  if some files exist but have size 0, re-running clust* will not help out, so blow the files away
+
+xsec_done_already
+  calls gas_done_already(gid) to let you know how the OD computation is
+  progressing for each gas
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+C,D,E : COMPRESSING THE DATABASE
+
+Make sure you have all waveumber bdries/directories set correctly
+
+then go to /home/sergio/HITRAN2UMBCLBL/CMPRUN
+cmprunBANDX.m
+  will start compressing the optical depths. 
+  
+then go to /home/sergio/abscmp/fortran/mat2for (or /home/sergio/HITRAN2UMBCLBL/fortran/mat2for)
+loop_mat2forBANDX.m
+  will read the compressed mat files and output ieee-le f77 binary files
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+F,G : KCARTA
+
+Go to KCARTA/SCRIPTS and write/run comp_firXdatabase.sc so that the new band 
+eg run                             comp_irdatabase.sc
+  PS if you have not done a CO2 run, don't forget to "add" on the CO2 chunks by editing 
+  the info in comp_ir605_2830_H2012.param before copying it to compHT2012.param
+  Add this into /asl/data/kcarta/KCARTADATA/General/compHT2012.param
+                /asl/data/kcarta/KCARTADATA/General/xsecHT2012.param or junkHT2012.param
+
+Go to KCARTA/UTILITY and edit compdatabase.f so that the new band info
+  can be added into HT2012.param
+
+Go to KCARTA/INCLUDE and update/run dump_kaTag_for_predefined.m
+  This adds on the tag info for the new band being added
+  The output needs to be put into pre_defined.param
+
+Also updata kcarta.param* with the directory information for the 
+  added band database.
+
+Go to KCARTA/SRC and edit s_misc.f so that the new bandinfo is in kcarta
+  make kcarta.x!!!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+H : CKD database
+  edit/run ckd_lookupBIN_FIRX.m (make sure 2901 points are included)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+I : Other useful codes
+
+/home/sergio/HITRAN2UMBCLBL/MAKEIR/H2012
+
+drwxrwxr-x 2 sergio pi_strow   18 Oct  7 13:19 MAKEIR_CO2_LBLRTM_H12 (old)
+                                  Jan 28  2015 MAKEIR_CO2_O3_N2O_CO_CH4_LBLRTM_H12 (new)
+drwxrwxr-x 2 sergio pi_strow   20 Oct  6 18:27 MAKEIR_ALL_H12_NOBASEMENT
+drwxr-xr-x 3 sergio pi_strow   24 Jun 30 12:40 MAKEIR_WV_H12
+drwxr-xr-x 2 sergio pi_strow   14 Feb 16  2014 MAKEIR_CO2_HARTMANN_H12
+drwxr-xr-x 2 sergio pi_strow   10 Feb 16  2014 MAKEIR_CO2_LINEMIXUMBC_H12
+
+drwxr-xr-x 3 sergio pi_strow   22 Feb 14  2014 MAKEIR_ONEPROF_H12
+drwxr-xr-x 3 sergio pi_strow   29 Feb 13  2014 MAKEIR_ALL_H12
+
+drwxr-xr-x 2 sergio pi_strow   42 Aug 13 14:55 MAKEIR_CO2_LBLRTM_MASIELLO_H12_OLD

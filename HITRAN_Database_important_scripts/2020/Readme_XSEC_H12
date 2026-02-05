@@ -1,0 +1,11 @@
+look at XSEC/XSEC51_83/cp_xsec.m
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+http://hitran.org/suppl/xsec/HITRAN2012/
+
+just get a subdir https://stackoverflow.com/questions/11507198/wget-download-a-sub-directory
+wget -r -l1 --no-parent http://hitran.org/suppl/xsec/HITRAN2012
+mv  hitran.org/suppl/xsec/HITRAN2012/*.zip .
+mv  hitran.org/suppl/xsec/HITRAN2012/*.xsc .
+mv  hitran.org/suppl/xsec/HITRAN2012/*.alt .
+/bin/rm -R hitran.org/      
