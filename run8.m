@@ -13,6 +13,9 @@ function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
 % default database = '/asl/data/hitran/h12.by.gas';
 % default database = '/asl/data/hitran/h16.by.gas;'
 % default database = '/asl/data/hitran/h20.by.gas;'
+% default database = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
+% default database = '/umbc/xfs3/strow/asl/rta/hitran/h24.by.gas';
+  
 % ********* also need lots of stuff from Global_Data_HITRAN2004 **************
 
 % same as run6.m, except parameters come in thru {param}; others are defaulted
@@ -257,6 +260,7 @@ HITRAN        = '/asl/data/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h20.by.gas';
 HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
+%HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h24.by.gas';
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;
@@ -453,12 +457,17 @@ fnamePOST = '.dat';
 fnameIN   = int2str(gasID);
 fname     = [fnamePRE fnameIN fnamePOST];
 
+%addpath /home/sergio/MATLABCODE
+%addpath /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/
+
+addpath /home/sergio/git/matlabcode
+addpath /home/sergio/git/UMBC_LBL/CKDLINUX/MT_CKD3.2/cntnm/
+
 %%%%%%%%%%ZZZ
 %%%%%%%%following line if we want to use latest Hitran* database
 [lineORIG,hitran_version,hlist_qtips] = ...
    hitread(low,high,strengthM,gasID,fname,-1);
 
-addpath /home/sergio/MATLABCODE
 lineX = lineORIG;
 lineORIG = adjust_for_uncertainty(lineORIG,str_unc,gasID,fmin);
 
@@ -866,7 +875,7 @@ elseif (docontinuum == 1 & O2O3N2continuumVers > 0)
      cder = ['cd ' homedirx];
      eval(cder);
   elseif O2O3N2continuumVers == 5 & nn0 > 10001
-     addpath /home.sergio//SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/
+     %% addpath /home/sergio//SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/
      error('ooops need to increase array sizes for wrapper_run8_gas7_gas22_continuum MTCKD3.2')
      [fr5,od5] = wrapper_run8_gas7_gas22_continuum(gasID,fmin,fmax,0.0005,profname);
      out_array = out_array + od5;

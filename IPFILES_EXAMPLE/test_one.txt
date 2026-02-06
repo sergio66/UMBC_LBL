@@ -1,0 +1,16 @@
+% see run 8,m
+%  MGC = 8.314674269981136  ;
+%  press       = input('Enter total pressure (in atm) : ');
+%  partpress   = input('Enter gas partial pressure (in atm) : ');
+%  temperature = input('Enter temperature (in K) : ');
+%  GasAmt      = input('Enter path cell length (in cm) ');
+%  %change to kmoles cm-2
+%  GasAmt = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2
+%
+% see load_gas_profile.m
+%  press       = a(:,2);
+%  partpress   = a(:,3);
+%  temperature = a(:,4);
+%  GasAmt      = a(:,5);
+%
+1   1.00 0.01 240.0 5e-3

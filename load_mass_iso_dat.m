@@ -1,12 +1,29 @@
-load mass.dat        %get the mass of the isotopes  
+if exist('mass.dat')
+  load mass.dat        %get the mass of the isotopes
+else
+  disp('mass.dat DNE')
+  fprintf(1,'this should have een made by     hitread.m     for your hitran version %s \n',hitran_version)
+  fprintf(1,'so for eg H2020, see /umbc/xfs3/strow/asl/rta/hitran/H2020/ISOTOPES/Readme \n')
+  fprintf(1,'                 then run convert2mass20.m \n')
+  fprintf(1,'                 then  cp /asl/data/hitran/H2020/ISOTOPES/mass20.dat /home/sergio/SPECTRA/MASS_ISOTOPES/mass20.dat \n')
+  disp(' ')
+  fprintf(1,'so for eg H2024, see /umbc/xfs3/strow/asl/rta/hitran/H2024/ISOTOPES/Readme \n')
+  fprintf(1,'                 then run convert2mass2X.m \n')
+  fprintf(1,'                 then  cp /asl/data/hitran/H2020/ISOTOPES/mass24.dat /home/sergio/SPECTRA/MASS_ISOTOPES/mass24.dat \n')
+  disp(' ')  
+  fprintf(1,' the copy is in HITRAN_Database_important_scripts/2020/ISOTOPES \n')
+  fprintf(1,' the copy is in HITRAN_Database_important_scripts/2024/ISOTOPES \n')
+  disp(' ' )
+  error('please fix!!!')
+end  
 %%pause(0.1);
 
 [x,y] = size(mass);
 
 if y == 5
-  disp('   ** you have 5 columns in your mass.dat file ==> H2K or H04 or H08')
+  disp('   ** you have 5 columns in your mass.dat file ==> H2K or H04 or H08 or H12 or H16 or H20 or H24')
   disp('   ** data was used to save the nuclear degeneracy factor(unused even')
-  disp('   ** by QTIPS?) and QTIPS partition fcns at 296K');
+  disp('   ** by QTIPS???) and QTIPS partition fcns at 296K');
   %%% [gasID   mol.mass  abundance   deGeneracy    Q(296)]
   end
 
@@ -44,7 +61,7 @@ liso      = mass(hoho,2);               %%number of isotopes
 datablock = mass(iNumGasIDS+1:x,1);
 hoho      = find(datablock == gasID);
 datablock = mass(iNumGasIDS+1:x,:);
-mass_iso   = datablock(hoho,2);
+mass_iso  = datablock(hoho,2);
 
 if y == 5 | y == 6
   mass_abn   = datablock(hoho,3);
@@ -57,4 +74,4 @@ else
 end
 
 %mass_iso  = round(mass_iso);  %% original, before June 2018
-mass_info = [mass_abn mass_dgn mass_QT296];
+mass_info  = [mass_abn mass_dgn mass_QT296];

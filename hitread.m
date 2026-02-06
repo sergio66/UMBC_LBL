@@ -20,9 +20,14 @@ function [line,hitran_version,hlist_qtips] = ...
 % it differentiates and calls the right MEXED HITRAN readers
 % >>>> when updating HITRAN versions, do a search for "UPDATE"
 
-addpath /asl/matlib/aslutil
-addpath /asl/matlib/read_hitr06/
-addpath /home/sergio/git/SPECTRA/read_hitr06/
+% addpath /asl/matlib/aslutil
+% addpath /asl/matlib/read_hitr06/
+% addpath /home/sergio/git/SPECTRA/read_hitr06/
+
+addpath /home/sergio/git/sergio_matlib/matlib/aslutil
+addpath /home/sergio/git/sergio_matlib/matlib/read_hitr06/
+addpath /home/sergio/git/UMBC_LBL/read_hitr06/
+addpath /home/sergio/git/matlabcode/matlibSergio/matlib/read_hitr06/
 
 current_dir = pwd;
 
@@ -32,6 +37,8 @@ blah = findstr('/',filename);
 % filename
 % HITRAN0 = '/asl/data/hitran/h16.by.gas/g2.dat';
 % HITRAN1 = '/asl/rta/hitran/h16.by.gas//g2.dat';  %% this would totally fool it (ie the //) so WATCH OUT
+% HITRAN1 = /umbc/xfs3/strow/asl/rta/hitran/h24.by.gas/g2.dat';
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% look at the fourth occurence or fifth occurence
@@ -68,8 +75,10 @@ end
 % UPDATE
 old_reader = {'h92','h96','h98','h2k'};
 new_reader = {'h04','h08','h12','h16','g15'};
-new_reader = {'h04','h08','h12','h16','g15','h17','h18'};        %% h17 and h18 are junk so we can read in old/new HITRAN LM databases for CO2
-new_reader = {'h04','h08','h12','h16','g15','h17','h18','h20'};  %% h17 and h18 are junk so we can read in old/new HITRAN LM databases for CO2
+new_reader = {'h04','h08','h12','h16','g15','h17','h18'};              %% h17 and h18 are junk so we can read in
+                                                                       %% old/new HITRAN LM databases for CO2
+new_reader = {'h04','h08','h12','h16','g15','h17','h18','h20','h24'};  %% h17 and h18 are junk so we can read in
+                                                                       %% old/new HITRAN LM databases for CO2
 
 iOld = -1;
 iNew = -1;
@@ -101,7 +110,14 @@ elseif iOld < 0
   %%%% addpath /asl/matlab2012/read_hitr06
   % cd /home/sergio/SPECTRA/read_hitr06
   %%%% addpath /home/sergio/SPECTRA/read_hitr06
-  line = read_hitran(start,stop,strengthM,gasID,filename);
+  iFoastOrSlow = +1;  %% mex basd reader
+  iFoastOrSlow = -1;  %% matlab reader
+  if iFoastOrSlow > 0
+    line = read_hitran(start,stop,strengthM,gasID,filename);
+  else
+    disp('WARNING : UMBC_LBL/hitread.m : using slow matlab reader for getting hitran data : read_hitran2')
+    line = read_hitran2(start,stop,strengthM,gasID,filename);
+  end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,11 +183,13 @@ elseif hitran_version == 'h18'
   linker = '16';
 elseif hitran_version == 'h20'
   linker = '20';
+elseif hitran_version == 'h24'
+  linker = '24';
 else
   error('hitread.m unknown hitran version for mass')
 end
 
-symlinker = ['!/bin/ln -s mass' linker '.dat mass.dat']; 
+symlinker = ['!/bin/ln -s MASS_ISOTOPES/mass' linker '.dat mass.dat']; 
 
 ee = exist('mass.dat','file');
 if ee == 0
@@ -202,7 +220,7 @@ else
     fff = strcmp(oldvers,linker);
     %% if fff == 1, the old version == current wanted version ==> do nothing!
     if fff == 0
-      boo = ['mass' linker '.dat'];
+      boo = ['MASS_ISOTOPES/mass' linker '.dat'];
       eex = exist(boo,'file');
       if eex ~= 2
         fprintf(1,'trying to make symbolic link to %s but file DNE \n',boo)
@@ -249,10 +267,12 @@ elseif hitran_version == 'h16'
   linker = '16';
 elseif hitran_version == 'h20'
   linker = '20';
+elseif hitran_version == 'h24'
+  linker = '24';
 end
 
 % UPDATE
-all_hitran_versions = {'h92','h96','h98','h2k','h04','h08','h12','h16','h20'};
+all_hitran_versions = {'h92','h96','h98','h2k','h04','h08','h12','h16','h20','h24'};
 
 symlinker = ['!/bin/ln -s qtips' linker '.m qtips.m']; 
 
@@ -278,8 +298,8 @@ end
 %% the Hitran versions that can use old polynom qtips is hardcoded here
 %hlist_qtips = {'h92','h96','h98','h2k','h04'};    %% these can use old qtips
 % UPDATE
-hlist_qtips = {'h92','h96','h98','h2k'};           %% these can use old qtips
-hlist_qnew = {'h04','h08','h12','h16','h20'};      %% these can use new lagrange
+hlist_qtips = {'h92','h96','h98','h2k'};                 %% these can use old qtips
+hlist_qnew = {'h04','h08','h12','h16','h20','h24'};      %% these can use new lagrange
 
 disp(' run8 will use old polynomial qtips for these HITRAN versions ');
 for lll = 1 : length(hlist_qtips)
@@ -296,6 +316,7 @@ fprintf(1,' \n')
 if (ee ~= 0) %% ee ~= 0 ==> exists; check to see if it is version we want
   if (length(intersect(hitran_version,all_hitran_versions)) == 1)
     cd /home/sergio/SPECTRA
+    cd /home/sergio/SPECTRA    
     randstr= [num2str(round(rand(1,1)*1e9)) '.' num2str(round(rand(1,1)*1e9))];
     frand   = ['ugh' randstr];
     frand   = mktemp('ugh');

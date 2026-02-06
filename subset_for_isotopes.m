@@ -11,10 +11,13 @@ function [lineNEW,which_isotope] = subset_for_isotopes(lineORIG,which_isotope0)
 
 %%disp('qtips04.m : for water the isotopes are 161  181  171  162  182  172');
 
+%addpath /home/sergio/git/MATLABCODE_Git
+addpath /home/sergio/git/matlabcode
+
 %% see qtips04.m
 fprintf(1,'there are %2i unique isotopes for gas %2i \n',length(unique(lineORIG.iso)),lineORIG.igas)
 %unique(lineORIG.iso)
-addpath /home/sergio/git/MATLABCODE_Git
+
 printarray(unique(lineORIG.iso))
 disp(' ')
 

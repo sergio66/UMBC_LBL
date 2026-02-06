@@ -2,7 +2,8 @@
 %% F77 code for all isotopes, as opposed to find_qnew_isotopes_slow which 
 %% makes one f77 code call per isotope
 
-addpath /asl/matlib/aslutil
+%addpath /asl/matlib/aslutil
+addpath /home/sergio/git/sergio_matlib/matlib/aslutil
 
 [x,y] = size(mass_info);   %% this comes from  load_mass_iso_dat, called by run8* right at the beginning
                            %% that calls load mass.dat which is a symbolic link to the correct mass file
@@ -69,6 +70,7 @@ fclose(fid);
 %new_bt_f77 = [new_bt_f77 'TIPS_2012_allisotopes.x '];
 new_bt_f77 = ['!/home/sergio/SPECTRA/Global_Data_HITRAN2020/'];
 new_bt_f77 = [new_bt_f77 'TIPS_2021_allisotopes.x '];
+
 new_bt_f77 = [new_bt_f77 ' < ' infile ' > ' outfile];
 eval(new_bt_f77)
 
