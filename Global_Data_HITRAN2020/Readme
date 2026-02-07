@@ -1,4 +1,6 @@
-IPS2021 : ifort -o TIPS_2021_allisotopes.x -names uppercase -extend-source 132 -O3 TIPS_2021_allisotopes.f
+TIPS2021 : ifort -o TIPS_2021_allisotopes.x -names uppercase -extend-source 132 -O3 TIPS_2021_allisotopes.f
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 mkdir /home/sergio/SPECTRA/Global_Data_HITRAN2020/
 look at the detailed Readme there -- reproduced below

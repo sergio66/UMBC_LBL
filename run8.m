@@ -260,7 +260,7 @@ HITRAN        = '/asl/data/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h20.by.gas';
 HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
-%HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h24.by.gas';
+HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h24.by.gas';
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;
@@ -663,8 +663,8 @@ if (number_of_lines > 0)
     [medium_near] = sortbins(line,f3,f4,xnear,xmed);
     [far_wing] = sortbins(line,f3,f4,xmed,xfar);
 
-    fprintf(1,'gasid %3i mesh %3i start stop freq = %8.5f %8.5f num of lines VeryNear/MediumNear/FarWing = %5i %5i %5i ',gasID,ii,f3,f4,very_near.linct,medium_near.linct,far_wing.linct);
-%    fprintf(1,'gasid %3i mesh %3i start stop freq = %8.5f %8.5f \n',gasID,ii,f3,f4);
+    fprintf(1,'gasid %3i mesh %3i start stop freq = %12.5f %12.5f num of lines VeryNear/MediumNear/FarWing = %5i %5i %5i ',gasID,ii,f3,f4,very_near.linct,medium_near.linct,far_wing.linct);
+%    fprintf(1,'gasid %3i mesh %3i start stop freq = %10.5f %10.5f \n',gasID,ii,f3,f4);
 %    fprintf(1,'  number of fine/medium/coarse lines = %5i %5i %5i \n',very_near.linct,medium_near.linct,far_wing.linct)
  
     for jj = MinLayer:Step:MaxLayer 

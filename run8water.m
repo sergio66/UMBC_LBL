@@ -10,6 +10,7 @@ function [outwave,out_array]=run8water(gasID,fmin,fmax,profname,topts);
 % default database = '/asl/data/hitran/h12.by.gas';
 % default database = '/asl/data/hitran/h16.by.gas;'
 % default database = '/asl/data/hitran/h20.by.gas;'
+% default database = '/asl/data/hitran/h24.by.gas;'  
 % ********* also need lots of stuff from Global_Data_HITRAN2004 **************
 
 % same as run6.m, except parameters come in thru {param}; others are defaulted
@@ -260,6 +261,7 @@ HITRAN        = '/asl/data/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h16.by.gas';
 HITRAN        = '/asl/rta/hitran/h20.by.gas';
 HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
+HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h24.by.gas';
 selfmult      = 1.0;
 formult       = 1.0;
 local         = 0;
@@ -650,7 +652,7 @@ for  ii=1:nwide    %OUTER LOOP OVER WIDE MESH
   [medium_near]=sortbins(line,f3,f4,xnear,xmed);
   [far_wing]=sortbins(line,f3,f4,xmed,xfar);
 
-  fprintf(1,'WV (all or ISOtopes) mesh %3i start stop freq = %8.5f %8.5f ',ii,f3,f4);
+  fprintf(1,'WV (all or ISOtopes) mesh %3i start stop freq = %12.5f %12.5f  num of lines VeryNear/MediumNear/FarWing = %5i %5i %5i ',ii,f3,f4,very_near.linct,medium_near.linct,far_wing.linct);
 
   for jj=MinLayer:Step:MaxLayer %INNER LOOP OVER LAYERS 1..100 = bottom -> top
     if mod(jj,10) == 1

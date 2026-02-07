@@ -104,18 +104,19 @@ if iOld > 0
   fprintf(1,'--> using old MATLAB reader for HITRAN version %s : %s \n',hitran_version,filename)
   line = read_hitranOLD_H92_H2k(start,stop,strengthM,gasID,filename);
 elseif iOld < 0
-  fprintf(1,'--> using new MEX reader for HITRAN version %s : %s\n',hitran_version,filename)
+  iFastOrSlow_HITRAN_reader = +1;  %% mex based reader
+  iFastOrSlow_HITRAN_reader = -1;  %% matlab reader  
   % cd /asl/matlab2012/read_hitr06
   % cd /asl/matlab/read_hitr06
   %%%% addpath /asl/matlab2012/read_hitr06
   % cd /home/sergio/SPECTRA/read_hitr06
   %%%% addpath /home/sergio/SPECTRA/read_hitr06
-  iFoastOrSlow = +1;  %% mex basd reader
-  iFoastOrSlow = -1;  %% matlab reader
-  if iFoastOrSlow > 0
+  if iFastOrSlow_HITRAN_reader > 0
+    fprintf(1,'--> UMBC_LBL/hitread.m : using new MEX reader for HITRAN version %s : %s\n',hitran_version,filename)    
     line = read_hitran(start,stop,strengthM,gasID,filename);
   else
-    disp('WARNING : UMBC_LBL/hitread.m : using slow matlab reader for getting hitran data : read_hitran2')
+    %disp('WARNING : UMBC_LBL/hitread.m : using slow matlab reader for getting hitran data : read_hitran2')    
+    fprintf(1,'--> WARNING : UMBC_LBL/hitread.m : using slow matlab reader <read_hitran2.m> for HITRAN version %s : %s\n',hitran_version,filename)        
     line = read_hitran2(start,stop,strengthM,gasID,filename);
   end
 end

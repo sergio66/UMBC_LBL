@@ -1,0 +1,214 @@
+This is in /asl/data/hitran/H2024/QTIPS/Readme
+  
+Contents
+1) Download files from hitran website
+2) Copy them to /home/sergio/SPECTRA/Global_Data_HITRAN2024/
+3) make super-uper program TIPS_2024_try_include1.f
+4) make main program that calls TIPS_2024
+5) compile main program that calls TIPS_2024
+6) Copy the Readme file to UMBC_LBL
+
+TIPS2024 : ifort -o TIPS_2024_allisotopes.x -names uppercase -extend-source 132 -O3 TIPS_2024_allisotopes.f
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1) Download files from hitran website
+--------------------------------------
+
+cd /umbc/xfs3/strow/asl/rta/hitran/H2024/QTIPS       which is technically /asl/data/hitran/H2024/QTIPS
+see https://hitran.org/files/TIPS/TIPS2025/
+Index of TIPS/TIPS2025
+
+Parent directory		
+TIPS_2024_1p2.pdf	                2026-01-13 22:00	146.5 KB
+TIPS_2024_FORTRAN_v1p2.zip	        2026-01-13 22:01	1.7 MB
+README.txt	                        2026-01-13 22:11	1.7 KB
+TIPS_2024_v1p2_py.zip	                2026-01-13 22:01	7.2 MB
+2025_Gamache_TIPS2025_corrigendum.pdf	2026-01-13 22:15	254.2 KB
+2025_Gamache_TIPS2025.pdf	        2025-07-13 15:53	755.8 KB
+
+wget does not work
+  wget https://hitran.org/files/TIPS/TIPS2025/TIPS_2024_1p2.pdf
+  wget https://hitran.org/files/TIPS/TIPS2025/TIPS_2024_FORTRAN_v1p2.zip
+  wget https://hitran.org/files/TIPS/TIPS2025/README.txt
+  wget https://hitran.org/files/TIPS/TIPS2025/TIPS_2024_v1p2_py.zip
+  wget https://hitran.org/files/TIPS/TIPS2025/2025_Gamache_TIPS2025_corrigendum.pdf
+  wget https://hitran.org/files/TIPS/TIPS2025/2025_Gamache_TIPS2025.pdf
+ls -lt  
+  -rw-rw-r-- 1 sergio pi_sergio 6060 Feb  6 21:31 2025_Gamache_TIPS2025.pdf
+  -rw-rw-r-- 1 sergio pi_sergio 6060 Feb  6 21:31 2025_Gamache_TIPS2025_corrigendum.pdf
+  -rw-rw-r-- 1 sergio pi_sergio 6060 Feb  6 21:30 TIPS_2024_v1p2_py.zip
+  -rw-rw-r-- 1 sergio pi_sergio 6060 Feb  6 21:30 README.txt
+  -rw-rw-r-- 1 sergio pi_sergio 6060 Feb  6 21:30 TIPS_2024_FORTRAN_v1p2.zip
+  -rw-rw-r-- 1 sergio pi_sergio 6060 Feb  6 21:29 TIPS_2024_1p2.pdf
+
+So download to desktop then
+scp 2025_Gamache_TIPS2025.pdf 2025_Gamache_TIPS2025_corrigendum.pdf TIPS_2024_v1p2_py.zip README.txt TIPS_2024_FORTRAN_v1p2.zip TIPS_2024_1p2.pdf sergio@chip.rs.umbc.edu:///umbc/xfs3/strow/asl/rta/hitran/H2024/QTIPS/.
+  -rw-rw-r-- 1 sergio pi_sergio  149991 Feb  6 21:34 TIPS_2024_1p2.pdf
+  -rw-rw-r-- 1 sergio pi_sergio 1736531 Feb  6 21:34 TIPS_2024_FORTRAN_v1p2.zip
+  -rw-rw-r-- 1 sergio pi_sergio    1691 Feb  6 21:34 README.txt
+  -rw-rw-r-- 1 sergio pi_sergio 7528023 Feb  6 21:34 TIPS_2024_v1p2_py.zip
+  -rw-rw-r-- 1 sergio pi_sergio  260307 Feb  6 21:34 2025_Gamache_TIPS2025_corrigendum.pdf
+  -rw-rw-r-- 1 sergio pi_sergio  773909 Feb  6 21:34 2025_Gamache_TIPS2025.pdf
+
+unzip TIPS_2024_FORTRAN_v1p2.zip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+2) Copy them to /home/sergio/SPECTRA/Global_Data_HITRAN2024/
+-------------------------------------------------------------
+
+mkdir /home/sergio/SPECTRA/Global_Data_HITRAN2024/
+look at the detailed Readme there -- reproduced below
+
+#cp -a /asl/data/hitran/H2020/QTIPS/*.[fF]* .
+#cp -a /asl/data/hitran/H2020/QTIPS/*.CMN .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/H2024/QTIPS/Readme     .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/H2024/QTIPS/*.[fF]*    .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/H2024/QTIPS/*.pdf      .
+cp -a /umbc/xfs3/strow/asl/rta/hitran/H2024/QTIPS/*py.zip    .
+
+#mv BD_ISO_2020.for BD_ISO_2020.FOR
+#mv BD_ISO_82_to_85.for BD_ISO_82_TO_85.FOR
+
+%%% edit BD_ISO_82_TO_85.FOR (the "returns" and "continues" are wierd!!!!)
+no need to edit BD_ISO_82_TO_85.FOR
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+3) make super-uper program TIPS_2024_try_include1.f
+---------------------------------------------------
+
+cp ../Global_Data_HITRAN2020/TIPS_2021_try_include1.f TIPS_2024_try_include1.f
+basically keep the first few lines, change 2021 to 2024
+and then
+  delete everything, physically
+  include TIPS_2024_v1p2.FOR
+  make the main program into subroutine, see below
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+C***********************
+cs      Program TIPS_2024
+C***********************
+C    Program TIPS_2024 written by R.R. Gamache
+
+
+
+
+C***********************
+      Subroutine TIPS_2024(
+     I MOL,             ! HITRAN molecule number
+     I Temp,            ! temperature in K
+     I NSO82,           ! isotopomer index  should really be eg 161 or 181 0r 171 for Water
+     O gi,              ! state independent degeneracy factor
+     O QT)              ! total internal partition sum
+C***********************
+
+then include and edit TIPS_2024_v1p2.FOR
+
+(1) these are new variables
+cs these are new variables SSM
+      INTEGER NT,I,IT
+      INTEGER MOL,NS082
+      DOUBLE PRECISION Temp,QT,gi
+cs these are new variables SSM
+
+(2) these are redefined variabes
+cs these are redefinined variables SSM
+c      COMMON/TEMPERATURES/TDAT(NT)
+      DOUBLE PRECISION tdat(NT)               ---> do this in main, and every subroutine qt_h2o, qt_co2 etc
+      COMMON/Temperatures/tdat
+      
+c      DIMENSION TMAX(NMOL,MAX_ISO)      
+      DOUBLE PRECISION tmax(NMOL,Max_ISO)     ---> do this in main, and every subroutine qt_h2o, qt_co2 etc should have DOUBLE PRECISION TMAX(MAX_ISO)
+cs these are redefinined variables SSM
+
+(3) edit out their input prompts
+     I have comments "cs" in columns 1-2, have demarcated them using
+cs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+cxsergio   code1
+cxsergio   code2
+cs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+and set the isotope
+cs       CALL ISO_82_TO_85 (MOL,NSO82,ISO)
+         ISO = NSO82  !!! YAY NEED THIS since we are not using eg 161 171  but using 1 2 ....
+
+(4) molecule 34 is a mess, the max temp was set at 10.0 and the gi,Q were set as 0.
+    So edited TIPS_2024_v1p2.FOR this to become
+Cxsegio     O ATOM DO DATA
+cxsergio      DATA TMAX(34,1)/10./  ! ) O ATOM
+      data Tmax(34,1)/1000./  ! ) O ATOM   SERGIO
+
+and
+      IF(MOL.EQ.34) THEN
+cxsergio      c...not applicable to O
+cxsergio      GI=0
+cxsergio      QT = 0.
+      c      gi=0
+      c     QT = 0.
+      c sergio
+            gi=1
+            QT = 1.
+       go to 100
+      ENDIF
+
+(5) modify the output lines so that nothing is printed from TIPS_2024_try_include1.f, and the loop does not keep executing
+ 100  if(QT .gt. 0.) then
+cxsergio         WRITE(*,900) MOLID(MOL), NSO82, TEMP, QT, GI
+cxsergio   900 FORMAT(//,5X,A6,' MOLECULE',3X,I5,' ISOTOPOLOGUE',/,
+cxsergio      + 5X,'Q(',F7.1,' K) = ',1PE12.4,5X,'STATE INDEPENDENT FACTOR=',
+cxsergio      + 0PF7.1,////)
+      ELSE
+        print *,NSO82, Temp, QT, gi
+        WRITE(*,'(A23,A6)') ' NO DATA AVAILABLEFOR ',MOLID(MOL)
+      ENDIF
+c      go to 10
+c  99  STOP 'Computation finished'
+      RETURN   !! sergio ssm
+      END
+      
+>>>>>>><<<<<<<
+
+AM HERE 2/7/2026
+
+for H2024, no need to do this in in BD_ISO_82_TO_85.FOR and BD_MOL_2020.FOR and BD_ISO_2020.FOR change all
+           Species_2024.FOR to Species_2024.FOR
+           Isotops.cmn      to Isotops.cmn
+           MOLEC.cmn        to MOLEC.CMN
+but still have to declare these variables in SPECIES_2020.FOR
+      INTEGER NMOL,Max_ISO  
+
+>>>>>>><<<<<<<
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+4) create, edit main program that calls TIPS_2024
+--------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>
+cp ../Global_Data_HITRAN2020/TIPS_2021_allisotopes.f TIPS_2024_allisotopes.f
+wherever you see 2021, replace with 2024
+      CALL TIPS_2024(iMol,rTemp,iI,iG*1.d0,rQT)
+      include 'TIPS_2024_try_include1.f'   >>>>>>>>>>> which is basically TIPS_2021.FOR but turned into a subroutine, and edited as below
+
+>>>>>>>>>>>>>>>>>>>>>>>>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+5) compile main program that calls TIPS_2024
+--------------------------------------------------
+
+Run
+  compile_files.sc
+
+which essentiallydoes
+  ifort -o TIPS_2024_allisotopes.x -names uppercase -extend-source 132 -O3 TIPS_2024_allisotopes.f
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+6) Copy the Readme file to UMBC_LBL
+
+  This is in /asl/data/hitran/H2024/QTIPS/Readme
+  cp /asl/data/hitran/H2024/QTIPS/Readme /home/sergio/SPECTRA/Global_Data_HITRAN2024/Readme
+
+  This is in /umbc/xfs3/strow/asl/rta/hitran/H2024/QTIPS/Readme
+  cp /umbc/xfs3/strow/asl/rta/hitran/H2024/QTIPS/Readme /home/sergio/SPECTRA/Global_Data_HITRAN2024/Readme
