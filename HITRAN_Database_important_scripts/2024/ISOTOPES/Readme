@@ -1,0 +1,146 @@
+This is in /umbc/xfs3/strow/asl/rta/hitran/H2024/ISOTOPES/Readme
+
+Contents
+1) Get the masses
+2) get rid of DOS
+3) edit molparam.txt so everything is in 5 columns for easy matlab reading
+4) check this has been done correctly, using check_mass2X.m
+5) then run convert2mass2X.m (was convert2mass20.m)
+6) cp /asl/data/hitran/H2016/ISOTOPES/mass24.dat /home/sergio/SPECTRA/MASS_ISOTOPES/mass24.dat
+   cp /asl/data/hitran/H2024/ISOTOPES/Readme     /home/sergio/SPECTRA/MASS_ISOTOPES/Readme_mass24
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+AIM :    Get molparams.txt and make mass24.dat, copy to /home/sergio/SPECTRA/MASS_ISOTOPES/mass24.dat
+cd http://hitran.org/cia/ --> Documentation --> Isotopologues
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1) get the masses using
+     wget http://hitran.org/media/molparam.txt
+   which has been saved in /asl/data/hitran/H2024/ISOTOPES
+
+
+2) need to get rid of ^M in molparams.txt so either do
+     dos2unix molparam.txt
+
+or /asl/data/hitran/get_rid_of_silly_DOS.sc
+  #!/bin/sh
+  cat $1 | tr -d '\r' > ~/.tmp_file.txt
+  mv ~/.tmp_file.txt $1
+
+so
+  cp molparam.txt molparam0.txt
+  ../../get_rid_of_silly_DOS.sc molparam.txt
+
+3) then edit molparam.txt and save it as mass24_0.dat as follows : 
+   so that text is commented with % signs, and you add info to make everything 5 columns   
+   so it looks like mass12.dat or mass20.dat
+   In other words you are replacing
+      MOL NAME       GASIID  
+   with
+     GASID NUMISO 0 0 0
+   For example :
+   
+   H2O (1)
+   161  9.97317E-01    1.7458E+02    1     18.010565
+   181  1.99983E-03    1.7605E+02    1     20.014811
+   171  3.71884E-04    1.0521E+03    6     19.014780
+   162  3.10693E-04    8.6474E+02    6     19.016740
+   182  6.23003E-07    8.7557E+02    6     21.020985
+   172  1.15853E-07    5.2268E+03   36     20.020956
+   262  2.41970E-08    1.0278E+03    1     20.022915
+
+    becomes
+    
+%      H2O (1)
+1 7 0 0 0
+   161  9.97317E-01    1.7458E+02    1     18.010565
+   181  1.99983E-03    1.7605E+02    1     20.014811
+   171  3.71884E-04    1.0521E+03    6     19.014780
+   162  3.10693E-04    8.6474E+02    6     19.016740
+   182  6.23003E-07    8.7557E+02    6     21.020985
+   172  1.15853E-07    5.2268E+03   36     20.020956
+   262  2.41970E-08    1.0278E+03    1     20.022915
+
+   first 47 lines will have the number of isotopes
+     (so basically copy the first 47 lines of mass12.dat)
+     (but check to make sure you get the right number of isotopes_
+   then put in the masses as per molparam.txt
+
+so that eg
+
+>>>>>>>>>
+Molecule # Iso Abundance     Q(296K)      gj    Molar Mass(g)
+   H2O (1)
+   161  9.97317E-01    1.7458E+02    1     18.010565
+   181  1.99983E-03    1.7605E+02    1     20.014811
+   171  3.71884E-04    1.0521E+03    6     19.014780
+   162  3.10693E-04    8.6474E+02    6     19.016740
+   182  6.23003E-07    8.7557E+02    6     21.020985
+   172  1.15853E-07    5.2268E+03   36     20.020956
+   262  2.41970E-08    1.0278E+03    1     20.022915
+   CO2 (2)
+         626  9.84204E-01    2.8609E+02    1     43.989830 
+         636  1.10574E-02    5.7664E+02    2     44.993185 
+         628  3.94707E-03    6.0781E+02    1     45.994076 
+         627  7.33989E-04    3.5426E+03    6     44.994045 
+         638  4.43446E-05    1.2255E+03    2     46.997431 
+         637  8.24623E-06    7.1413E+03   12     45.997400 
+         828  3.95734E-06    3.2342E+02    1     47.998320 
+         827  1.47180E-06    3.7660E+03    6     46.998291 
+         727  1.36847E-07    1.0972E+04    1     45.998262 
+         838  4.44600E-08    6.5224E+02    2     49.001675 
+         837  1.65354E-08    7.5950E+03   12     48.001646 
+         737  1.53745E-09    2.2120E+04    2     47.001618 
+   O3 (3)
+   666  9.92901E-01    3.4837E+03    1     47.984745
+   668  3.98194E-03    7.4657E+03    1     49.988991
+
+>>>>>
+becomes
+
+%Molecule # Iso Abundance     Q(296K)      gj    Molar Mass(g)
+%   H2O (1)
+1 7 0 0 0
+   161  9.97317E-01    1.7458E+02    1     18.010565
+   181  1.99983E-03    1.7605E+02    1     20.014811
+   171  3.71884E-04    1.0521E+03    6     19.014780
+   162  3.10693E-04    8.6474E+02    6     19.016740
+   182  6.23003E-07    8.7557E+02    6     21.020985
+   172  1.15853E-07    5.2268E+03   36     20.020956
+   262  2.41970E-08    1.0278E+03    1     20.022915
+%   CO2 (2)
+2 12 0 0 0
+         626  9.84204E-01    2.8609E+02    1     43.989830 
+         636  1.10574E-02    5.7664E+02    2     44.993185 
+         628  3.94707E-03    6.0781E+02    1     45.994076 
+         627  7.33989E-04    3.5426E+03    6     44.994045 
+         638  4.43446E-05    1.2255E+03    2     46.997431 
+         637  8.24623E-06    7.1413E+03   12     45.997400 
+         828  3.95734E-06    3.2342E+02    1     47.998320 
+         827  1.47180E-06    3.7660E+03    6     46.998291 
+         727  1.36847E-07    1.0972E+04    1     45.998262 
+         838  4.44600E-08    6.5224E+02    2     49.001675 
+         837  1.65354E-08    7.5950E+03   12     48.001646 
+         737  1.53745E-09    2.2120E+04    2     47.001618 
+%    O3 (3)
+3 5 0 0 0
+   666  9.92901E-01    3.4837E+03    1     47.984745
+   668  3.98194E-03    7.4657E+03    1     49.988991
+		  
+etc
+
+4) check this has been done correctly, using check_mass2X.m
+   edit    check_mass2X.m     to set ngas
+   run     check_mass2X.m     to see if it quickly reads in file correctly
+   
+5) then run convert2mass2X.m (was convert2mass20.m)
+   edit    convert2mass2X.m     to set ngas,fikeIN for dataIN at the beginning
+   edit    convert2mass2X.m     to set fout_fid 
+   run     convert2mass2X.m     to see if it quickly reads in file correctly
+
+6) cp /asl/data/hitran/H2024/ISOTOPES/mass24.dat                /home/sergio/SPECTRA/MASS_ISOTOPES/mass24.dat
+   cp /asl/data/hitran/H2024/ISOTOPES/Readme                    /home/sergio/SPECTRA/MASS_ISOTOPES/Readme_mass24
+   OR 
+   cp /umbc/xfs3/strow/asl/rta/hitran/H2024/ISOTOPES/mass24.dat /home/sergio/SPECTRA/MASS_ISOTOPES/mass24.dat
+   cp /umbc/xfs3/strow/asl/rta/hitran/H2024/ISOTOPES/Readme     /home/sergio/SPECTRA/MASS_ISOTOPES/Readme_mass24

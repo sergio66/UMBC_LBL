@@ -139,7 +139,6 @@ etc
    edit    convert2mass2X.m     to set fout_fid 
    run     convert2mass2X.m     to see if it quickly reads in file correctly
 
-
 6) cp /asl/data/hitran/H2024/ISOTOPES/mass24.dat                /home/sergio/SPECTRA/MASS_ISOTOPES/mass24.dat
    cp /asl/data/hitran/H2024/ISOTOPES/Readme                    /home/sergio/SPECTRA/MASS_ISOTOPES/Readme_mass24
    OR 

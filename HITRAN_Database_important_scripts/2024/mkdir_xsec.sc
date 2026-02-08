@@ -31,5 +31,8 @@ mkdir SF5CF3_g78
 mkdir CH3COOONO2-PAN_g79
 mkdir CH3CN_g80
 mkdir SF6_g81
-			
+
+cd ..
+pwd
+
 echo "now unzip the files individually using unzipper_xsec.sc"

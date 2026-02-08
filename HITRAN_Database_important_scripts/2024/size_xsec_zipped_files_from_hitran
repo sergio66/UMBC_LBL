@@ -1,0 +1,157 @@
+XSEC:
+total 0
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:50 SF6_g81
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:50 CH3CN_g80
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:50 CH3COOONO2-PAN_g79
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:50 SF5CF3_g78
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:50 CHF2CHF2-HFC-134_g77
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:49 CHF2CF3-HFC-125_g76
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:49 C6H6_g75
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:26 CH3CHF2-HFC-152a_g74
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:25 CF3CH3-HFC-143a_g73
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:25 CFH2CF3-HCF134a_g72
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:25 CH2F2-HFC-32_g71
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:25 CCLF2CF2CHCLF-HCFC-225cb_g70
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:25 CHCL2CF2CF3-HCFC-225ca_g69
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:24 CH3CCLF2-HCFC142b_g68
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:24 CH3CCL2F-HCFC141b_g67
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:24 CHCLFCF3-HCFC-124_g66
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:24 CHCl2CF3-HCFC-123_g65
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 20:24 C2F6_g64
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:18 HNO4_g63
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:18 N2O5_g62
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:18 ClONO2_g61
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:18 CCl4_g60
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:17 C2ClF5-CFC-115_g59
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:17 C2Cl2F4-CFC-114_g58
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:16 C2Cl3F3-CFC-113_g57
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:16 HCFC22-CHClF2_g56
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:16 HCFC-21_CHCl2F_g55
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:15 CFC-14_CF4_g54
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:15 CFC-13_CClF3_g53
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:14 CFC-12_CCl2F2_g52
+drwxrwxr-x 2 sergio pi_sergio 33 Feb  7 19:13 CFC-11_CCl3F_g51
+
+XSEC/SF6_g81:
+total 1.0G
+-rw-r--r-- 1 sergio pi_sergio 243M Feb  7 20:51 6987e818.zip
+
+XSEC/CH3CN_g80:
+total 1.0G
+-rw-r--r-- 1 sergio pi_sergio 292M Feb  7 20:50 6987e7c2.zip
+
+XSEC/CH3COOONO2-PAN_g79:
+total 1.0G
+-rw-r--r-- 1 sergio pi_sergio 335K Feb  7 20:50 6987e78a.zip
+
+XSEC/SF5CF3_g78:
+total 1.0G
+-rw-r--r-- 1 sergio pi_sergio 1.3M Feb  7 20:50 6987e753.zip
+
+XSEC/CHF2CHF2-HFC-134_g77:
+total 1.0G
+-rw-r--r-- 1 sergio pi_sergio 9.2M Feb  7 20:50 6987e717.zip
+
+XSEC/CHF2CF3-HFC-125_g76:
+total 1.0G
+-rw-r--r-- 1 sergio pi_sergio 41M Feb  7 20:49 6987e6e3.zip
+
+XSEC/C6H6_g75:
+total 1.0G
+-rw-r--r-- 1 sergio pi_sergio 6.7M Feb  7 20:49 6987e6a1.zip
+
+XSEC/CH3CHF2-HFC-152a_g74:
+total 5.2M
+-rw-r--r-- 1 sergio pi_sergio 5.2M Feb  7 20:26 6987db1d.zip
+
+XSEC/CF3CH3-HFC-143a_g73:
+total 19M
+-rw-r--r-- 1 sergio pi_sergio 19M Feb  7 20:25 6987daeb.zip
+
+XSEC/CFH2CF3-HCF134a_g72:
+total 179M
+-rw-r--r-- 1 sergio pi_sergio 179M Feb  7 20:25 6987e205.zip
+
+XSEC/CH2F2-HFC-32_g71:
+total 60M
+-rw-r--r-- 1 sergio pi_sergio 60M Feb  7 20:25 6987e1bb.zip
+
+XSEC/CCLF2CF2CHCLF-HCFC-225cb_g70:
+total 2.3M
+-rw-r--r-- 1 sergio pi_sergio 2.3M Feb  7 20:25 6987da18.zip
+
+XSEC/CHCL2CF2CF3-HCFC-225ca_g69:
+total 4.9M
+-rw-r--r-- 1 sergio pi_sergio 4.9M Feb  7 20:25 6987dff2.zip
+
+XSEC/CH3CCLF2-HCFC142b_g68:
+total 11M
+-rw-r--r-- 1 sergio pi_sergio 11M Feb  7 20:24 6987d9ad.zip
+
+XSEC/CH3CCL2F-HCFC141b_g67:
+total 115M
+-rw-r--r-- 1 sergio pi_sergio 115M Feb  7 20:24 6987e165.zip
+
+XSEC/CHCLFCF3-HCFC-124_g66:
+total 3.6M
+-rw-r--r-- 1 sergio pi_sergio 3.6M Feb  7 20:24 6987dfba.zip
+
+XSEC/CHCl2CF3-HCFC-123_g65:
+total 4.7M
+-rw-r--r-- 1 sergio pi_sergio 4.7M Feb  7 20:24 6987d8f2.zip
+
+XSEC/C2F6_g64:
+total 18M
+-rw-r--r-- 1 sergio pi_sergio 18M Feb  7 20:24 6987d8b6.zip
+
+XSEC/HNO4_g63:
+total 204K
+-rw-r--r-- 1 sergio pi_sergio 204K Feb  7 19:18 6987d14d.zip
+
+XSEC/N2O5_g62:
+total 876K
+-rw-r--r-- 1 sergio pi_sergio 873K Feb  7 19:18 6987d0e2.zip
+
+XSEC/ClONO2_g61:
+total 23M
+-rw-r--r-- 1 sergio pi_sergio 23M Feb  7 19:18 6987d088.zip
+
+XSEC/CCl4_g60:
+total 24M
+-rw-r--r-- 1 sergio pi_sergio 24M Feb  7 19:18 6987d006.zip
+
+XSEC/C2ClF5-CFC-115_g59:
+total 760K
+-rw-r--r-- 1 sergio pi_sergio 759K Feb  7 19:17 6987cfa8.zip
+
+XSEC/C2Cl2F4-CFC-114_g58:
+total 3.6M
+-rw-r--r-- 1 sergio pi_sergio 3.6M Feb  7 19:17 6987cf2e.zip
+
+XSEC/C2Cl3F3-CFC-113_g57:
+total 5.1M
+-rw-r--r-- 1 sergio pi_sergio 5.1M Feb  7 19:16 6987ce02.zip
+
+XSEC/HCFC22-CHClF2_g56:
+total 117M
+-rw-r--r-- 1 sergio pi_sergio 117M Feb  7 19:16 6987cda3.zip
+
+XSEC/HCFC-21_CHCl2F_g55:
+total 3.3M
+-rw-r--r-- 1 sergio pi_sergio 3.3M Feb  7 19:16 6987cd4b.zip
+
+XSEC/CFC-14_CF4_g54:
+total 95M
+-rw-r--r-- 1 sergio pi_sergio 95M Feb  7 19:15 6987c924.zip
+
+XSEC/CFC-13_CClF3_g53:
+total 728K
+-rw-r--r-- 1 sergio pi_sergio 727K Feb  7 19:15 6987c543.zip
+
+XSEC/CFC-12_CCl2F2_g52:
+total 85M
+-rw-r--r-- 1 sergio pi_sergio 85M Feb  7 19:15 6987b2f7.zip
+
+XSEC/CFC-11_CCl3F_g51:
+total 117M
+-rw-r--r-- 1 sergio pi_sergio 117M Feb  7 19:14 69879ff2.zip
