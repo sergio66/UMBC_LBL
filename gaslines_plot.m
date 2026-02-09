@@ -10,19 +10,21 @@ gasname = ['H2OCO2xO3N2OxCOCH4'];
 for gg = 1 : 26
   gasID = gg;
 
-  %%fnamePRE='/asl/data/hitran/h92.by.gas/g';
-  %fnamePRE='/salsify/scratch4/h96.by.gas/g';
-
-  fnamePRE='/asl/data/hitran/h98.by.gas/g';
-  fnamePRE='/asl/data/hitran/h92.by.gas/g';
-  fnamePOST='.dat';
-  fnameIN=int2str(gasID);
-  hitlin_fname=[fnamePRE fnameIN fnamePOST];
+  %%fnamePRE = '/asl/data/hitran/h92.by.gas/g';
+  %fnamePRE = '/salsify/scratch4/h96.by.gas/g';
+  fnamePRE = '/asl/data/hitran/h98.by.gas/g';
+  fnamePRE = '/asl/data/hitran/h92.by.gas/g';
+  do_HITRAN_vers;
+  fnamePRE = [HITRAN '/g'];; 
+  
+  fnamePOST = '.dat';
+  fnameIN = int2str(gasID);
+  hitlin_fname = [fnamePRE fnameIN fnamePOST];
 
   start = wv1;
   stop  = wv2;
 
-  line=hitread(start,stop,0,gasID,hitlin_fname);
+  line = hitread(start,stop,0,gasID,hitlin_fname);
 
 %  ii = find(line.wnum >= wv1 & line.wnum <= wv2);
 %  semilogy(line.wnum,line.stren,'.',line.wnum(ii),line.stren(ii),'r.',...

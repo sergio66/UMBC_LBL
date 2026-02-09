@@ -16,7 +16,10 @@ for ii = 1 : length(f0)
   fb = f0(ii);
 
   profname = 'IPFILES/std_water';
-  clear topts; topts.HITRAN = '/asl/data/hitran/h2k.oldiso';
+  clear topts;
+  topts.HITRAN = '/asl/data/hitran/h2k.oldiso';
+  hitranpath.m
+  topts.HITRAN = HITRAN;  
   [w,k1line] = run7water(1,fa,fb,profname,topts);
   [w,k1con]  = run7watercontinuum(1,fa,fb,profname);
   k1 = k1line + k1con;

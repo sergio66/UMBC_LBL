@@ -1,4 +1,4 @@
-function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
+function [outwave,out_array] = run8_test(gasID,fmin,fmax,profname,topts)
 
 % ********* also need lots of stuff from Global_Data_HITRAN2004 **************
 % same as run7.m except it does "load mass.dat" and the rest of the isotope
@@ -194,7 +194,7 @@ elseif (gasID == 1)
 else
   CKD = -1;
   end
-HITRAN        = '/asl/data/hitran/h12.by.gas';
+do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;

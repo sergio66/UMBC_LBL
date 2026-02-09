@@ -256,11 +256,7 @@ elseif (gasID == 1)
 else
   CKD = -1;
 end
-HITRAN        = '/asl/data/hitran/h16.by.gas';
-HITRAN        = '/asl/rta/hitran/h16.by.gas';
-HITRAN        = '/asl/rta/hitran/h20.by.gas';
-HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
-HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h24.by.gas';
+do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;
@@ -457,11 +453,13 @@ fnamePOST = '.dat';
 fnameIN   = int2str(gasID);
 fname     = [fnamePRE fnameIN fnamePOST];
 
-%addpath /home/sergio/MATLABCODE
-%addpath /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/
+% addpath /home/sergio/MATLABCODE
+% addpath /home/sergio/git/matlabcode
+adderpath0
 
-addpath /home/sergio/git/matlabcode
-addpath /home/sergio/git/UMBC_LBL/CKDLINUX/MT_CKD3.2/cntnm/
+% addpath /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/
+% addpath /home/sergio/git/UMBC_LBL/CKDLINUX/MT_CKD3.2/cntnm/
+adderpath1
 
 %%%%%%%%%%ZZZ
 %%%%%%%%following line if we want to use latest Hitran* database
@@ -875,7 +873,6 @@ elseif (docontinuum == 1 & O2O3N2continuumVers > 0)
      cder = ['cd ' homedirx];
      eval(cder);
   elseif O2O3N2continuumVers == 5 & nn0 > 10001
-     %% addpath /home/sergio//SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/
      error('ooops need to increase array sizes for wrapper_run8_gas7_gas22_continuum MTCKD3.2')
      [fr5,od5] = wrapper_run8_gas7_gas22_continuum(gasID,fmin,fmax,0.0005,profname);
      out_array = out_array + od5;

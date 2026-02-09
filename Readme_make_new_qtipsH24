@@ -1,36 +1,119 @@
-THESE ARE THE FILES I HAD TO MODIFY (for mow) to get H2024 running
-PLUS LOOK AT /home/sergio/SPECTRA/Global_Data_HITRAN2024/
-PLUS LOOK AT /home/sergio/SPECTRA/HITRAN_Database_important_scripts/2024/Readme_complete_H2024_Setup_MOLGAS_XSEC_QTIPS_ISOTOPEMASS
+LOOK AT /home/sergio/SPECTRA/Global_Data_HITRAN2024/ from which I have copied eg Readme_complete_H2024_Setup_MOLGAS_XSEC_QTIPS_ISOTOPEMASS to 
+        /home/sergio/SPECTRA/HITRAN_Database_important_scripts/2024/Readme_complete_H2024_Setup_MOLGAS_XSEC_QTIPS_ISOTOPEMASS
+
+Make sure you update
+  do_HITRAN_vers.m
+since it is called by run8*.m to use latest HITRAN version, which is H2024 in January 2026
+
+Contents
+---------
+1) Files which use "/asl/data/hitran/hXY.by.gas"  so these were modified to use HITRAN_path
+2) files which have 'new_bt_f77' so these need to be modified (the find_qnew_*.m files)
+3) many (comparison) files have default HITRAN = 2020; change to HITRAN = 2024
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-/home/sergio/SPECTRA
--rw-r--r-- 1 sergio pi_strow  2381 Nov 16 11:19 hitread_simple.m
--rw-r--r-- 1 sergio pi_strow 10477 Nov 16 11:19 hitread.m
--rw-r--r-- 1 sergio pi_strow 36555 Nov 16 11:18 run8water.m
--rw-r--r-- 1 sergio pi_strow 39052 Nov 16 11:17 run8.m
--rw-rw-r-- 1 sergio pi_strow  5140 Nov 16 11:17 find_qnewABCD_H20.m
--rw-rw-r-- 1 sergio pi_strow 16339 Nov 16 11:15 qtips20.m
--rw-r--r-- 1 sergio pi_strow  1227 Nov 16 11:15 getq_oldVSnew.m
--rw-rw-r-- 1 sergio pi_strow  3138 Nov 16 11:13 find_qnew_isotopes_H20.m
--rw-r--r-- 1 sergio pi_strow  5826 Nov 16 11:12 findlines_plot_compareHITRAN.m
--rw-r--r-- 1 sergio pi_strow 44149 Nov 16 11:10 run8co2_weakbackgnd.m
--rw-r--r-- 1 sergio pi_strow  2240 Nov 16 06:22 waterlines_plot.m
--rw-r--r-- 1 sergio pi_strow  5169 Nov 16 06:22 show_vis_ir_lines_wavenumber_water.m
--rw-r--r-- 1 sergio pi_strow  4309 Nov 16 06:22 show_vis_ir_lines_wavenumber.m
--rw-rw-r-- 1 sergio pi_strow  1941 Nov 16 06:21 show_unc.m
--rw-r--r-- 1 sergio pi_strow  2300 Nov 16 06:19 findlines_plot.m
--rw-r--r-- 1 sergio pi_strow  5752 Nov 16 06:18 findlines_plot_compareHITRAN_HITEMP.m
--rw-rw-r-- 1 sergio pi_strow  6399 Nov 16 06:18 findlines_plot_compareGEISA_HITRAN.m
--rw-rw-r-- 1 sergio pi_strow  1325 Nov 16 06:17 driver_makeDAVEhitlin.m
+1) Files which use "/asl/data/hitran/hXY.by.gas"  so these were modified to use HITRAN_path
+-------------------------------------------------------------------------------------------
 
-and CO2 code
--rw-r--r-- 1 sergio pi_strow 25235 Nov 16 11:24 run8co2_voigt.m
--rw-rw-r-- 1 sergio pi_strow 55639 Nov 16 11:23 run8co2_FULLlinemixUMBC.m
--rw-r--r-- 1 sergio pi_strow 32883 Nov 16 11:22 run8co2_hartmann.m
--rw-r--r-- 1 sergio pi_strow 57138 Nov 16 11:22 run8co2_linemixUMBC.m
--rw-r--r-- 1 sergio pi_strow 30231 Nov 16 11:21 run8co2.m
+grep -in /asl/data/hitran *.m >& ugh, then edit ugh to look at one filename only
+The Y in first column is just checking if the file we get from the grep was also in list from Readme_make_new_qtipsH20
 
+also look for something like
+  fnamePRE     = [hitranpath  hitran_version '.by.gas/g'];
+
+  co2lines.m:11:fnamePRE     = '/asl/data/hitran/h92.by.gas/g';
+  co2lines_plot_jmhartmann.m:18:fnamePRE='/asl/data/hitran/h98.by.gas/g';
+  co2lines_plot.m:24:fnamePRE = ['/asl/data/hitran/' strHIT '.by.gas/g'];
+  colines.m:16:fnamePRE     = ['/asl/data/hitran/' hitran_version '.by.gas/g'];
+  
+  compareHaHb.m:36:HITRAN        = '/asl/data/hitran/h96.by.gas';
+  driver_makeDAVEhitlin.m:46:    hitlin_fname = ['/asl/data/hitran/h' strvers '.by.gas/g5.dat']; XXXXXXXXXXXX
+  findlines_plot.m:51:  fnamePRE = ['/asl/data/hitran/h' hstr '.by.gas/g'];
+  gaslines_plot.m:17:  fnamePRE='/asl/data/hitran/h92.by.gas/g';
+  gaslines_plotORIG.m:17:  fnamePRE='/asl/data/hitran/h92.by.gas/g';
+  getstrengths2.m:1:fnamePRE='/asl/data/hitran/h98.by.gas/g';
+Y hitread.m:69:  hitran_version = filename(blah(8)+1:blah(8)+3);  %% eg /asl/data/hitran/HITEMP/h16.by.gas/g2.dat
+Y hitread_simple.m:52:%database = ['/asl/data/hitran/h' iVers '.by.gas'];
+
+  %% these do not need the call to hitranpath.m, as /X/hitran/HXY.ny.gas is part of a coment
+  line_subset.m:5:%%  filename12 = '/asl/data/hitran/h12.by.gas/g3.dat';
+  load_mass_iso_dat.m:8:  fprintf(1,'                 then  cp /asl/data/hitran/H2020/ISOTOPES/mass20.dat /home/sergio/SPECTRA/MASS_ISOTOPES/mass20.dat \n')
+  make_n2o.m:10:topts.HITRAN = '/asl/data/hitran/h98.by.gas';
+  make_so2.m:10:topts.HITRAN = '/asl/data/hitran/h98.by.gas';
+  qtips98.m:37:% /asl/data/hitran/HITRAN98/SOFTWARE/GENERIC/BD_QT.FOR
+  %% these do not need the call to hitranpath.m, as /X/hitran/HXY.ny.gas is part of a coment  
+  
+Y run8co2_FULLlinemixUMBC.m:479:HITRAN        = '/asl/data/hitran/h20.by.gas';
+Y run8co2_hartmann.m:193:HITRAN        = '/asl/data/hitran/h20.by.gas';
+Y run8co2_linemixUMBC.m:479:HITRAN        = '/asl/data/hitran/h20.by.gas';
+Y run8co2.m:446:HITRAN        = '/asl/data/hitran/h20.by.gas';
+Y run8co2_voigt.m:175:HITRAN        = '/asl/data/hitran/h20.by.gas';
+Y run8co2_weakbackgnd.m:461:HITRAN        = '/asl/data/hitran/h20.by.gas';
+  run8co_linemixUMBC.m:256:HITRAN        = '/asl/data/hitran/h16.by.gas';
+  run8_g27.m:188:HITRAN        = '/asl/data/hitran/h12.by.gas';
+Y run8.m:259:HITRAN        = '/asl/data/hitran/h16.by.gas';
+  run8_parallel.m:197:HITRAN        = '/asl/data/hitran/h12.by.gas';
+  run8simplewater.m:184:HITRAN        = '/asl/data/hitran/h12.by.gas';
+  run8_test.m:197:HITRAN        = '/asl/data/hitran/h12.by.gas';
+Y run8water.m:260:HITRAN        = '/asl/data/hitran/h16.by.gas';
+
+  show_vis_ir_lines_wavelength.m:2:fname = '/asl/data/hitran/h08.by.gas/';
+  show_vis_ir_lines_wavenumber_individualgas.m:23:  fname = '/asl/data/hitran/h96.by.gas/';
+  show_vis_ir_lines_wavenumber.m:27:  fname = '/asl/data/hitran/h20.by.gas/';
+Y show_vis_ir_lines_wavenumber_water.m:31:  fname = '/asl/data/hitran/h20.by.gas/';
+  testHITEMP.m:33:topts.HITRAN = '/asl/data/hitran/HITEMP/h16.by.gas';
+Y waterlines_plot.m:25:fnamePRE = ['/asl/data/hitran/' strHIT '.by.gas/g'];
+  water_runner2.m:21:  topts.HITRAN = '/asl/data/hitran/h2k.oldiso';      
+  whiteman.m:19:  clear topts; topts.HITRAN = '/asl/data/hitran/h2k.oldiso';
+  wrap_hitread_simple.m:14:  HITRAN = '/asl/data/hitran/h08.by.gas';
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+2) files which have 'new_bt_f77' so these need to be modified (the find_qnew_*.m files)
+---------------------------------------------------------------------------------------
+
+why is there qtips16.m an qtips20.m BUT NO qtips24.m
+why is there qtips16.m an qtips20.m BUT NO qtips24.m
+why is there qtips16.m an qtips20.m BUT NO qtips24.m
+why is there qtips16.m an qtips20.m BUT NO qtips24.m
+
+[sergio@c24-52 SPECTRA]$ grep -in 'new_bt_f77' */*.m
+grep: CO_PR_sigpi/co2_param_JOHNS2002.m: No such file or directory
+grep: PR_deltdelt/co2_param_JOHNS2002.m: No such file or directory
+grep: PR_pipi/co2_param_JOHNS2002.m: No such file or directory
+grep: PR_sigsig/co2_param_JOHNS2002.m: No such file or directory
+
+[sergio@c24-52 SPECTRA]$ grep -in 'new_bt_f77' *.m >& ugh2
+and then edit ugh2
+
+find_qnewABCD_H04.m:90:    eval(new_bt_f77)
+find_qnewABCD_H08.m:90:    eval(new_bt_f77)
+find_qnewABCD_H12.m:97:    eval(new_bt_f77)
+find_qnewABCD_H16.m:105:    eval(new_bt_f77)
+find_qnewABCD_H20.m:108:    eval(new_bt_f77)
+<<< why no find_qnewABCD_H24.m >>>>>>
+find_qnewABCD.m:90:    eval(new_bt_f77)
+find_qnew_isotopes_H04.m:75:eval(new_bt_f77)
+find_qnew_isotopes_H08.m:75:eval(new_bt_f77)
+find_qnew_isotopes_H08_OLD.m:63:eval(new_bt_f77)
+find_qnew_isotopes_H12.m:68:eval(new_bt_f77)
+find_qnew_isotopes_H16.m:73:eval(new_bt_f77)
+find_qnew_isotopes_H20.m:76:eval(new_bt_f77)
+find_qnew_isotopes_H24.m:75:eval(new_bt_f77)
+find_qnew_isotopes.m:73:eval(new_bt_f77)
+find_qnew_isotopes_slow.m:57:  eval(new_bt_f77)
+find_qnew_isotopesWORKS.m:59:eval(new_bt_f77)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+3) many (comparison) files have default HITRAN = 2020; change to HITRAN = 2024
+
+      eg findlines_plot_compareHITRAN_HITEMP.m, show_unc.m, findlines_plot_compareHITRAN.m
+while eg driver_makeDAVEhitlin.m has vers = 2020;
+while eg co2lines.m              has hitran_version = h24
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 Also need to do lots of things for NLTE

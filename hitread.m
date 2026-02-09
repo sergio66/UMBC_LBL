@@ -20,21 +20,17 @@ function [line,hitran_version,hlist_qtips] = ...
 % it differentiates and calls the right MEXED HITRAN readers
 % >>>> when updating HITRAN versions, do a search for "UPDATE"
 
-% addpath /asl/matlib/aslutil
-% addpath /asl/matlib/read_hitr06/
-% addpath /home/sergio/git/SPECTRA/read_hitr06/
-
-addpath /home/sergio/git/sergio_matlib/matlib/aslutil
-addpath /home/sergio/git/sergio_matlib/matlib/read_hitr06/
-addpath /home/sergio/git/UMBC_LBL/read_hitr06/
-addpath /home/sergio/git/matlabcode/matlibSergio/matlib/read_hitr06/
+%% addpath to /asl/matlib/aslutil and /asl/matlib/read_hitr06
+adderpath2
 
 current_dir = pwd;
 
 blah = findstr('/',filename);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% filename
+
+% filename is essentially path to /X/hitran/hXY.by.gas/gN.dat
+% eg
 % HITRAN0 = '/asl/data/hitran/h16.by.gas/g2.dat';
 % HITRAN1 = '/asl/rta/hitran/h16.by.gas//g2.dat';  %% this would totally fool it (ie the //) so WATCH OUT
 % HITRAN1 = /umbc/xfs3/strow/asl/rta/hitran/h24.by.gas/g2.dat';
@@ -49,6 +45,7 @@ if length(blah) == 5
   hitran_version = filename(blah(4)+1:blah(4)+3);  %% eg /asl/data/hitran/h16.by.gas/g2.dat
   iHiTemp = -1;
 elseif length(blah) == 6
+  %disp('usual data version eg /asl/rta/hitran/h16.by.gas/g2.dat')  
   %disp('HITEMP version eg /asl/data/hitran/HITEMP/h16.by.gas/g2.dat')
   disp('HITEMP version eg /asl/data/hitran/HITEMP/h20.by.gas/g2.dat')
   hitran_version = filename(blah(5)+1:blah(5)+3);  %% eg /asl/data/hitran/HITEMP/h16.by.gas/g2.dat

@@ -1,8 +1,11 @@
 COPY THIS TO                        /home/sergio/git/UMBC_LBL/HITRAN_Database_important_scripts/2024
 
-cp -a Readme *.m *.sc *.pdf *.txt   /home/sergio/git/UMBC_LBL/HITRAN_Database_important_scripts/2024/.
-  (will have to remove     rm 42_hit24.pdf 35_hit24.pdf 30_hit24.pdf 55_hit24.pdf   in those directories)
+#cp -a Readme *.m *.sc *.pdf *.txt   /home/sergio/git/UMBC_LBL/HITRAN_Database_important_scripts/2024/.
+#  (will have to first remove     rm 42_hit24.pdf 35_hit24.pdf 30_hit24.pdf 55_hit24.pdf   in those directories)
 
+Easier to run this, which does all that and more (also QTIPS and ISOTOPES directories)
+  cper_to_UMBC_LBL_HITRAN_Database_important_scripts_2024.sc
+  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Contents
@@ -13,6 +16,13 @@ Contents
 4) Making mass24.dat in ISOTOPES, copy to /home/sergio/SPECTRA/MASS_ISOTOPES (see Readme in that dir)
 5) Making vibration functions QTIPS, copy to /home/sergio/SPECTRA/Global_Data_HITRAN2024 (see Readme in that dir)
 6) Making the XSEC database
+
+Note : these xsec gases cmae over from HITRAN website as only having Torr in their filenames, and I can't process them for now
+So for now, copied over H2016 files to H2024
+     g67 (HCFC-141b.zip)
+     g60 (CCl4_g60/.zip)
+     g57 (C2Cl3F3-CFC-113.zip)
+     g52 (CFC-12_CCl2F2.zip)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -198,7 +208,10 @@ TIPS2024 : ifort -o TIPS_2024_allisotopes.x -names uppercase -extend-source 132 
 6) Making the XSEC database
 -----------------------------
 
-mkdir XSEC IR-XSect
+mkdir XSEC
+Now run mkdir_xsec.sc
+
+mkdir IR-XSect
 mkdir IR-XSect/Uncompressed-files
 
-
+See Readme_XSEC_H24_51_81

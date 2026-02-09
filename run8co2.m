@@ -442,9 +442,7 @@ iVersHartmann = 2010;                          % use his newest code
 %%%%% most of this is for run8co2_linemixUMBC
 LVF           = 'F';
 NIF           = 'F';
-HITRAN        = '/asl/data/hitran/h16.by.gas';
-HITRAN        = '/asl/data/hitran/h20.by.gas';
-HITRAN        = '/umbc/xfs3/strow/asl/rta/hitran/h20.by.gas';
+do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
 IO            = '1';
 birn          = 'b';
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE

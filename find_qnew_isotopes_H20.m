@@ -32,6 +32,7 @@ if iUseDatabase < 0
   new_bt_f77 = ['!/home/sergio/SPECTRA/Global_Data_HITRAN2020/'];
   new_bt_f77 = [new_bt_f77 'TIPS_2021_allisotopes.x '];
   new_bt_f77 = [new_bt_f77 ' < ' infile ' > ' outfile];
+error('fix this by sending in hXY')      
   eval(new_bt_f77)
 
   %qt_xtemp = textread(outfile,'%s');

@@ -11,6 +11,7 @@ if iCO2 > 0
   vers = 2012;
   vers = 2016;
   vers = 2020;
+  vers = 2024;
 
   strvers = num2str(vers); strvers = strvers(3:4);
 
@@ -36,7 +37,8 @@ if iCO > 0
   vers = 2012;
   vers = 2016;
   vers = 2020;
-
+  vers = 2024;
+  
   strvers = num2str(vers); strvers = strvers(3:4);
 
   for ii = 1 : length(iaBand)

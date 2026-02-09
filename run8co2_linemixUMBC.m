@@ -475,8 +475,7 @@ nbox          = 5;
 strength_far  = 0.0;
 strength_near = 0.0;
 LVF           = 'F';
-HITRAN        = '/asl/data/hitran/h16.by.gas';
-HITRAN        = '/asl/data/hitran/h20.by.gas';
+do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
 IO            = '1';
 birn          = 'b';
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE
@@ -940,7 +939,8 @@ if strengthM < 1e-50
     error('findUnionNew somehow missed some lines (strengthM == 0)')
   elseif (lineORIG.linct ~= line.linct) & length(strfind(fname,'geisa')) > 0
     fprintf(1,'using GEISA database so things could have been messy %s \n',fname)    
-    addpath /home/sergio/MATLABCODE
+    %addpath /home/sergio/MATLABCODE
+    adderpath0
     disp('WARNING ... findUnionNew somehow missed some lines (ugh)')
   end
 end 

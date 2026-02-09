@@ -1,5 +1,7 @@
 fname = '/asl/data/hitran/h04.by.gas/';
 fname = '/asl/data/hitran/h08.by.gas/';
+hitranpath
+fname = [HITRAN 'h24.by.gas/'];
 
 fop = '/carrot/s1/sergio/pin_feb2002_sea_airsnadir_op.22deg.rtp';
 [h,ha,p,pa] = rtpread(fop);

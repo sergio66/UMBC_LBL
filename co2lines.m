@@ -5,15 +5,18 @@ function [line1,line1A] = co2lines(band,hitran_version);
 if nargin == 1
   hitran_version = 'h12';
   hitran_version = 'h16';
+  hitran_version = 'h20';
+  hitran_version = 'h24';    
 end
 
 gasID=2;
+
 fnamePRE     = '/asl/data/hitran/h92.by.gas/g';
 fnamePRE     = '/salsify/scratch4/h96.by.gas/g';
 fnamePRE     = '/asl/data/hitran/h98.by.gas/g';
 fnamePRE     = '/asl/data/hitran/h08.by.gas/g';
-
 fnamePRE     = ['/asl/data/hitran/' hitran_version '.by.gas/g'];
+fnamePRE     = [hitranpath  hitran_version '.by.gas/g'];
 
 fnamePOST    = '.dat';
 fnameIN      = int2str(gasID);

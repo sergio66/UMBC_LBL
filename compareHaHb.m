@@ -6,43 +6,46 @@ low  = 500;
 high = 3000;
 strengthM = 0.0;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% fnamePRE='/salsify/scratch4/h96.by.gas/g';        %H96 -- old
 %% fnamePRE='/salsify/scratch4/h98.by.gas/g';        %H98 -- KCARTA database 
 %% fnamePRE='/salsify/scratch4/h2k.by.gas/g';        %H98 -- KCARTA database 
 
-HITRAN        = '/asl/data/hitran/h2k.by.gas';
-%%%%%HITRAN        = '/taro/s1/sergio/sergio.h2k';
-if (HITRAN(length(HITRAN)) == '/')
-     fnamePRE = [HITRAN 'g' ];
-     else
-fnamePRE = [HITRAN '/g'];
-  end
-fnamePOST='.dat';
-fnameIN=int2str(gasID);
-fname=[fnamePRE fnameIN fnamePOST];
-[line2000]=hitread(low,high,strengthM,gasID,fname);
+do_HITRAN_vers;
+fnamePRE   = [HITRAN '/g'];
+fnamePOST  = '.dat';
+fnameIN    = int2str(gasID);
+fname      = [fnamePRE fnameIN fnamePOST];
+[line2000] = hitread(low,high,strengthM,gasID,fname);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 HITRAN        = '/asl/data/hitran/h98.by.gas';
 if (HITRAN(length(HITRAN)) == '/')
-     fnamePRE = [HITRAN 'g' ];
-     else
-fnamePRE = [HITRAN '/g'];
-  end
+  fnamePRE = [HITRAN 'g' ];
+else
+  fnamePRE = [HITRAN '/g'];
+end
 fnamePOST='.dat';
 fnameIN=int2str(gasID);
 fname=[fnamePRE fnameIN fnamePOST];
 [line1998]=hitread(low,high,strengthM,gasID,fname);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
 HITRAN        = '/asl/data/hitran/h96.by.gas';
 if (HITRAN(length(HITRAN)) == '/')
-     fnamePRE = [HITRAN 'g' ];
-     else
-fnamePRE = [HITRAN '/g'];
-  end
+  fnamePRE = [HITRAN 'g' ];
+else
+  fnamePRE = [HITRAN '/g'];
+end
 fnamePOST='.dat';
 fnameIN=int2str(gasID);
 fname=[fnamePRE fnameIN fnamePOST];
 [line1996]=hitread(low,high,strengthM,gasID,fname);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if line2000.linct == line1998.linct
   fprintf(1,'same number of lines ... plotting ratios ... \n');

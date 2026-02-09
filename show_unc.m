@@ -15,6 +15,7 @@ function line = show_unc(wv1,wv2,gid,HITRAN,HorG,index2show);
 if nargin == 3
   HITRAN = 2016;
   HITRAN = 2020;
+  HITRAN = 2024;  
   HorG = +1;      %% HITRAN not GEISA
   index2show = 1;
 end

@@ -1,10 +1,10 @@
-function [a,b,c,d,g] = qtips(gasid,liso);
- 
+function [a,b,c,d,g] = qtips16(gasid,liso);
+  
 % this was made by find_qnewABCD_H16.m
 % returns nuclear degeneracy factors g and Gamache's internal partition
 % sum coefficients a, b, c, and d.  
 %C  PURPOSE        TOTAL INTERNAL PARTITION SUMS
- 
+
 if gasid == 1; g = [1   1   6   6   6  36   1]; end
 if gasid == 2; g = [1   2   1   6   2  12   1   6   1   2  12]; end
 if gasid == 3; g = [1  1  1  6  6]; end

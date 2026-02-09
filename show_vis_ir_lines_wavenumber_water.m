@@ -11,27 +11,39 @@ end
 
 %hitV = input('enter HITRAN version (2004, 2008, 2012) : ');
 
+hitranpath
 if hitV == 1992
   fname = '/asl/data/hitran/h92.by.gas/';
+  fname = [HITRAN 'h92.by.gas/'];    
 elseif hitV == 1996
   fname = '/asl/data/hitran/h96.by.gas/';
+  fname = [HITRAN 'h96.by.gas/'];    
 elseif hitV == 1998
   fname = '/asl/data/hitran/h98.by.gas/';
+  fname = [HITRAN 'h98.by.gas/'];    
 elseif hitV == 2000
   fname = '/asl/data/hitran/h2k.by.gas/';
+  fname = [HITRAN 'h2k.by.gas/'];    
 elseif hitV == 2004
   fname = '/asl/data/hitran/h04.by.gas/';
+  fname = [HITRAN 'h04.by.gas/'];    
 elseif hitV == 2008
   fname = '/asl/data/hitran/h08.by.gas/';
+  fname = [HITRAN 'h08.by.gas/'];    
 elseif hitV == 2012
   fname = '/asl/data/hitran/h12.by.gas/';
+  fname = [HITRAN 'h12.by.gas/'];    
 elseif hitV == 2016
   fname = '/asl/data/hitran/h16.by.gas/';
+  fname = [HITRAN 'h16.by.gas/'];    
 elseif hitV == 2020
   fname = '/asl/data/hitran/h20.by.gas/';
+  fname = [HITRAN 'h20.by.gas/'];    
+elseif hitV == 2024
+  fname = '/asl/data/hitran/h24.by.gas/';
+  fname = [HITRAN 'h24.by.gas/'];    
 else
-  hitV
-  error('1992, 1996, 1998, 2000, 2004, 2008, 2012, 2016, 2020 ..')
+  error('1992, 1996, 1998, 2000, 2004, 2008, 2012, 2016, 2020, 2024 ...')
 end
 
 lines = [];

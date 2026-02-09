@@ -2,7 +2,6 @@ disp('also look at /home/sergio/MATLABCODE/QUICKTASKS_TELECON/CrIS_gascell_Jan20
 disp('also look at /home/sergio/MATLABCODE/QUICKTASKS_TELECON/CrIS_gascell_Jan2020/look_at_blue_spike.m');
 disp('also look at /home/sergio/MATLABCODE/QUICKTASKS_TELECON/CrIS_gascell_Jan2020/look_at_blue_spike.m');
 
-
 f1 = 2300; f2 = 2600;
 f1 = 2375; f2 = 2425;
 f1 = 2375; f2 = 2400;
@@ -31,6 +30,8 @@ end
 %disp('ret to cont'); pause
 
 topts.HITRAN = '/asl/data/hitran/HITEMP/h16.by.gas';
+hitranpath
+topts.HITRAN = HITRAN;
 [wx,dx] = run8(gid,f1,f2,'IPFILES/co2four_hitemp',topts);
 
 %{

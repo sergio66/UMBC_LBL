@@ -11,17 +11,18 @@
 %% iHIT = input('enter HITRAN version (1992,1996,1998,2000,2004,2008,2012) : ');
 iHIT = hitran_version;
 if iHIT == 2000
-  strHIT = 'h2k';
+  hitran_version = 'h2k';
 else
-  strHIT = num2str(iHIT); 
-  strHIT = ['h' strHIT(3:4)];
+  hitran_version = num2str(iHIT); 
+  hitran_version = ['h' hitran_version(3:4)];
 end
 
 gasID = 2;
 %%fnamePRE = '/asl/data/hitran/h92.by.gas/g';
 fnamePRE = '/salsify/scratch4/h96.by.gas/g';
 fnamePRE = '/asl/data/hitran/h98.by.gas/g';
-fnamePRE = ['/asl/data/hitran/' strHIT '.by.gas/g'];
+fnamePRE = ['/asl/data/hitran/' hitran_version '.by.gas/g'];
+fnamePRE = [hitranpath  hitran_version '.by.gas/g'];
 
 fnamePOST = '.dat';
 fnameIN = int2str(gasID);

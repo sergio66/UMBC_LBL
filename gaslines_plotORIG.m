@@ -15,6 +15,9 @@ for gg = 1 : 26
 
   fnamePRE='/asl/data/hitran/h98.by.gas/g';
   fnamePRE='/asl/data/hitran/h92.by.gas/g';
+  do_HITRAN_vers;
+  fnamePRE = [HITRAN '/g'];; 
+  
   fnamePOST='.dat';
   fnameIN=int2str(gasID);
   hitlin_fname=[fnamePRE fnameIN fnamePOST];

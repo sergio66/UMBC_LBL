@@ -3,6 +3,7 @@ function [iYes1,line1,iYes2,line2] = findlines_plot_compareHITRAN_HITEMP(wv1,wv2
 addpath /home/sergio/MATLABCODE
 HITRAN = 2016;
 HITRAN = 2020;
+HITRAN = 2024;
 
 HITRAN1 = HITRAN;
 HITRAN2 = HITRAN;

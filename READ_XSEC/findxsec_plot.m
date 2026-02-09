@@ -37,17 +37,26 @@ end
 
 if HITRAN == 1998
   fnamePRE ='/asl/data/hitran/xsec98.ok/'; idd = 1998;
+  fnamePRE ='/umbc/xfs3/strow/asl/rta/hitran/xsec98.ok/'; idd = 1998;  
 elseif HITRAN == 2008
   fnamePRE = '/asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/Junk/'; idd=2008;
   fnamePRE = '/asl/data/hitran/HITRAN08_SERGIO/Xsec/';                      idd=2008;
+  fnamePRE = '/umbc/xfs3/strow/asl/rta/hitran/HITRAN08_SERGIO/Xsec/';                      idd=2008;  
 elseif HITRAN == 2012
   fnamePRE = '/asl/data/hitran/H2012/IR-XSect/Uncompressed-files/'; idd=2012;
+  fnamePRE = '/umbc/xfs3/strow/asl/rta/hitran/H2012/IR-XSect/Uncompressed-files/'; idd=2012;  
 elseif HITRAN == 2016
   fnamePRE = '/asl/data/hitran/H2016/IR-XSect/Uncompressed-files/'; idd=2016;
+  fnamePRE = '/umbc/xfs3/strow/asl/rta/hitran/H2016/IR-XSect/Uncompressed-files/'; idd=2016;  
 elseif HITRAN == 2015
   fnamePRE = '/asl/data/geisa/G2015/2015.IR-XSect/Uncompressed-files/';  idd=2016;
+  fnamePRE = '/asl/data/geisa/G2015/2015.IR-XSect/Uncompressed-files/';  idd=2016;  
 elseif HITRAN == 2020
   fnamePRE = '/asl/data/hitran/H2020/IR-XSect/Uncompressed-files/'; idd=2020;
+  fnamePRE = '/umbc/xfs3/strow/asl/rta/hitran/H2020/IR-XSect/Uncompressed-files/'; idd=2020;
+elseif HITRAN == 2024
+  fnamePRE = '/asl/data/hitran/H2024/IR-XSect/Uncompressed-files/'; idd=2024;
+  fnamePRE = '/umbc/xfs3/strow/asl/rta/hitran/H2024/IR-XSect/Uncompressed-files/'; idd=2024;  
 end
 
 fnamePOST='.xsc';

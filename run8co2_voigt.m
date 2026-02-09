@@ -1,4 +1,4 @@
-function [outwave,out_array] = run8co2voigt(gasID,fmin,fmax,profname,topts)
+function [outwave,out_array] = run8co2_voigt(gasID,fmin,fmax,profname,topts)
 
 % same as run8.m except allows user to choose certain bands for output
 
@@ -170,9 +170,7 @@ strength_near = 0.0;
 LVG           = 'G';    %%% do a test of Voigt
 LVG           = 'V';    %%% VanVleck is what is usually used
 CKD           = -1;
-HITRAN        = '/asl/data/hitran/h12.by.gas';
-HITRAN        = '/asl/data/hitran/h16.by.gas';
-HITRAN        = '/asl/data/hitran/h20.by.gas';
+do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;

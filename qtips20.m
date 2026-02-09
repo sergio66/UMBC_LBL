@@ -1,4 +1,4 @@
-function [a,b,c,d,g] = qtips(gasid,liso);
+function [a,b,c,d,g] = qtips20(gasid,liso);
  
 % this was made by find_qnewABCD_H20.m
 % returns nuclear degeneracy factors g and Gamache's internal partition

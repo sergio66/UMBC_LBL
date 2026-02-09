@@ -23,6 +23,9 @@ gasID=1;
 fnamePRE = '/salsify/scratch4/h96.by.gas/g';
 fnamePRE = '/asl/data/hitran/h98.by.gas/g';
 fnamePRE = ['/asl/data/hitran/' strHIT '.by.gas/g'];
+hitranpath
+fnamePRE = [HITRAN  strHIT '.by.gas/g'];
+
 fnamePOST ='.dat';
 fnameIN = int2str(gasID);
 hitlin_fname = [fnamePRE fnameIN fnamePOST];

@@ -1,5 +1,4 @@
-function [line,hitran_version] = hitread_no_symbolic_links(...
-                                   start,stop,strengthM,gasID,filename);
+function [line,hitran_version] = hitread_simple(start,stop,strengthM,gasID,filename);
 
 %% same as hitread.m except it does NOT update symbolic links
 
@@ -17,7 +16,7 @@ blah = findstr('/',filename);
 hitran_version = filename(blah(4)+1:blah(4)+3);
 
 old_reader = {'h92','h96','h98','h2k'};
-new_reader = {'h04','h08','h12','h16','h20'};
+new_reader = {'h04','h08','h12','h16','h20','h24'};
 
 iOld = -1;
 iNew = -1;
@@ -45,7 +44,6 @@ else
   %cd /asl/matlab2012/read_hitr06
   cd /home/sergio/SPECTRA/read_hitr06
   line = read_hitran(start,stop,strengthM,gasID,filename);
-
 end
 
 %iVers = input('Enter HITRAN version 92 96 98 2k 04 08 12 16 20: ');

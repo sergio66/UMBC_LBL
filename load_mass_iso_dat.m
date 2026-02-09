@@ -2,7 +2,7 @@ if exist('mass.dat')
   load mass.dat        %get the mass of the isotopes
 else
   disp('mass.dat DNE')
-  fprintf(1,'this should have een made by     hitread.m     for your hitran version %s \n',hitran_version)
+  fprintf(1,'this should bhave een made by     hitread.m     for your hitran version %s \n',hitran_version)
   fprintf(1,'so for eg H2020, see /umbc/xfs3/strow/asl/rta/hitran/H2020/ISOTOPES/Readme \n')
   fprintf(1,'                 then run convert2mass20.m \n')
   fprintf(1,'                 then  cp /asl/data/hitran/H2020/ISOTOPES/mass20.dat /home/sergio/SPECTRA/MASS_ISOTOPES/mass20.dat \n')

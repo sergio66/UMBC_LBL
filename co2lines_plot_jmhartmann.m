@@ -12,19 +12,21 @@ hartmann = load('~/SPECTRA/JMHARTMANN/LM_PQR_CO2_2.0/Data/BandInfo.dat');
 %%% this file finds the lines you want for the band in question
 %%% copied from co2lines.m
 
-gasID=2;
-%%fnamePRE='/asl/data/hitran/h92.by.gas/g';
-fnamePRE='/salsify/scratch4/h96.by.gas/g';
-fnamePRE='/asl/data/hitran/h98.by.gas/g';
-fnamePOST='.dat';
-fnameIN=int2str(gasID);
-hitlin_fname=[fnamePRE fnameIN fnamePOST];
+gasID = 2;
+%fnamePRE ='/asl/data/hitran/h92.by.gas/g';
+fnamePRE ='/salsify/scratch4/h96.by.gas/g';
+fnamePRE ='/asl/data/hitran/h98.by.gas/g';
+fnamePRE = [hitranpath  hitran_version '.by.gas/g'];
+
+fnamePOST = '.dat';
+fnameIN = int2str(gasID);
+hitlin_fname = [fnamePRE fnameIN fnamePOST];
 
 start = 400;
 stop = 2800;
 
-%%line=hitread(start,stop,1.0e-28,gasID,hitlin_fname);
-line=hitread(start,stop,0,gasID,hitlin_fname);
+%%line = hitread(start,stop,1.0e-28,gasID,hitlin_fname);
+line = hitread(start,stop,0,gasID,hitlin_fname);
 
 ggall   = [];
 bandall = [];

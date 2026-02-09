@@ -9,21 +9,36 @@ function lines = show_vis_ir_lines_wavenumber_individualgas(iWhich,gasids,fplots
 
 lines = [];
 
+hitranpath
 if nargin == 3
-  fname = '/asl/data/hitran/h12.by.gas/';
+  fname = '/asl/data/hitran/h24.by.gas/';
+  fname = [HITRAN 'h24.by.gas/'];  
+elseif hit_version == 2020
+  fname = '/asl/data/hitran/h20.by.gas/';
+  fname = [HITRAN 'h20.by.gas/'];    
+elseif hit_version == 2016
+  fname = '/asl/data/hitran/h16.by.gas/';
+  fname = [HITRAN 'h16.by.gas/'];    
 elseif hit_version == 2012
   fname = '/asl/data/hitran/h12.by.gas/';
+  fname = [HITRAN 'h12.by.gas/'];    
 elseif hit_version == 2008
   fname = '/asl/data/hitran/h08.by.gas/';
+  fname = [HITRAN 'h08.by.gas/'];    
 elseif hit_version == 2004
   fname = '/asl/data/hitran/h04.by.gas/';
+  fname = [HITRAN 'h04.by.gas/'];    
 elseif hit_version == 2000
   fname = '/asl/data/hitran/h2k.by.gas/';
+  fname = [HITRAN 'h2k.by.gas/'];    
 elseif hit_version == 1996
   fname = '/asl/data/hitran/h96.by.gas/';
+  fname = [HITRAN 'h96.by.gas/'];    
 else
-  error('only have H1996,2000,2004,2008,2012')
+  error('only have H1996,2000,2004,2008,2012,2016,2020,2024')
 end
+
+
 
 iNew = +1;
 if iNew < 0

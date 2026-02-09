@@ -253,7 +253,7 @@ nbox          = 5;
 strength_far  = 0.0;
 strength_near = 0.0;
 LVF           = 'F';
-HITRAN        = '/asl/data/hitran/h16.by.gas';
+do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
 IO            = '1';
 birn          = 'b';
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE
