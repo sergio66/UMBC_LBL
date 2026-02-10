@@ -8,6 +8,12 @@ that was when our disks died and had to start from git clone
  <<< See Readme_make_new_qtipsH24 >>>
  <<< See Readme_make_new_qtipsH24 >>> 
 
+2/10/2026  Cleaned up hitranpath, geisapath, do_HITRAN_vers, do_GEISA_vers
+           Cleaned up Readme_make_new_qtipsH24, though still have to say
+	   what I did for the sxec and mol gases there
+	   And will have to try HITRA2UMBCLBL for making kCARTA database
+	   and LBLRTM CO2/CH4/MTCKD 4.3
+	   	   
 2/8/2026   Made files hitranpath.m tells you the path to hitran files
            (eg /asl/data/hitran or /umbc/xfs3/strow/asl/rta/hitran/)
 

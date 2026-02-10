@@ -1,0 +1,211 @@
+
+get the masses from
+http://hitran.org/media/molparam.txt
+which has been saved in /asl/data/hitran/H2020/ISOTOPES
+
+then copy this into mass20.dat and edit it so it looks like mass16.dat
+  first 47 lines will have the number of isotopes
+    (so basically copy the first 47 lines of mass12.dat)
+    (but check to make sure you get the right number of isotopes_
+  then put in the masses as per molparam.txt
+
+but first need to get rid of ^M in molparams.txt so either do
+dos2unix molparams.txt
+
+or /asl/data/hitran/get_rid_of_silly_DOS.sc
+  #!/bin/sh
+  cat $1 | tr -d '\r' > ~/.tmp_file.txt
+  mv ~/.tmp_file.txt $1
+
+so
+  cp molparams.txt molparams0.txt
+  ../../get_rid_of_silly_DOS.sc molparam.txt
+then edit molparam.txt and save it as mass20_0.dat so that eg
+
+>>>>>>>>>
+Molecule # Iso Abundance     Q(296K)      gj    Molar Mass(g)
+   H2O (1)
+   161  9.97317E-01    1.7458E+02    1     18.010565
+   181  1.99983E-03    1.7605E+02    1     20.014811
+   171  3.71884E-04    1.0521E+03    6     19.014780
+   162  3.10693E-04    8.6474E+02    6     19.016740
+   182  6.23003E-07    8.7557E+02    6     21.020985
+   172  1.15853E-07    5.2268E+03   36     20.020956
+   262  2.41970E-08    1.0278E+03    1     20.022915
+   CO2 (2)
+   626  9.84204E-01    2.8609E+02    1     43.989830
+   636  1.10574E-02    5.7664E+02    2     44.993185
+   628  3.94707E-03    6.0781E+02    1     45.994076
+   627  7.33989E-04    3.5426E+03    6     44.994045
+   638  4.43446E-05    1.2255E+03    2     46.997431
+   637  8.24623E-06    7.1413E+03   12     45.997400
+   828  3.95734E-06    3.2342E+02    1     47.998322
+   827  1.47180E-06    3.7666E+03    6     46.998291
+   727  1.36847E-07    1.0972E+04    1     45.998262
+   838  4.44600E-08    6.5224E+02    2     49.001675
+   837  1.65354E-08    7.5950E+03   12     48.001646
+   O3 (3)
+   666  9.92901E-01    3.4837E+03    1     47.984745
+   668  3.98194E-03    7.4657E+03    1     49.988991
+
+>>>>>
+becomes
+
+%Molecule # Iso Abundance     Q(296K)      gj    Molar Mass(g)
+%   H2O (1)
+1 7 0 0 0
+   161  9.97317E-01    1.7458E+02    1     18.010565
+   181  1.99983E-03    1.7605E+02    1     20.014811
+   171  3.71884E-04    1.0521E+03    6     19.014780
+   162  3.10693E-04    8.6474E+02    6     19.016740
+   182  6.23003E-07    8.7557E+02    6     21.020985
+   172  1.15853E-07    5.2268E+03   36     20.020956
+   262  2.41970E-08    1.0278E+03    1     20.022915
+%   CO2 (2)
+2 11 0 0 0
+   626  9.84204E-01    2.8609E+02    1     43.989830
+   636  1.10574E-02    5.7664E+02    2     44.993185
+   628  3.94707E-03    6.0781E+02    1     45.994076
+   627  7.33989E-04    3.5426E+03    6     44.994045
+   638  4.43446E-05    1.2255E+03    2     46.997431
+   637  8.24623E-06    7.1413E+03   12     45.997400
+   828  3.95734E-06    3.2342E+02    1     47.998322
+   827  1.47180E-06    3.7666E+03    6     46.998291
+   727  1.36847E-07    1.0972E+04    1     45.998262
+   838  4.44600E-08    6.5224E+02    2     49.001675
+   837  1.65354E-08    7.5950E+03   12     48.001646
+%    O3 (3)
+3 5 0 0 0
+   666  9.92901E-01    3.4837E+03    1     47.984745
+   668  3.98194E-03    7.4657E+03    1     49.988991
+		  
+etc
+
+then run convert2mass20.m
+cp /asl/data/hitran/H2020/ISOTOPES/mass20.dat /home/sergio/SPECTRA/mass20.dat
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+TIPS2021 : ifort -o TIPS_2021_allisotopes.x -names uppercase -extend-source 132 -O3 TIPS_2021_allisotopes.f
+
+mkdir /home/sergio/SPECTRA/Global_Data_HITRAN2020/
+look at the detailed Readme there -- reproduced below
+
+cp -a /asl/data/hitran/H2020/QTIPS/*.[fF]* .
+cp -a /asl/data/hitran/H2020/QTIPS/*.CMN .
+
+mv BD_ISO_2020.for BD_ISO_2020.FOR
+mv BD_ISO_82_to_85.for BD_ISO_82_TO_85.FOR
+     
+edit BD_ISO_82_TO_85.FOR (the "returns" and "continues" are wierd!!!!)
+
+cp ../Global_Data_HITRAN2012/TIPS_2012_allisotopes.f TIPS_2021_allisotopes.f
+wherever you see 2012, replace with 2021
+      CALL TIPS_2021(iMol,rTemp,iI,iG*1.d0,rQT)
+      include 'TIPS_2021_try_include1.f'   >>>>>>>>>>> which is basically TIPS_2021.FOR but turned into a subroutine, and edited as below
+
+>>>>>>><<<<<<<
+
+cp ../Global_Data_HITRAN2012/TIPS_2012_try_include1.f TIPS_2021_try_include1.f
+basically keep the first few lines, change 2012 to 2021 
+and then 
+  delete everything, physically 
+  include TIPS_2021.FOR 
+  make the main program into subroutine, see below
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+C***********************
+cs      Program TIPS_2021
+C*********************** 
+C    Program TIPS_2021 written by R.R. Gamache
+
+
+C***********************
+      Subroutine TIPS_2021(
+     I MOL,		! HITRAN molecule number
+     I Temp,		! temperature in K
+     I NSO82,		! isotopomer index  should really be eg 161 or 181 0r 171 for Water
+     O gi,		! state independent degeneracy factor
+     O QT)		! total internal partition sum
+C*********************** 
+
+then include and edit TIPS_2021.FOR
+
+(1) these are new variables
+      INTEGER NT,I,IT
+      INTEGER MOL,NS082
+      DOUBLE PRECISION Temp,QT,gi
+      character*30 stopNgo
+(2) these are redefined variabes
+c      COMMON/TEMPERATURES/TDAT(NT)
+      DOUBLE PRECISION tdat(NT)
+      COMMON/Temperatures/tdat
+
+      DOUBLE PRECISION tmax(NMOL,Max_ISO)
+c      DIMENSION TMAX(NMOL,MAX_ISO)
+
+(3) edit out their input prompts
+     I have comments "cs" in columns 1-2, have demarcated them using
+cs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+cs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
+and set the isotope
+cs       CALL ISO_82_TO_85 (MOL,NSO82,ISO)
+         ISO = NSO82  !!! YAY NEED THIS since we are not using eg 161 171  but using 1 2 ....
+
+(4) molecule 34 is a mess, the max temp was set at 10.0 and the gi,Q were set as 0. So edited this to become
+c      data Tmax(34,1)/10./  ! HO2
+      data Tmax(34,1)/1000./  ! HO2  SERGIO
+and
+      IF(MOL.EQ.34) THEN
+      c...not applicable to O
+      c      gi=0
+      c     QT = 0.
+      c sergio
+            gi=1
+            QT = 1.
+       go to 100
+      ENDIF
+
+(5) modify the output lines so that nothing is printed from TIPS_2021_try_include1.f, and the loop does not keep executing
+ 100  if(QT .gt. 0.) then
+cxsergio         WRITE(*,900) MOLID(MOL), NSO82, TEMP, QT, GI
+cxsergio   900 FORMAT(//,5X,A6,' MOLECULE',3X,I5,' ISOTOPOLOGUE',/,
+cxsergio      + 5X,'Q(',F7.1,' K) = ',1PE12.4,5X,'STATE INDEPENDENT FACTOR=',
+cxsergio      + 0PF7.1,////)
+      ELSE
+        print *,NSO82, Temp, QT, gi
+        WRITE(*,'(A23,A6)') ' NO DATA AVAILABLEFOR ',MOLID(MOL)
+      ENDIF
+c      go to 10
+c  99  STOP 'Computation finished'
+
+>>>>>>><<<<<<<
+
+in BD_ISO_82_TO_85.FOR and BD_MOL_2020.FOR and BD_ISO_2020.for change all
+           Species_2020.cmn to Species_2020.cmn
+           Isotops.cmn      to Isotops.cmn
+	   MOLEC.cmn        to MOLEC.CMN
+plus declare variables
+     INTEGER NMOL,Max_ISO  into SPECIES_2016.CMN
+
+>>>>>>><<<<<<<
+
+hitread.m has to be updated (since it does the symbolic links for h08,h12,h16 etc)
+run8*.m   have to be updated to default to H16  (basically run8.m and run8water.m)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[sergio@maya-usr1 SPECTRA]$ ls -lt *20*.m
+------> requires home/sergio/SPECTRA/Global_Data_HITRAN2020/TIPS_2021_allisotopes.x <------
+<<<<<<<<< MAKE SURE ngas == 55 ie agrees with wgatever is in mass20.dat >>>>>>>>>>
+<<<<<<<<< MAKE SURE ngas == 55 ie agrees with wgatever is in mass20.dat >>>>>>>>>>
+<<<<<<<<< MAKE SURE ngas == 55 ie agrees with wgatever is in mass20.dat >>>>>>>>>>
+-rw-r--r-- 1 sergio pi_strow  2546 Nov 11 08:11 find_qnew_isotopes_H20.m 
+-rw-r--r-- 1 sergio pi_strow  4633 Nov 11 08:11 find_qnewABCD_H20.m
+
+------> requires home/sergio/SPECTRA/Global_Data_HITRAN2020/TIPS_2021_allisotopes.x <------
+-rw-r--r-- 1 sergio pi_strow 15773 Nov 11 08:10 qtips20.m  ------>>> made by find_qnewABCD_H20.m <<<--------
+
+were made by copying *12*.m and adjusting as needed 12 --> 20 in all the files
+
+-rw-r--r-- 1 sergio pi_strow  4633 Nov 11 08:11 getq_oldVSnew.m

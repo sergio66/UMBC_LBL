@@ -456,7 +456,10 @@ strength_far  = 0.0;
 strength_near = 0.0;
 LVF           = 'V';             %%%  <--- note this, instead of 'F' ******
 CKD           = -1;
-do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+
+do_HITRAN_vers                                        %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+%% do_GEISA_vers; HITRANpathNyear = GEISApathNyear;   %% << if you want to use GEISA dbase, uncomment this to use G15 >>
+
 IO            = '0';             %%%  <--- note this, instead of '1' ******
 birn          = 'c';             %%%  <--- note this, instead of "b" ******
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE

@@ -10,12 +10,8 @@ gasname = ['H2OCO2xO3N2OxCOCH4'];
 for gg = 1 : 26
   gasID = gg;
 
-  %%fnamePRE = '/asl/data/hitran/h92.by.gas/g';
-  %fnamePRE = '/salsify/scratch4/h96.by.gas/g';
-  fnamePRE = '/asl/data/hitran/h98.by.gas/g';
-  fnamePRE = '/asl/data/hitran/h92.by.gas/g';
-  do_HITRAN_vers;
-  fnamePRE = [HITRAN '/g'];; 
+  fnamePRE = [hitranpath '/h' hstr '.by.gas/g'];
+  fnamePRE = [do_HITRAN_vers '/g'];
   
   fnamePOST = '.dat';
   fnameIN = int2str(gasID);

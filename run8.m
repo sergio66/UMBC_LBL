@@ -257,8 +257,8 @@ else
   CKD = -1;
 end
 
-do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
-%% do_GEISA_vers; HITRAN = GEISA;   %% << if you want to use GEISA dbase, uncomment this to use G15 >>
+do_HITRAN_vers                                        %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+%% do_GEISA_vers; HITRANpathNyear = GEISApathNyear;   %% << if you want to use GEISA dbase, uncomment this to use G15 >>
 
 stren_mult    = 1.0;
 width_mult    = 1.0;
@@ -446,11 +446,11 @@ out_array = zeros(NumLayers,length(outwave));
 %%%%%%% READ IN RELEVANT DATA FROM HITRAN DATABASE  %%%%%%%%%%%%%%%%%%%%%%%%
 %% fnamePRE = '/salsify/scratch4/h96.by.gas/g';        %H96 -- old
 %% fnamePRE = '/salsify/scratch4/h98.by.gas/g';        %H98 -- KCARTA database 
-%% fnamePRE = '/salsify/scratch4/h2k.by.gas/g';        %H98 -- KCARTA database 
-if (HITRAN(length(HITRAN)) == '/')
-  fnamePRE = [HITRAN 'g' ];
+%% fnamePRE = '/salsify/scratch4/h2k.by.gas/g';        %H98 -- KCARTA database
+if (HITRANpathNyear(length(HITRANpathNyear)) == '/')
+  fnamePRE = [HITRANpathNyear 'g' ];
 else
-  fnamePRE = [HITRAN '/g'];
+  fnamePRE = [HITRANpathNyear '/g'];
 end
 fnamePOST = '.dat';
 fnameIN   = int2str(gasID);

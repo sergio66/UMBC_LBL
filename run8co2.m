@@ -442,7 +442,10 @@ iVersHartmann = 2010;                          % use his newest code
 %%%%% most of this is for run8co2_linemixUMBC
 LVF           = 'F';
 NIF           = 'F';
-do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+
+do_HITRAN_vers                                        %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+%% do_GEISA_vers; HITRANpathNyear = GEISApathNyear;   %% << if you want to use GEISA dbase, uncomment this to use G15 >>
+
 IO            = '1';
 birn          = 'b';
 RemoveSomeBands = -1;            %%%% <--- assume we do not care about NLTE

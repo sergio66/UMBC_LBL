@@ -8,12 +8,11 @@ strengthM = 0.0;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% fnamePRE='/salsify/scratch4/h96.by.gas/g';        %H96 -- old
-%% fnamePRE='/salsify/scratch4/h98.by.gas/g';        %H98 -- KCARTA database 
-%% fnamePRE='/salsify/scratch4/h2k.by.gas/g';        %H98 -- KCARTA database 
+%% fnamePRE = '/salsify/scratch4/h96.by.gas/g';        %H96 -- old
+%% fnamePRE = '/salsify/scratch4/h98.by.gas/g';        %H98 -- KCARTA database 
+%% fnamePRE = '/salsify/scratch4/h2k.by.gas/g';        %H98 -- KCARTA database 
 
-do_HITRAN_vers;
-fnamePRE   = [HITRAN '/g'];
+fnamePRE   = [do_HITRAN_vers '/g'];
 fnamePOST  = '.dat';
 fnameIN    = int2str(gasID);
 fname      = [fnamePRE fnameIN fnamePOST];
@@ -21,29 +20,29 @@ fname      = [fnamePRE fnameIN fnamePOST];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-HITRAN        = '/asl/data/hitran/h98.by.gas';
-if (HITRAN(length(HITRAN)) == '/')
-  fnamePRE = [HITRAN 'g' ];
+z98HITRAN = [hitranpath '/h98.by.gas/'];   
+if (z98HITRAN(length(z98HITRAN)) == '/')
+  fnamePRE = [z98HITRAN 'g' ];
 else
-  fnamePRE = [HITRAN '/g'];
+  fnamePRE = [z98HITRAN '/g'];
 end
-fnamePOST='.dat';
-fnameIN=int2str(gasID);
-fname=[fnamePRE fnameIN fnamePOST];
-[line1998]=hitread(low,high,strengthM,gasID,fname);
+fnamePOST = '.dat';
+fnameIN = int2str(gasID);
+fname = [fnamePRE fnameIN fnamePOST];
+[line1998] = hitread(low,high,strengthM,gasID,fname);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-HITRAN        = '/asl/data/hitran/h96.by.gas';
-if (HITRAN(length(HITRAN)) == '/')
-  fnamePRE = [HITRAN 'g' ];
+z96HITRAN = [hitranpath '/h96.by.gas/'];   
+if (z96HITRAN(length(z96HITRAN)) == '/')
+  fnamePRE = [z96HITRAN 'g' ];
 else
-  fnamePRE = [HITRAN '/g'];
+  fnamePRE = [z96HITRAN '/g'];
 end
-fnamePOST='.dat';
-fnameIN=int2str(gasID);
-fname=[fnamePRE fnameIN fnamePOST];
-[line1996]=hitread(low,high,strengthM,gasID,fname);
+fnamePOST = '.dat';
+fnameIN = int2str(gasID);
+fname = [fnamePRE fnameIN fnamePOST];
+[line1996] = hitread(low,high,strengthM,gasID,fname);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -63,7 +62,7 @@ if line2000.linct == line1998.linct
 else
   fprintf(1,'different number of lines ... \n');
   [C,IA,IB] = intersect(line1998.wnum,line2000.wnum) ;
-semilogy(line2000.wnum(IB),line2000.stren(IB)./line1998.stren(IA),'r'); pause
-semilogy(line2000.wnum(IB),line2000.abroad(IB)./line1998.abroad(IA),'r'); pause
-semilogy(line2000.wnum(IB),line2000.sbroad(IB)./line1998.sbroad(IA),'r'); pause
-  end
+  semilogy(line2000.wnum(IB),line2000.stren(IB)./line1998.stren(IA),'r'); pause
+  semilogy(line2000.wnum(IB),line2000.abroad(IB)./line1998.abroad(IA),'r'); pause
+  semilogy(line2000.wnum(IB),line2000.sbroad(IB)./line1998.sbroad(IA),'r'); pause
+end

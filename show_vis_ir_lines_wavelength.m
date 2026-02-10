@@ -1,7 +1,6 @@
-fname = '/asl/data/hitran/h04.by.gas/';
-fname = '/asl/data/hitran/h08.by.gas/';
-hitranpath
-fname = [HITRAN 'h24.by.gas/'];
+fname = [hitranpath '/h16.by.gas/'];  %% this is technically same as do_HITRAN_vers.m
+fname = [hitranpath '/h20.by.gas/'];  %% this is technically same as do_HITRAN_vers.m
+fname = [hitranpath '/h24.by.gas/'];  %% this is technically same as do_HITRAN_vers.m
 
 fop = '/carrot/s1/sergio/pin_feb2002_sea_airsnadir_op.22deg.rtp';
 [h,ha,p,pa] = rtpread(fop);

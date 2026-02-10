@@ -85,7 +85,7 @@ elseif idd >= 1998 & idd < 2012
     case 81, gstr = 'SF6_IR00';        % 81       also gid 30
   end
 
-elseif idd >= 2012
+elseif idd >= 2012 & idd <= 2024
   % /asl/data/hitran/HITRAN2012/IR-XSect/Uncompressed-files
   switch gid
     case 51, gstr = 'CFC-11_IR00';    % 51  (F11)
@@ -136,6 +136,9 @@ elseif idd >= 2012
     ystr = num2str(idd);
     gstr = [gstr(1:end-2) ystr];
   end
-    
+
+else
+  idd
+  error('can only handle till 2024')
 end
 

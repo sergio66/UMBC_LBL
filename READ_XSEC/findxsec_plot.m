@@ -6,6 +6,7 @@ if nargin < 4
   HITRANyear = 2012;
   HITRANyear = 2016;
   HITRANyear = 2020;
+  HITRANyear = 2024;  
 end
 
 %addpath /home/sergio/HITRAN2UMBCLBL/READ_XSEC
@@ -66,7 +67,10 @@ elseif HITRANyear == 2024
   fnamePRE = '/asl/data/hitran/H2024/IR-XSect/Uncompressed-files/';                idd = 2024;
   fnamePRE = '/umbc/xfs3/strow/asl/rta/hitran/H2024/IR-XSect/Uncompressed-files/'; idd = 2024;
   fnamePRE = '/umbc/xfs3/strow/asl/rta/hitran/H2024/IR-XSect/Uncompressed-files/'; idd = 2024;
-  fnamePRE = [hitranpath '/H2024/IR-XSect/Uncompressed-files/'];                   idd = 2024;        
+  fnamePRE = [hitranpath '/H2024/IR-XSect/Uncompressed-files/'];                   idd = 2024;
+else
+  HITRANyear
+  error('invalid HITRANyear')
 end
 
 fnamePOST='.xsc';

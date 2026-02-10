@@ -170,7 +170,10 @@ strength_near = 0.0;
 LVG           = 'G';    %%% do a test of Voigt
 LVG           = 'V';    %%% VanVleck is what is usually used
 CKD           = -1;
-do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+
+do_HITRAN_vers                                        %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+%% do_GEISA_vers; HITRANpathNyear = GEISApathNyear;   %% << if you want to use GEISA dbase, uncomment this to use G15 >>
+
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;

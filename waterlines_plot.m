@@ -10,7 +10,7 @@ addpath /home/sergio/SPECTRA/read_hitr06
 %%% this file finds the lines you want for the band in question
 %%% copied from co2lines.m
 
-iHIT = input('enter HITRAN version (1992,1996,1998,2000,2004,2008,2012,2016,2020) : ');
+iHIT = input('enter HITRAN version (1992,1996,1998,2000,2004,2008,2012,2016,2020,2024) : ');
 if iHIT == 2000
   strHIT = 'h2k';
 else
@@ -23,8 +23,7 @@ gasID=1;
 fnamePRE = '/salsify/scratch4/h96.by.gas/g';
 fnamePRE = '/asl/data/hitran/h98.by.gas/g';
 fnamePRE = ['/asl/data/hitran/' strHIT '.by.gas/g'];
-hitranpath
-fnamePRE = [HITRAN  strHIT '.by.gas/g'];
+fnamePRE = [hitranpath  strHIT '.by.gas/g'];
 
 fnamePOST ='.dat';
 fnameIN = int2str(gasID);

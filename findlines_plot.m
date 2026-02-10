@@ -24,11 +24,27 @@ if HorG == 1
     hstr = '2k';
   elseif HITRANyear > 2000
     hstr = num2str(HITRANyear-2000,'%02d');
+  elseif HITRANyear == 2004
+    hstr = '04';    
+  elseif HITRANyear == 2008
+    hstr = '08';    
+  elseif HITRANyear == 2012
+    hstr = '12';    
+  elseif HITRANyear == 2016
+    hstr = '16';    
+  elseif HITRANyear == 2020
+    hstr = '20';    
+  elseif HITRANyear == 2024
+    hstr = '24';
+  else
+    HITRANyear
+    error('only have HITRAN 96,98,2k,04, ... 24')
   end
 elseif HorG == -1
   if HITRANyear == 2015
     hstr = '15';
   else
+    HITRANyear
     error('only have GEISA 2015')
   end
 end
@@ -50,15 +66,16 @@ gasID = gid;
 if HorG == 1
   fnamePRE = ['/asl/data/hitran/h' hstr '.by.gas/g'];
   fnamePRE = ['/asl/rta/hitran/h' hstr '.by.gas/g'];
-  fnamePRE = ['/umbc/xfs3/strow/asl/rta/hitran/h' hstr '.by.gas/g'];
-  do_HITRAN_vers;
-  fnamePRE = HITRAN;
-  fnamePRE = [HITRAN '/g'];;
+  fnamePRE = ['/umbc/xfs3/strow/asl/rta/hitran/h' hstr '.by.gas/g'];  
+  fnamePRE = [do_HITRAN_vers '/g'];
+  fnamePRE = [hitranpath '/h' hstr '.by.gas/g'];    
   
 else
   fnamePRE = ['/asl/data/geisa/g' hstr '.by.gas/g'];
   fnamePRE = ['/asl/rta/geisa/g' hstr '.by.gas/g'];
   fnamePRE = ['/umbc/xfs3/strow/asl/rta/geisa/h' hstr '.by.gas/g'];
+  fnamePRE = [do_GEISA_vers '/g'];
+  fnamePRE = [geisapath '/g' hstr '.by.gas/g'];      
 end
 
 fnamePOST    = '.dat';
