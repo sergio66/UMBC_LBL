@@ -11,16 +11,14 @@ while f0 <= (fend-25)
   %%%                   -1,1,1,+2,0,fnameIN);    %%%need local lineshape
 
   %topts.local = 0;      %%%need local lineshape
-  %topts.HITRAN = '/asl/data/hitran/h2k.oldiso';      
+  %topts.HITRAN = [hitranpath '/h2k.oldiso/'];      
   %[fr,k00]=run7water(1,f0,fe,fnameIN);
   %fnameOUT = '/taro/s1/sergio/HITRAN2000WATER/CAMEX3/water';
   %fnameOUT = '/taro/s1/sergio/HITRAN2000WATER/WINTEX/water';
   %fnameOUT = '/taro/s1/sergio/HITRAN2000WATER/CAMEX1/water';
 
   topts.local = 1;      %%%need tobin lineshape
-  topts.HITRAN = '/asl/data/hitran/h2k.oldiso';
-  hitranpath.m
-  topts.HITRAN = HITRAN;
+  topts.HITRAN = [hitranpath '/h2k.oldiso/'];        
   [fr,k00]=run7water(1,f0,fe,fnameIN,topts);
   fnameOUT = '/taro/s1/sergio/HITRAN2000WATER/CAMEX3/water_chi';
   fnameOUT = '/taro/s1/sergio/HITRAN2000WATER/CAMEX1/water_chi';

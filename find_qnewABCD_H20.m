@@ -101,7 +101,6 @@ for iGasID = 1 : ngas
     %new_bt_f77 = [new_bt_f77 'BD_TIPS_2012_allisotopes.x '];
     %new_bt_f77 = ['!/home/sergio/SPECTRA/Global_Data_HITRAN2016/'];    
     %new_bt_f77 = [new_bt_f77 'TIPS_2017_allisotopes.x'];
-error('fix this by sending in hXY')    
     new_bt_f77 = ['!/home/sergio/SPECTRA/Global_Data_HITRAN2020/'];    
     new_bt_f77 = [new_bt_f77 'TIPS_2021_allisotopes.x'];
     new_bt_f77 = [new_bt_f77 ' < ' infile ' > ' outfile];

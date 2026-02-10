@@ -9,8 +9,9 @@ tv = ttorad(wv,t0);
 
 gasID = gid;
 
-fnamePRE='/asl/data/hitran/HITRAN04/UV/Xsec/';
-fnamePRE='/spinach/s6/sergio/RUN8_NIRDATABASE/UV/Xsec/';
+fnamePRE = '/asl/data/hitran/HITRAN04/UV/Xsec/';
+fnamePRE = '/spinach/s6/sergio/RUN8_NIRDATABASE/UV/Xsec/';
+fnamePRE = [hitranpath '/HITRAN04/UV/Xsec/'];
 
 %% from ~sergio/KCARTA/DOC/gasids
 %% also see /home/sergio/abscmp/READ_XSEC/gid2mol.m

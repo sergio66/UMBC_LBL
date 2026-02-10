@@ -1,4 +1,4 @@
-function xs = read_xsec(gf, gd)
+function xs = read_xsec_H08(gf, gd)
 
 % function xs = read_xsec(gf, gd)
 %
@@ -44,7 +44,15 @@ if nargin == 1
   gd = '/asl/data/hitran/xsec98.ok';  idd = 1998;
   gd = '/asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/Junk/'; idd=2008;
   gd = '/asl/data/hitran/HITRAN08_SERGIO/Xsec/'; idd=2008;
+  gd = [hitranpath '/H2012/IR-XSect/Compressed-files/'];              idd = 2012;
+  gd = [hitranpath '/H2016/IR-XSect/Compressed-files/'];              idd = 2016;
+  gd = [hitranpath '/H2020/IR-XSect/Compressed-files/'];              idd = 2020;
+  gd = [hitranpath '/H2024/IR-XSect/Compressed-files/'];              idd = 2024;
+
+  gd = [hitranpath '/HITRAN08_SERGIO/Xsec/']; idd = 2008;  
 end
+
+fprintf(1,'read_xsec_H08.m : gd = %s \n',gd);
 
 % if given numeric gas ID, translate to gas filename
 if isnumeric(gf)

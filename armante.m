@@ -1,4 +1,7 @@
-topts.HITRAN = '/asl/data/geisa/g15.by.gas/';; [w,dx] = run8(3,975,1225,'IPFILES/co2one',topts);
+topts.HITRAN = '/asl/data/geisa/g15.by.gas/';;
+topts.HITRAN = [geisapath '/g15.by.gas/'];
+
+[w,dx] = run8(3,975,1225,'IPFILES/co2one',topts);
 [w,d] = run8(3,975,1225,'IPFILES/co2one');
 save armante.mat w d dx topts
 
@@ -18,7 +21,10 @@ fclose(fid);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear all
 
-topts.HITRAN = '/asl/data/geisa/g15.by.gas/';; [w,dx] = run8(3,1200,1275,'IPFILES/co2one',topts);
+topts.HITRAN = '/asl/data/geisa/g15.by.gas/';;
+topts.HITRAN = [geisapath '/g15.by.gas/'];
+
+[w,dx] = run8(3,1200,1275,'IPFILES/co2one',topts);
 [w,d] = run8(3,1200,1275,'IPFILES/co2one');
 save armante2.mat w d dx topts
 

@@ -46,8 +46,11 @@ if gid == 7
 
 % set default directory for xsec data
 %if nargin == 1
+  gd = [hitranpath '/H2024/IR-XSect/Compressed-files/'];              idd = 2024;
+
   gd = '/asl/data/hitran/HITRAN04/UV/Xsec';
-  gd = '/spinach/s6/sergio/RUN8_NIRDATABASE/UV/Xsec/';
+  gd = '/spinach/s6/sergio/RUN8_NIRDATABASE/UV/Xsec/';  
+  gd = [hitranpath '/HITRAN04/UV/XSec/'];                             idd = 2004;                    
 %end
 
 % if given numeric gas ID, translate to gas filename
@@ -55,11 +58,11 @@ if gid == 7
 if isnumeric(gid)
   switch gid
   % gas IDs from GENLN2
-    case 3,  gstr = 'O3';
-    case 7,  gstr = 'O2-O2';
-    case 9,  gstr = 'SO2';
+    case 3,   gstr = 'O3';
+    case 7,   gstr = 'O2-O2';
+    case 9,   gstr = 'SO2';
     case 10,  gstr = 'NO2';
-    case 20, gstr = 'H2CO'; 
+    case 20,  gstr = 'H2CO'; 
     otherwise, error('unknown gas id')
     end
   end

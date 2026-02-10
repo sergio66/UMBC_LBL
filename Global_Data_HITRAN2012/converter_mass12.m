@@ -1,6 +1,9 @@
 clear all
 
 fin0 = '/asl/data/hitran/HITRAN2012/Global-Data/molparam.txt';
+  hitranpath
+  fin0 = [HITRAN 'HITRAN2012/Global-Data/molparam.txt'];
+
 fin  = 'molparam1.txt';
 fout = 'mass12.dat';
 

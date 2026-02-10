@@ -1,6 +1,6 @@
-function line = show_unc(wv1,wv2,gid,HITRAN,HorG,index2show);
+function line = show_unc(wv1,wv2,gid,HITRANyear,HorG,index2show);
 
-%% lineH16 = show_unc(1275,1325,6,2016,1,2);    HITRAN2016
+%% lineH16 = show_unc(1275,1325,6,2016,1,2);    HITRANyear2016
 %% lineG15 = show_unc(1275,1325,6,2015,-1,2);   GEISA 2015
 
 %     wnum_unc_index   = str2num(unc_index(:,1));    line center
@@ -13,21 +13,21 @@ function line = show_unc(wv1,wv2,gid,HITRAN,HorG,index2show);
 %% hgload /home/sergio/PAPERS/CONFERENCES/HITRAN/2018/Figs/UNC/strengthplus_airs.fig
 
 if nargin == 3
-  HITRAN = 2016;
-  HITRAN = 2020;
-  HITRAN = 2024;  
-  HorG = +1;      %% HITRAN not GEISA
+  HITRANyear = 2016;
+  HITRANyear = 2020;
+  HITRANyear = 2024;  
+  HorG = +1;      %% HITRANyear not GEISA
   index2show = 1;
 end
 if nargin == 4
-  HorG = +1;      %% HITRAN not GEISA
+  HorG = +1;      %% HITRANyear not GEISA
   index2show = 1;
 end
 if nargin == 5
   index2show = 1;
 end
 
-[iYes,line] = findlines_plot(wv1,wv2,gid,HITRAN,HorG);
+[iYes,line] = findlines_plot(wv1,wv2,gid,HITRANyear,HorG);
 
 unc_index = line.ai;
 if index2show < 1 | index2show > 6

@@ -1,8 +1,8 @@
-function xs = read_xsec(gf, gd, HITRAN)
+function [xs,gfout] = read_xsec(gf, gd, HITRANyear)
 
 iPrint = -1;
 
-% function xs = read_xsec(gf, gd, HITRAN)
+% function xs = read_xsec(gf, gd, HITRANyear)
 %
 % read_xsec() reads a HITRAN IR cross-section data file
 % and returns a matlab structure containing the data; it
@@ -11,11 +11,12 @@ iPrint = -1;
 % input
 %   gf  - HITRAN xsec gas file or gas ID
 %   gd  - optional directory for gas files 
-%   HITRAN (optional) = 2008 or 20012 or 2016 (default)
+%   HITRANyear (optional) = 2008 or 20012 or 2016 (default)
 %
 % output
-%   xs  - an nrec by nband structure of xsec records
-% 
+%   xs    - an nrec X nband structure of xsec records
+%   gfout = actual uncompressed xsec fle read in
+
 % xs is an nrec by nband array of structures.  The structure fields
 % are the xsec record header values and the absorption data for that
 % record.  The fields returned are:
@@ -43,53 +44,62 @@ iPrint = -1;
 avogkm = 6.0221367e+26;
 
 if nargin <= 2
-  HITRAN = 2012;
-  HITRAN = 2016;  
-  HITRAN = 2020;
-  HITRAN = 2024;    
+  HITRANyear = 2012;
+  HITRANyear = 2016;  
+  HITRANyear = 2020;
+  HITRANyear = 2024;    
 end
 
 % set default directory for xsec data
 %if nargin == 1
-  if HITRAN == 1998
-    gd = '/asl/data/hitran/xsec98.ok';  idd = 1998;
-  elseif HITRAN == 2008
-    gd = '/asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/Junk/'; idd=2008;
-    gd = '/asl/data/hitran/HITRAN08_SERGIO/Xsec/'; idd=2008;
-    gd = '/asl/data/hitran/H2008/IR-XSect/Uncompressed-files/'; idd=2008;
-  elseif HITRAN == 2012 
-    gd = '/asl/data/hitran/H2012/IR-XSect/Uncompressed-files/'; idd=2012;
-  elseif HITRAN == 2015 
-    gd = '/asl/data/geisa/G2015/2015.IR-XSect/Uncompressed-files/'; idd=2015;
-  elseif HITRAN == 2016 
-    gd = '/asl/data/hitran/H2016/IR-XSect/Uncompressed-files/'; idd=2016;
-  elseif HITRAN == 2020 
-    gd = '/asl/data/hitran/H2020/IR-XSect/Uncompressed-files/'; idd=2020;
-    gd = '/umbc/xfs3/strow/asl/rta/hitran/H2020/IR-XSect/Uncompressed-files/'; idd=2020;        
-  elseif HITRAN == 2024 
-    gd = '/asl/data/hitran/H2020/IR-XSect/Uncompressed-files/'; idd=2024;
-    gd = '/umbc/xfs3/strow/asl/rta/hitran/H2024/IR-XSect/Uncompressed-files/'; idd=2024;    
+  if HITRANyear == 1998
+    gd = '/asl/data/hitran/xsec98.ok';            idd = 1998;
+    gd = [hitranpath '/xsec98.ok/'];              idd = 1998;    
+  elseif HITRANyear == 2008
+    gd = '/asl/data/hitran/HITRAN2008/IR-XSect/Compressed-files/Junk/'; idd = 2008;
+    gd = '/asl/data/hitran/HITRAN08_SERGIO/Xsec/';                      idd = 2008;
+    gd = '/asl/data/hitran/H2008/IR-XSect/Uncompressed-files/';         idd = 2008;
+    gd = [hitranpath '/H2008/IR-XSect/Uncompressed-files/'];            idd = 2008;    
+  elseif HITRANyear == 2012 
+    gd = '/asl/data/hitran/H2012/IR-XSect/Uncompressed-files/';         idd = 2012;
+    gd = [hitranpath '/H2012/IR-XSect/Uncompressed-files/'];            idd = 2008;        
+  elseif HITRANyear == 2015 
+    gd = '/asl/data/geisa/G2015/2015.IR-XSect/Uncompressed-files/';     idd = 2015;
+    gd = [hitranpath '/G2015/2015.IR-XSect/Uncompressed-files/'];       idd = 2015;            
+  elseif HITRANyear == 2016 
+    gd = '/asl/data/hitran/H2016/IR-XSect/Uncompressed-files/';         idd = 2016;
+    gd = [hitranpath '/H2016/IR-XSect/Uncompressed-files/'];            idd = 2016;            
+  elseif HITRANyear == 2020 
+    gd = '/asl/data/hitran/H2020/IR-XSect/Uncompressed-files/';         idd=2020;
+    gd = '/umbc/xfs3/strow/asl/rta/hitran/H2020/IR-XSect/Uncompressed-files/'; idd=2020;
+    gd = [hitranpath '/H2020/IR-XSect/Uncompressed-files/'];            idd = 2016;                
+  elseif HITRANyear == 2024 
+    gd = '/asl/data/hitran/H2020/IR-XSect/Uncompressed-files/';         idd=2024;
+    gd = '/umbc/xfs3/strow/asl/rta/hitran/H2024/IR-XSect/Uncompressed-files/'; idd=2024;
+    gd = [hitranpath '/H2024/IR-XSect/Uncompressed-files/'];            idd = 2024;                
   else
-    error('need HITRAN == 1998 2008 2012 (G)2015 2016 2020')
+    error('need HITRANyear == 1998 2008 2012 (G)2015 2016 2020')
   end
 %end
 
+fprintf(1,'read_xsec.m : gd = %s \n',gd);
+  
 % if given numeric gas ID, translate to gas filename
 if isnumeric(gf)
-  fprintf(1,'  read_xsec gid = %3i HITRAN = %4i \n',gf,HITRAN)
-  gf = sprintf('%s.xsc', gid2mol(gf,HITRAN));
+  fprintf(1,'  read_xsec gid = %3i HITRANyear = %4i \n',gf,HITRANyear)
+  gf = sprintf('%s.xsc', gid2mol(gf,HITRANyear));
 end
 
 % open the xsec gas data file
-gf = [gd, '/', gf];
-fprintf(1,'looking to open and read %s \n',gf)
-if ~exist(gf)
-  fprintf(1,'OOPS %s does not exist !!! Exiting read_xsec.m!!! \n',gf);
+gfout = [gd, '/', gf];
+fprintf(1,'looking to open and read %s \n',gfout)
+if ~exist(gfout)
+  fprintf(1,'OOPS %s does not exist !!! Exiting read_xsec.m!!! \n',gfout);
   xs = [];
   return
 end
 
-[fid, msg] = fopen(gf, 'r');
+[fid, msg] = fopen(gfout, 'r');
 if fid == -1
   error(msg);
 end

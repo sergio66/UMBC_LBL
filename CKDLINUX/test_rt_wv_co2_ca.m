@@ -2,6 +2,8 @@ figure(1);
 f0 = 2300:2600;
 f0 = 2000:2800;
 
+addpath /home/sergio/SPECTRA/
+
 CA300 = wv_co2_ca(300,1.0,f0);
 iWrite = input('write out CA_WV_CO2 (-1/+1) and quit? ');
 if iWrite > 0
@@ -30,14 +32,18 @@ if iWrite > 0
 end
 
 
-  addpath /home/sergio/SPECTRA
-  hitname = '/asl/data/hitran/h16.by.gas/g2.dat';
-  [lineORIG,hitran_version,hlist_qtips] = hitread(2000,2600,0,2,hitname,-1);
-  iso = find(lineORIG.iso == 1 | lineORIG.iso == 2);
-  yyaxis left
-  semilogy(lineORIG.wnum,lineORIG.stren,'b.',lineORIG.wnum(iso),lineORIG.stren(iso),'cx')
-  yyaxis right
-  semilogy(f0,CA300,'r')
+hitname = '/asl/data/hitran/h16.by.gas/g2.dat';
+hitranpath
+hitname = [HITRAN '/h16.by.gas/g2.dat'];
+hitname = [HITRAN '/h20.by.gas/g2.dat'];
+hitname = [HITRAN '/h24.by.gas/g2.dat'];
+
+[lineORIG,hitran_version,hlist_qtips] = hitread(2000,2600,0,2,hitname,-1);
+iso = find(lineORIG.iso == 1 | lineORIG.iso == 2);
+yyaxis left
+semilogy(lineORIG.wnum,lineORIG.stren,'b.',lineORIG.wnum(iso),lineORIG.stren(iso),'cx')
+yyaxis right
+semilogy(f0,CA300,'r')
 
 figure(2)
 hatran = load('co2_wv_chi_ha_tran.dat');

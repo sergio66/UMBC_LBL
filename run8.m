@@ -1,4 +1,4 @@
-function [outwave,out_array] = run8(gasID,fmin,fmax,profname,topts)
+function [outwave,out_array,hitran_fname] = run8(gasID,fmin,fmax,profname,topts)
 
 %tic
 %tic0 = tic;
@@ -256,7 +256,10 @@ elseif (gasID == 1)
 else
   CKD = -1;
 end
+
 do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+%% do_GEISA_vers; HITRAN = GEISA;   %% << if you want to use GEISA dbase, uncomment this to use G15 >>
+
 stren_mult    = 1.0;
 width_mult    = 1.0;
 tsp_mult      = 1.0;
@@ -465,6 +468,7 @@ adderpath1
 %%%%%%%%following line if we want to use latest Hitran* database
 [lineORIG,hitran_version,hlist_qtips] = ...
    hitread(low,high,strengthM,gasID,fname,-1);
+hitran_fname = fname;
 
 lineX = lineORIG;
 lineORIG = adjust_for_uncertainty(lineORIG,str_unc,gasID,fmin);

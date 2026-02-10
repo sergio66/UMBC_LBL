@@ -4,6 +4,9 @@
 more off
 
 hdat = '/asl/data/hitran/h04.by.gas';
+hitranpath
+hdat = [HITRAN /h24.by.gas/'];
+
 v1 = 600;
 v2 = 2800;
 

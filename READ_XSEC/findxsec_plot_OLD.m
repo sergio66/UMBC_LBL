@@ -1,4 +1,4 @@
-function [iYes,xsecfilename] = findlines_plot(wv1,wv2,gid);
+function [iYes,xsecfilename] = findxsec_plot_OLD(wv1,wv2,gid);
 
 t0 = 300;
 dv = 10;
@@ -9,7 +9,9 @@ tv = ttorad(wv,t0);
 
 gasID = gid;
 
-fnamePRE='/asl/data/hitran/xsec98.ok/';
+fnamePRE = '/asl/data/hitran/xsec98.ok/';
+  fnamePRE ='/umbc/xfs3/strow/asl/rta/hitran/xsec98.ok/'; idd = 1998;
+  fnamePRE = [hitranpath '/xsec98.ok/']; idd = 1998;
 
 %% from ~sergio/KCARTA/DOC/gasids
 %% also see /home/sergio/abscmp/READ_XSEC/gid2mol.m

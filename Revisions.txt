@@ -1,0 +1,44 @@
+A bit of a kludge on the history, starting with about Jan 2026, since
+that was when our disks died and had to start from git clone
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ <<< See Readme_make_new_qtipsH24 >>>
+ <<< See Readme_make_new_qtipsH24 >>>
+ <<< See Readme_make_new_qtipsH24 >>> 
+
+2/8/2026   Made files hitranpath.m tells you the path to hitran files
+           (eg /asl/data/hitran or /umbc/xfs3/strow/asl/rta/hitran/)
+
+2/8/2026   Also made adderpath0.m, adderpath1.m, adderpath2.m allow you
+           to change paths to eg /home/sergio/git/SPECTRA or
+           /home/sergio/UMBC_LBL
+
+2/7/2026   downloaded the HITRAN xsc files to /asl/data/hitran/H2024
+           ... also have unzipped them.
+
+           Copied the /asl/data/hitran/H2024 scripts, F77 QTIPS files
+           and matlab scripts to make eg MASS_ISOTOPES/mass24.dat to
+           this UMBC_LBL git directory
+
+2/7/2026   have /asl/data/hitran/H2024/ working for run8.m and
+           run8water.m
+
+2/6/2026   did enough on chip Feb 2026 to get H2020 to work with run8.m
+           and run8water.m
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+29/4/2025  Tweaked HITRAN paths in hitread,run8 codes... from
+           /asl/rta/hitran/h20.by.gas/ to
+           /umbc/xfs3/strow/asl/rta/hitran/h20.by.gas/
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+then the other basic stuff was done long ago ...see git log
+eg Dec 2024 : made ONEPROF ode
+   Jan 2024 : redid mex code for R2013b
+   Dec 2021 : made adjustments for H2020
+   Feb 2020 : added in adjustments for HITEMP
+   Jul 2018 : initial git commit (so everything upto and including H2016)
+   

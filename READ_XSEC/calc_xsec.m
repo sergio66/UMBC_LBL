@@ -1,9 +1,9 @@
-function [absc, vgrid] = calc_xsec(gf, v1, v2, dv, tp, pL, db, HITRAN);
+function [absc, vgrid, gfout] = calc_xsec(gf, v1, v2, dv, tp, pL, db, HITRANyear);
 
-% function [absc, vgrid] = calc_xsec(gf, v1, v2, dv, tp, pL, db, HITRAN);
+% function [absc, vgrid] = calc_xsec(gf, v1, v2, dv, tp, pL, db, HITRANyear);
 %
 % calc_xsec returns IR absorptions calculated by
-% interpolation or extrapolation of HITRAN tabulated
+% interpolation or extrapolation of HITRANyear tabulated
 % IR cross-section data
 %
 % inputs
@@ -14,7 +14,7 @@ function [absc, vgrid] = calc_xsec(gf, v1, v2, dv, tp, pL, db, HITRAN);
 %   tp  - temperature profile
 %   pL  - pressure levels for tp
 %   db  - plot figure number (default is no plot)
-%   HITRAN - version number (2012 = default)
+%   HITRANyear - version number (2012 = default)
 %
 % implicit inputs
 %   nvpts = (v2-v1)/dv + 1, number of wavenumber points
@@ -23,7 +23,7 @@ function [absc, vgrid] = calc_xsec(gf, v1, v2, dv, tp, pL, db, HITRAN);
 % outputs
 %   absc  - nvpts x nplev array of layer absorptions, kmoles/cm^2
 %   vgrid - nvpts vector of output frequencies
-%
+%   gfout - name of actualy uncompressed xsecfile read
 
 % Original Version:
 % - H. Motteler, 15 Dec 98
@@ -39,7 +39,10 @@ C1 = 0.75;
 
 % input defaults
 if nargin <= 7
-  HITRAN = 2012; 
+  HITRANyear = 2012;
+  HITRANyear = 2016;
+  HITRANyear = 2020;
+  HITRANyear = 2024;  
 end
 if nargin <= 6
   db = 0; 
@@ -49,12 +52,11 @@ if (nargin < 6 | 8 < nargin)
 end
 
 % read_xsec() returns a structure with xsec data for this gas
-%if HITRAN == 2012
+%if HITRANyear == 2012
 %  xs = read_xsec(gf);
 %else
-  gf
-  HITRAN
-  xs = read_xsec(gf,[],HITRAN);
+fprintf(1,'HITRANyear = %4i gf = %s \n',HITRANyear,gf);
+[xs,gfout] = read_xsec(gf,[],HITRANyear);
 %end
 
 [nrec,nband] = size(xs);

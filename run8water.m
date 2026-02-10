@@ -1,4 +1,4 @@
-function [outwave,out_array]=run8water(gasID,fmin,fmax,profname,topts);
+function [outwave,out_array,hitran_fname]=run8water(gasID,fmin,fmax,profname,topts);
 
 % ********* also need lots of stuff from Global_Data_HITRAN2004 **************
 % same as run7.m except it does "load mass.dat" and the rest of the isotope
@@ -257,7 +257,10 @@ strength_far  = 0.0;
 strength_near = 0.0;
 LVG           = 'V';
 CKD           = -1;
+
 do_HITRAN_vers %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
+%% do_GEISA_vers; HITRAN = GEISA;   %% << if you want to use GEISA dbase, uncomment this to use G15 >>
+
 selfmult      = 1.0;
 formult       = 1.0;
 local         = 0;
@@ -482,6 +485,7 @@ fprintf(1,'hitran file to read is %s \n',fname);
 %%%%%%%%following line if we want to use latest Hitran* database
 [lineORIG,hitran_version,hlist_qtips] = ...
   hitread(low,high,strengthM,gasID,fname,-1);
+hitran_fname = fname;
 
 lineORIG = adjust_for_uncertainty(lineORIG,str_unc,gasID,fmin);
 

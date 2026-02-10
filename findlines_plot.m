@@ -1,12 +1,12 @@
-function [iYes,line] = findlines_plot(wv1,wv2,gid,HITRAN,HorG);
+function [iYes,line] = findlines_plot(wv1,wv2,gid,HITRANyear,HorG);
 
 if nargin < 4
-  HITRAN = 2012;
-  HITRAN = 2016;
-  HITRAN = 2020;
-  HorG = +1;      %% HITRAN or GEISA = 1 ==> HITRAN        HITRAN or GEISA = -1 ==> GEISA
+  HITRANyear = 2012;
+  HITRANyear = 2016;
+  HITRANyear = 2020;
+  HorG = +1;      %% HITRANyear or GEISA = 1 ==> HITRANyear        HITRANyear or GEISA = -1 ==> GEISA
 elseif nargin < 5
-  HorG = +1;      %% HITRAN or GEISA = 1 ==> HITRAN        HITRAN or GEISA = -1 ==> GEISA
+  HorG = +1;      %% HITRANyear or GEISA = 1 ==> HITRANyear        HITRANyear or GEISA = -1 ==> GEISA
 end
 
 if abs(HorG) ~= 1
@@ -14,19 +14,19 @@ if abs(HorG) ~= 1
 end
 
 if HorG == 1
-  if HITRAN == 1992
+  if HITRANyear == 1992
     hstr = '92';
-  elseif HITRAN == 1996
+  elseif HITRANyear == 1996
     hstr = '96';
-  elseif HITRAN == 1998
+  elseif HITRANyear == 1998
     hstr = '98';
-  elseif HITRAN == 2000
+  elseif HITRANyear == 2000
     hstr = '2k';
-  elseif HITRAN > 2000
-    hstr = num2str(HITRAN-2000,'%02d');
+  elseif HITRANyear > 2000
+    hstr = num2str(HITRANyear-2000,'%02d');
   end
 elseif HorG == -1
-  if HITRAN == 2015
+  if HITRANyear == 2015
     hstr = '15';
   else
     error('only have GEISA 2015')

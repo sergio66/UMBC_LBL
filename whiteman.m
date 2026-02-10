@@ -17,7 +17,7 @@ for ii = 1 : length(f0)
 
   profname = 'IPFILES/std_water';
   clear topts;
-  topts.HITRAN = '/asl/data/hitran/h2k.oldiso';
+  topts.HITRAN = [hitranpath '/h2k.oldiso/'];
   hitranpath.m
   topts.HITRAN = HITRAN;  
   [w,k1line] = run7water(1,fa,fb,profname,topts);

@@ -16,6 +16,11 @@ iX = +1;
 if iX > 0
   addpath /home/sergio/SPECTRA
   hitname = '/asl/data/hitran/h16.by.gas/g2.dat';
+  hitranpath
+  hitname = [HITRAN '/h16.by.gas/g2.dat'];
+  hitname = [HITRAN '/h20.by.gas/g2.dat'];
+  hitname = [HITRAN '/h24.by.gas/g2.dat'];
+  
   [lineORIG,hitran_version,hlist_qtips] = hitread(2200,2400,0,2,hitname,-1);
   [lineORIG,hitran_version,hlist_qtips] = hitread(2100,2600,0,2,hitname,-1);  
   iso = find(lineORIG.iso == 1 | lineORIG.iso == 2);

@@ -32,10 +32,8 @@ gid   = Sgid;
 %% load /home/sergio/HITRAN2UMBCLBL/REFPROF/refproTRUE.mat         %% symbolic link
 load oneprof.mat
 
-addpath /home/sergio/HITRAN2UMBCLBL/READ_XSEC/
 addpath /home/sergio/SPECTRA
-addpath /asl/matlib/science
-addpath /asl/matlib/aslutil
+adderpath0
 
 freq_boundaries
 

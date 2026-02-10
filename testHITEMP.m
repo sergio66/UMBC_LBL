@@ -29,9 +29,7 @@ end
 
 %disp('ret to cont'); pause
 
-topts.HITRAN = '/asl/data/hitran/HITEMP/h16.by.gas';
-hitranpath
-topts.HITRAN = HITRAN;
+topts.HITRAN = [hitranpath '/HITEMP/h16.by.gas'];
 [wx,dx] = run8(gid,f1,f2,'IPFILES/co2four_hitemp',topts);
 
 %{

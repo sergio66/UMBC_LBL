@@ -1,10 +1,12 @@
-function [bands,xs] = list_bands(gid,HITRAN)
+function [bands,xs] = list_bands(gid,HITRANyear)
 
 if nargin == 1
-  HITRAN = 2016;
+  HITRANyear = 2016;
+  HITRANyear = 2020;
+  HITRANyear = 2024;    
 end
 
-xs = read_xsec(gid,[],HITRAN);
+xs = read_xsec(gid,[],HITRANyear);
 
 [nrec, nband] = size(xs);
 if nband > 0

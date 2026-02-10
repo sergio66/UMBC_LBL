@@ -1,22 +1,22 @@
 function [iYes1,line1,iYes2,line2] = findlines_plot_compareHITRAN_HITEMP(wv1,wv2,gid)
 
 addpath /home/sergio/MATLABCODE
-HITRAN = 2016;
-HITRAN = 2020;
-HITRAN = 2024;
+HITRANyear = 2016;
+HITRANyear = 2020;
+HITRANyear = 2024;
 
-HITRAN1 = HITRAN;
-HITRAN2 = HITRAN;
+HITRANyear1 = HITRANyear;
+HITRANyear2 = HITRANyear;
 
-[iYes1,line1] = findlines_plot(wv1,wv2,gid,HITRAN);
+[iYes1,line1] = findlines_plot(wv1,wv2,gid,HITRANyear);
 disp(' ')
-[iYes2,line2] = findlines_plot_HITEMP(wv1,wv2,gid,HITRAN);
+[iYes2,line2] = findlines_plot_HITEMP(wv1,wv2,gid,HITRANyear);
 
-figure(1); clf; semilogy(line1.wnum,line1.stren,'b.'); title(num2str(HITRAN1)); 
-  fprintf(1,'%4i has %6i lines \n',HITRAN1,length(line1.wnum))
+figure(1); clf; semilogy(line1.wnum,line1.stren,'b.'); title(num2str(HITRANyear1)); 
+  fprintf(1,'%4i has %6i lines \n',HITRANyear1,length(line1.wnum))
 ax1 = axis;
-figure(2); clf; semilogy(line2.wnum,line2.stren,'r.'); title(['HITEMP ' num2str(HITRAN2)]); 
-  fprintf(1,'%4i has %6i lines \n',HITRAN2,length(line2.wnum))
+figure(2); clf; semilogy(line2.wnum,line2.stren,'r.'); title(['HITEMP ' num2str(HITRANyear2)]); 
+  fprintf(1,'%4i has %6i lines \n',HITRANyear2,length(line2.wnum))
 ax2 = axis;
 
 figure(1); axis([ax1(1) ax1(2) min(ax1(3),ax2(3)) max(ax1(4),ax2(4))]); grid on
@@ -36,16 +36,16 @@ for ii = 1 : length(oo1)
 end
 wah = find(isfinite(oo21));
 figure(1); plot(line1.wnum(oo1(wah)),line2.stren(oo2(oo21(wah)))./line1.stren(oo1(wah))); grid
-    title(['STREN iso=1 ' num2str(HITRAN2) '/' num2str(HITRAN1)]); 
+    title(['STREN iso=1 ' num2str(HITRANyear2) '/' num2str(HITRANyear1)]); 
 figure(2); semilogy(line2.wnum(oo2(oo21(wah))),line2.stren(oo2(oo21(wah))),'rx',line1.wnum(oo1(wah)),line1.stren(oo1(wah)),'b.'); grid
-    title(['STREN iso=1 (r)' num2str(HITRAN2) '(b)' num2str(HITRAN1)]); 
+    title(['STREN iso=1 (r)' num2str(HITRANyear2) '(b)' num2str(HITRANyear1)]); 
 disp('ret')
 
 if length(I) > 0
   fprintf(1,'found %8i out of %8i common wavenumbers, plotting the strens and linewidths \n',length(I),length(line1.wnum))
   figure(3);
   semilogy(line2.wnum,line2.stren,'r.',line1.wnum,line1.stren,'bo'); grid
-    title(['STREN (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]);
+    title(['STREN (b)' num2str(HITRANyear1) ' (r)' num2str(HITRANyear2)]);
   figure(4); clf
     wah = min(max(line1.iso),max(line2.iso));
     oo1 = find(line1.iso == 1);     oo2 = find(line2.iso == 1);
@@ -56,47 +56,47 @@ if length(I) > 0
     oo1 = find(line1.iso == 3);     oo2 = find(line2.iso == 3);      
       semilogy(line2.wnum(oo2),line2.stren(oo2),'ko',line1.wnum(oo1),line1.stren(oo1),'g.')
       hold off
-    str1a = [num2str(HITRAN2) ' iso1'];     str1b = [num2str(HITRAN1) ' iso1'];
-    str2a = [num2str(HITRAN2) ' iso2'];     str2b = [num2str(HITRAN1) ' iso2'];
-    str3a = [num2str(HITRAN2) ' iso3'];     str3b = [num2str(HITRAN1) ' iso3'];    
+    str1a = [num2str(HITRANyear2) ' iso1'];     str1b = [num2str(HITRANyear1) ' iso1'];
+    str2a = [num2str(HITRANyear2) ' iso2'];     str2b = [num2str(HITRANyear1) ' iso2'];
+    str3a = [num2str(HITRANyear2) ' iso3'];     str3b = [num2str(HITRANyear1) ' iso3'];    
     hl = legend(str1a,str1b,str2a,str2b,str3a,str3b,'location','best'); grid
     
   iDo = input('Do you want them plotted (-1) log(strn) or (+1) difference in stren ? ');
   if iDo <= 0
     figure(4); clf; semilogy(line1.wnum(i1),line1.stren(i1),'b.',line2.wnum(i2),line2.stren(i2),'r+'); grid
-    title(['STREN (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
+    title(['STREN (b)' num2str(HITRANyear1) ' (r)' num2str(HITRANyear2)]); 
     grid on
   elseif iDo > 0
     figure(4); clf; plot(line1.wnum(i1),line2.stren(i2) - line1.stren(i1),'k+'); grid
-    title(['STREN ' num2str(HITRAN2) '-' num2str(HITRAN1)]); 
+    title(['STREN ' num2str(HITRANyear2) '-' num2str(HITRANyear1)]); 
     grid on
   end
 
   figure(5);
   semilogy(line2.wnum,line2.abroad,'r.',line1.wnum,line1.abroad,'bo'); grid
-    title(['ABROAD (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
+    title(['ABROAD (b)' num2str(HITRANyear1) ' (r)' num2str(HITRANyear2)]); 
   iDo = input('Do you want them plotted (-1) broadening or (+1) difference in air broadening ? ');
   if iDo <= 0
     figure(6); clf; plot(line1.wnum(i1),line1.abroad(i1),'b.',line2.wnum(i2),line2.abroad(i2),'r+'); grid
-    title(['ABROAD (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
+    title(['ABROAD (b)' num2str(HITRANyear1) ' (r)' num2str(HITRANyear2)]); 
     grid on
   elseif iDo > 0
     figure(6); clf; plot(line1.wnum(i1),line2.abroad(i2) - line1.abroad(i1),'k+'); grid
-    title(['ABROAD ' num2str(HITRAN2) '-' num2str(HITRAN1)]); 
+    title(['ABROAD ' num2str(HITRANyear2) '-' num2str(HITRANyear1)]); 
     grid on
   end
 
   figure(7);
   semilogy(line2.wnum,line2.sbroad,'r.',line1.wnum,line1.sbroad,'bo'); grid
-    title(['SBROAD (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
+    title(['SBROAD (b)' num2str(HITRANyear1) ' (r)' num2str(HITRANyear2)]); 
   iDo = input('Do you want them plotted (-1) broadening or (+1) difference in self broadening ? ');
   if iDo <= 0
     figure(8); clf; plot(line1.wnum(i1),line1.sbroad(i1),'b.',line2.wnum(i2),line2.sbroad(i2),'r+'); grid
-    title(['SBROAD (b)' num2str(HITRAN1) ' (r)' num2str(HITRAN2)]); 
+    title(['SBROAD (b)' num2str(HITRANyear1) ' (r)' num2str(HITRANyear2)]); 
     grid on
   elseif iDo > 0
     figure(8); clf; plot(line1.wnum(i1),line2.sbroad(i2) - line1.sbroad(i1),'k+'); grid
-    title(['SBROAD ' num2str(HITRAN2) '-' num2str(HITRAN1)]); 
+    title(['SBROAD ' num2str(HITRANyear2) '-' num2str(HITRANyear1)]); 
     grid on
   end
 
