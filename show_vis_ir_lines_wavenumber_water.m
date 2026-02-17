@@ -60,6 +60,8 @@ if iWhich ~= 7
   error('can only handle iWhich = 7');
 end
 
+fprintf(1,'show_vis_ir_lines_wavenumber_water.m : look at HITRAN data in %s \n',fname)
+
 if iWhich == 7   %% all
   for gid = gasid : gasid
     [lines,hitran_version] = hitread_simple(00001,30000,0,gid,fname);
@@ -76,9 +78,26 @@ if iWhich == 7   %% all
     axis([01 50000 1e-30 (max(lines.stren(woop)))]);
     xlabel('Wavenumber(cm-1)'); ylabel('log10(linestren)')
 
-    lines.wnum = lines.wnum(woop);
-    lines.stren = lines.stren(woop);
-    lines.iso = lines.iso(woop);
+    lines.wnum   = lines.wnum(woop);
+    lines.stren  = lines.stren(woop);
+    lines.iso    = lines.iso(woop);
+    lines.tprob  = lines.tprob(woop);
+    lines.abroad = lines.abroad(woop);
+    lines.sbroad = lines.sbroad(woop);        
+    lines.els    = lines.els(woop);
+    lines.abcoef = lines.abcoef(woop);
+    lines.tsp    = lines.tsp(woop);
+    lines.flag   = lines.flag(woop);
+    lines.swus   = lines.swus(woop);
+    lines.swls   = lines.swls(woop);
+    lines.bslq   = lines.bslq(woop,:);
+    lines.uslq   = lines.uslq(woop,:);        
+    lines.ilsgq  = lines.ilsgq(:,woop);
+    lines.iusgq  = lines.iusgq(:,woop);        
+    lines.ref    = lines.ref(woop,:);
+    lines.ai     = lines.ai(woop,:);    
+    lines.linct  = length(woop);
+    lines.gasid  = lines.gasid(woop);
   end
 
 elseif iWhich == 6   %% nir-vswir

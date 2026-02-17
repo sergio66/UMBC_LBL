@@ -51,7 +51,7 @@
       USE planet_consts
       IMPLICIT REAL*8           (V)                                     ! F00030
 !
-      COMMON /ABSORB/ V1ABS,V2ABS,DVABS,NPTABS,ABSRB(5050)              ! 500060
+      COMMON /ABSORB/ V1ABS,V2ABS,DVABS,NPTABS,ABSRB(n_absrb)              ! 500060
 !
       COMMON /CVRCNT/ HNAMCNT,HVRCNT
 !

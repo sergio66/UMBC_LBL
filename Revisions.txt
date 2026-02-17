@@ -8,37 +8,56 @@ that was when our disks died and had to start from git clone
  <<< See Readme_make_new_qtipsH24 >>>
  <<< See Readme_make_new_qtipsH24 >>> 
 
-2/10/2026  Cleaned up hitranpath, geisapath, do_HITRAN_vers, do_GEISA_vers
-           Cleaned up Readme_make_new_qtipsH24, though still have to say
-	   what I did for the sxec and mol gases there
-	   And will have to try HITRA2UMBCLBL for making kCARTA database
-	   and LBLRTM CO2/CH4/MTCKD 4.3
+2/14/25  run8.m, run8water.m etc now have
+           topts = do_translate_params_HITRAN_2_HITRANpathNyear(topts);
+	 so that if you are uding older driver code whre you set topts.HITRAN = /umbc/xfs3/strow/asl/rta/hitran//h20.by.gas/
+	 then it replaces that with                     topts.HITRANpathNyear = /umbc/xfs3/strow/asl/rta/hitran//h20.by.gas/
+	 
+2/14/26  HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_WV_H24 now running
+         Many crashes since the mass.dat -->  MASS_ISOTOPES/mass24.dat
+	 So have new variable in hitread, defaulted to -1
+	   iMess_With_MassDat = -1
+	 if iMess_With_MassDat > 0
+	   always update symbolic link mass.dat -->  MASS_ISOTOPES/massXY.dat
+	   by deleteing/remaking link. Problemsatic if HITRAN2UMBCLBL code is
+	   running, as things can disappear and hitread errors out
+	 if iMess_With_MassDat < 0
+	   assume the symbolic link mass.dat -->  MASS_ISOTOPES/massXY.dat is correct
+	   by checking MASS_ISOTOPES/massXY.dat against hXY in filename
+	   if correct. good
+	   if error, stop .. so you know that is wrong
+
+2/10/26  Cleaned up hitranpath, geisapath, do_HITRAN_vers, do_GEISA_vers
+         Cleaned up Readme_make_new_qtipsH24, though still have to say
+	 what I did for the sxec and mol gases there
+	 And will have to try HITRA2UMBCLBL for making kCARTA database
+	 and LBLRTM CO2/CH4/MTCKD 4.3
 	   	   
-2/8/2026   Made files hitranpath.m tells you the path to hitran files
-           (eg /asl/data/hitran or /umbc/xfs3/strow/asl/rta/hitran/)
+2/8/26   Made files hitranpath.m tells you the path to hitran files
+         (eg /asl/data/hitran or /umbc/xfs3/strow/asl/rta/hitran/)
 
-2/8/2026   Also made adderpath0.m, adderpath1.m, adderpath2.m allow you
-           to change paths to eg /home/sergio/git/SPECTRA or
-           /home/sergio/UMBC_LBL
+2/8/26   Also made adderpath0.m, adderpath1.m, adderpath2.m allow you
+         to change paths to eg /home/sergio/git/SPECTRA or
+         /home/sergio/UMBC_LBL
 
-2/7/2026   downloaded the HITRAN xsc files to /asl/data/hitran/H2024
-           ... also have unzipped them.
+2/7/26   downloaded the HITRAN xsc files to /asl/data/hitran/H2024
+         ... also have unzipped them.
 
-           Copied the /asl/data/hitran/H2024 scripts, F77 QTIPS files
-           and matlab scripts to make eg MASS_ISOTOPES/mass24.dat to
-           this UMBC_LBL git directory
+         Copied the /asl/data/hitran/H2024 scripts, F77 QTIPS files
+         and matlab scripts to make eg MASS_ISOTOPES/mass24.dat to
+         this UMBC_LBL git directory
 
-2/7/2026   have /asl/data/hitran/H2024/ working for run8.m and
-           run8water.m
+2/7/26   have /asl/data/hitran/H2024/ working for run8.m and
+         run8water.m
 
-2/6/2026   did enough on chip Feb 2026 to get H2020 to work with run8.m
-           and run8water.m
+2/6/26   did enough on chip Feb 2026 to get H2020 to work with run8.m
+         and run8water.m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-29/4/2025  Tweaked HITRAN paths in hitread,run8 codes... from
-           /asl/rta/hitran/h20.by.gas/ to
-           /umbc/xfs3/strow/asl/rta/hitran/h20.by.gas/
+29/4/25  Tweaked HITRAN paths in hitread,run8 codes... from
+         /asl/rta/hitran/h20.by.gas/ to
+         /umbc/xfs3/strow/asl/rta/hitran/h20.by.gas/
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 then the other basic stuff was done long ago ...see git log

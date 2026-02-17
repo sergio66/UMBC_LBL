@@ -178,6 +178,9 @@ allowedparams = [{'ffin'},     {'nbox'},         {'CKD'}, ...
 
 %read in {topts}
 if nargin == 5
+  %% first check to see if earlier driver codes are using topts.HITRAN instead of topts.HITRANpathNyear
+  topts = do_translate_params_HITRAN_2_HITRANpathNyear(topts);
+  %% then proceed as usual    
   optvar = fieldnames(topts);
   for i = 1 : length(optvar)
    if (length(intersect(allowedparams,optvar{i})) == 1)

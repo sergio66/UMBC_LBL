@@ -4,6 +4,7 @@ if nargin < 4
   HITRANyear = 2012;
   HITRANyear = 2016;
   HITRANyear = 2020;
+  HITRANyear = 2024;  
   HorG = +1;      %% HITRANyear or GEISA = 1 ==> HITRANyear        HITRANyear or GEISA = -1 ==> GEISA
 elseif nargin < 5
   HorG = +1;      %% HITRANyear or GEISA = 1 ==> HITRANyear        HITRANyear or GEISA = -1 ==> GEISA
@@ -67,14 +68,14 @@ if HorG == 1
   fnamePRE = ['/asl/data/hitran/h' hstr '.by.gas/g'];
   fnamePRE = ['/asl/rta/hitran/h' hstr '.by.gas/g'];
   fnamePRE = ['/umbc/xfs3/strow/asl/rta/hitran/h' hstr '.by.gas/g'];  
-  fnamePRE = [do_HITRAN_vers '/g'];
+  %fnamePRE = [do_HITRAN_vers '/g'];
   fnamePRE = [hitranpath '/h' hstr '.by.gas/g'];    
   
 else
   fnamePRE = ['/asl/data/geisa/g' hstr '.by.gas/g'];
   fnamePRE = ['/asl/rta/geisa/g' hstr '.by.gas/g'];
   fnamePRE = ['/umbc/xfs3/strow/asl/rta/geisa/h' hstr '.by.gas/g'];
-  fnamePRE = [do_GEISA_vers '/g'];
+  %fnamePRE = [do_GEISA_vers '/g'];
   fnamePRE = [geisapath '/g' hstr '.by.gas/g'];      
 end
 

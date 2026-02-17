@@ -21,6 +21,7 @@ function [line,hitran_version,hlist_qtips] = ...
 % >>>> when updating HITRAN versions, do a search for "UPDATE"
 
 %% addpath to /asl/matlib/aslutil and /asl/matlib/read_hitr06
+%% addpath to /asl/matlib/aslutil and /asl/matlib/read_hitr26  
 adderpath2
 
 current_dir = pwd;
@@ -101,47 +102,48 @@ if iOld > 0
   fprintf(1,'--> using old MATLAB reader for HITRAN version %s : %s \n',hitran_version,filename)
   line = read_hitranOLD_H92_H2k(start,stop,strengthM,gasID,filename);
 elseif iOld < 0
-  iFastOrSlow_HITRAN_reader = +1;  %% mex based reader
-  iFastOrSlow_HITRAN_reader = -1;  %% matlab reader  
+  iFastOrSlow_HITRAN_reader = -1;  %% slow but sure matlab reader  
+  iFastOrSlow_HITRAN_reader = +1;  %% fast mex based reader, compiled earlier (read_hitran 06), see adderpath2.m
+  iFastOrSlow_HITRAN_reader = +1;  %% fast mex based reader, compiled earlier (read_hitran 26), see adderpath2.m
   % cd /asl/matlab2012/read_hitr06
   % cd /asl/matlab/read_hitr06
   %%%% addpath /asl/matlab2012/read_hitr06
   % cd /home/sergio/SPECTRA/read_hitr06
   %%%% addpath /home/sergio/SPECTRA/read_hitr06
-  if iFastOrSlow_HITRAN_reader > 0
+  if iFastOrSlow_HITRAN_reader == +1
     fprintf(1,'--> UMBC_LBL/hitread.m : using new MEX reader for HITRAN version %s : %s\n',hitran_version,filename)    
     line = read_hitran(start,stop,strengthM,gasID,filename);
-  else
-    %disp('WARNING : UMBC_LBL/hitread.m : using slow matlab reader for getting hitran data : read_hitran2')    
-    fprintf(1,'--> WARNING : UMBC_LBL/hitread.m : using slow matlab reader <read_hitran2.m> for HITRAN version %s : %s\n',hitran_version,filename)        
+  elseif iFastOrSlow_HITRAN_reader == -1
+    %disp('WARNING : UMBC_LBL/hitread.m : using slow matlab reader for getting hitran data : read_hitran2')
+    fprintf(1,'--> WARNING : UMBC_LBL/hitread.m : using slow matlab reader <read_hitran2.m> for HITRAN version %s : %s\n',hitran_version,filename)  
     line = read_hitran2(start,stop,strengthM,gasID,filename);
   end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-line.linct=length(line.wnum);
+line.linct = length(line.wnum);
 
-line.iso=line.iso';
-line.wnum=line.wnum';
-line.stren=line.stren';
-line.tprob=line.tprob';
+line.iso = line.iso';
+line.wnum = line.wnum';
+line.stren = line.stren';
+line.tprob = line.tprob';
 
-line.abroad=line.abroad';
-line.sbroad=line.sbroad';
+line.abroad = line.abroad';
+line.sbroad = line.sbroad';
 
-line.els=line.els';
-line.abcoef=line.abcoef';
-line.tsp=line.tsp';
+line.els = line.els';
+line.abcoef = line.abcoef';
+line.tsp = line.tsp';
 
 if iOld == -1 & iNew == +1
-  line.iusgq=line.iusgq';
-  line.ilsgq=line.ilsgq';
+  line.iusgq = line.iusgq';
+  line.ilsgq = line.ilsgq';
 end
 
-line.gasid=line.igas';
+line.gasid = line.igas';
 
 if line.linct > 0
-  line.igas=line.gasid(1);
+  line.igas = line.gasid(1);
 end
 
 cder = ['cd ' current_dir];
@@ -189,49 +191,88 @@ end
 
 symlinker = ['!/bin/ln -s MASS_ISOTOPES/mass' linker '.dat mass.dat']; 
 
-ee = exist('mass.dat','file');
-if ee == 0
-  fprintf(1,'mass.dat DNE .. making VERS %s symbolic link! \n',linker);
-  %fprintf(1,'symbolic link command : %s \n',symlinker);
-  iLinkMASS = +1;  
-  eval(symlinker);
+iMess_With_MassDat = -1;
+if iMess_With_MassDat > 0
+  ee = exist('mass.dat','file');
+  if ee == 0
+    fprintf(1,'mass.dat DNE .. making VERS %s symbolic link! \n',linker);
+    %fprintf(1,'symbolic link command : %s \n',symlinker);
+    iLinkMASS = +1;  
+    eval(symlinker);
+  else
+    cd /home/sergio/SPECTRA
+    randstr = [num2str(round(rand(1,1)*1e9)) '.' num2str(round(rand(1,1)*1e9))];
+    frand   = ['ugh' randstr];
+    frand   = mktemp('ugh');
+    lser = ['!ls -lt mass.dat >& ' frand];
+    eval(lser)
+    
+    fid = fopen(frand,'r');
+    ugher = fscanf(fid,'%s');
+    %  fprintf(1,'debugging hitread.m .... mass linker %s \n',ugher)
+    fclose(fid);
+    rmer = ['!/bin/rm ' frand];
+    eval(rmer);
+    
+    eee = strcmp('lrwxrwxrwx',ugher(1:10));
+    if eee == 0
+      error('oh oh mass.dat is NOT a symbolic link; do not want to delete it!!!')
+    else
+      %%check to see if the symbolic link is for the right version
+      tata = findstr('->mass',ugher);
+      oldvers = ugher(tata+6:tata+7);
+      fff = strcmp(oldvers,linker);
+      %% if fff == 1, the old version == current wanted version ==> do nothing!
+      if fff == 0
+        boo = ['MASS_ISOTOPES/mass' linker '.dat'];
+        eex = exist(boo,'file');
+        if eex ~= 2
+          fprintf(1,'trying to make symbolic link to %s but file DNE \n',boo)
+          disp('  making symbolic link failure in hitread.m, maybe too many run8/run8watercontinuum processes running');
+	  error('  perhaps set iMess_With_MassDat = -1')
+        else
+          fprintf(1,'----> updating VERS %s symbolic link for mass.dat! \n',linker)
+          rmer = ['!/bin/rm mass.dat']; eval(rmer);
+          eval(symlinker);
+          iLinkMASS = +1;  
+        end    %% if eex~- 2
+      end      %% if fff == 0
+    end        %% if eee == 0
+  end          %% if ee == 0
 else
+  disp(' ')
+  disp('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+  disp('WARNING : in hitread.m, iMess_With_MassDat = -1')
+  disp('so assuming mass.dat is correctly sybolically linked : check this')
+
   cd /home/sergio/SPECTRA
   randstr = [num2str(round(rand(1,1)*1e9)) '.' num2str(round(rand(1,1)*1e9))];
   frand   = ['ugh' randstr];
   frand   = mktemp('ugh');
   lser = ['!ls -lt mass.dat >& ' frand];
   eval(lser)
+
   fid = fopen(frand,'r');
   ugher = fscanf(fid,'%s');
-%  fprintf(1,'debugging hitread.m .... mass linker %s \n',ugher)
+  %  fprintf(1,'debugging hitread.m .... mass linker %s \n',ugher)
   fclose(fid);
+
+  catter = ['!cat ' frand];
+  eval(catter)
   rmer = ['!/bin/rm ' frand];
   eval(rmer);
-  eee = strcmp('lrwxrwxrwx',ugher(1:10));
-  if eee == 0
-    error('oh oh mass.dat is NOT a symbolic link; do not want to delete it!!!')
-  else
-    %%check to see if the symbolic link is for the right version
-    tata = findstr('->mass',ugher);
-    oldvers = ugher(tata+6:tata+7);
-    fff = strcmp(oldvers,linker);
-    %% if fff == 1, the old version == current wanted version ==> do nothing!
-    if fff == 0
-      boo = ['MASS_ISOTOPES/mass' linker '.dat'];
-      eex = exist(boo,'file');
-      if eex ~= 2
-        fprintf(1,'trying to make symbolic link to %s but file DNE \n',boo)
-        error('return in hitread.m');
-      else
-        fprintf(1,'----> updating VERS %s symbolic link for mass.dat! \n',linker)
-        rmer = ['!/bin/rm mass.dat']; eval(rmer);
-        eval(symlinker);
-        iLinkMASS = +1;  
-      end
-    end
+  
+  ugh_H20HXY = str2num(ugher(end-5:end-4));
+  fprintf(1,'  the HXY version from the symbolic link for mass.dat : h%2i \n',ugh_H20HXY)
+  fprintf(1,'  the hitran_version from the input /asl/data/hitran/hXY.by.gas/g name :  %s \n',hitran_version)
+  disp('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+  disp(' ')
+  
+  if ugh_H20HXY ~= str2num(hitran_version(end-1:end))
+    error('ERROR! symbolic link for mass.dat HAS DIFFERENT version than what is specified in hitranpath')
   end
-end
+
+end            %% iMess_With_MassDat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% update the "qtips.m" symbolic link if HITRAN versions are H92,96,98
@@ -348,7 +389,7 @@ if (ee ~= 0) %% ee ~= 0 ==> exists; check to see if it is version we want
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if hitran_version ~= 'h17' & hitra_version ~= 'h18'
+if hitran_version ~= 'h17' & hitran_version ~= 'h18'
   % UPDATE CO2_MATFILES
   update_co2_matfiles_hitread
 

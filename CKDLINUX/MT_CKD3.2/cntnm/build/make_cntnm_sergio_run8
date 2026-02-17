@@ -25,7 +25,6 @@ OBJPATH = ${PRODUCT}_$(VERSION)_$(PLTFRM)_$(FC_TYPE)_$(P_TYPE).obj
 # you are executing the makefile
 SRCPATH = ../src
 
-
 # Files contained in src directory.  If additional .f files are added,
 # add to this list. 
 SRCS = driver_cntnm_progr_sergio.f90 cntnm_progr_sergio.f90 contnm_sergio.f90 lblparams.f90 phys_consts.f90 planet_earth.f90

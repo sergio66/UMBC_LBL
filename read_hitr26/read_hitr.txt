@@ -1,0 +1,272 @@
+
+          HITRAN Database Access and Manipulation
+
+                       Version 1.4
+                     for HITRAN 2004
+
+                    Howard E. Motteler
+                        12 Dec 2006
+
+
+This package contains a Matlab HITRAN reader, a program "hselect" 
+to select subsets of HITRAN data by gas, wavenumber, line strength,
+etc., and examples of sorting, merging, and updating HITRAN data
+with the Unix "sort" routine.
+
+
+Contents
+---------
+
+  1. The Matlab HITRAN reader
+  2. HITRAN field selection with "hselect"
+  3. Manipulation of HITRAN files with Unix "sort"
+  4. Translating HITRAN DOS files to Unix
+  5. The new HITRAN Data Format
+  6. The old HITRAN Data Format
+
+
+1. The Matlab HITRAN reader
+----------------------------
+
+The MatLab function read_hitran2.m reads ASCII HITRAN records,
+either from a single file or a directory split into individual
+gasses.  The matlab version is only intended for reference; the
+c-mex version, built from read_hitran.c, should be used instead.
+
+Note that the HITRAN database is now supplied as DOS format
+files, with an extra ^M at the end of each line, and a ^Z at
+the end of file, and should be converted to unix format before
+any of the C (or mexized) routines are used; see section 4,
+below, for details on using the unix "tr" command for this.
+
+The input and output arguments to read_hitran are described in
+its help section, as follows.
+
+% function s = read_hitran(v1, v2, str, gid, hsrc);
+%
+% Inputs
+%
+%   v1   - wavenumber lower bound
+%   v2   - wavenumber upper bound
+%   str  - line strength lower bound
+%   gid  - HITRAN gas id 
+%   hsrc - HITRAN data file or directory
+%
+% Outputs
+%
+%   s.igas    - molecule ID number
+%   s.iso     - isotope number
+%   s.wnum    - line wavenumber
+%   s.stren   - line strength
+% 
+%   s.tprob   - transition probability
+%   s.abroad  - air-broad half width
+%   s.sbroad  - self-broad half width
+%   s.els     - lower-state energy
+%   s.abcoef  - coeff of temp dep of ABROAD
+% 
+%   s.tsp     - transition shift due to pressure 
+%   s.iusgq   - upper state global quanta index
+%   s.ilsgq   - lower state global quanta index
+%   s.uslq    - upper state local quanta
+%   s.bslq    - lower state local quanta
+%   s.ai      - accuracy indices
+%   s.ref     - indices for lookup of references
+%   s.flag    - flag
+%   s.swus    - statistical weight, upper state
+%   s.swls    - statistical weight, lower state
+% 
+% The optional input parameter hsrc can be either a HITRAN data file,
+% or a directory of HITRAN files organized gas types.  For the latter
+% case, the individual files are assumed to have have names g<n>.dat,
+% for gas <n>.  It is possible (but very slow) to specify the whole,
+% unsplit HITRAN database file as hsrc, and select gasses by gid; the
+% usual way to use the procedure is to specify a directory for hsrc,
+% and select gasses by gasid.  
+% 
+% The default name for hsrc is "hitran.dat"; this is convenient for
+% setting the gas directory with a symlink.
+
+
+2. HITRAN field Selection with "hselect"
+-----------------------------------------
+
+The "hselect" program is provided to select subsets of the
+HITRAN database, and to break a database into component gasses.
+Here is the hselect "man" page:
+
+NAME
+
+  hselect -- hitran record selection
+
+SYNOPSIS
+
+  1. Select a specified subset of a HITRAN database:
+
+       hselect [-g id] [-r] [-i in] [-L v1] [-U v2] [-s n] <fin> [<fout>]
+
+  2. Break a database into its componant gasses:
+
+       hselect -b [-r] [-i in] [-L v1] [-U v2] [-s n] <fin> <dout>
+
+OPTIONS
+
+  -g id  select gas by HITRAN id (default is all gasses)
+  -i in  select gas by isotope number (default is all isotopes)
+  -L v1  lower bound for selected wavenumbers (default 0)
+  -U v2  upper bound for selected wavenumbers (default 10000)
+  -s n   select line strengths of at least n (default 0)
+  -r     write output in a human-readable format (default is HITRAN)
+  -b     break input database into separate gasses
+
+
+DISCUSSION
+
+  With no output spec, output is sent to stdout
+
+  Multiple select options give the conjunction of the individual
+  specifications.
+
+  For the breakout option, -b, gasses in <dout> have filenames of
+  the form g<n>.hit
+
+
+3. Manipulation of HITRAN files with Unix "sort"
+-------------------------------------------------
+
+The Unix sort utility can be used to sort and merge HITRAN-format
+records.  Due to the concatenated HITRAN fields, the whole record is
+treated as a single field, and HITRAN fields are specified as sort
+"sub-fields".  The flags given here are for the Gnu sort utility;
+probably they will work for other POSIX-compatible sorts, but this
+has not been extensively tested.
+
+Normally HITRAN data is kept in wavenumber order.  The file g3.tmp
+can be sorted in wavenumber order with the sort command
+
+  sort -n -t: -k1.4,1.15 g3.tmp > g3.dat
+
+The -n option requests a sort in numeric order and the -k specifies
+fields 4-15, the frequency field.  The "-t:" tells sort to use ":",
+which should never appears in a HITRAN record, as a field separator.
+This is needed for the subfield character specification to work, as
+the default field separator is a space.
+
+3.1 Merging HITRAN files
+-------------------------
+
+The unix sort can take more that one file argument, so if there
+are no duplicate records, we can merge files with a single sort.
+For example, if hitdir contains data broken out by gasses, with
+filenames g1, g2, etc., a merged database, sorted by wavenumber
+is produced with the command
+
+    sort -n -t: -k1.4,1.15 hitdir/g* > hitran.allgas
+
+For another example, if we start with gasses broked out by isotope,
+we can merge them together and sort them in wavenumber order with
+
+  sort -n -t: -k1.4,1.15 g1.i1 g1.i2 g1.i3 g1.i4 > g1.new
+
+
+3.2 Updating HITRAN files
+--------------------------
+
+Updating is done by merging files and removing duplicate entries.
+Lines (individual HITRAN entries) are uniquely identified by gas ID,
+isotope, and quantum information: fields IGAS, ISO, IUSGQ, ISLGQ,
+USLQ, and BSLQ.  This ordering should be used for merging databases
+and for removing duplicates.  For example, to update the HITRAN file
+"old.dat" with new data in "add.dat", the gnu sort invocation is 
+
+  sort -s -u -t: -k1.1,1.3 -k1.68,1.127 add.dat old.dat > new.tmp
+
+Here -s specifies a stable sort, i.e., the initial file ordering is
+preserved on duplicate keys, -u specifies that only the first record
+is kept with duplicate keys, and -k specifies fields 1-3 and 68-91,
+for sorting by gas, isotope, and quantum information.  This has the
+effect of replacing lines that are duplicated in add.dat and old.dat
+with the values from add.dat.
+
+If wavenumber order is desired, the file would have to be sorted
+again, for example
+
+  sort -n -t: -k1.4,1.15 new.tmp > new.dat
+
+
+4. Translating HITRAN DOS files to Unix
+----------------------------------------
+
+The new HITRAN files appear to be in borgified format, with a ^M or
+'\015' added at each line and a ^Z or '\032' added at the end of the
+file.  This can be fixed with the unix "tr" utility, as follows
+
+    tr -d '\015\032' < file.borg > file.unix
+
+
+5. New HITRAN Data Format
+--------------------------
+
+          HITRAN RECORD FIELDS
+
+    field   size   start   end   format
+    ----------------------------------
+    IGAS      2      1      2      I2
+    ISO       1      3      3      I1
+    WNUM     12      4     15     F12.6
+    STREN    10     16     25     E10.3
+    
+    TPROB    10     26     35     E10.3
+    ABROAD    5     36     40      F5.4
+    SBROAD    5     41     45      F5.4
+    ELS      10     46     55     F10.4
+    ABCOEF    4     56     59      F4.2
+
+    TSP       8     60     67      F8.6
+    IUSGQ    15     68     82      A15
+    ILSGQ    15     83     97      A15
+    USLQ     15     98    112      A15
+    BSLQ     15    113    127      A15
+    AI        6    128    133      6I1
+    REF      12    134    145      6I2
+    FLAG      1    146    146      A1
+    SWUS      7    147    153      F7.1
+    SWLS      7    154    160      F7.1
+
+    field widths as a matlab vector:
+
+    a = [ 2 1 12 10 10 5 5 10 4 8 15 15 15 15 6 12 1 7 7 ];
+
+
+6. Old HITRAN Data Format
+--------------------------
+
+          HITRAN RECORD FIELDS
+
+    field   size   start   end   format
+    ----------------------------------
+    IGAS      2      1      2      I2
+    ISO       1      3      3      I1
+    WNUM     12      4     15     F12.6
+    STREN    10     16     25     E10.3
+    
+    TPROB    10     26     35     E10.3
+    ABROAD    5     36     40      F5.4
+    SBROAD    5     41     45      F5.4
+    ELS      10     46     55     F10.4
+    ABCOEF    4     56     59      F4.2
+    
+    TSP       8     60     67      F8.6
+    IUSGQ     3     68     70       I3
+    ILSGQ     3     71     73       I3
+    USLQ      9     74     82       A9
+    BSLQ      9     83     91       A9
+    AI        3     92     94      3I1
+    REF       6     95    100      3I2
+
+    field widths as a matlab vector:
+
+    a = [ 2 1 12 10 10 5 5 10 4 8 3 3 9 9 3 6 ];
+
+
+

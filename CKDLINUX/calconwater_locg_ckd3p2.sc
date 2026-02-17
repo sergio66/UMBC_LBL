@@ -15,6 +15,7 @@ mexF77=/usr/cluster/matlab/r2016b/bin/mex  ## this worked way back
 mexF77=/asl/opt/matlab/R2009b/bin/mex
 mexF77=/usr/ebuild/software/MATLAB/2023b/bin/mex
 mexF77=/usr/ebuild/software/MATLAB/2021b/bin/mex
+mexF77=/usr/ebuild/installs/software/MATLAB/2023b/bin/mex
 
 #$mexF77  convec.F convecg.F                   FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 $mexF77  calcon.F calcong.F                   FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'

@@ -10,7 +10,11 @@ addpath /home/sergio/SPECTRA/read_hitr06
 %%% this file finds the lines you want for the band in question
 %%% copied from co2lines.m
 
-iHIT = input('enter HITRAN version (1992,1996,1998,2000,2004,2008,2012,2016,2020,2024) : ');
+iHIT = 2024;
+fprintf(1,'wterlines_plot.m is using HITRAN = %4i edit the file if necessary \n',iHIT);
+fprintf(1,'wterlines_plot.m is using HITRAN = %4i edit the file if necessary \n',iHIT);
+fprintf(1,'wterlines_plot.m is using HITRAN = %4i edit the file if necessary \n',iHIT);
+%% iHIT = input('enter HITRAN version (1992,1996,1998,2000,2004,2008,2012,2016,2020,2024) : ');
 if iHIT == 2000
   strHIT = 'h2k';
 else

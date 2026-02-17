@@ -11,9 +11,12 @@ function [line,hitran_version] = hitread_simple(start,stop,strengthM,gasID,filen
 
 current_dir = pwd;
 
-blah = findstr('/',filename);
-%%look at the fourth occurence
-hitran_version = filename(blah(4)+1:blah(4)+3);
+%% blah = findstr('/',filename);
+%% look at the fourth occurence
+%% hitran_version = filename(blah(4)+1:blah(4)+3);
+blah = findstr(filename,'/h');
+blah = blah(end);
+hitran_version = filename(blah(1)+1:blah(1)+3);
 
 old_reader = {'h92','h96','h98','h2k'};
 new_reader = {'h04','h08','h12','h16','h20','h24'};
@@ -32,7 +35,7 @@ for ii = 1 : length(new_reader)
   end
 if iOld == -1 & iNew == -1
   error('whoops : have NOT been able to figure what HITRAN version you want!')
-  end
+end
 
 if iOld > 0
   fprintf(1,'using old MEX reader for HITRAN version %s \n',hitran_version)
@@ -42,7 +45,7 @@ if iOld > 0
 else
   fprintf(1,'using new MEX reader for HITRAN version %s \n',hitran_version)
   %cd /asl/matlab2012/read_hitr06
-  cd /home/sergio/SPECTRA/read_hitr06
+  cd /home/sergio/SPECTRA/read_hitr26
   line = read_hitran(start,stop,strengthM,gasID,filename);
 end
 

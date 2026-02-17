@@ -18,6 +18,7 @@ Edit and run << driver_test_run8_run8water_xsec.m >>  when happy
 
 Contents (will have to redo these as H2028, H2032 etc are release)
 ------------------------------------------------------------------
+0) remake mex files of needed
 1) many (comparison) files have default HITRAN = 2020; change to HITRAN = 2024
 2) Do things for NLTE
 3) Do things for run8co2 including mkdir CO2_MATFILES/H24
@@ -39,6 +40,78 @@ C) files which have 'new_bt_f77' so these need to be modified (the find_qnew_*.m
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+0) remake mex files of needed
+-----------------------------
+cd FORTRANLINUX; edit makemexLinuxA64_loop       for correct mex path  /usr/ebuild/installs/software/MATLAB/2023b/bin/mex
+                 then run it
+		 so you can do the VHH, voigt etc loops
+
+%% I don't really use this so oh well
+cd CKDLINUX/MT_CKD2.5/cntnm
+  ifort cntnm_progr.f -o cntnm_progr
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% I use this for O2/N2 continuum
+cd CKDLINUX/MT_CKD3.2/cntnm/build
+   %% see UMBC_LBL/wrapper_run8_gas7_gas22_continuum.m : 
+   %%   see CKDLINUX/calcon_3p2.F:5:c see /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
+   %%   first line says
+   %%     First do                          make -f makefile.common clean
+   %%     then try                          gmake -f make_cntnm linuxINTELdbl
+   %%     From cntnm/build directory, type: gmake -f make_cntnm_sergio_run8 <TARGET>       TARGET=linuxINTELdbl or linuxGNUdbl
+   %% <<<<< these steps are all done by make_sergio_run8.sc    these steps are all done by make_sergio_run8.sc  >>>>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+see the very end of cntnm_progr_sergio.f90
+it has    Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+This should be commented out if using make_cntnm_sergio_run8
+   as it says DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+
+cd CKDLINUX;     edit calconwater_locg_ckd3p2.sc for correct mex path  /usr/ebuild/installs/software/MATLAB/2023b/bin/mex
+                 then run it
+                 so you can make O2, N2, CKD
+  CKDLINUX/calcon_3p2.F:5:c see /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
+  since run8 calls this for eg gas7,22 :
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+see the very end of cntnm_progr_sergio.f90
+it has    Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+This should be un commented out if using calconwater_locg_ckd3p2.sc
+   as it says ONLY UNCOMMENT IF COMPILING USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+<<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>><<< VERY VERY IMPORTANT >>> <<< VERY VERY IMPORTANT >>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% checks ckd mex for O2
+[d7,w7] = run8(7,1500,1525,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt');
+
+ doing O2 continuum ...
+ N2 or O2 : adding on continuum OD
+   numlay = 1
+doing layer   1 of   1
+/bin/bash: line 1: cntnm_sergio_run8_v3.2_linux_gnu_dbl: command not found
+
+real	0m0.077s
+user	0m0.001s
+sys	0m0.003s
+sed: can't read CNTNM.OPTDPT_7_1500_25264708: No such file or directory
+Index in position 1 exceeds array bounds.
+Error in wrapper_run8_gas7_gas22_continuum (line 65)
+   boo = boo(1:dalen0*5,:);
+Error in run8 (line 878)
+     [fr5,od5] = wrapper_run8_gas7_gas22_continuum(gasID,fmin,fmax,0.0005,profname);
+
 
 1) many (comparison) files have default HITRAN = 2020; change to HITRAN = 2024
 

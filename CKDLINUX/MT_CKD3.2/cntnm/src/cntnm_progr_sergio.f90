@@ -105,7 +105,7 @@
 ! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEW >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	    
 !
-      COMMON /ABSORB/ V1ABS,V2ABS,DVABS,NPTABS,ABSRB(5050)              ! 500060
+      COMMON /ABSORB/ V1ABS,V2ABS,DVABS,NPTABS,ABSRB(n_absrb)              ! 500060
 !
       COMMON /CVRCNT/ HNAMCNT,HVRCNT
 !
@@ -120,7 +120,7 @@
       COMMON /XCONT/  V1C,V2C,DVC,NPTC,C(6000) 
 !
 !********************************************
-      COMMON /cnth2o/ V1h,V2h,DVh,NPTh,Ch(5050),csh2o(5050),cfh2o(5050)
+      COMMON /cnth2o/ V1h,V2h,DVh,NPTh,Ch(n_absrb),csh2o(n_absrb),cfh2o(n_absrb)
 !********************************************
 !
       COMMON /IFIL/ IRD,IPRcnt,IPU,NOPR,NFHDRF,NPHDRF,NFHDRL,NPHDRL, &
@@ -470,12 +470,13 @@ NMOL = 7
       CALL CONTNM(JRAD,rXSelf,rXforn)
 !
       iNumPts = NPTABS
-      DO 100 I=1,NPTABS
+      DO I=1,NPTABS
         VI=V1ABS+FLOAT(I-1)*DVABS
         raFreq(I) = VI
         raAbs(I)  = ABSRB(I)
-100   WRITE (ipr, 910) VI, ABSRB(I) 
-910   FORMAT(F20.8,1P,E20.12)
+        WRITE (ipr, 910) VI, ABSRB(I) 
+      END DO
+  910 FORMAT(F20.8,1P,E20.12)
 !
 !      WRITE (7,920) tave
 !
@@ -656,12 +657,14 @@ NMOL = 7
 !*******
 !*******
 
-!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
+!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
 !!!>>  ONLY UNCOMMENT IF COMPILING USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
 !!! >> test that using eg topts.CKD = 32; [d,w] = run8watercontinuum(1,605,2830,'IPFILES/waterone',topts);
-       Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+
+!!!       Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+
 !!! >> test that using eg topts.CKD = 32; [d,w] = run8watercontinuum(1,605,2830,'IPFILES/waterone',topts);
 !!! >> ONLY UNCOMMENT IF COMPILING USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
-!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make
+!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
 
 
