@@ -17,15 +17,15 @@
 !>>>>>
 !
 ! symbol table
-! nm calcon_loc_mtckd_32_wrap.o
-! nm calconwater_loc_ckd3p2.mexa64
+!  calcon_loc_mtckd_32_wrap.o
+!  calconwater_loc_ckd3p2.mexa64
 !************************************************************************
 
 #include "fintrf.h"
 
       subroutine mexFunction(nlhs,plhs,nrhs,prhs)
 
-      use calconwater_loc_ckd3p2
+!      use calconwater_loc_ckd3p2
       use planet_consts
       use phys_consts
       use lblparams

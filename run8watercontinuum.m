@@ -24,7 +24,7 @@ function [outwave,out_array] = ...
 %%% CKD 6          is  CKD1 with Scott's fixes (Apr 2003) applied to SELF + FOREIGN
 %%%                    as opposed to CKD5, which only applies to SELF
 %%%           /home/sergio/SPECTRA/CKDLINUX/tunmlt_iasi_may09X.dat'; %% for v6
-%%  CKD 25,32 latest MT-CKD
+%%%  CKD 25,32,43 latest MT-CKD  (v2.5,v3.2,v4.3)
 
 %%%%  same as run6watercontinuum, except we have {topts} = vargin
 % [outwave,out_array]=run6watercontinuum(gasID,fmin,fmax,...
@@ -234,7 +234,7 @@ fprintf(1,'you have asked for CKD version %8.6f \n',CKD);
 %%             are derived from MT-CKD25
 origCKD = [0 21 23 24];
 MTCKD1  = [ [1 ] [4 6]];
-MTCKD25 = [ [25  27 32]];
+MTCKD25 = [ [25  27 32 43]];
 allowedCKD = [origCKD MTCKD1 MTCKD25];
 if (~ismember(CKD,allowedCKD))
   disp('valid CKD versions = ')
@@ -372,14 +372,22 @@ elseif (local == -1)
   do_lorentz_lineshape_CKD
 end      
 
+[junkx,junky] = size(out_array);
+for ii = 1 : junkx
+  bad = find(out_array(ii,:) < 1e-16);
+  if length(bad) > 0
+    good = setdiff(1:length(outwave),bad);
+    out_array(ii,bad) = interp1(outwave(good),out_array(ii,good),outwave(bad),[],'extrap');
+  end
+end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [junkx,junky] = size(out_array);
 
 %% this is ONLY for CKD 4 and 6, since we multiply MT-CKD 1 by Scott adjustments
 if ((divide == +1) & (min(outwave) <= 2830) & (max(outwave) >= 605))
   figure(2); clf; 
-  if ((selfmult >= 0.999999) & (formult <= 0.00000001) & ...
-      ~strcmp(FNAMESELF,'NONE'))
+  if ((selfmult >= 0.999999) & (formult <= 0.00000001) & ~strcmp(FNAMESELF,'NONE'))
     disp('MULTIPLY SELF COEFFS!!')
     xmult = load(FNAMESELF);
     len = length(xmult);
@@ -391,8 +399,7 @@ if ((divide == +1) & (min(outwave) <= 2830) & (max(outwave) >= 605))
     multiplier = ones(junkx,1)*multiplier;
     out_array = out_array .* multiplier;
   end
-  if ((formult >= 0.999999) & (selfmult <= 0.00000001) & ...
-      ~strcmp(FNAMEFORN,'NONE'))
+  if ((formult >= 0.999999) & (selfmult <= 0.00000001) & ~strcmp(FNAMEFORN,'NONE'))
     disp('MULTIPLY FORN COEFFS!!')
     xmult = load(FNAMEFORN);
     len = length(xmult);
@@ -405,7 +412,7 @@ if ((divide == +1) & (min(outwave) <= 2830) & (max(outwave) >= 605))
   end
 end
 
-cpptotal=cputime-cpptotal;
+cpptotal = cputime-cpptotal;
 fprintf(1,'cpptotal = %8.6f \n',cpptotal);
 
 %cd /strowdata1/shared/sergio/HITRAN2UMBCLBL/MAKE_CKD

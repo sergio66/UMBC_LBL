@@ -52,7 +52,7 @@
       real*8 v1absIN,v2absIN,dvabsIN
       real*8 raFreqDVS(kMaxPtsDVS),raSelfDVS(kMaxPtsDVS),raFornDVS(kMaxPtsDVS)
       real*8 raFreq(kMaxPts),raAbs(kMaxPts)
-      integer ii
+      integer ii,iPrintScreen
 
 !      print *,'Units as per run8 : gasID atm atm K kmoles/cm2'
 !      print *,'Enter [iGasID paveIN ppaveIN taveIN  num_kmolesIN] : '
@@ -102,10 +102,19 @@
 !      print *,FREQ(1),FREQ(2),FREQ(3),FREQ(NFREQ)
 !      print *,raFREQ(1),raFREQ(2),raFREQ(3),FREQ(iNumPts)
       !CALL xspl(raFreq,raAbs,iNumPts,FREQ,CON,NFREQ)
+
+      iPrintScreen = -1
+       
+      IF (iPrintScreen .LT. 0) THEN
+        print *,' UMBC_LBL/CKDLINUX/calcon_loc_mtckd_32_wrap.F90 : iPrintScreen < 0'
+        print *,' so not dumping raF,raAbs to screen'
+      END IF
       DO ii = 1,NFREQ
         FREQ(ii) = FREQ(ii)
         CON(ii)  = raAbs(ii)
-	print *,ii,FREQ(ii),raFreq(ii)
+        IF (iPrintScreen .GT. 0) THEN
+  	  print *,'A',ii,FREQ(ii),raFreq(ii)
+        END IF
       END DO
 
       RETURN

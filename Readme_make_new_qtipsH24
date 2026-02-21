@@ -26,6 +26,7 @@ Contents (will have to redo these as H2028, H2032 etc are release)
 5) MASS_ISOTOPES : see MASS_ISOTOPES/Readme_mass24
 6) Do the XSEC directory in UMBC_LBL (here)
 7) Also Do the XSEC directory in HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_ALL_H24
+8) Fix run8watercontinuum so it can run MT CKD 4.3
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -212,59 +213,40 @@ have been modified so that they take into acount HITRAN YEAR
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-7) Also Do the XSEC directory in HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_ALL_H24
+7) Also do the CODES (MOLGASES 3-49, XSEC 51-81) in HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_ALL_H24
 ---------------------------------------------------------------------------
 
-[sergio@maya-usr1 MAKEIR_ALL_H24]$ cd /home/sergio/HITRAN2UMBCLBL/MAKEIR/
-[sergio@maya-usr1 MAKEIR_ALL_H24]$ pwd
-/home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_ALL_H24
-[sergio@maya-usr1 MAKEIR_ALL_H24]$ grep -in findxsec *.m
+See the Readme there
 
-loop_filelist_xsecN.m:52:            woo = findxsec_plot_fast(wn,wn+dv,bands);
-clust_runXtopts_mkxsecNvfiles.m:46:  woo = findxsec_plot_fast(wn,wn+dv,bands);
-xsec_done_already.m:32:              woo = findxsec_plot_fast(wn,wn+dv,bands);
+eg for MOLGAS
+  loop_filelist_gN.m
+  clust_runXtopts_mkgNfiles.m
+  gN_done_already.m        
+  
+  clust_runXtopts_savegN_file.m
+  filelist_gN.m     
+  loop_filelist_gN_slow.m
+  runXtopts_savegX.m           
 
-clust_runXtopts_savexsecN_file.m:73:      [iYes,gf]   = findxsec_plot(fmin,fmax,gasid,2024);
-filelist_xsecN.m:41:                      [iYes,line] = findxsec_plot(wn-dwn,wn+dwn,gid,2024);
-loop_filelist_xsecN_slow.m:50:            [iYes,line] = findxsec_plot(wn-dwn,wn+dwn,gid,2024);
-runXtopts_savexsecX.m:47:                 [iYes,gf]   = findxsec_plot(fmin,fmax,gasid,2024);
-
-/home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_ALL_H24/clust_runXtopts_savexsecN_file.m
-  calls [iYes,gf] = findxsec_plot(fmin,fmax,gasid,2024);
-  and   [d,w] = calc_xsec(gasid,fmin,fmax-dvv,dvv,tp,pL,figno,2024);
-/home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_ALL_H24/clust_runXtopts_mkxsecNvfiles.m
-
-Note : in /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_ALL_H24
-       have to be careful about iSwitchXsecDataBase
-  originally I used the H12 xsec database so did nothing
-  then I downloaded H2024 for gases 51-63, so had     to switch to H2012 for gases 64-81
-  now  I downloaded H2024 for gases 51-81, so no need to switch to H2012
-  now  I downloaded H2020 for gases 51-81, so no need to switch to H2012
-grep -in iSwitchXsecDataBase *.m
-
-[sergio@maya-usr1 MAKEIR_ALL_H24]$ grep -in iSwitchXsecDataBase *.m
-clust_runXtopts_mkxsecNvfiles.m:42:iSwitchXsecDataBase = 0063;  %% originally we had H2024 for g51-63 and H2012 for g64-81
-clust_runXtopts_mkxsecNvfiles.m:43:iSwitchXsecDataBase = 9999;  %% now we have       H2024 for g51-81
-clust_runXtopts_mkxsecNvfiles.m:43:iSwitchXsecDataBase = 9999;  %% now we have       H2020 for g51-81
-
-clust_runXtopts_mkxsecNvfiles.m:44:if gid <= iSwitchXsecDataBase
-clust_runXtopts_savexsecN_file.m:83:      iSwitchXsecDataBase = 0063;  %% originally we had H2024 for g51-63 and H2012 for g64-81
-clust_runXtopts_savexsecN_file.m:84:      iSwitchXsecDataBase = 9999;  %% now we have       H2024 for g51-81
-clust_runXtopts_savexsecN_file.m:84:      iSwitchXsecDataBase = 9999;  %% now we have       H2020 for g51-81
-clust_runXtopts_savexsecN_file.m:85:      if gasid <= iSwitchXsecDataBase
-clust_runXtopts_savexsecN_file.m:114:	  if gasid <= iSwitchXsecDataBase
-
-loop_filelist_xsecN.m:45:  iSwitchXsecDataBase = 0063;  %% originally we had H2024 for g51-63 and H2012 for g64-81
-loop_filelist_xsecN.m:46:  iSwitchXsecDataBase = 9999;  %% now we have       H2024 for g51-81
-loop_filelist_xsecN.m:46:  iSwitchXsecDataBase = 9999;  %% now we have       H2020 for g51-81
-loop_filelist_xsecN.m:50:    if gg <= iSwitchXsecDataBase
-
-xsec_done_already.m:54:iSwitchXsecDataBase = 0063;  %% originally we had H2024 for g51-63 and H2012 for g64-81
-xsec_done_already.m:55:iSwitchXsecDataBase = 9999;  %% now we have       H2024 for g51-81
-xsec_done_already.m:55:iSwitchXsecDataBase = 9999;  %% now we have       H2020 for g51-81
-xsec_done_already.m:56:if gasid <= iSwitchXsecDataBase
-
+eg for XSEC
+  [sergio@maya-usr1 MAKEIR_ALL_H24]$ cd /home/sergio/HITRAN2UMBCLBL/MAKEIR/
+  [sergio@maya-usr1 MAKEIR_ALL_H24]$ pwd
+  /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_ALL_H24
+  [sergio@maya-usr1 MAKEIR_ALL_H24]$ grep -in findxsec *.m
+  
+  loop_filelist_xsecN.m:52:            woo = findxsec_plot_fast(wn,wn+dv,bands);
+  clust_runXtopts_mkxsecNvfiles.m:46:  woo = findxsec_plot_fast(wn,wn+dv,bands);
+  xsec_done_already.m:32:              woo = findxsec_plot_fast(wn,wn+dv,bands);
+  
+  clust_runXtopts_savexsecN_file.m:73:      [iYes,gf]   = findxsec_plot(fmin,fmax,gasid,2024);
+  filelist_xsecN.m:41:                      [iYes,line] = findxsec_plot(wn-dwn,wn+dwn,gid,2024);
+  loop_filelist_xsecN_slow.m:50:            [iYes,line] = findxsec_plot(wn-dwn,wn+dwn,gid,2024);
+  runXtopts_savexsecX.m:47:                 [iYes,gf]   = findxsec_plot(fmin,fmax,gasid,2024);
+  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+8) Fix run8watercontinuum so it can run MT CKD 4.3
+
+See Readme_CKD4.3
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -273,8 +255,6 @@ xsec_done_already.m:56:if gasid <= iSwitchXsecDataBase
 HOPEFULLY NO NEED TO REDO THESE except hitranpath and do_HITRAN_vers
 HOPEFULLY NO NEED TO REDO THESE except hitranpath and do_HITRAN_vers
 HOPEFULLY NO NEED TO REDO THESE except hitranpath and do_HITRAN_vers
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A) Files which use "/asl/data/hitran/hXY.by.gas"  so these were modified to use hitranpath and do_HITRAN_vers
 --------------------------------------------------------------------------------------------------------------

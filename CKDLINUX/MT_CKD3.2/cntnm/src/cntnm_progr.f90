@@ -1,12 +1,3 @@
-!module cntnm_progr_sergio
-!use ../build/contnm_sergio
-!IMPLICIT REAL*8           (V)
-!contains
-
-! same as cntnm_progr.f except modified to only dump out coeffs for given input T
-! ie the pressure, path length and gas amount can be defaulted to dummy values
-! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 !     path:      $Source$
 !     author:    $Author: jdelamer $
 !     revision:  $Revision: 11007 $
@@ -32,29 +23,9 @@
 ! |                       (http://www.rtweb.aer.com/)                        |
 !  --------------------------------------------------------------------------
 !
-!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  SUBROUTINE CALCON_MTCKD_32_loc(                           &
-                paveIN,ppaveIN,taveIN,num_kmolesIN,         &
-                v1absIN,v2absIN,dvabsIN,                    &
-                raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,   &
-                raFreq,raAbs,iNumPts,                       &
-                iGasID,rXSelf,rXForn,rXozone,rXoxygen,rXnitrogen, &
-		irand)
-
-! input pave,ppave in mb,
-!       tave       in K
-!       num_kmoles in kilomoles/cm2
-!       v1absIN,v2absIN,dvabsIN in cm-1
-!       irand is an integer random placeholder
+                  PROGRAM DRCNTNM
 !
-! output coarser output wavenumber (at spacing 10 cm-1) : raFreqDVS
-!        self continuum coeffs at coarse spacing        : raSelfDVS
-!        forn continuum coeffs at coarse spacing        : raFornDVS
-!        number of pts         at coarse spacing        : iNumPtsDVS
 !
-!        user specified wavenumber : raFreq
-!        optical depth             : raAbs
-!        num of pts                : iNumPts
 !
 !     The mt_ckd water vapor continuum is a completely new continuum  
 !     formulation based on a collision induced  component and a sub-Lorentzian 
@@ -79,33 +50,8 @@
       USE phys_consts
       USE planet_consts
       IMPLICIT REAL*8           (V)                                     ! F00030
-
-      include '/home/sergio/SPECTRA/FORTRANLINUX/max.incF90'
-      
-      REAL*8    rXSelf,rXForn,rXozone,rXoxygen,rXnitrogen
-      integer kMaxPtsDVS,kMaxPts,iNumPtsDVS,iNumPts
-!      PARAMETER (kMaxPtsDVS = 1000)     !!! at coarser spacing
-!      PARAMETER (kMaxPts    = 100000)   !!! at user spacing
-      PARAMETER (kMaxPtsDVS = 250000)    !!! at coarser spacing
-      PARAMETER (kMaxPts    = 2500010)   !!! at user spacing
-      real*8 num_kmolesIN,ppaveIN,taveIN,paveIN
-      real*8 v1absIN,v2absIN,dvabsIN
-      real*8 raFreqDVS(kMaxPtsDVS),raSelfDVS(kMaxPtsDVS),raFornDVS(kMaxPtsDVS)
-      real*8 raFreq(kMaxPts),raAbs(kMaxPts)
-      INTEGER iGasID
-      INTEGER irand,iprint
-
-      !INTEGER n_absrb,nc
-      ! this is set in lblparams.f90
-      !      parameter (n_absrb=150050)
-       INTEGER nc
-       parameter (nc=160000)
-
-! >>>>>>>>>>>>>>>>>>>>>>>>>>>>> end junk1.f >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NEW >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	    
 !
-      COMMON /ABSORB/ V1ABS,V2ABS,DVABS,NPTABS,ABSRB(n_absrb)              ! 500060
+      COMMON /ABSORB/ V1ABS,V2ABS,DVABS,NPTABS,ABSRB(5050)              ! 500060
 !
       COMMON /CVRCNT/ HNAMCNT,HVRCNT
 !
@@ -120,7 +66,7 @@
       COMMON /XCONT/  V1C,V2C,DVC,NPTC,C(6000) 
 !
 !********************************************
-      COMMON /cnth2o/ V1h,V2h,DVh,NPTh,Ch(n_absrb),csh2o(n_absrb),cfh2o(n_absrb)
+      COMMON /cnth2o/ V1h,V2h,DVh,NPTh,Ch(5050),csh2o(5050),cfh2o(5050)
 !********************************************
 !
       COMMON /IFIL/ IRD,IPRcnt,IPU,NOPR,NFHDRF,NPHDRF,NFHDRL,NPHDRL, &
@@ -154,16 +100,6 @@
 !                                                                         F00100
       CHARACTER*8      XID,       HMOLID,      YID 
       REAL*8               SECANT,       XALTZ
-
-      character*160 line
-      integer*4 k
-      integer*4 mexPrintf
-
-      character*120 filename
-      character*1   sgid1
-      character*2   sgid2      
-      character*4   sfreq
-      character*8   srand
 !
       character*8 holn2
 !                                                                         F00120
@@ -175,35 +111,10 @@
       
       icflg = -999
 !
-!!! see /home/sergio/SPECTRA/CKDLINUX/calcon_12_1.F line 284
-!!! initialize the multipliers (weights or nm_weight) for the 7 imp gases
-!!! common /cntscl/ XSELF,XFRGN,XCO2C,XO3CN,XO2CN,XN2CN,XRAYL
+      do 1, i=1,7
+         xcnt(i)=1.
+ 1    continue
 
-! orig
-!      do 1, i=1,7
-!         xcnt(i)=1.
-! 1    continue
-
-    do 1, i=1,7
-     !xcnt(i)=1.     !!use all gases
-      xcnt(i)=0.      !!use  no gases, except as given below
-  1    continue
-
-  IF (iGASID .EQ. 1) THEN
-    xcnt(1) = 1.0
-    xcnt(2) = 1.0
-  ELSEIF (iGASID .EQ. 3) THEN  
-    xcnt(4) = 1.0
-  ELSEIF (iGASID .EQ. 7)  THEN
-    xcnt(5) = 1.0
-    xcnt(6) = 1.0
-  ELSEIF (iGASID .EQ. 22) THEN
-    xcnt(5) = 1.0
-    xcnt(6) = 1.0
-  END IF
-  
-!  write (*,*), (xcnt(i),i=1,7)
-  
       do 2, i=1,5050
          absrb(i)=0.
  2    continue
@@ -215,27 +126,12 @@
       ird = 55
       ipr = 66
       ipu = 7
-
-      iPrint_to_Files = -1
 !
-      filename = 'CNTNM.OPTDPT'
-      write(sfreq,'(i4)') nint(v1absIN)
-      write(srand,'(i8)') irand
-      if (iGASID .GE. 10) THEN
-        write(sgid2,'(i2)') iGASID
-        filename = 'CNTNM.OPTDPT_' // sgid2 // '_' // sfreq // '_' // srand
-      else
-        write(sgid1,'(i1)') iGASID
-        filename = 'CNTNM.OPTDPT_' // sgid1 // '_' // sfreq // '_' // srand
-      endif
-      if (iPrint_to_Files .gt. 0) then
-        print *,'writing to ',filename
-        OPEN (ipr,FILE=filename)
-        OPEN (ipu,FILE='WATER.COEF')
-      end if
-! 
+      OPEN (ipr,FILE='CNTNM.OPTDPT')
+      OPEN (ipu,FILE='WATER.COEF')
+!
       print *
-      print *, '  This version is limited to ',n_absrb,' (not 5000) values  '
+      print *, '  This version is limited to 5000 values  '
 !
 !   THIS PROGRAM CALCULATES THE CONTINUUM OPTICAL DEPTH
 !         FOR AN HOMOGENEOUS LAYER
@@ -274,67 +170,45 @@
 !            WK(M)  = (VOLUME MIXING RATIO) * (COLUMN OF DRY AIR)
 !
 !
-      if (iPrint_to_Files .GT. 0) THEN
-        iprcnt = ipr
-        CALL PRCNTM 
-        iprcnt = ipu
-        CALL PRCNTM
-      end if
-
+      iprcnt = ipr
+                   CALL PRCNTM 
+      iprcnt = ipu
+                   CALL PRCNTM
 !
 !   THE FOLLOWING IS AN EXAMPLE FOR A ONE CM PATH (SEE CNTNM.OPTDPT FOR RESULTS)
 !
-! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> begin edit input params >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-!
-!
-!      PAVE = 1013.
-!      TAVE =  296.
-!
-!      VMRH2O = 0.01
-!!
-!      xlength = 1.
-!
-!      print *
-!      print *,' *** F      USE phys_constsor this program, vmr_h2o is taken ', &
-!       'with respect to the total column ***'
 
-!      print *
-!      print *,' read: pressure (mb)  if negative use default values'
-!      read *, press_rd
+      PAVE = 1013.
+      TAVE =  296.
+!
+      VMRH2O = 0.01
+!
+      xlength = 1.
+!
+      print *
+      print *,' *** F      USE phys_constsor this program, vmr_h2o is taken ', &
+       'with respect to the total column ***'
+
+      print *
+      print *,' read: pressure (mb)  if negative use default values'
+      read *, press_rd
       
-!      if (press_rd .gt. 0.) then
-!         pave = press_rd
-!         print *,' read:   temperature (K)'
-!         read *, tave
-!         print *,' read:   path length (cm)'
-!         read *, xlength
-!         print *,' read:   vmr h2o '
-!         read *, vmrh2o
-!      endif
-!      print *, &
-!       'Pressure (mb), Temperature (K), Path Length (cm),    VMR H2O'
-!
-!      print 911, pave,tave,xlength,vmrh2o
-! 911  format(1x,f13.6,f17.4,f18.4,f12.8)
+      if (press_rd .gt. 0.) then
+         pave = press_rd
+         print *,' read:   temperature (K)'
+         read *, tave
+         print *,' read:   path length (cm)'
+         read *, xlength
+         print *,' read:   vmr h2o '
+         read *, vmrh2o
+      endif
+      print *, &
+       'Pressure (mb), Temperature (K), Path Length (cm),    VMR H2O'
 
-  pave = paveIN
-  tave = taveIN
-  IF (iGasID .EQ. 1) THEN
-    VMRH2O = ppaveIN/paveIN         !! assume we are doing WV
-  ELSE
-    VMRH2O = 0.0
-  END IF
-  
-  xlength = 1000 * num_kmolesIN   !! change from kmoles/cm2 to moles/cm2
-  xlength = xlength * 10000       !! change to moles/m2
-  xlength = xlength * 8.3144598 * tave/(ppaveIN*100)  !! pressure changed from mb to N/m2
-  xlength = xlength * 100         !! change from m to cm
-  print *,' xlength = ',xlength/100,' meters'
-
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> end edit input params >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      print 911, pave,tave,xlength,vmrh2o
+ 911  format(1x,f13.6,f17.4,f18.4,f12.8)
 !
 !     It may be preferable to specifiy the water column directly!
-!     ALOSMT is in phys_consts.f90
 !
       WTOT = ALOSMT*(PAVE/1013.)*(273./TAVE)* xlength
 !
@@ -354,8 +228,8 @@
 
 !      WK(2) = 0.
 ! ozone:
-      WK(3) = 3.75E-6 * W_dry
-!      WK(3) = 0.
+!      WK(3) = 3.75E-6 * W_dry
+      WK(3) = 0.
 ! water vapor:
       if (abs(vmrh2o-1.) .lt. 1.e-05) then
          wk(1) = wtot
@@ -363,86 +237,14 @@
          WK(1) = VMRH2O * W_dry
       endif
 !
-      IF ((iGasID .EQ. 1) .OR. (iGasID .EQ. 3)) THEN
-        WBROAD=WN2+WA+WK(7)
-      ELSE
-        WBROAD=WN2+WA
-      ENDIF
-      
+      WBROAD=WN2+WA
 !
       NMOL = 7
-!      print *,'before ',iGasID,WK(1),WK(2),WK(3),WK(7),WK(22)
-      
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> begin edit WK(X) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    !  x_vmr_o2  = wk(7)/wtot
-    !  x_vmr_n2  = 1. - x_vmr_h2o - x_vmr_o2
-
-  IF (iGasID .EQ. 1) THEN
-!c        WK(1) = WK(1)*rXSelf
-!c        WK(2) = 0.0
-!c        WK(3) = WK(3)*rXozone
-!c        WK(7) = WK(7)*rXoxygen
-!c        WN2   = WN2  *rXnitrogen
-    WK(1) = WK(1)                     !before Aug 2018
-    WK(1) = wtot * ppaveIN/paveIN     !after Aug 2018
-    WK(2) = 0.0
-    WK(3) = 0.0
-    WK(7) = 0.0
-    WN2   = 0.0
-  ELSEIF (iGasID .EQ. 3) THEN
-    WK(3) = WK(1)
-    WK(3) = wtot * ppaveIN/paveIN
-    WK(1) = 0.0
-    WK(2) = 0.0
-    WK(7) = 0.0
-    WN2   = 0.0
-  ELSEIF (iGasID .EQ. 7) THEN
-    !  x_vmr_o2  = wk(7)/wtot
-    !  x_vmr_n2  = 1. - x_vmr_h2o - x_vmr_o2
-    ! http://acmg.seas.harvard.edu/people/faculty/djj/book/bookchap1.html  MixRatio of N2 and O2
-    WK(7) = wtot * ppaveIN/paveIN
-    WK(1) = 0.0
-    WK(2) = 0.0
-    WK(3) = 0.0
-    WN2   = 0.0                              !!! orig prior to Nov 2018
-    WN2   = wtot * (ppaveIN)/paveIN          !!! new Nov 2018
-    WN2   = wtot * (paveIN-ppaveIN)/paveIN   !!! new Nov 2018
-    WN2   = WK(7) * 0.78/0.21                !!! new Dec 2018    
-    WK(22) = WN2
-  ELSEIF (iGasID .EQ. 22) THEN
-    !  x_vmr_o2  = wk(7)/wtot                             
-    !  x_vmr_n2  = 1. - x_vmr_h2o - x_vmr_o2  
-    WN2   = wtot * ppaveIN/paveIN
-    WK(22) = WN2
-    WK(1) = 0.0
-    WK(2) = 0.0
-    WK(3) = 0.0
-    WK(7) = 0.0                              !!! orig prior to Nov 2018
-    WK(7) = wtot * (paveIN-ppaveIN)/paveIN   !!! new Nov 2018
-    WK(7) = WK(22) * 0.21/0.78               !!! new Dec 2018
-  END IF
-
-!  do i=1,7
-!    write(line,*) 'i,xcnt(i),wk(i),pave,tave,line = ',i,xcnt(i),wk(i),pave,tave,nptabs
-!    k=mexPrintf(line//achar(13))
-!  end do
-
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   end edit WK(X) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !
-NMOL = 7
-
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> start edit V1V2DV >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-!
-!      V1ABS =    0.
-!      V2ABS = 10000.
-!      DVABS =    2.
-
-  V1ABS = v1absIN
-  V2ABS = v2absIN
-  DVABS = dvabsIN
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   end edit V1V2DV >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+      V1ABS =     0.
+      V2ABS = 10000. 
+ 
+      DVABS =    2.
 ! ..........................................................
 !      write (*,*) '  v1abs,  v2abs,  dvabs  '
 !      read  (*,*)    v1abs,  v2abs,  dvabs
@@ -454,17 +256,15 @@ NMOL = 7
          absrb(i) =0.
  85   continue
 
-
-      if (iPrint_to_Files .GT. 0) THEN
-        WRITE (IPR,970) PAVE,TAVE
-        WRITE (IPR,975) (HMOLID(I),I=1,7),HOLN2                             !A23490
-        WRITE (IPR,980) (WK(M),M=1,7),WBROAD
-
-        WRITE (IPu,970) PAVE,TAVE
-        WRITE (IPu,975) (HMOLID(I),I=1,7),HOLN2                             !A23490
-        WRITE (IPu,980) (WK(M),M=1,7),WBROAD
-      end if
-
+!!
+      WRITE (IPR,970) PAVE,TAVE
+      WRITE (IPR,975) (HMOLID(I),I=1,7),HOLN2                             !A23490
+      WRITE (IPR,980) (WK(M),M=1,7),WBROAD
+!
+      WRITE (IPu,970) PAVE,TAVE
+      WRITE (IPu,975) (HMOLID(I),I=1,7),HOLN2                             !A23490
+      WRITE (IPu,980) (WK(M),M=1,7),WBROAD
+!
   970 FORMAT (/,29x, 'P(MB)',7X,'T(K)', //,23x,0P,F12.3,F9.2)
   975 FORMAT (/, 9X,'MOLECULAR AMOUNTS (MOL/CM**2) BY LAYER ',//, &
               8(1X,A6,3X))
@@ -475,76 +275,43 @@ NMOL = 7
       v1 = v1abs
       v2 = v2abs
 !
-      CALL CONTNM(JRAD,rXSelf,rXforn)
+      CALL CONTNM(JRAD)
 !
-      iNumPts = NPTABS
-      DO I=1,NPTABS
-        VI=V1ABS+FLOAT(I-1)*DVABS
-        raFreq(I) = VI
-        raAbs(I)  = ABSRB(I)
-        if (iPrint_to_Files .GT. 0) THEN
-          WRITE (ipr, 910) VI, ABSRB(I) 
-        end if
-        END DO
-  910 FORMAT(F20.8,1P,E20.12)
+      DO 100 I=1,NPTABS
+      VI=V1ABS+FLOAT(I-1)*DVABS
+100   WRITE (ipr, 910) VI, ABSRB(I) 
+910   FORMAT(F10.3,1P,E12.3)
 !
-!      WRITE (7,920) tave
-!
-!  920 FORMAT(//,' self and foreign water vapor continuum coefficients ',/, &
-!             'for  ',f8.2,'K - ',   //, &
-!             ' the self-continuum scales as ( Rself/Ro ) ',/, &
-!             ' the foreign continuum scales as ( (Rtot-Rself)/Ro ) ',/, &
-!             ' where R is the density rho [ R = (P/Po)*(To/T) ]. ',//,  &
-!         10x,'     without radiation field:  ',  &
-!         10x,'       with radiation field:   ',      /, &
-!         10x,'      self         foreign     ', &
-!         10x,'      self         foreign     ',      /, &
-!             '    cm-1  ',                     &
-!             '       1/(cm-1 molec/cm**2)    ', &
-!         10x,'       1/(molec/cm**2) '        ,//) 
+      WRITE (7,920) tave
+
+  920 FORMAT(//,' self and foreign water vapor continuum coefficients ',/, &
+             'for  ',f8.2,'K - ',   //, &
+             ' the self-continuum scales as ( Rself/Ro ) ',/, &
+             ' the foreign continuum scales as ( (Rtot-Rself)/Ro ) ',/, &
+             ' where R is the density rho [ R = (P/Po)*(To/T) ]. ',//,  &
+         10x,'     without radiation field:  ',  &
+         10x,'       with radiation field:   ',      /, &
+         10x,'      self         foreign     ', &
+         10x,'      self         foreign     ',      /, &
+             '    cm-1  ',                     &
+             '       1/(cm-1 molec/cm**2)    ', &
+         10x,'       1/(molec/cm**2) '        ,//) 
 !
       xkt=tave/radcn2
 
-!cc this is going to output at DVS = 10 cm-1,  closest points multiples of 10
-!cc which span v1absIN,v2absIN
-!cc eg if v1absIN = 605, v2absIN = 655, then continuum at 610,620,630,640,650
-!cc are output
-!cc so may as well send in [1 10000 100] for [v1absIN v2absIN dvabsIN] and
-!cc get out 1000 points, from 10 cm-1 to 10000 cm-1, then interp them!!!
-      iNumPtsDVS = 1.0 + (v2absIN-v1absIN)/dvabsIN
-!      print *,npth,iNumPtsDVS,iNumPts   !!! npth = coarsse raFreq,raAbs output
-!                                        !!! raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS = finer output OD
-					
-      iNumPtsDVS = npth         !!! coarse output for WATER.COEF
       do 200 i=1,npth
-        vi=v1h+float(i-1)*dvh
-        raFreqDVS(i) = vi	
-        if (vi.ge.v1abs .and. vi.le.v2abs) then
-          radfld=radfn(vi,xkt)
-          csh2or=csh2o(i) * radfld
-          cfh2or=cfh2o(i) * radfld
-          raSelfDVS(i) = csh2o(i)
-          raFornDVS(i) = cfh2o(i)
-          if (iPrint_to_Files .GT. 0) then
-            write (ipu,930) vi, csh2o(i), cfh2o(i), csh2or, cfh2or, tave
-          end if
-        endif
+      vi=v1h+float(i-1)*dvh
+      if (vi.ge.v1abs .and. vi.le.v2abs) then
+         radfld=radfn(vi,xkt)
+         csh2or=csh2o(i) * radfld
+         cfh2or=cfh2o(i) * radfld
+         write (ipu,930) vi, csh2o(i), cfh2o(i), csh2or, cfh2or
+  930    format(f10.2, 1p, 2e15.4,10x, 1p, 2e15.4)
+      endif
   200 continue
-
-  930     format(f10.2, 1x, 2es15.4,10x, 1x, 2es15.4, 1x, f15.4)
-
 !
-      if (iPrint_to_Files .GT. 0) then
-        CLOSE(ipr)
-        CLOSE(ipu)
-      end if
-
       END 
 
-!end module
-
-
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !
       BLOCK DATA                                                          !A07600
 !
@@ -675,15 +442,4 @@ NMOL = 7
 !*******
 !*******
 !*******
-
-!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
-!!!>>  ONLY UNCOMMENT IF COMPILING USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
-!!! >> test that using eg topts.CKD = 32; [d,w] = run8watercontinuum(1,605,2830,'IPFILES/waterone',topts);
-
-      Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
-
-!!! >> test that using eg topts.CKD = 32; [d,w] = run8watercontinuum(1,605,2830,'IPFILES/waterone',topts);
-!!! >> ONLY UNCOMMENT IF COMPILING USING /home/sergio/SPECTRA/CKDLINUX/calconwater_locg_ckd3p2.sc
-!!!!!  DO NOT UNCOMMENT if you use the /home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8
-
-
+!      Include 'contnm.f90'

@@ -48,10 +48,9 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
         scum = calconwater_loc(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
-      elseif (ismember(CKD_0,[25 27 32]))
+      elseif (ismember(CKD_0,[25 27 32 43]))
         ponk = [jj press(jj) partpress(jj) temperature(jj) CKD];
-        str  = ...
-           'using calconwater_loc_ckd2p5,2p7,3p2 in one gulp ... ii [p T pp] CKD = ';
+        str  = 'using calconwater_loc_ckd2p5,2p7,3p2 in one gulp ... ii [p T pp] CKD = ';
         fprintf(1,'%s %3i %8.6e %8.6e %8.6f %3i\n',str,ponk)
 	if (ismember(CKD_0,25))
           scum = calconwater_loc_ckd2p5(1,length(outwave),outwave,dff,...
@@ -64,6 +63,10 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
                                GasAmt,CKD,selfmult,formult,jj);
 	elseif (ismember(CKD_0,32))
           scum = calconwater_loc_ckd3p2(1,length(outwave),outwave,dff,...
+                               length(press),temperature,press,partpress,...
+                               GasAmt,CKD,selfmult,formult,jj);
+	elseif (ismember(CKD_0,43))
+          scum = calconwater_loc_ckd4p3(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
         end			   
@@ -84,11 +87,10 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
       if max(tempfreq) <= 1e-20
         scum=scum./(tempfreq+1e-20);   %% else we get divide by 0 = NAN
       else
-        scum=scum./(tempfreq);
+        scum = scum./(tempfreq);
       end
-      out_array(nn,:)=out_array(nn,:)+scum;
+      out_array(nn,:) = out_array(nn,:) + scum;
     end
-
 
   else % have to break it into frequency intervals
     disp('using calconwater_loc in mini gulps...')
@@ -129,16 +131,20 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[25]))
-          scum =calconwater_loc_ckd2p5(1,length(index),outwave(index),dff,...
+          scum = calconwater_loc_ckd2p5(1,length(index),outwave(index),dff,...
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[27]))
 	  error('huh? CKD 27?')
-          scum =calconwater_loc_ckd2p7(1,length(index),outwave(index),dff,...
+          scum = calconwater_loc_ckd2p7(1,length(index),outwave(index),dff,...
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[32]))
-          scum =calconwater_loc_ckd3p2(1,length(index),outwave(index),dff,...
+          scum = calconwater_loc_ckd3p2(1,length(index),outwave(index),dff,...
+                             length(press),temperature,press,partpress,...
+                             GasAmt,CKD,selfmult,formult,jj);
+        elseif (ismember(CKD_0,[43]))
+          scum = calconwater_loc_ckd4p3(1,length(index),outwave(index),dff,...
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
         end
@@ -149,17 +155,17 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
                      tanh(c2*outwave(index)/2/temperature(jj))* ...
                      (296/temperature(jj));
           if ((selfmult >= 0.999999) & (formult <= 0.00000001))
-            tempfreq=tempfreq * partpress(jj);
+            tempfreq = tempfreq * partpress(jj);
           elseif ((formult >= 0.999999) & (selfmult <= 0.00000001))
-            tempfreq=tempfreq * (press(jj)-partpress(jj));
+            tempfreq = tempfreq * (press(jj)-partpress(jj));
           end
         end
         if max(tempfreq) <= 1e-20
-          scum=scum./(tempfreq+1e-20);   %% else we get divide by 0 = NAN
+          scum = scum./(tempfreq+1e-20);   %% else we get divide by 0 = NAN
         else
-          scum=scum./(tempfreq);
+          scum = scum./(tempfreq);
         end
-        out_array(nn,index)=out_array(nn,index)+scum;
+        out_array(nn,index) = out_array(nn,index) + scum;
       end
 
       %%see if anything left over
@@ -195,21 +201,25 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
                  length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[25]))
-          scum =calconwater_loc_ckd2p5(1,length(index),outwave(index),dff,...
+          scum = calconwater_loc_ckd2p5(1,length(index),outwave(index),dff,...
                    length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[27]))
 	  error('huh? CKD 27?')
-          scum =calconwater_loc_ckd2p7(1,length(index),outwave(index),dff,...
+          scum = calconwater_loc_ckd2p7(1,length(index),outwave(index),dff,...
                    length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[32]))
-          scum =calconwater_loc_ckd3p2(1,length(index),outwave(index),dff,...
+          scum = calconwater_loc_ckd3p2(1,length(index),outwave(index),dff,...
+                   length(press),...
+                 temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
+        elseif (ismember(CKD_0,[43]))
+          scum = calconwater_loc_ckd4p3(1,length(index),outwave(index),dff,...
                    length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         end
         if (divide  == -1)
-          tempfreq=ones(size(scum));
+          tempfreq = ones(size(scum));
         else
           tempfreq = AVOG*GasAmt(jj)*outwave(index) .* ...
                        tanh(c2*outwave(index)/2/temperature(jj))* ...
@@ -221,12 +231,13 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
           end
         end
         if max(tempfreq) <= 1e-20
-          scum=scum./(tempfreq+1e-20);   %% else we get divide by 0 = NAN
+          scum = scum./(tempfreq+1e-20);   %% else we get divide by 0 = NAN
         else
-          scum=scum./(tempfreq);
+          scum = scum./(tempfreq);
         end
-        out_array(nn,index)=out_array(nn,index)+scum;
+        out_array(nn,index) = out_array(nn,index) + scum;
       end
     end
   end            %%%%if then else loop
 end
+

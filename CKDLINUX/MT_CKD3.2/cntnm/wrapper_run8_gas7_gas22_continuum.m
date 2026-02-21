@@ -19,6 +19,8 @@ oldrun8 = load('/asl/s1/sergio/H2016_RUN8_NIRDATABASE/IR_605_2830/g22.dat/std238
 plot(fr,sum(od),'b.',oldrun8.w,sum(oldrun8.d),'r')
 %}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
 o2 = [1338 1850];
 n2 = [1996 2902];
 
@@ -34,13 +36,11 @@ if gid ~= 7 & gid ~= 22
   error('only doing gid 7,22')
 end
 
-prof = load(profile);
+prof = load(profile,'-ascii');
 numlay = length(prof(:,4));
 for ii = 1 : length(prof(:,4))
    fprintf(1,'doing layer %3i of %3i \n',ii,numlay);
-   junk = prof(ii,:);
-   junk(1) = gid;
-   
+  
    irand = floor(rand(1)*1e8);   
    while irand < 1e7;   
      irand = floor(rand(1)*1e8);
@@ -51,7 +51,11 @@ for ii = 1 : length(prof(:,4))
    xfout = ['xCNTNM.OPTDPT_' num2str(gid) '_' num2str(round(fr1)) '_' num2str(irand)];
 
    fid = fopen(fin,'w');
+
+   junk = prof(ii,:);
+   junk(1) = gid;   
    fprintf(fid,'%3i %8.6e %8.6e %8.6f %8.6e \n',junk);
+   
    junk = [fr1 fr2 0.0005];
    fprintf(fid,'%8.6e %8.6e %8.6e \n',junk);
    fprintf(fid,'%7i \n',irand);   

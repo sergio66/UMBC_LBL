@@ -1,0 +1,180 @@
+Contents
+---------
+0) CKD 2.5 and CKD 3.2
+1) Getting the code and un-tarring it
+2) Building the code and adding netcdf path
+3) Initial test
+4) Now adapt so we can have run8watercntinuum.m call this
+5) Modify run8watercntinuum.m to call this
+6) Test using driver_examples_run8.m
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+0) CKD 2.5 and CKD 3.2
+----------------------
+
+cd CKDLINUX
+
+# CKD 2.5 V1
+#   edit makewatermexLinuxA64  to put correct f77/g77 compiler for R2023b
+#   run makewatermexLinuxA64   to make
+# -rwxrwxr-x 1 sergio pi_sergio 190280 Feb 20 11:08 ../calconwater_loc_ckd2p5.mexa64
+# -rwxrwxr-x 1 sergio pi_sergio 200832 Feb 20 11:08 ../calconwater_loc.mexa64
+# -rwxrwxr-x 1 sergio pi_sergio  71328 Feb 20 11:08 ../calconwater.mexa64
+# -rwxrwxr-x 1 sergio pi_sergio 190248 Feb 20 11:08 ../calcon.mexa64
+
+CKD 2.5 V2
+  edit calconwater_locg_ckd2p5.sc  to put correct f77/g77 compiler for R2023b
+  run calconwater_locg_ckd2p5.sc   to make
+-rwxrwxr-x 1 sergio pi_sergio 190280 Feb 20 11:09 ../calconwater_loc_ckd2p5.mexa64
+-rwxrwxr-x 1 sergio pi_sergio 200832 Feb 20 11:09 ../calconwater_loc.mexa64
+-rwxrwxr-x 1 sergio pi_sergio  71328 Feb 20 11:09 ../calconwater.mexa64
+-rwxrwxr-x 1 sergio pi_sergio 190248 Feb 20 11:09 ../calcon.mexa64
+
+CKD3.2
+
+It is always advisable to go to /home/sergio/git/UMBC_LBL/CKDLINUX/MT_CKD3.2/cntnm/build
+1) make -f makefile.common clean
+2) gmake -f make_cntnm             linuxGNUdbl
+3) edit ../src/cntnm_progr_sergio.f90 to COMMENT OUT Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+4) gmake -f make_cntnm_sergio_run8 linuxGNUdbl
+5) edit ../src/cntnm_progr_sergio.f90 to UNCOMMENT   Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
+
+  edit calconwater_locg_ckd3p2.sc  to put correct f77/g77 compiler for R2023b
+  run calconwater_locg_ckd3p2.sc   to make
+-rwxrwxr-x  1 sergio pi_sergio   28336 Feb 20 12:53 ../calconwater_loc_ckd3p2.mexa64
+and if you have not commented out the build of 2.5
+rwxrwxr-x 1 sergio pi_sergio  189640 Feb 20 12:56 calconwater_loc_ckd2p5.mexa64
+-rwxrwxr-x 1 sergio pi_sergio  200112 Feb 20 12:56 calconwater_loc.mexa64
+-rwxrwxr-x 1 sergio pi_sergio   70608 Feb 20 12:56 calconwater.mexa64
+-rwxrwxr-x 1 sergio pi_sergio  189608 Feb 20 12:56 calcon.mexa64
+
+TEST ckd2.5,ckd3.2 using driver_examples_run8.m
+topts.CKD = 25; [w,d2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
+topts.CKD = 32; [w,d3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
+semilogy(w,d2p5,'b',w,d3p2,'r.-')
+plot(w,d2p5,'b',w,d3p2,'r')
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1) Getting the code and un-tarring it
+-------------------------------------
+git repo
+ https://github.com/AER-RC/MT_CKD_H2O
+ https://github.com/AER-RC/MT_CKD_H2O/releases/tag/4.3
+
+cd CKDLINUX
+  the source code is at https://github.com/AER-RC/MT_CKD_H2O/archive/refs/tags/4.3.tar.gz
+  download to hoe computer then scp it here
+  scp MT_CKD_H2O-4.3.tar.gz sergio@chip.rs.umbc.edu:///home/sergio/SPECTRA/CKDLINUX/.
+    
+  tar -xvf MT_CKD_H2O-4.3.tar.gz
+  this creates  MT_CKD_H2O-4.3
+  
+  cd MT_CKD_H2O-4.3
+  
+  [sergio@c24-52 MT_CKD_H2O-4.3]$ ls
+  build  data  docs  LICENSE.md  README.md  run_example  src
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+2) Building the code and adding netcdf path
+-------------------------------------------
+
+cd build
+
+there is ../src/drive_mt_ckd_h2o.f90:9:   include "netcdf.inc"
+use    nf-config --includedir       to get the location
+  /usr/ebuild/installs/software/netCDF-Fortran/4.6.1-iimpi-2023a/include
+and then edit    addlibs.inc
+
+# here the following variables must be defined
+# NCL netCDF lib location
+# NCI netCDF include location
+# ADDLIB any additional libs required by netCDF lib to compile
+ADDLIB =
+NETCDF = no
+
+ifeq ($(FC),gfortran)
+        NCL = /usr/lib
+        NCI = /usr/include
+	NCI = /usr/ebuild/installs/software/netCDF-Fortran/4.6.1-iimpi-2023a/include
+        INCLUDES:= -I. -I$(NCI)
+        NETCDF = yes
+endif
+
+make -f makefile.common clean
+gmake -f make_mt_ckd_h2o linuxGNUdbl
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+3) Initial test
+----------------
+
+See the webpage : https://github.com/AER-RC/MT_CKD_H2O
+
+cd run_example
+
+  ln -s ../data/absco-ref_wv-mt-ckd.nc .
+  ../mt_ckd_h2o_4.3_linux_gnu_dbl < mt_ckd.config
+
+  start matlab
+    addpath /home/sergio/git/matlabcode
+    pwd
+       /umbc/rs/pi_sergio/WorkDirDec2025/UMBC_LBL/CKDLINUX/MT_CKD_H2O-4.3/run_example
+    x = read_netcdf_lls('mt_ckd_h2o_output.nc');
+    plot(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self','forn');
+
+  ../mt_ckd_h2o_4.3_linux_gnu_dbl < sergio_test.config
+    x = read_netcdf_lls('mt_ckd_h2o_output.nc');
+    semilogy(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self','forn');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+4) Now adapt so we can have run8watercntinuum.m call this
+----------------------------------------------------------
+
+DO NOT BOTHER WITH COPYING
+  ../../MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8 
+  ../../MT_CKD3.2/cntnm/build/make_sergio_run8.sc   
+
+Instead
+  cd src
+  cp drive_mt_ckd_h2o.f90 run8_drive_mt_ckd_h2o.f90
+edit it so you can do a few different thigs : 
+   character*160 :: ca_NML_FileIn,caNC_FileOut
+   integer :: iIOUN,io_status
+   namelist /mt_ckd_input/ p_atm,t_atm,h2o_frac,wv1,wv2,dwv,caNC_FileOut
+
+   print *,'Enter input namelist name : '
+   read(*,ca_NML_FileIn)
+
+   OPEN(NEWUNIT=iIOUN, FILE=ca_NML_FileIn, STATUS="old", ACTION="read", IOSTAT=io_status)
+   read (iIOUN,mt_ckd_input)
+   CLOSE(iIOUN)
+
+then
+  cd build
+  cp  make_mt_ckd_h2o make_run8_mt_ckd_h2o
+edit it so you call run8_drive_mt_ckd_h2o.f90
+  gmake -f make_run8_mt_ckd_h2o linuxGNUdbl
+and check it has same warnings as make_mt_ckd_h2o
+
+test it with
+cd ../run_example
+edit run8_junkin so it contains the answer to "which is the config file"  which is run8_sergio_test.config
+  ../run8_mt_ckd_h2o_4.3_linux_gnu_dbl < run8_junkin
+check  
+    addpath /home/sergio/git/matlabcode
+    x = read_netcdf_lls('run8_mt_ckd_h2o_output.nc');
+    semilogy(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self','forn');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+5) Modify run8watercntinuum.m to call this
+------------------------------------------
+run8watercntinuum.m      : MTCKD25 = [ [25  27 32 43]];
+do_local_lineshape_CKD.m : elseif (ismember(CKD_0,[25 27 32 43]))  
+
+6) Test using driver_examples_run8.m
+------------------------------------
