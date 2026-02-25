@@ -6,7 +6,11 @@ function [out_array] = do_local_lineshape_CKD(outwave,out_array,AVOG,c2,...
 %% used by run8watercontinuum.m
 
 MaxLenX = 50000;
-if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
+
+valid_CKD_versions
+
+iDidCKD = -1;
+if ismember(CKD,allowedCKD)
   fprintf(1,'\n doing CKD continuum %3i lineshape = %2i \n',CKD,local);
   haha = [outwave(1) outwave(end) mean(diff(outwave))];
   fprintf(1,'  outwave(1) outwave(end) diff(outwave) = %20.12f %20.12f %20.12f \n',haha);
@@ -17,55 +21,60 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
     for jj=MinLayer:Step:MaxLayer %INNER LOOP 1..100 = bottom -> top
       nn=(jj-MinLayer)/Step+1;
       if (CKD_0 == 50)
-        scum = mst50(outwave,temperature,press,partpress,...
-                   GasAmt,CKD_0,selfmult,formult,jj,profname);
+        iDidCKD = +1;	
+        scum = mst50(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
       elseif (CKD_0 == 51)
         %%%scum = mst51(outwave,temperature,press,partpress,...
-        scum = mst51_tobin(outwave,temperature,press,partpress,...
-                   GasAmt,CKD_0,selfmult,formult,jj,profname);
+        iDidCKD = +1;		
+        scum = mst51_tobin(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
       elseif (CKD_0 == 52)
-        scum = mst52(outwave,temperature,press,partpress,...
-                   GasAmt,CKD_0,selfmult,formult,jj,profname);
+        iDidCKD = +1;		
+        scum = mst52(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
       elseif (CKD_0 == 53)
-        scum = mst53(outwave,temperature,press,partpress,...
-                   GasAmt,CKD_0,selfmult,formult,jj,profname);
+        iDidCKD = +1;		
+        scum = mst53(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
       elseif (CKD_0 == 55)
-        scum = mst55(outwave,temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+        iDidCKD = +1;		
+        scum = mst55(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
       elseif (CKD_0 == 56)
-        scum = mst56(outwave,temperature,press,partpress,...
-                   GasAmt,CKD_0,selfmult,formult,jj,profname);
+        iDidCKD = +1;		
+        scum = mst56(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
       elseif (CKD_0 == 60)
-        scum = mst60(outwave,temperature,press,partpress,...
-                   GasAmt,CKD_0,selfmult,formult,jj,profname);
+        iDidCKD = +1;		
+        scum = mst60(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
       elseif (CKD_0 == 5)
-          scum = tobin5(outwave,temperature,press,partpress,...
-                   GasAmt,CKD_0,selfmult,formult,jj,profname);
-      elseif (ismember(CKD_0,[0 21 22 23 24  1 2 3 4 6]))
+        iDidCKD = +1;		
+          scum = tobin5(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
+      elseif (ismember(CKD_0,[CKD_orig CKD_MT_orig]))
+        iDidCKD = +1;		
         ponk = [jj press(jj) partpress(jj) temperature(jj) CKD];
         str = 'using calconwater_loc in one gulp ... ii [p T pp] CKD = ';
         fprintf(1,' %s %3i %8.6e %8.6e %8.6f %3i\n',str,ponk);
         scum = calconwater_loc(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
-      elseif (ismember(CKD_0,[25 27 32 43]))
+      elseif (ismember(CKD_0,CKD_MT_latest))
+        iDidCKD = +1;		
         ponk = [jj press(jj) partpress(jj) temperature(jj) CKD];
         str  = 'using calconwater_loc_ckd2p5,2p7,3p2 in one gulp ... ii [p T pp] CKD = ';
         fprintf(1,'%s %3i %8.6e %8.6e %8.6f %3i\n',str,ponk)
 	if (ismember(CKD_0,25))
+          iDidCKD = +1;		  
           scum = calconwater_loc_ckd2p5(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
 	elseif (ismember(CKD_0,27))
-	  error('huh? CKD 27?')
+          iDidCKD = +1;		  	  
           scum = calconwater_loc_ckd2p7(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
 	elseif (ismember(CKD_0,32))
+          iDidCKD = +1;		  	  
           scum = calconwater_loc_ckd3p2(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
 	elseif (ismember(CKD_0,43))
+          iDidCKD = +1;		  	  
           scum = calconwater_loc_ckd4p3(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
@@ -102,48 +111,53 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
       for kk=1:number             %LOOP OVER FREQUENCY INTERVALS
         index=index0+(kk-1)*(MaxLenX-10);
         if (CKD_0 == 50)
-          scum = mst50(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst50(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 51)
           %%%scum = mst51(outwave(index),temperature,press,partpress,...
-          scum = mst51_tobin(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst51_tobin(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 52)
-          scum = mst52(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst52(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 53)
-          scum = mst53(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst53(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 55)
-          scum = mst55(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst55(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 56)
-          scum = mst56(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst56(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 60)
-          scum = mst60(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst60(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 5)
-          scum = tobin5(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
-        elseif (ismember(CKD_0,[0 21 22 23 24  1 2 3 4 6]))
+          iDidCKD = +1;		  	  
+          scum = tobin5(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
+        elseif (ismember(CKD_0,[CKD_orig CKD_MT_orig]))
+          iDidCKD = +1;		  	  
           scum = calconwater_loc(1,length(index),outwave(index),dff,...
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[25]))
+          iDidCKD = +1;		  	  
           scum = calconwater_loc_ckd2p5(1,length(index),outwave(index),dff,...
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[27]))
 	  error('huh? CKD 27?')
+          iDidCKD = +1;		  	  
           scum = calconwater_loc_ckd2p7(1,length(index),outwave(index),dff,...
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[32]))
+          iDidCKD = +1;		  	  
           scum = calconwater_loc_ckd3p2(1,length(index),outwave(index),dff,...
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[43]))
+          iDidCKD = +1;		  	  
           scum = calconwater_loc_ckd4p3(1,length(index),outwave(index),dff,...
                              length(press),temperature,press,partpress,...
                              GasAmt,CKD,selfmult,formult,jj);
@@ -172,48 +186,53 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
       if (index(length(index))+1 <= length(outwave)) 
         index=index(length(index))+1:length(outwave);
         if (CKD_0 == 50)
-          scum = mst50(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst50(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 51)
           %%%scum = mst51(outwave(index),temperature,press,partpress,...
-          scum = mst51_tobin(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst51_tobin(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 52)
-          scum = mst52(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst52(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 53)
-          scum = mst53(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst53(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 55)
-          scum = mst55(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst55(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 56)
-          scum = mst56(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst56(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 60)
-          scum = mst60(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
+          iDidCKD = +1;		  	  
+          scum = mst60(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
         elseif (CKD_0 == 5)
-          scum = tobin5(outwave(index),temperature,press,partpress,...
-                     GasAmt,CKD_0,selfmult,formult,jj,profname);
-        elseif (ismember(CKD_0,[0 21 22 23 24  1 2 3 4 6]))
+          iDidCKD = +1;		  	  
+          scum = tobin5(outwave(index),temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
+        elseif (ismember(CKD_0,[CKD_orig CKD_MT_orig]))
+          iDidCKD = +1;		  	  
           scum = calconwater_loc(1,length(index),outwave(index),dff,...
                  length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[25]))
+          iDidCKD = +1;		  	  
           scum = calconwater_loc_ckd2p5(1,length(index),outwave(index),dff,...
                    length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[27]))
 	  error('huh? CKD 27?')
+          iDidCKD = +1;		  	  	  
           scum = calconwater_loc_ckd2p7(1,length(index),outwave(index),dff,...
                    length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[32]))
+          iDidCKD = +1;		  	  	  
           scum = calconwater_loc_ckd3p2(1,length(index),outwave(index),dff,...
                    length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         elseif (ismember(CKD_0,[43]))
+          iDidCKD = +1;		  	  	  
           scum = calconwater_loc_ckd4p3(1,length(index),outwave(index),dff,...
                    length(press),...
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
@@ -240,4 +259,9 @@ if (ismember(CKD,[0 21 23 24   1 2 3 4 5 6   25 27 32]))
     end
   end            %%%%if then else loop
 end
+
+if iDidCKD < 0
+  error('do_local_lineshape_CKD.m did not find valid CKD')
+end
+
 

@@ -41,3 +41,5 @@ mv calcon.mexa64                 ../.
 mv calconwater.mexa64            ../.
 mv calconwater_loc.mexa64        ../.
 mv calconwater_loc_ckd2p5.mexa64 ../.
+
+ls -lt ../calconwater_loc_ckd2p5.mexa64

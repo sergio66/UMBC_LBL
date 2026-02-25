@@ -22,26 +22,30 @@ echo "setting mexF77 = " $mexF77
 echo " "
 
 echo "########################################################################"
-
-### the : <<'END'  and  END are commenting this out for now since you can separately call calconwater_locg_ckd2p5.sc
-### the : <<'END'  and  END are commenting this out for now since you can separately call calconwater_locg_ckd2p5.sc
-### the : <<'END'  and  END are commenting this out for now since you can separately call calconwater_locg_ckd2p5.sc
-
-: <<'END'
-
-## make CKD2.5
-## ------------
-echo "making CKD2.5"
-echo " "
-#$mexF77  convec.F convecg.F                                 FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-$mexF77  calcon.F calcong.F                                  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-$mexF77  calconwater.F calconwaterg.F                        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-$mexF77  calconwater_loc.F calconwater_locg.F                FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-$mexF77  calconwater_loc_ckd2p5.F calconwater_loc_ckd2p5g.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-
-END
-
+echo "use calconwater_locg_ckd2p5.sc for MT CKD 2.5"
 echo "########################################################################"
+
+# echo "########################################################################"
+# 
+# ### the : <<'END'  and  END are commenting this out for now since you can separately call calconwater_locg_ckd2p5.sc
+# ### the : <<'END'  and  END are commenting this out for now since you can separately call calconwater_locg_ckd2p5.sc
+# ### the : <<'END'  and  END are commenting this out for now since you can separately call calconwater_locg_ckd2p5.sc
+# 
+# : <<'END'
+# 
+# ## make CKD2.5
+# ## ------------
+# echo "making CKD2.5"
+# echo " "
+# #$mexF77  convec.F convecg.F                                 FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+# $mexF77  calcon.F calcong.F                                  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+# $mexF77  calconwater.F calconwaterg.F                        FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+# $mexF77  calconwater_loc.F calconwater_locg.F                FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+# $mexF77  calconwater_loc_ckd2p5.F calconwater_loc_ckd2p5g.F  FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+# 
+# END
+# 
+# echo "########################################################################"
 
 FC='gfortran90'
 FFLAGS='-fexceptions -fbackslash'
@@ -66,12 +70,12 @@ ln -s MT_CKD3.2/cntnm/build/planet_consts.mod planet_consts.mod
 $mexF77 -v -c calcon_loc_mtckd_32_wrap.F90                         FFLAGS='$FFLAGS' 
 $mexF77 calconwater_loc_ckd3p2.F90 calcon_loc_mtckd_32_wrap.o      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 
-ls -lt calcon_loc_mtckd_32_wrap.o ../calconwater_loc_ckd3p2.mexa64
-
 echo "########################################################################"
 
-mv calcon.mexa64                 ../.
-mv calconwater.mexa64            ../.
-mv calconwater_loc.mexa64        ../.
-mv calconwater_loc_ckd2p5.mexa64 ../.
+# mv calcon.mexa64                 ../.
+# mv calconwater.mexa64            ../.
+# mv calconwater_loc.mexa64        ../.
+# mv calconwater_loc_ckd2p5.mexa64 ../.
 mv calconwater_loc_ckd3p2.mexa64 ../.
+
+ls -lt calcon_loc_mtckd_32_wrap.o ../calconwater_loc_ckd3p2.mexa64

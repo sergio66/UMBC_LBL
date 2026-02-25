@@ -4,9 +4,10 @@ Contents
 1) Getting the code and un-tarring it
 2) Building the code and adding netcdf path
 3) Initial test
-4) Now adapt so we can have run8watercntinuum.m call this
-5) Modify run8watercntinuum.m to call this
-6) Test using driver_examples_run8.m
+4) Small modification so you can use your own inpout file
+5) Now adapt so we can have run8watercntinuum.m call this
+6) Modify run8watercntinuum.m to call this
+7) Test using driver_examples_run8.m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -131,12 +132,8 @@ cd run_example
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-4) Now adapt so we can have run8watercntinuum.m call this
-----------------------------------------------------------
-
-DO NOT BOTHER WITH COPYING
-  ../../MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8 
-  ../../MT_CKD3.2/cntnm/build/make_sergio_run8.sc   
+4) Small modification so you can use your own inpout file
+---------------------------------------------------------
 
 Instead
   cd src
@@ -171,10 +168,55 @@ check
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-5) Modify run8watercntinuum.m to call this
+5) Now adapt so we can have run8watercntinuum.m call this
+----------------------------------------------------------
+
+DO NOT BOTHER WITH COPYING
+  ../../MT_CKD3.2/cntnm/build/make_cntnm_sergio_run8 
+  ../../MT_CKD3.2/cntnm/build/make_sergio_run8.sc   
+
+Instead start at UMBC_LBL/CKDLINUX
+  cp calcon_loc_mtckd_32_wrap.F90   calcon_loc_mtckd_43_wrap.F90
+  cp calconwater_loc_ckd3p2.F90     calconwater_loc_ckd4p3.F90
+  cp calconwater_locg_ckd3p2.sc     calconwater_locg_ckd4p3.sc
+edit the three files so 3p2 --> 4p3, 32 --> 43 etc
+
+The core of the compile script is
+  ln -s MT_CKD_H2O-4.3/build/mt_ckd_h2o.mod      mt_ckd_h2o.mod
+  ln -s MT_CKD_H2O-4.3/build/read_file.mod       read_file.mod
+  # ln -s MT_CKD_H2O-4.3/build/phys_consts.mod     phys_consts.mod
+  # diff MT_CKD3.2/cntnm/build/phys_consts.mod  MT_CKD_H2O-4.3/build/phys_consts.mod
+  
+  #### calconwater_loc_ckd3p2.F90 is the gatewy function to calconwater_loc_ckd3p2.F90
+  #$mexF77 calcon_loc_mtckd_43_wrap.F90                               FFLAGS='$FFLAGS' 
+  $mexF77 -v -c calcon_loc_mtckd_43_wrap.F90                         FFLAGS='$FFLAGS' 
+  $mexF77 calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.o      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+
+Linking is easy
+
+You need these to work, in order
+  MT_CKD_H20-4.3/src/cntnm_progr_sergio.f90 will be less like MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90
+                                                  which calls MT_CKD3.2/cntnm/src/contnm_sergio.f90
+                                            and more like     MT_CKD_H2O-4.3/src/run8_drive_mt_ckd_h2o.f90
+  
+calcon_loc_mtckd_43_wrap.F90
+  SUBROUTINE calcon_loc_mtckd_32_wrap      --> SUBROUTINE calcon_loc_mtckd_43_wrap
+  calls CALCON_MTCKD_32_loc                --> CALCON_MTCKD_43_loc in ~/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/src/cntnm_progr_sergio.f90
+  include 'MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90'  --> include 'MT_CKD_H2O-4.3/src/cntnm_progr_sergio.f90'
+
+calconwater_loc_ckd4p3.F90
+   call calcon_loc_mtckd_32_wrap  -->  call calcon_loc_mtckd_43_wrap
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+6) Modify run8watercntinuum.m to call this
 ------------------------------------------
 run8watercntinuum.m      : MTCKD25 = [ [25  27 32 43]];
 do_local_lineshape_CKD.m : elseif (ismember(CKD_0,[25 27 32 43]))  
 
-6) Test using driver_examples_run8.m
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+7) Test using driver_examples_run8.m
 ------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

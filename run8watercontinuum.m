@@ -232,15 +232,12 @@ fprintf(1,'you have asked for CKD version %8.6f \n',CKD);
 %% 1,25,27,32  are new MT-CKD
 %% 4 6         are derived from MT-CKD1 (cant remember how to derived 2,3,5)
 %%             are derived from MT-CKD25
-origCKD = [0 21 23 24];
-MTCKD1  = [ [1 ] [4 6]];
-MTCKD25 = [ [25  27 32 43]];
-allowedCKD = [origCKD MTCKD1 MTCKD25];
-if (~ismember(CKD,allowedCKD))
-  disp('valid CKD versions = ')
-  sort(allowedCKD)
-  error('invalid CKD version! please retry!')
-end
+
+%origCKD = [0 21 23 24];
+%MTCKD1  = [ [1 ] [4 6]];
+%MTCKD25 = [ [25  27 32 43]];
+
+valid_CKD_versions
 
 %% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 %% see /home/sergio/CKDLINUX/ckd_lookupBIN_v4_ieee_le.m
@@ -362,7 +359,7 @@ dff=ffin*nbox;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if ((local == 0)|(local==1))          
   %local lineshape for water
-  fprintf(1,'CKD CKD_0 = %3i %3i local = %2i \n',CKD,CKD_0,local)
+  fprintf(1,'CKD = %3i CKD_0 = %3i local = %2i \n',CKD,CKD_0,local)
   out_array = do_local_lineshape_CKD(outwave,out_array,AVOG,c2,...
                    temperature,press,partpress,GasAmt,...
                    CKD,CKD_0,selfmult,formult,profname,...
@@ -374,8 +371,10 @@ end
 
 [junkx,junky] = size(out_array);
 for ii = 1 : junkx
-  bad = find(out_array(ii,:) < 1e-16);
-  if length(bad) > 0
+  bad = find(out_array(ii,:) < eps);
+  %if length(bad) > 0
+  if length(bad) > 0 & CKD < 43    
+    fprintf(1,'oh oh : found %6i bad points out of %6i in row %3i of out_array, CKD = %8.4f \n',length(bad),length(outwave),ii,CKD);
     good = setdiff(1:length(outwave),bad);
     out_array(ii,bad) = interp1(outwave(good),out_array(ii,good),outwave(bad),[],'extrap');
   end

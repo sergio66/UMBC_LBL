@@ -8,7 +8,13 @@ that was when our disks died and had to start from git clone
  <<< See Readme_make_new_qtipsH24 >>>
  <<< See Readme_make_new_qtipsH24 >>> 
 
-2/14/25  run8.m, run8water.m etc now have
+2/21/26  Now have calconwater_locg_ckd4p3.sc
+
+2/20/26  Redid MT-CKD3.2 code (calconwater_locg_ckd3p2.sc, and a few of the MT_CKD3.2/cntnm/src codes).
+         It seems to put in a zero (0) at the end of the array, so run8watercontinuum.m
+	 checks for this and interpolates the good point (nonzero) over the bad (zero OD0 points
+	 
+2/14/26  run8.m, run8water.m etc now have
            topts = do_translate_params_HITRAN_2_HITRANpathNyear(topts);
 	 so that if you are uding older driver code whre you set topts.HITRAN = /umbc/xfs3/strow/asl/rta/hitran//h20.by.gas/
 	 then it replaces that with                     topts.HITRANpathNyear = /umbc/xfs3/strow/asl/rta/hitran//h20.by.gas/
