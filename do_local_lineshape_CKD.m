@@ -19,7 +19,7 @@ if ismember(CKD,allowedCKD)
 
   if (length(outwave) <= MaxLenX)          %can do it in one big chunk!
     for jj=MinLayer:Step:MaxLayer %INNER LOOP 1..100 = bottom -> top
-      nn=(jj-MinLayer)/Step+1;
+      nn = (jj - MinLayer)/Step+1;
       if (CKD_0 == 50)
         iDidCKD = +1;	
         scum = mst50(outwave,temperature,press,partpress,GasAmt,CKD_0,selfmult,formult,jj,profname);
@@ -56,7 +56,7 @@ if ismember(CKD,allowedCKD)
       elseif (ismember(CKD_0,CKD_MT_latest))
         iDidCKD = +1;		
         ponk = [jj press(jj) partpress(jj) temperature(jj) CKD];
-        str  = 'using calconwater_loc_ckd2p5,2p7,3p2 in one gulp ... ii [p T pp] CKD = ';
+        str  = 'using calconwater_loc_ckd2p5,2p7,3p2,4p3 in one gulp ... ii [p T pp] CKD = ';
         fprintf(1,'%s %3i %8.6e %8.6e %8.6f %3i\n',str,ponk)
 	if (ismember(CKD_0,25))
           iDidCKD = +1;		  
@@ -74,7 +74,7 @@ if ismember(CKD,allowedCKD)
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);
 	elseif (ismember(CKD_0,43))
-          iDidCKD = +1;		  	  
+          iDidCKD = +1;
           scum = calconwater_loc_ckd4p3(1,length(outwave),outwave,dff,...
                                length(press),temperature,press,partpress,...
                                GasAmt,CKD,selfmult,formult,jj);

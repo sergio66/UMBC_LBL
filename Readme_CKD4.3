@@ -132,7 +132,7 @@ cd run_example
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-4) Small modification so you can use your own inpout file
+4) Small modification so you can use your own input file
 ---------------------------------------------------------
 
 Instead
@@ -192,7 +192,22 @@ The core of the compile script is
   $mexF77 -v -c calcon_loc_mtckd_43_wrap.F90                         FFLAGS='$FFLAGS' 
   $mexF77 calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.o      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 
-Linking is easy
+There is a little work to be done to the LBLRTM Makefile : Grok helped me!!!
+1) src/mt_ckd_h2o_module.f90 :
+      character(len=*), parameter :: fDataname = "absco-ref_wv-mt-ckd.nc"
+becomes      
+      character(len=*), parameter :: fDataname = "/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/data/absco-ref_wv-mt-ckd.nc"    
+2) build/makefile.common
+  linuxGNUdbl and linuxGNUsgl need -fPIC aded to FCFLAG
+        FCFLAG="-fdefault-integer-8 -fdefault-real-8 -fdefault-double-8 -frecord-marker=4 -std=legacy -fPIC" \  (for dbl)
+	and
+	        FCFLAG="-frecord-marker=4 -std=legacy -fPIC" \   (for sgl)
+
+Then yuo can either run
+a) grok_ckd4p3_v4.m within Matlab or
+b) calconwater_locg_ckd4p3.sc at command line
+
+>>>>>>
 
 You need these to work, in order
   MT_CKD_H20-4.3/src/cntnm_progr_sergio.f90 will be less like MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90
@@ -207,6 +222,15 @@ calcon_loc_mtckd_43_wrap.F90
 calconwater_loc_ckd4p3.F90
    call calcon_loc_mtckd_32_wrap  -->  call calcon_loc_mtckd_43_wrap
 
+finally, lots of netcdf libraries
+
+grok sez
+/usr/ebuild/installs/software/MATLAB/2023b/bin/mex  FFLAGS=-fPIC  /home/sergio/git/UMBC_LBL/CKDLINUX/MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj//mt_ckd_h2o_module.o  calconwater_loc_ckd4p3.F90  calcon_loc_mtckd_43_wrap.F90  -I/home/sergio/git/UMBC_LBL/CKDLINUX/MT_CKD_H2O-4.3/build/  -L/usr/ebuild/installs/software/netCDF-Fortran/4.6.1-iimpi-2023a/lib -lnetcdff -L/usr/ebuild/installs/software/bzip2/1.0.8-GCCcore-12.3.0/lib64 -L/usr/ebuild/installs/software/bzip2/1.0.8-GCCcore-12.3.0/lib -L/usr/ebuild/installs/software/netCDF/4.9.2-iimpi-2023a/lib64 -L/usr/ebuild/installs/software/netCDF/4.9.2-iimpi-2023a/lib -L/usr/ebuild/installs/software/intel-compilers/2023.1.0/compiler/2023.1.0/linux/compiler/lib/intel64 -lnetcdf -lnetcdf -lm -liomp5 -lpthread  -I  -I/usr/ebuild/installs/software/netCDF-Fortran/4.6.1-iimpi-2023a/include -I/usr/ebuild/installs/software/netCDF-Fortran/4.6.1-iimpi-2023a/include  -output  ../calconwater_loc_ckd4p3
+
+while I sez
+$mexF77 -v FFLAGS="$FFLAGS -I/MT_CKD_H2O-4.3/build/" calcon_loc_mtckd_43_wrap.F90          
+$mexF77 -v calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.F90 MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/mt_ckd_h2o_module.o  MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/read_module.o MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/phys_consts.o  `nf-config --fflags` `nf-config --flibs`    FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 6) Modify run8watercntinuum.m to call this
@@ -218,5 +242,6 @@ do_local_lineshape_CKD.m : elseif (ismember(CKD_0,[25 27 32 43]))
 
 7) Test using driver_examples_run8.m
 ------------------------------------
+topts.CKD = 43; [w,d4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -59,7 +59,8 @@ Module mt_ckd_h2o
       public mt_ckd_h2o_absco
 !              
       type(data2read),save  :: dat
-      character(len=*), parameter :: fDataname = "absco-ref_wv-mt-ckd.nc"
+!      character(len=*), parameter :: fDataname = "absco-ref_wv-mt-ckd.nc"
+      character(len=*), parameter :: fDataname = "/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/data/absco-ref_wv-mt-ckd.nc"
 
       real,parameter :: xlosmt=2.68675E+19
       real ::onepl = 1.001,onemi = 0.999 

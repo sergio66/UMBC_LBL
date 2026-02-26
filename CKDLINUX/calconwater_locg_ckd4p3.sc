@@ -44,6 +44,12 @@ FDEBUGFLAGS='-g'
 
 echo $FFLAGS
 
+## check libs
+## -----------
+nc-config --version
+nf-config --version
+nf-config --flibs
+
 ## make CKD4.3
 ## ------------
 echo "making CKD4.3"
@@ -63,14 +69,24 @@ ln -s MT_CKD_H2O-4.3/build/read_file.mod       read_file.mod
 
 #### calconwater_loc_ckd4p3.F90 is the gatewy function to calconwater_loc_ckd4p3.F90
 #### this is testing we can compile it, but it does not make .o
-##   $mexF77 calcon_loc_mtckd_43_wrap.F90                               FFLAGS='$FFLAGS' 
+##   $mexF77 -v calcon_loc_mtckd_43_wrap.F90                               FFLAGS='$FFLAGS' 
 ##   even easier : gfortran calcon_loc_mtckd_43_wrap.F90
 
+#####-v is for verbose, for help in debugging while compiling (shows actuall compile and link commands)
+
 #### use these two for run8watercontinnum
+
+#### orig, as in eg calconwater_locg_ckd3p2.sc
+#### $mexF77 -v -c  calcon_loc_mtckd_43_wrap.F90                         FFLAGS='$FFLAGS' 
+#### $mexF77  calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.o      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+
+#### trying to get in paths to the module
 #$mexF77 -v -c MT_CKD_H2O-4.3/build/ calcon_loc_mtckd_43_wrap.F90                         FFLAGS='$FFLAGS' 
-#$mexF77 -I'MT_CKD_H2O-4.3/build/' calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.o      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
-$mexF77 -v -c  calcon_loc_mtckd_43_wrap.F90                         FFLAGS='$FFLAGS' 
-$mexF77  calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.o      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+#$mexF77 -v -I'MT_CKD_H2O-4.3/build/' calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.o      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
+
+#### final with a little help from The Grok
+$mexF77 -v FFLAGS="$FFLAGS -I/MT_CKD_H2O-4.3/build/" calcon_loc_mtckd_43_wrap.F90          
+$mexF77 -v calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.F90 MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/mt_ckd_h2o_module.o  MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/read_module.o MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/phys_consts.o  `nf-config --fflags` `nf-config --flibs`    FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 
 echo "########################################################################"
 

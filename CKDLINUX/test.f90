@@ -1,0 +1,2 @@
+subroutine mexFunction()
+end subroutine

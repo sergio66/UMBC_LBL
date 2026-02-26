@@ -217,7 +217,7 @@ linuxPGIsgl:
 linuxGNUdbl:
 	${MAKE} -f ${MAKEFILE} all P_TYPE=dbl FC_TYPE=gnu PLTFRM=linux \
 	FC=gfortran  \
-	FCFLAG="-fdefault-integer-8 -fdefault-real-8 -fdefault-double-8 -frecord-marker=4 -std=legacy -fPIC" \
+	FCFLAG="-fdefault-integer-8 -fdefault-real-8 -fdefault-double-8 -frecord-marker=4 -std=legacy" \
 	UTIL_FILE=util_gfortran.f90
 
 ##############################################################
@@ -227,7 +227,7 @@ linuxGNUdbl:
 linuxGNUsgl:
 	${MAKE} -f ${MAKEFILE} all P_TYPE=sgl FC_TYPE=gnu PLTFRM=linux  \
 	FC=gfortran \
-	FCFLAG="-frecord-marker=4 -std=legacy -fPIC" \
+	FCFLAG="-frecord-marker=4 -std=legacy" \
 	UTIL_FILE=util_gfortran.f90
 
 ##############################################################
@@ -237,7 +237,7 @@ linuxGNUsgl:
 linuxG95dbl:
 	${MAKE} -f ${MAKEFILE} all P_TYPE=dbl FC_TYPE=g95 PLTFRM=linux \
 	FC=g95  \
-	FCFLAG="-O3 -r8 -i8 " \
+	FCFLAG="-O3 -r8 -i8" \
 	UTIL_FILE=util_linux_intel.f90
 
 ##############################################################

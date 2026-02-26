@@ -33,14 +33,6 @@
 !  --------------------------------------------------------------------------
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  SUBROUTINE CALCON_MTCKD_32_loc(                           &
-                paveIN,ppaveIN,taveIN,num_kmolesIN,         &
-                v1absIN,v2absIN,dvabsIN,                    &
-                raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,   &
-                raFreq,raAbs,iNumPts,                       &
-                iGasID,rXSelf,rXForn,rXozone,rXoxygen,rXnitrogen, &
-		irand)
-
 ! input pave,ppave in mb,
 !       tave       in K
 !       num_kmoles in kilomoles/cm2
@@ -74,6 +66,15 @@
 !     presumably the user will want to create an input file to address
 !     individual requirements
 !
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  SUBROUTINE CALCON_MTCKD_32_loc(                           &
+                paveIN,ppaveIN,taveIN,num_kmolesIN,         &
+                v1absIN,v2absIN,dvabsIN,                    &
+                raFreqDVS,raSelfDVS,raFornDVS,iNumPtsDVS,   &
+                raFreq,raAbs,iNumPts,                       &
+                iGasID,rXSelf,rXForn,rXozone,rXoxygen,rXnitrogen, &
+		irand)
 !
       Use lblparams
       USE phys_consts

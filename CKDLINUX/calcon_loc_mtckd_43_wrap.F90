@@ -72,8 +72,8 @@
       v2absIn = freq(NFREQ)
       dvabsIN = FSTEP !! note this is "low" resolution eg 1 cm-1 wide
 
-      print *,'here1 ',iGasID,paveIN,ppaveIN,taveIN,num_kmolesIN
-      print *,'here2 ',v1absIN,v2absIn,dvabsIN,NFREQ
+      write(*,'(A,I3,3(F12.5),ES12.5)') 'calcon_loc_mtckd_43_wrap.F90  here1 ',iGasID,paveIN,ppaveIN,taveIN,num_kmolesIN
+      write(*,'(A,3(F12.5),I10)') 'calcon_loc_mtckd_43_wrap.F90  here2 ',v1absIN,v2absIn,dvabsIN,NFREQ
 
 ! see ~/SPECTRA/CKDLINUX/MT_CKD4.3//src/Readme_adapt_to_run8watercontinuum_code
 !    and MT_CKD4.3//src/cntnm_progr_sergio.f90
@@ -106,8 +106,8 @@
 !      print *,raFREQ(1),raFREQ(2),raFREQ(3),FREQ(iNumPts)
       !CALL xspl(raFreq,raAbs,iNumPts,FREQ,CON,NFREQ)
 
-      iPrintScreen = -1
       iPrintScreen = +1
+      iPrintScreen = -1
        
       IF (iPrintScreen .LT. 0) THEN
         print *,' UMBC_LBL/CKDLINUX/calcon_loc_mtckd_43_wrap.F90 : iPrintScreen < 0'
@@ -117,7 +117,7 @@
         FREQ(ii) = FREQ(ii)
         CON(ii)  = raAbs(ii)
         IF (iPrintScreen .GT. 0) THEN
-  	  print *,'A',ii,FREQ(ii),raFreq(ii)
+  	  write(*,'(A,I5,F12.5,ES12.5)') 'end of calcon_loc_mtckd_43_wrap.F90',ii,FREQ(ii),raFreq(ii)
         END IF
       END DO
 
