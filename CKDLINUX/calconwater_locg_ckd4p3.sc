@@ -38,6 +38,7 @@ FC='gfortran90'
 FFLAGS='-fexceptions -fbackslash'
 FFLAGS="$FFLAGS -fno-underscoring -fPIC -fno-omit-frame-pointer "
 FFLAGS="$FINC $FFLAGS -fno-underscoring -fPIC -fno-omit-frame-pointer "
+FFLAGS="$FINC $FFLAGS -fno-underscoring -fPIC -fno-omit-frame-pointer -fbounds-check"
 FLIBS="$RPATH $MLIBS -lm"
 FOPTIMFLAGS='-O'
 FDEBUGFLAGS='-g'
@@ -54,7 +55,7 @@ nf-config --flibs
 ## ------------
 echo "making CKD4.3"
 echo " "
-rm calcon_loc_mtckd_43_wrap.o ../calconwater_loc_ckd4p3.mexa64
+rm calcon_loc_mtckd_43_wrap.mexa64 calcon_loc_mtckd_43_wrap.o ../calconwater_loc_ckd4p3.mexa64
 
 ### https://www.mathworks.com/matlabcentral/answers/334280-how-should-i-mex-a-fortran-code-main-function-that-calls-other-fortran-codes-sub-function-that-in
 ### $mexF77  calconwater_loc_ckd3p2.F calconwater_loc_ckd3p2g.F    FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
@@ -85,7 +86,7 @@ ln -s MT_CKD_H2O-4.3/build/read_file.mod       read_file.mod
 #$mexF77 -v -I'MT_CKD_H2O-4.3/build/' calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.o      FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 
 #### final with a little help from The Grok
-$mexF77 -v FFLAGS="$FFLAGS -I/MT_CKD_H2O-4.3/build/" calcon_loc_mtckd_43_wrap.F90          
+$mexF77 -v FFLAGS="$FFLAGS -IMT_CKD_H2O-4.3/build/" calcon_loc_mtckd_43_wrap.F90          
 $mexF77 -v calconwater_loc_ckd4p3.F90 calcon_loc_mtckd_43_wrap.F90 MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/mt_ckd_h2o_module.o  MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/read_module.o MT_CKD_H2O-4.3/build/mt_ckd_h2o_4.3_linux_gnu_dbl.obj/phys_consts.o  `nf-config --fflags` `nf-config --flibs`    FFLAGS='$FFLAGS'  LDFLAGS='$LDFLAGS' FLIBS='$FLIBS'
 
 echo "########################################################################"
@@ -94,5 +95,5 @@ echo "########################################################################"
 #mv calconwater_loc_ckd3p2.mexa64 ../.
 mv calconwater_loc_ckd4p3.mexa64 ../.
 
-ls -lt calcon_loc_mtckd_43_wrap.o ../calconwater_loc_ckd4p3.mexa64
+ls -lt calcon_loc_mtckd_43_wrap.o calcon_loc_mtckd_43_wrap.mexa64 ../calconwater_loc_ckd4p3.mexa64
 

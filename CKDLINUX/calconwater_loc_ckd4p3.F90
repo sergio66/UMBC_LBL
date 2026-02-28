@@ -53,13 +53,13 @@
 ! check for proper number of arguments
 !       SUBROUTINE CALCON43( CON, IDGAS, NFREQ, FREQ, FSTEP, NLAY, T, P,  
 !     $    PARTP, AMNT, ckd, selfmult,formult, WHICHLAYER) 
-!       the call is con = CALCON**( IDGAS, NFREQ, FREQ, FSTEP, NLAY, T, P,  
+!       the call is con = CALCON_vXY( IDGAS, NFREQ, FREQ, FSTEP, NLAY, T, P,  
 !     $    PARTP, AMNT, WHICHCKD, selfmult,formult, WHICHLAYER) 
-!  freq= raFreq= array of wavenumbers = Freq(*)
+!  freq = raFreq = array of wavenumbers = Freq(*)
 ! T,P,PartP,amnt = arrays of layer variables <= 100 == T(*),P(*) etc
 ! con = raa(kMaxPts) == CON(*)
-! WHICHCKD = integer = 00,21,23
-! WHICHLAYER = which gas amt et! to use
+! WHICHCKD = integer = 00,21,23,01,02,03,04,05,06,25,32,43
+! WHICHLAYER = which gas amt to use
 ! selfmult = parameter to multiply self part with
 ! formult  = parameter to multiply for part with
       if (nrhs .ne. 13) then

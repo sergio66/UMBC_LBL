@@ -51,10 +51,10 @@ rwxrwxr-x 1 sergio pi_sergio  189640 Feb 20 12:56 calconwater_loc_ckd2p5.mexa64
 -rwxrwxr-x 1 sergio pi_sergio  189608 Feb 20 12:56 calcon.mexa64
 
 TEST ckd2.5,ckd3.2 using driver_examples_run8.m
-topts.CKD = 25; [w,d2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-topts.CKD = 32; [w,d3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-semilogy(w,d2p5,'b',w,d3p2,'r.-')
-plot(w,d2p5,'b',w,d3p2,'r')
+topts.CKD = 25; [wx,d2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
+topts.CKD = 32; [wx,d3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
+semilogy(wx,d2p5,'b',wx,d3p2,'r.-')
+plot(wx,d2p5,'b',wx,d3p2,'r')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -117,18 +117,23 @@ See the webpage : https://github.com/AER-RC/MT_CKD_H2O
 cd run_example
 
   ln -s ../data/absco-ref_wv-mt-ckd.nc .
-  ../mt_ckd_h2o_4.3_linux_gnu_dbl < mt_ckd.config
 
-  start matlab
-    addpath /home/sergio/git/matlabcode
-    pwd
-       /umbc/rs/pi_sergio/WorkDirDec2025/UMBC_LBL/CKDLINUX/MT_CKD_H2O-4.3/run_example
-    x = read_netcdf_lls('mt_ckd_h2o_output.nc');
-    plot(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self','forn');
+  test 1 : ??????????
+  ../mt_ckd_h2o_4.3_linux_gnu_dbl
+  
+  test 2 :
+    unix : ../mt_ckd_h2o_4.3_linux_gnu_dbl < mt_ckd.config
+    matlab : 
+          addpath /home/sergio/git/matlabcode
+          x = read_netcdf_lls('/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/mt_ckd_h2o_output.nc');
+          plot(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self(T)','forn(T indpt)');
 
-  ../mt_ckd_h2o_4.3_linux_gnu_dbl < sergio_test.config
-    x = read_netcdf_lls('mt_ckd_h2o_output.nc');
-    semilogy(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self','forn');
+  test 3 : 
+    unix : ../mt_ckd_h2o_4.3_linux_gnu_dbl < sergio_test.config
+    matlab : 
+          addpath /home/sergio/git/matlabcode    
+          x = read_netcdf_lls('/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/mt_ckd_h2o_output.nc');
+          semilogy(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self(T)','forn(T indpt)');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -200,10 +205,38 @@ becomes
 2) build/makefile.common
   linuxGNUdbl and linuxGNUsgl need -fPIC aded to FCFLAG
         FCFLAG="-fdefault-integer-8 -fdefault-real-8 -fdefault-double-8 -frecord-marker=4 -std=legacy -fPIC" \  (for dbl)
-	and
-	        FCFLAG="-frecord-marker=4 -std=legacy -fPIC" \   (for sgl)
+	FCFLAG="-frecord-marker=4 -std=legacy -fPIC" \   (for sgl)
+	
+3) subroutine myxint in mt_ckd_h2o_module.f90
+      CONTI = -A(J-1)*B1+A(J)*(1.-C+B2)+A(J+1)*(C+B1)-A(J+2)*B2
+!      R3(I) = R3(I)+CONTI*AFACT
+      R3(I) = CONTI*AFACT
 
-Then yuo can either run
+4) Notice that mt_ckd_h2o_module.f90 does
+    rho_rat = (p_atm/dat%ref_press)*(dat%ref_temp/t_atm)
+    sh2o_coeff = sh2o_coeff * h2o_vmr * rho_rat
+    fh2o_coeff = fh2o_coeff * (1-h2o_vmr) * rho_rat
+    if (radflag) then
+      sh2o_coeff(v) = sh2o_coeff(v) * radfn(v,T)
+      fh2o_coeff(v) = fh2o_coeff(v) * radfn(v,T)      
+    end
+    where radfn(v,T) = c2/T * v * (1-exp(v2v/2T))/(1.+exp(c2v/2T))    
+  and passes these back to cntnm_progr_sergio.f90
+  
+  So that means cntnm_progr_sergio.f90 has to do
+    rho_rat = (p_atm/1013.00) * (296/t_atm);
+    sh2o = sh2o/(rho_rat * h2o_frac)
+    fh2o = fh2o/(rho_rat * (1-h2o_frac))
+  before it does
+    raAbs(I)  = gamma_T*(rXSelf*sh2o(I)*ppaveIN + rXforn*fh2o(I)*(paveIN-ppaveIN))   where gamma_T = 1
+    
+  Then do_local_lineshape_CKD.m either does
+    raAbs = raAbs (if you are looking for total OD)
+  or
+    raAbs = raAbs/radfn(v,T)/raPP        for self continuum coeff
+    raAbs = raAbs/radfn(v,T)/(raP-raPP)  for forn continuum coeff
+     
+Then you can either run
 a) grok_ckd4p3_v4.m within Matlab or
 b) calconwater_locg_ckd4p3.sc at command line
 
@@ -240,8 +273,63 @@ do_local_lineshape_CKD.m : elseif (ismember(CKD_0,[25 27 32 43]))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-7) Test using driver_examples_run8.m
-------------------------------------
-topts.CKD = 43; [w,d4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
+7) Test using driver_examples_continuum_run8.m
+----------------------------------------------
+%% so do this to speed things to get 1 cm-1 output res
+topts.ffin = 5.0000e-04 * 400;
+topts.CKD = 25; [wx,d2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
+topts.CKD = 32; [wx,d3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
+topts.CKD = 43; [wx,d4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
+
+figure(3); semilogy(wx,d2p5,'gx-',wx,d3p2,'b',wx,d4p3,'r.-'); title('OD'); legend('CKD2/5','CKD3.2','CKD4.3','location','best')
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% See (3) Initial test, test 3
+addpath /home/sergio/git/matlabcode
+[x,attrx]   = read_netcdf_lls('/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/mt_ckd_h2o_output.nc');
+[x0,attrx0] = read_netcdf_lls('/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/absco-ref_wv-mt-ckd.nc');
+ii_x0 = find(x0.wavenumbers >= 600 & x0.wavenumbers <= 2800);
+semilogy(x.wavenumbers,x.self_absorption,'k',x0.wavenumbers(ii_x0),x0.self_absco_ref(ii_x0),'m');
+semilogy(x.wavenumbers,x.frgn_absorption,'k',x0.wavenumbers(ii_x0),x0.for_absco_ref(ii_x0),'m');
+figure(4); plot(x0.wavenumbers,(296/300).^x0.self_texp); xlim([500 3000])  %% I have used 300 K in /home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt
+figure(4); semilogy(x0.wavenumbers,x0.self_absco_ref,x0.wavenumbers,x0.for_absco_ref); xlim([500 3000]); legend('Self','Forn')
+
+tsopts.ffin = 5.0000e-04 * 400;
+tsopts.divide = +1;
+tsopts.selfmult = 1.0;
+tsopts.formult  = 0.0;
+tsopts.CKD = 25; [wx,sd2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tsopts);
+tsopts.CKD = 32; [wx,sd3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tsopts);
+tsopts.CKD = 43; [wx,sd4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tsopts);
+
+tfopts.ffin = 5.0000e-04 * 400;
+tfopts.divide = +1;
+tfopts.selfmult = 0.0;
+tfopts.formult  = 1.0;
+tfopts.CKD = 25; [wx,fd2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tfopts);
+tfopts.CKD = 32; [wx,fd3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tfopts);
+tfopts.CKD = 43; [wx,fd4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tfopts);
+
+mult = 0.0;
+mult = 1.0;
+mult_aer = 0.00990098; %% see ps/p in /home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt
+figure(1); clf; semilogy(wx,sd2p5,'gx-',wx,sd3p2,'b.-',wx,mult*sd4p3,'rx-',x.wavenumbers,x.self_absorption/mult_aer,'k',x0.wavenumbers(ii_x0),x0.self_absco_ref(ii_x0),'m.-');
+  legend('25','32','43 sergio','43 aer is adjusted for VMW','43 aer ref','location','best'); title('CSelf')
+figure(2); semilogy(wx,fd2p5,'gx-',wx,fd3p2,'b.-',wx,mult*fd4p3,'rx-',x.wavenumbers,x.frgn_absorption/(1-mult_aer),'k',x0.wavenumbers(ii_x0),x0.for_absco_ref(ii_x0),'m.-');
+  legend('25','32','43 sergio','43 aer is adjusted for (1-vmr)','43 aer ref','location','best'); title('CForn')
+
+%% see do_local_lineshape_CKD.m
+junk = load('/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt');
+TT = junk(4); QQ = junk(5);
+c2 = 1.4387863
+AVOG = 6.022045E+26
+tempfreq = AVOG * QQ * wx.*tanh(c2*wx/2/TT)*(296/TT);
+frgratio = fd4p3./interp1(x0.wavenumbers(ii_x0),x0.for_absco_ref(ii_x0),wx,[],'extrap');
+slfratio = sd4p3./interp1(x0.wavenumbers(ii_x0),x0.self_absco_ref(ii_x0),wx,[],'extrap');
+figure(3)
+semilogy(wx,1./(tempfreq/AVOG),'rx-',wx,frgratio,'b',wx,slfratio,'c.-');
+  legend('tempfreq in do\_local\_lineshape','CF 4.3 Sergio/CF 4.3 ref','CS 4.3 Sergio/CS 4.3 ref','location','best')
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

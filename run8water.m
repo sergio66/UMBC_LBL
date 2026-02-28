@@ -289,7 +289,7 @@ if nargin == 5
    if (length(intersect(allowedparams,optvar{i})) == 1)
      eval(sprintf('%s = topts.%s;', optvar{i}, optvar{i}));
    else
-     fprintf(1,'topts param not in allowed list ... %s \n',optvar{i});
+     fprintf(1,'topts param <%s> not in allowed list ... \n',optvar{i});
      error('quitting run8water');
    end
   end

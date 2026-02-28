@@ -8,10 +8,5 @@
 [d7,w7] = run8(7,1500,1525,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%^
-
-%% check CKD 2.5 vs 3.2 vs 4.3
-topts.CKD = 25; [w,d2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-topts.CKD = 32; [w,d3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-topts.CKD = 43; [w,d4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-
-semilogy(w,d2p5,w,d3p2,w,d4p3)
+disp('see also driver_examples_continuum_run8.m')
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

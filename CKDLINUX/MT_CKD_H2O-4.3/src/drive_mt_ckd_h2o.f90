@@ -20,11 +20,10 @@
    integer :: istat,ncid,id_wv,idvar(3)
    character :: FRGNX
 
-   namelist /mt_ckd_input/ p_atm,t_atm,h2o_frac,wv1,wv2,dwv
+   namelist /mt_ckd_input/ p_atm,t_atm,h2o_frac,wv1,wv2,dwv,radflag
   
    read (*,mt_ckd_input)
 
-   
    nwv = (wv2-wv1)/dwv+1
    allocate(wvn(nwv))
    allocate (sh2o(nwv))
@@ -53,9 +52,9 @@
 
 !  Store variables 
 
-   istat= nf_put_var(ncid, idvar(1), wvn)
-   istat= nf_put_var(ncid, idvar(2), sh2o)
-   istat= nf_put_var(ncid, idvar(3), fh2o)
+   istat= nf_put_var(ncid, idvar(1), sngl(wvn))
+   istat= nf_put_var(ncid, idvar(2), sngl(sh2o))
+   istat= nf_put_var(ncid, idvar(3), sngl(fh2o))
 
 !Close netcdf file
    istat= nf_close(ncid)

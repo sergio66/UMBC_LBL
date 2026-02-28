@@ -153,12 +153,12 @@ MODULE read_file
    subroutine readReal1D(id, varName, val, fatal)
       integer(kind=4),        intent(in)   :: id
       character(len=*),       intent(in)   :: varName
-      real*4, dimension(:),   intent(inout):: val
+      real*4,dimension(:),    intent(inout):: val
       integer(kind=4)                      :: varId
       logical,        optional, intent(in) :: fatal
       if (dbg) print*, ' ncdfUtil::readReal1D '
       call check(nf_inq_varid(id, varName, varId), varName, fatal)
-      call check(nf_get_var(id, varId, val), varName, fatal)
+      call check(nf_get_var(id, varId, dble(val(1))), varName, fatal)
    end subroutine readReal1D
 
    subroutine readDouble1D(id, varName, val, fatal)
@@ -169,7 +169,7 @@ MODULE read_file
       logical,        optional, intent(in) :: fatal
       if (dbg) print*, ' ncdfUtil::readDouble1D '
       call check(nf_inq_varid(id, varName, varId), varName, fatal)
-      call check(nf_get_var(id, varId, val), varName, fatal)
+      call check(nf_get_var(id, varId, val(1)), varName, fatal)
    end subroutine readDouble1D
 
    subroutine readDouble(id, varName, val, fatal)
@@ -178,7 +178,7 @@ MODULE read_file
     real*8,                 intent(inout):: val
     integer(kind=4)                      :: varId
     logical,        optional, intent(in) :: fatal
-    if (dbg) print*, ' ncdfUtil::readDouble1D '
+    if (dbg) print*, ' ncdfUtil::readDouble '
     call check(nf_inq_varid(id, varName, varId), varName, fatal)
     call check(nf_get_var(id, varId, val), varName, fatal)
  end subroutine readDouble

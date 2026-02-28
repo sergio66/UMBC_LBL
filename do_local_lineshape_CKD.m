@@ -165,6 +165,7 @@ if ismember(CKD,allowedCKD)
         if (divide  == -1)
           tempfreq=ones(size(scum));
         else
+	  %% tempfreq = AVOG * q v tanh(c2 v / 2 /T) (296/T)
           tempfreq = AVOG*GasAmt(jj)*outwave(index) .* ...
                      tanh(c2*outwave(index)/2/temperature(jj))* ...
                      (296/temperature(jj));
@@ -238,23 +239,34 @@ if ismember(CKD,allowedCKD)
                  temperature,press,partpress,GasAmt,CKD,selfmult,formult,jj);
         end
         if (divide  == -1)
-          tempfreq = ones(size(scum));
+          tempfreq = ones(size(scum));  %% just keep OD as compted by calconwater_loc_ckd2p5, calconwater_loc_ckd3p2, calconwater_loc_ckd4p3
         else
-          tempfreq = AVOG*GasAmt(jj)*outwave(index) .* ...
-                       tanh(c2*outwave(index)/2/temperature(jj))* ...
-                       (296/temperature(jj));
+	  
+	  c2_T_old = c2*outwave(index)/2/temperature(jj); %% original code before Jan 2026
+	  c2_T_new = c2*outwave(index)/temperature(jj);   %% new code after Feb 2026	    
+	  if CKD_0 <= 32
+            %% original code before Jan 2026	    
+            tempfreq = AVOG*GasAmt(jj)*outwave(index) .* tanh(c2_T_old) * (296/temperature(jj));
+	  elseif CKD_0 > 32
+            %% new code after 02/2026, looking at ~/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/src/mt_ckd_h2o_module.f90	    
+            tempfreq = AVOG*GasAmt(jj)*outwave(index) .* tanh(c2_T_new) * (296/temperature(jj));  %% we still need this here since
+	         rho_rat in mt_ckd_h2o_module.f90 has 296/T but then we remove it in cntnm_progr_sergio.f90
+	  end
+	  
           if ((selfmult >= 0.999999) & (formult <= 0.00000001))
-            tempfreq=tempfreq * partpress(jj);
+            tempfreq = tempfreq * partpress(jj);
           elseif ((formult >= 0.999999) & (selfmult <= 0.00000001))
-            tempfreq=tempfreq * (press(jj)-partpress(jj));
+            tempfreq = tempfreq * (press(jj)-partpress(jj));
           end
         end
+	
         if max(tempfreq) <= 1e-20
           scum = scum./(tempfreq+1e-20);   %% else we get divide by 0 = NAN
         else
           scum = scum./(tempfreq);
         end
         out_array(nn,index) = out_array(nn,index) + scum;
+	
       end
     end
   end            %%%%if then else loop

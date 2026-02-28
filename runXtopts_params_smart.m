@@ -92,7 +92,7 @@ fcor  = ffin*1000;
 fmed  = fcor/5;
 %%% --->>>>>>>>>>>>>>>>>>>>>>>>>
 
-fstep = ffin*nbox*pointsPerChunk/25;
+fstep = ffin*nbox*pointsPerChunk/25;   %% how big of a step do you make 25 times ......
 xnear = fstep;
 xmed  = fstep*2;
 %%xfar  = ffin*nbox*pointsPerChunk;

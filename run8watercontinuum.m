@@ -198,7 +198,7 @@ if nargin == 5
    if (length(intersect(allowedparams,optvar{i})) == 1)
      eval(sprintf('%s = topts.%s;', optvar{i}, optvar{i}));
    else
-     fprintf(1,'topts param not in allowed list ... \n');
+     fprintf(1,'topts param <%s> not in allowed list ... \n',optvar{i});
      error('quitting run8watercontinuum');
    end
   end
@@ -263,22 +263,22 @@ end
 %% >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 %%%%%%%%%%%%%%%%%%% IS THIS INTERACTIVE SESSION OR CLUNK THRU PROFILE %%%%%%%%%
-%useruser=-1;
+%useruser = -1;
 if (useruser > 0)
-  which_isotope=input('Enter which isotope : ');
+  which_isotope = input('Enter which isotope : ');
 
-  do_load=0;
-  MinLayer=1; MaxLayer=1; Step=1;        %use only ONE "layer"
-  NumLayers=1;
-  TheLayers=MinLayer:Step:MaxLayer;
+  do_load = 0;
+  MinLayer = 1; MaxLayer = 1; Step = 1;        %use only ONE "layer"
+  NumLayers = 1;
+  TheLayers = MinLayer:Step:MaxLayer;
 
-  MGC=8.314674269981136  ;  
-  press=input('Enter total pressure (in atm) : ');
-  partpress=input('Enter gas partial pressure (in atm) : ');
-  temperature=input('Enter temperature (in K) : ');
-  GasAmt=input('Enter path cell length (in cm) ');
-  %change to kilomolcles cm-2 
-  GasAmt=GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmolec/cm2 
+  MGC = 8.314674269981136  ;  
+  press = input('Enter total pressure (in atm) : ');
+  partpress = input('Enter gas partial pressure (in atm) : ');
+  temperature = input('Enter temperature (in K) : ');
+  GasAmt = input('Enter path cell length (in cm) ');
+  %change to kilomolecules cm-2 
+  GasAmt = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmolec/cm2 
 end
 
 %%%%%%%%%%%%%%%%%%% LOAD IN GAS PROFILE %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -330,7 +330,7 @@ cpptotal=cputime;
 MaxLen = 200010;
 
 % divide   self    for    divide by                              result
-%   -1     ?       ?          1               qvtanh(c2v/2T)(296/T)(psCS+pfCF)
+%   -1     ?       ?          1               q v tanh(c2v/2T)(296/T)(ps CS + pf CF)
 %    1     1       0     q v tanh(c2 v/2T) (296/T) * ps           CS
 %    1     0       1     q v tanh(c2 v/2T) (296/T) * (p-ps)       CF
 %    1     ?       ?     q v tanh(c2 v/2T) (296/T)                ps CS + pf CF
@@ -354,10 +354,16 @@ if (ismember(CKD_0,[1 5 6])) & ...
   CKD = 1;          
 end
 
-dff=ffin*nbox;
+dff = ffin*nbox;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if ((local == 0)|(local==1))          
+if ((local == 0)|(local==1))
+  fprintf(1,'run8watercontinuum.m getting ready to call do_local_lineshape_CKD ....\n')
+  fprintf(1,'  ffin,nbox = %12.6f %5i \n',ffin,nbox)
+  newparams;
+  %disp('ret to continue'); pause
+  pause(1)
+  
   %local lineshape for water
   fprintf(1,'CKD = %3i CKD_0 = %3i local = %2i \n',CKD,CKD_0,local)
   out_array = do_local_lineshape_CKD(outwave,out_array,AVOG,c2,...
@@ -370,8 +376,9 @@ elseif (local == -1)
 end      
 
 [junkx,junky] = size(out_array);
+epsx = 1e-30;
 for ii = 1 : junkx
-  bad = find(out_array(ii,:) < eps);
+  bad = find(out_array(ii,:) < epsx);
   %if length(bad) > 0
   if length(bad) > 0 & CKD < 43    
     fprintf(1,'oh oh : found %6i bad points out of %6i in row %3i of out_array, CKD = %8.4f \n',length(bad),length(outwave),ii,CKD);

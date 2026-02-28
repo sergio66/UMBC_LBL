@@ -90,6 +90,8 @@ Module mt_ckd_h2o
    integer :: iret,vlen
    logical,save :: lread=.False.
    character(len=85) :: version
+
+   integer l1,l2
    
    if (.not. present(radflag)) then
       radflag = .TRUE.
@@ -156,6 +158,7 @@ Module mt_ckd_h2o
 ! Interpolate coefficients to output spectral grid.
    nptabs = (wv2abs-wv1abs)/dvabs+1
    call pre_xint(wvn(1),wvn(ncoeffin),wv1abs,dvabs,nptabs,ist,lst)
+!   print *,'sh20 ist,lst = ',ist,lst,i1,i2,dvc,size(sh2o_coeff),size(self_absco)
    call myxint(wvn(i1),wvn(i2),dvc,sh2o_coeff,1.0,wv1abs,dvabs,self_absco,ist,lst)
 
 ! *****************
@@ -169,8 +172,21 @@ Module mt_ckd_h2o
     endif
 
 ! Interpolate coefficients to output spectral grid.
+   call pre_xint(wvn(1),wvn(ncoeffin),wv1abs,dvabs,nptabs,ist,lst)
+!   print *,'fh20 ist,lst = ',ist,lst,i1,i2,dvc,size(sh2o_coeff),size(self_absco)
    call myxint(wvn(i1),wvn(i2),dvc,fh2o_coeff,1.0,wv1abs,dvabs,for_absco,ist,lst)
 ! *****************
+
+   l1 = size(fh2o_coeff)
+   l2 = size(for_absco)
+   write(*,'(A)') ' '
+   write(*,'(A,4(F12.5),/,3(I8),/,2(F12.5),4ES12.5,/,2(F12.5),4ES12.5)') &
+                                    ' <<< ~/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/src/mt_ckd_h2o_module.f90 >>> ', &
+                                    dat%ref_temp,t_atm,h2o_vmr,rho_rat, &
+                                    size(wvn),size(fh2o_coeff),size(for_absco), & 
+                                    wvn(i1),wv1abs+0*dvabs, sh2o_coeff(1),self_absco(1),  fh2o_coeff(1),for_absco(1), &
+                                    wvn(i2),wv1abs+l2*dvabs,sh2o_coeff(l1),self_absco(l2),fh2o_coeff(l1),for_absco(l2)
+   write(*,'(A)') ' '
 
    end subroutine mt_ckd_h2o_absco
 
@@ -217,6 +233,8 @@ Module mt_ckd_h2o
 !=======================================================================
 !
    subroutine myxint (v1a,v2a,dva,a,afact,vft,dvr3,r3,n1r3,n2r3)
+
+   implicit none 
 !
 !
 !     THIS SUBROUTINE INTERPOLATES THE A ARRAY STORED
@@ -238,6 +256,7 @@ Module mt_ckd_h2o
    integer :: i,j
    integer :: ilo,ihi
    real :: vi,vj
+!   real ::onepl = 1.001,onemi = 0.999 
 
 !
    RECDVA = 1./DVA
@@ -256,7 +275,8 @@ Module mt_ckd_h2o
       B1 = B*(1.-P)
       B2 = B*P 
       CONTI = -A(J-1)*B1+A(J)*(1.-C+B2)+A(J+1)*(C+B1)-A(J+2)*B2
-      R3(I) = R3(I)+CONTI*AFACT
+!      R3(I) = R3(I)+CONTI*AFACT
+      R3(I) = CONTI*AFACT
 10 END DO
 !
    RETURN
