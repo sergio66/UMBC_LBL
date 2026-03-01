@@ -1,16 +1,21 @@
-for CKD3.2
------------
+for CKD 2.5, 3.2, 4.3
+======================
 
 download tar file from AER
 then untar and compile and test it
 
 then adapt to this SPECTRA/CKDLINUX
+
+CKD 3.2
+--------
+
+For example
     calcon_loc_mtckd_32_wrap.F90
   needs
     MT_CKD3.2/cntnm/src/cntnm_progr_sergio.f90
   and is compiled by
     calconwater_locg_ckd3p2.sc
-    
+
 then run eg ckd_lookupBIN_v32_ieee_le.m
 
 fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf32.bin_orig';
@@ -24,3 +29,27 @@ fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor32.bin';
 [kf32, freq32, temp] = contread(fname);
 
 figure(1); plot(freq32,ks32./xks32,'bx-',freq32,kf32./xkf32,'r.-');
+
+CKD 4.3
+--------
+
+For example
+    calcon_loc_mtckd_43_wrap.F90
+  needs
+    MT_CKD_H2O-4.3/cntnm/src/cntnm_progr_sergio.f90
+  and is compiled by
+    calconwater_locg_ckd4p3.sc
+
+then run eg ckd_lookupBIN_v43_ieee_le.m
+
+%fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf43.bin_orig';
+%[xks43, xfreq43, temp] = contread(fname);
+%fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor43.bin_orig';
+%[xkf43, xfreq43, temp] = contread(fname);
+
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf43.bin';
+[ks43, freq43, temp] = contread(fname);
+fname = '/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor43.bin';
+[kf43, freq43, temp] = contread(fname);
+
+

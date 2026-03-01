@@ -8,6 +8,7 @@ Contents
 5) Now adapt so we can have run8watercntinuum.m call this
 6) Modify run8watercntinuum.m to call this
 7) Test using driver_examples_run8.m
+8) Make compressed CKD34, and CKDSelfXY.bin and CKD FornXY.bin for KCARTA
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -333,3 +334,13 @@ semilogy(wx,1./(tempfreq/AVOG),'rx-',wx,frgratio,'b',wx,slfratio,'c.-');
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+8) Make compressed CKD34, and CKDSelfXY.bin and CKD FornXY.bin for KCARTA
+-------------------------------------------------------------------------
+
+See CKD_LOOKUP_Self_Forn_KCARTA_BIN_FILES to make binary files for kCARTA
+ckd_lookupBIN_v5_ieee_le.m:6:ckd1 = '/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf1.bin';
+ckd_lookupBIN_v5_ieee_le.m:49:ckd1 = '/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf1.bin';
+
+See /home/sergio/HITRAN2UMBCLBL/MAKE_CKD for comparisons
+See /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_WV_H24/Readme to see how to make compressed files for KCARTA

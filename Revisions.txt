@@ -8,8 +8,39 @@ that was when our disks died and had to start from git clone
  <<< See Readme_make_new_qtipsH24 >>>
  <<< See Readme_make_new_qtipsH24 >>> 
 
-2/21/26  Now have calconwater_locg_ckd4p3.sc
+3/1/26   Moved
+           matlab codes and Readme_makeCKD_forKCARTA
+         to make binary kCARTA files for different CKD into
+           CKDLINUX/CKD_LOOKUP_Self_Forn_KCARTA_BIN_FILES/
 
+         See CKDLINUX/ CKD_LOOKUP_Self_Forn_KCARTA_BIN_FILES to make binary files for kCARTA
+	   eg ckd_lookupBIN_v43_ieee_le.m
+              ckd_lookupBIN_v32_ieee_le.m	   
+	      ckd_lookupBIN_v5_ieee_le.m
+          
+         See /home/sergio/HITRAN2UMBCLBL/MAKE_CKD for comparisons
+         See /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_WV_H24/Readme to see how to make compressed files for KCARTA
+
+2/28/26  Fixed some "features" in MT_CKD_H2O-4.3/src/mt_ckd_h2o_module.f90, notably the
+         interpolation routine
+         Tweaked the Makefile.common for GNU so it uses -check bounnds and -fPIC
+
+         Fixed the tanh(x) argument in do_local_lineshape_CKD.m
+           c2_T_old = c2*outwave(index)/2/temperature(jj);
+           c2_T_new = c2*outwave(index)/temperature(jj);
+
+         See /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_WV_H24/Readme
+	 for how to make the ODs for KCARTA
+	    cp -a ../../H2008/MAKEIR_WV_H08/runXtopts_savegas1SELF.m .
+	    cp -a ../../H2008/MAKEIR_WV_H08/runXtopts_savegas1FORN.m .	    
+	 
+2/21/26  Now have calconwater_locg_ckd4p3.sc
+         See Readme_CKD4.3 for details on how to
+	 a) get MT_CK_H2O_4.3 going
+	 b) interface to run8watercontinnum --> do_local_lineshape_CKD.m --> MT_CKD_H2O-4.3/src/cntnm_progr_sergio.f90
+	 c) modify the MT_CKD_H2O-4.3/build/akefile.common to get -check_bounds and -fPIC	 
+         d) compile it all together with calconwater_locg_ckd4p3.sc
+	 
 2/20/26  Redid MT-CKD3.2 code (calconwater_locg_ckd3p2.sc, and a few of the MT_CKD3.2/cntnm/src codes).
          It seems to put in a zero (0) at the end of the array, so run8watercontinuum.m
 	 checks for this and interpolates the good point (nonzero) over the bad (zero OD0 points
