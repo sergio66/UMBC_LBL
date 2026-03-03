@@ -307,21 +307,10 @@ high=fmax+mult*xfar;
 
 %%%%%%%%%%%%%%%%%%% IS THIS INTERACTIVE SESSION OR CLUNK THRU PROFILE %%%%%%%%%
 useruser=-1;
+set_c1_c2_avog_pref_tref
+
 if (useruser > 0)
-  which_isotope=input('Enter which isotope : ');
-
-  do_load   = 0;
-  MinLayer  = 1; MaxLayer=1; Step=1;        %use only ONE "layer"
-  NumLayers = 1;
-  TheLayers = MinLayer:Step:MaxLayer;
-
-  MGC=8.314674269981136  ;  
-  press       = input('Enter total pressure (in atm) : ');
-  partpress   = input('Enter gas partial pressure (in atm) : ');
-  temperature = input('Enter temperature (in K) : ');
-  GasAmt      = input('Enter path cell length (in cm) ');
-  %change to kmoles cm-2 
-  GasAmt = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2 
+  ask_P_PP_T_L_ISO
 end
 
 %%%%%%%%%%%%%%%%%%% LOAD IN GAS PROFILE %%%%%%%%%%%%%%%%%%%%%%%%%%%%

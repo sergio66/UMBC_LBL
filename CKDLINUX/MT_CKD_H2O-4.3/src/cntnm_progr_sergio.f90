@@ -92,6 +92,7 @@
    double precision :: dwv
    double precision :: wv1,wv2
    double precision,dimension(:),allocatable :: sh2o,fh2o
+   double precision,dimension(:),allocatable :: s0h2o,f0h2o
    double precision,dimension(:),allocatable :: wvn
    logical(kind=8) :: radflag=.TRUE.    !!! TURN THIS OFF SINCE I DO THIS MESELF
 !   logical(kind=8) :: radflag=.FALSE.
@@ -101,7 +102,6 @@
    integer :: istat,ncid,id_wv,idvar(3)
    character :: FRGNX='0'
    integer :: iprint
-   real*8 gamma_T,gamma_Ts
 
 !!!!!!!!! see read_module.f90
 !    if (FRGNX.EQ.'1') then
@@ -123,7 +123,7 @@
        real*8 pave,tave
        real*8 ABSRB(n_absrb),VMRH2O
        real*8 V1,V2,xlength,VI
-       real c2,AVOG,rho_rat
+       real c2,AVOG,rho_rat,PREF,TREF
 ! >>>>>>>>>>>>>>>>>>>>>>>>>>>>> begin junk1.f >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     
 
   pave = paveIN
@@ -151,6 +151,8 @@
    allocate(wvn(nwv))
    allocate (sh2o(nwv))
    allocate (fh2o(nwv))
+   allocate (s0h2o(nwv))
+   allocate (f0h2o(nwv))
 
     write(*,'(A,I3,3(F12.5),ES12.5)') 'cntnm_progr_sergio.f90  here1 ',iGasID,paveIN,ppaveIN,taveIN,num_kmolesIN
     write(*,'(A,3(F12.5),I10)') 'cntnm_progr_sergio.f90  here2 ',v1absIN,v2absIn,dvabsIN,NWV
@@ -192,17 +194,41 @@
    !!! note radflag = .TRUE. above YESYESYES
    !!! note radflag = .FALSE.  above  NONON
    !!!   radflag - (optional) if true, multiply by radiation term (default); if false, do not
+   write(*,'(A)') ' '
+   write(*,'(A)') '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
    call mt_ckd_h2o_absco (dble(p_atm),dble(t_atm),dble(h2o_frac),wv1,wv2, &
-                          dble(dwv),sh2o,fh2o, &
+                          dble(dwv),s0h2o,f0h2o, &
                           FRGNX,radflag=radflag,mt_version=mt_version)
+   write(*,'(A)') '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
+   write(*,'(A)') ' '   
    !!! note this routine says rho_rat = (p_atm/dat%ref_press)*(dat%ref_temp/t_atm)
-   !!!    sh2o_coeff --> sh2o_coeff * h2o_vmr * rho_rat
-   !!!    fh2o_coeff --> fh2o_coeff * (1-h2o_vmr) * rho_rat
+   !!!    sh2o_coeff --> s0h2o_coeff * h2o_vmr * rho_rat
+   !!!    fh2o_coeff --> f0h2o_coeff * (1-h2o_vmr) * rho_rat
    !!! rho_rat = (p_atm/dat%ref_press)*(dat%ref_temp/t_atm)
-   rho_rat = (p_atm/1013.00) * (296/t_atm)
-   sh2o = sh2o/(rho_rat * h2o_frac)
-   fh2o = fh2o/(rho_rat * (1-h2o_frac))
 
+   write(*,'(A)') 'back to cntnm_progr_sergio.f90.f90 after calling mt_ckd_h2o_absco'
+   write(*,'(A,I12,I12)') '  length of sh2o fh2o = ',size(s0h2o),size(f0h2o)
+   write(*,'(A,4ES12.5)') '  s0h2o(1),f0h2o(1),s0h2o(size(s0h2o)),f0h2o(size(f0h2o)) = ',& 
+         s0h2o(1),f0h2o(1),s0h2o(size(s0h2o)),f0h2o(size(f0h2o))
+   write(*,'(A)') ' '
+
+    !!!! THESE ARE WHAT run8watercontinuumm passes to do_local_lineshape_CKD.m
+    c2 = 1.4387863        !! radiation constant
+    AVOG = 6.022045E+26   !! molecules/kmol
+    TREF = 296.0          !!Kelvin
+    PREF = 1013.25        !! mb
+    !!!! THESE ARE WHAT src/phys_consts.f90 has
+    AVOG = 6.02214199E+23 * 1000
+    C2 = 1.4387752
+    TREF = 296.0          !!Kelvin
+    PREF = 1013.0         !! mb
+
+    !! our units are in kmoles/cm2 ==> AVOG * Q = (molecules/kmol) (kmol/cm2) = molecules/cm2
+    rho_rat = (p_atm/PREF) * (TREF/t_atm)
+    sh2o = s0h2o/(rho_rat * h2o_frac)
+    fh2o = f0h2o/(rho_rat * (1-h2o_frac))
+    write(*,'(A,2(F12.5),2(ES12.5))') 'TREF,TIN,VMR,ROH_RAT = ',TREF,t_atm,h2o_frac,rho_rat
+  
 !    self_absco - computed water vapor self continuum absorption coefficients  (cm2/molec)
 !    for_absco - computed water vapor foreign continuum absorption coefficients (cm2/molec)
    wvn = wv1+[(i,i=0,nwv-1)]*dwv
@@ -215,9 +241,6 @@
 !! but recall   pV = nRT ==> n/V = p/RT 
 !!                       ==> q = n/V L = ps/RT L ==> ps = q RT/L
 !! Thus  OD = q v tanh(c2v/2T)(296/T)(ps CS + pf CF)
-
-      gamma_T = 1.0   !!! correction from 296 K to tave
-      gamma_Ts = 1.0  !!! part of pself
 
       iTest = +1  !!! output SH2O
       iTest = +2  !!! output FH2O
@@ -236,26 +259,23 @@
       end if
 
       iTest = -1
-      c2 = 1.4387863        !! radiation constant
-      AVOG = 6.022045E+26   !! molecules/kmol
-      !! our units are in kmoles/cm2 ==> AVOG * Q = (molecules/kmol) (kmol/cm2) = molecules/cm2
 
 !! see run8watercontinuum
 !! v tanh(c2 v/2T) (296/T) is done by do_local_lineshape_CKD.m
       if (iTest .LT. 0) THEN
         !!! radiation term v tanh(c2v/2T) is taken care of by AER code
-!        gamma_T  = 296/t_atm
-!        gamma_Ts = 296/t_atm
         DO I=1,NPTABS
           VI = V1ABSIN + FLOAT(I-1)*DVABSIN
           raFreq(I) = VI
-          raAbs(I)  = gamma_T*(rXSelf*sh2o(I)*ppaveIN + rXforn*fh2o(I)*(paveIN-ppaveIN))
+          !raAbs(I)  = (rXSelf*sh2o(I)*ppaveIN + rXforn*fh2o(I)*(paveIN-ppaveIN))
+          !raAbs(I)  = (rXSelf*sh2o(I)*ppaveIN + rXforn*fh2o(I)*(paveIN-ppaveIN))*rho_rat*p_atm/PREF
+          raAbs(I)  = rXSelf * sh2o(I) * (rho_rat * h2o_frac) + rXforn * fh2o(I) * (rho_rat * (1-h2o_frac))
           IF ((I .EQ. 1) .OR. (I .EQ. NPTABS)) THEN
             write(*,'(A,I15,F12.5,ES12.5)') 'in MT_CKD_H2O-4.3/src/cntnm_progr_sergio.f90 OD final ',I,raFreq(I),raAbs(I)
           END IF
         END DO
-        raAbs = raAbs * num_kmolesIN * AVOG/1000     !!! remember self_absco, for_absco  are in cm2/molecule while we send in kmoles/cm2
-        !raAbs = raAbs / (raFreq * tanh(c2 * raFreq)/2/t_atm) * (296/T) !! this is redone in do_local_lineshape_CKD.m
+        !!! remember self_absco, for_absco  are in cm2/molecule while we send in kmoles/cm2
+        raAbs = raAbs * num_kmolesIN * AVOG
       ELSEIF (iTest .EQ. +1) then
         !! basic test
         DO I=1,NPTABS
@@ -282,10 +302,17 @@
 
       write(*,'(A,A)')       'mt_version in cntnm_progr_sergio.f90 = ',mt_version
       write(*,'(A,2I12)')    ' nwv and NPTABS            = ',nwv,NPTABS
-      write(*,'(A,2F12.5)')  ' gamma_T, gamma_Ts         = ',gamma_T,gamma_Ts
       write(*,'(A,2ES12.5)') ' h2o_frac num_kmolesIN/cm2 = ',h2o_frac, num_kmolesIN
       write(*,'(A,2F12.5)')  ' p_atm, tatm               = ',p_atm, t_atm 
+      write(*,'(A,2F12.5)')  ' rXSelf,rXForn             = ',rXSelf,rXForn
       write(*,'(A)') ' '
+
+!!!!!!!!!!!!!!!!!!!!!!!!! DIRECTLY COMPUTE raAbs, no moneying around !!!!!!!!!!!!!!!!!!!!!!!!!      
+!      write(*,'(A)') ' ****direct calc mt_ckd_h2o_module.f90 --> cntnm_progr_sergio.f90 --> run8watercontinuum.m ****'
+!      raAbs(1:NPTABS)  = rXSelf * s0h2o + rXForn * f0h2o  !! ugh be desperate
+!      !!! remember self_absco, for_absco  are in cm2/molecule while we send in kmoles/cm2
+!      raAbs(1:NPTABS) = raAbs(1:NPTABS) * num_kmolesIN * AVOG
+!!!!!!!!!!!!!!!!!!!!!!!!! DIRECTLY COMPUTE raAbs, no moneying around !!!!!!!!!!!!!!!!!!!!!!!!!      
 
 ! from DOC/lbl1.tex
 ! 

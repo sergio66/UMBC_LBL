@@ -13,7 +13,7 @@ that was when our disks died and had to start from git clone
          to make binary kCARTA files for different CKD into
            CKDLINUX/CKD_LOOKUP_Self_Forn_KCARTA_BIN_FILES/
 
-         See CKDLINUX/ CKD_LOOKUP_Self_Forn_KCARTA_BIN_FILES to make binary files for kCARTA
+         See CKDLINUX/CKD_LOOKUP_Self_Forn_KCARTA_BIN_FILES to make binary files for kCARTA
 	   eg ckd_lookupBIN_v43_ieee_le.m
               ckd_lookupBIN_v32_ieee_le.m	   
 	      ckd_lookupBIN_v5_ieee_le.m

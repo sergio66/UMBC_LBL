@@ -1,4 +1,4 @@
-function [out_array] = do_local_lineshape_CKD(outwave,out_array,AVOG,c2,...
+function [out_array] = do_local_lineshape_CKD(outwave,out_array,AVOG,TREF,c2,...
                         temperature,press,partpress, GasAmt,...
                         CKD,CKD_0,selfmult,formult,profname,...
                         local,divide,ffin,nbox,MaxLen,MinLayer,Step,MaxLayer);
@@ -86,7 +86,7 @@ if ismember(CKD,allowedCKD)
       else
         tempfreq = AVOG*GasAmt(jj)*outwave .* ...
                    tanh(c2*outwave/2/temperature(jj))* ...
-                   (296/temperature(jj));
+                   (TREF/temperature(jj));
         if ((selfmult >= 0.999999) & (formult <= 0.00000001))
           tempfreq=tempfreq * partpress(jj);
         elseif ((formult >= 0.999999) & (selfmult <= 0.00000001))
@@ -165,10 +165,10 @@ if ismember(CKD,allowedCKD)
         if (divide  == -1)
           tempfreq=ones(size(scum));
         else
-	  %% tempfreq = AVOG * q v tanh(c2 v / 2 /T) (296/T)
+	  %% tempfreq = AVOG * q v tanh(c2 v / 2 /T) (TREF/T)
           tempfreq = AVOG*GasAmt(jj)*outwave(index) .* ...
                      tanh(c2*outwave(index)/2/temperature(jj))* ...
-                     (296/temperature(jj));
+                     (TREF/temperature(jj));
           if ((selfmult >= 0.999999) & (formult <= 0.00000001))
             tempfreq = tempfreq * partpress(jj);
           elseif ((formult >= 0.999999) & (selfmult <= 0.00000001))
@@ -241,16 +241,15 @@ if ismember(CKD,allowedCKD)
         if (divide  == -1)
           tempfreq = ones(size(scum));  %% just keep OD as compted by calconwater_loc_ckd2p5, calconwater_loc_ckd3p2, calconwater_loc_ckd4p3
         else
-	  
 	  c2_T_old = c2*outwave(index)/2/temperature(jj); %% original code before Jan 2026
-	  c2_T_new = c2*outwave(index)/temperature(jj);   %% new code after Feb 2026	    
+	  c2_T_new = c2*outwave(index)/temperature(jj);   %% new code after Feb 2026
 	  if CKD_0 <= 32
             %% original code before Jan 2026	    
-            tempfreq = AVOG*GasAmt(jj)*outwave(index) .* tanh(c2_T_old) * (296/temperature(jj));
+            tempfreq = AVOG*GasAmt(jj)*outwave(index) .* tanh(c2_T_old) * (TREF/temperature(jj));
 	  elseif CKD_0 > 32
             %% new code after 02/2026, looking at ~/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/src/mt_ckd_h2o_module.f90	    
-            tempfreq = AVOG*GasAmt(jj)*outwave(index) .* tanh(c2_T_new) * (296/temperature(jj));  %% we still need this here since
-	         rho_rat in mt_ckd_h2o_module.f90 has 296/T but then we remove it in cntnm_progr_sergio.f90
+            tempfreq = AVOG*GasAmt(jj)*outwave(index) .* tanh(c2_T_new) * (TREF/temperature(jj));
+            %% we still need this here since rho_rat in mt_ckd_h2o_module.f90 has TREF/T but then we remove it in cntnm_progr_sergio.f90
 	  end
 	  
           if ((selfmult >= 0.999999) & (formult <= 0.00000001))

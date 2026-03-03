@@ -2,11 +2,7 @@
 %units = input('Enter pressure units (1) atm (2) torr (3) mb : '); 
 units = 1;
 
-tc2k = 273.15;
-MGC = 8.314674269981136  ;    
-torr2mb  = 1013.25 / 760; 
-torr2atm = 1 / 760; 
-mb2atm   = 1/1013.25; 
+set_c1_c2_avog_pref_tref
 
 theprofile = load('CRIS/kcartaoutput.txt');
 %press       = input('Enter total pressure  : ');  
@@ -37,7 +33,7 @@ elseif units == 3
   end 
  
 % no need to change to kmoles cm-2 as the warning.msg file from kCARTA has correct units
-% GasAmt=GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2   
+% GasAmt=GasAmt * PREF * partpress/1e9/MGC/temperature; %change to kmoles/cm2   
 
 gascellparams = [press partpress temperature GasAmt]; 
 

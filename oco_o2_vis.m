@@ -3,14 +3,15 @@ vmr = load('IPFILES/oco_vmr_o2');
 temperature = load('IPFILES/oco_t');
 z = load('IPFILES/oco_zhgt');
 
-%% pV = nRT ==> q = L n/V = L p/RT
-MGC = 8.314674269981136  ;
+set_c1_c2_avog_pref_tref.m
 
-press = press /101325;     %% need atm
+%% pV = nRT ==> q = L n/V = L p/RT
+
+press = press / PREF;      %% need atm
 partpress = press .* vmr;  %% need atm
 z = z * 100;               %% need cm
 
-GasAmt = 101325 * z.* partpress/1e9/MGC./temperature; %change to kmoles/cm2
+GasAmt = PREF * z.* partpress/1e9/MGC./temperature; %change to kmoles/cm2
 
 xstartup
 

@@ -28,8 +28,7 @@ fname = '/asl/data/kcarta/ckd/CKDFor5.bin';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% now compute the self and foreign continuum optical depths
-c2 = 1.4387863;
-AVOG = 6.022045E+26;
+set_c1_c2_avog_pref_tref
 
   temper = temperature(jj);
   p      = press(jj);

@@ -8,13 +8,14 @@ function ozoneOUT = chappius_ozone_vis(w,q);
 
 %% gas cell length = 10 cm, p = 655.5 mmHg, T = 300K
 
-MGC   = 8.314674269981136  ;  
+set_c1_c2_avog_pref_tref
+  
 press = 65.5/76.0;   %% p in atm
 partpress = press; %% completely filled with ozone
 temperature = 300;
 GasAmt = 10;             %% input('Enter path cell length (in cm) ');
 %change to kilomolcles cm-2 
-GasAmt=GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmolec/cm2 
+GasAmt = GasAmt * PREF * partpress/1e9/MGC/temperature; %change to kmolec/cm2 
 
 %% figure (3) has approx a triangle, from 4200 A to 7250 A
 %% and peak abs coeff = 0.055 cm-1 at 6000 A

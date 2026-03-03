@@ -265,20 +265,7 @@ end
 %%%%%%%%%%%%%%%%%%% IS THIS INTERACTIVE SESSION OR CLUNK THRU PROFILE %%%%%%%%%
 %useruser = -1;
 if (useruser > 0)
-  which_isotope = input('Enter which isotope : ');
-
-  do_load = 0;
-  MinLayer = 1; MaxLayer = 1; Step = 1;        %use only ONE "layer"
-  NumLayers = 1;
-  TheLayers = MinLayer:Step:MaxLayer;
-
-  MGC = 8.314674269981136  ;  
-  press = input('Enter total pressure (in atm) : ');
-  partpress = input('Enter gas partial pressure (in atm) : ');
-  temperature = input('Enter temperature (in K) : ');
-  GasAmt = input('Enter path cell length (in cm) ');
-  %change to kilomolecules cm-2 
-  GasAmt = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmolec/cm2 
+  ask_P_PP_T_L_ISO
 end
 
 %%%%%%%%%%%%%%%%%%% LOAD IN GAS PROFILE %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -334,11 +321,10 @@ MaxLen = 200010;
 %    1     1       0     q v tanh(c2 v/2T) (296/T) * ps           CS
 %    1     0       1     q v tanh(c2 v/2T) (296/T) * (p-ps)       CF
 %    1     ?       ?     q v tanh(c2 v/2T) (296/T)                ps CS + pf CF
-
 %%%%%   divide out   [q v tanh(c2 v/2T) (296/T)]
-c2 = 1.4387863;
-AVOG = 6.022045E+26;
- 
+
+set_c1_c2_avog_pref_tref
+
 CKD_0 = CKD;
 
 if (ismember(CKD_0,[50 51 52 53 55 56 60]))
@@ -366,7 +352,7 @@ if ((local == 0)|(local==1))
   
   %local lineshape for water
   fprintf(1,'CKD = %3i CKD_0 = %3i local = %2i \n',CKD,CKD_0,local)
-  out_array = do_local_lineshape_CKD(outwave,out_array,AVOG,c2,...
+  out_array = do_local_lineshape_CKD(outwave,out_array,AVOG,TREF,c2,...
                    temperature,press,partpress,GasAmt,...
                    CKD,CKD_0,selfmult,formult,profname,...
                    local,divide,ffin,nbox,MaxLen,MinLayer,Step,MaxLayer);

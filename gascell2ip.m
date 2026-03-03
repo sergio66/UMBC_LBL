@@ -1,7 +1,8 @@
 function q = gascell2ip(varargin)
+
 %% see run8.m
 
-MGC = 8.314674269981136  ;
+set_c1_c2_avog_pref_tref
 
 if nargin == 0
   press       = input('Enter total pressure (in atm) : ');
@@ -18,7 +19,7 @@ else
 end
 
 %change to kmoles cm-2
-GasAmt = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2
+GasAmt = GasAmt * PREF * partpress/1e9/MGC/temperature; %change to kmoles/cm2
 q = GasAmt;
 
 fprintf(1,'GasAmt = %10.6e  kmoles/cm2 \n',GasAmt)

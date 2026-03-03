@@ -20,8 +20,9 @@ tC2K = 273.15;
 tK = tC + tC2K;
 
 % change to kmoles/cm2
-MGC = 8.314674269981136;
-gAmt = Lcm * 101325 * ppatm / 1e9 / MGC / tK;
+set_c1_c2_avog_pref_tref
+
+gAmt = Lcm * PREF * ppatm / 1e9 / MGC / tK;
 
 % write a params file
 gf = './run8_CO2.tmp';

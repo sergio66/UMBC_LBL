@@ -1,15 +1,15 @@
 units = input('Enter pressure units (1) atm (2) torr (3) mb : ');
 
 %% run7* needs ATM, ATM, K, kmoles cm-2
+set_c1_c2_avog_pref_tref
 
-MGC = 8.314674269981136  ;   
-torr2mb  = 1013.25 / 760;
-torr2atm = 1 / 760;
-mb2atm   = 1/1013.25;
-press=input('Enter total pressure (default atm) : '); 
-partpress=input('Enter gas partial pressure (default atm) : '); 
-temperature=input('Enter temperature (in K) : '); 
-GasAmt=input('Enter path cell length (in cm) '); 
+torr2mb     = (PREF/100)  / 760;
+torr2atm    = 1 / 760;
+mb2atm      = 1/(PREF/100);
+press       = input('Enter total pressure (default atm) : '); 
+partpress   = input('Enter gas partial pressure (default atm) : '); 
+temperature = input('Enter temperature (in K) : '); 
+GasAmt      = input('Enter path cell length (in cm) '); 
 
 if units == 1
   press  = press;
@@ -23,6 +23,6 @@ elseif units == 3
   end
 
 %change to kmoles cm-2  
-GasAmt=GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2  
-array = [press partpress temperature GasAmt];
+GasAmt = GasAmt * PREF * partpress/1e9/MGC/temperature; %change to kmoles/cm2  
+array  = [press partpress temperature GasAmt];
 fprintf(1,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',array)

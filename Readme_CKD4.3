@@ -7,7 +7,7 @@ Contents
 4) Small modification so you can use your own inpout file
 5) Now adapt so we can have run8watercntinuum.m call this
 6) Modify run8watercntinuum.m to call this
-7) Test using driver_examples_run8.m
+7) Test using driver_examples_continuum_run8.m
 8) Make compressed CKD34, and CKDSelfXY.bin and CKD FornXY.bin for KCARTA
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -276,19 +276,23 @@ do_local_lineshape_CKD.m : elseif (ismember(CKD_0,[25 27 32 43]))
 
 7) Test using driver_examples_continuum_run8.m
 ----------------------------------------------
+
+This is a snippet from that extensive testing code !!!!
+
+Can choose between iTest == 1      prof_file = '/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt'; %% p0 = 1.0 atm. VMR ~ 0.01, T = 300K
+                   iTest == 2      prof_file = '/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_two.txt'; %% p0 = 0.8 atm. VMR ~ 0.10, T = 280K
+Note 
 %% so do this to speed things to get 1 cm-1 output res
 topts.ffin = 5.0000e-04 * 400;
-topts.CKD = 25; [wx,d2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-topts.CKD = 32; [wx,d3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-topts.CKD = 43; [wx,d4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-
-figure(3); semilogy(wx,d2p5,'gx-',wx,d3p2,'b',wx,d4p3,'r.-'); title('OD'); legend('CKD2/5','CKD3.2','CKD4.3','location','best')
+topts.CKD = 25; [wx,d2p5] = run8watercontinuum(1,600,2800,prof_file,topts);
+topts.CKD = 32; [wx,d3p2] = run8watercontinuum(1,600,2800,prof_file,topts);
+topts.CKD = 43; [wx,d4p3] = run8watercontinuum(1,600,2800,prof_file,topts);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% See (3) Initial test, test 3
 addpath /home/sergio/git/matlabcode
-[x,attrx]   = read_netcdf_lls('/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/mt_ckd_h2o_output.nc');
+[x,attrx]   = read_netcdf_lls(['/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/'  aer_file]);
 [x0,attrx0] = read_netcdf_lls('/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/absco-ref_wv-mt-ckd.nc');
 ii_x0 = find(x0.wavenumbers >= 600 & x0.wavenumbers <= 2800);
 semilogy(x.wavenumbers,x.self_absorption,'k',x0.wavenumbers(ii_x0),x0.self_absco_ref(ii_x0),'m');
@@ -296,51 +300,24 @@ semilogy(x.wavenumbers,x.frgn_absorption,'k',x0.wavenumbers(ii_x0),x0.for_absco_
 figure(4); plot(x0.wavenumbers,(296/300).^x0.self_texp); xlim([500 3000])  %% I have used 300 K in /home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt
 figure(4); semilogy(x0.wavenumbers,x0.self_absco_ref,x0.wavenumbers,x0.for_absco_ref); xlim([500 3000]); legend('Self','Forn')
 
-tsopts.ffin = 5.0000e-04 * 400;
-tsopts.divide = +1;
-tsopts.selfmult = 1.0;
-tsopts.formult  = 0.0;
-tsopts.CKD = 25; [wx,sd2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tsopts);
-tsopts.CKD = 32; [wx,sd3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tsopts);
-tsopts.CKD = 43; [wx,sd4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tsopts);
+%% /home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt says Q = 5.0e-3 kmol/cm2   and we have <<<< radflag = .TRUE. >>>>>
+odx = 5.0e-3 * AVOG * (x.self_absorption + x.frgn_absorption);
+modx = interp1(x.wavenumbers,odx,wx);
+figure(5); semilogy(wx,d2p5,'gx-',wx,d3p2,'b',wx,d4p3,'r.-',x.wavenumbers,odx,'k'); title('OD'); legend('CKD2/5','CKD3.2','CKD4.3','AER','location','best')
 
-tfopts.ffin = 5.0000e-04 * 400;
-tfopts.divide = +1;
-tfopts.selfmult = 0.0;
-tfopts.formult  = 1.0;
-tfopts.CKD = 25; [wx,fd2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tfopts);
-tfopts.CKD = 32; [wx,fd3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tfopts);
-tfopts.CKD = 43; [wx,fd4p3] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',tfopts);
-
-mult = 0.0;
-mult = 1.0;
-mult_aer = 0.00990098; %% see ps/p in /home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt
-figure(1); clf; semilogy(wx,sd2p5,'gx-',wx,sd3p2,'b.-',wx,mult*sd4p3,'rx-',x.wavenumbers,x.self_absorption/mult_aer,'k',x0.wavenumbers(ii_x0),x0.self_absco_ref(ii_x0),'m.-');
-  legend('25','32','43 sergio','43 aer is adjusted for VMW','43 aer ref','location','best'); title('CSelf')
-figure(2); semilogy(wx,fd2p5,'gx-',wx,fd3p2,'b.-',wx,mult*fd4p3,'rx-',x.wavenumbers,x.frgn_absorption/(1-mult_aer),'k',x0.wavenumbers(ii_x0),x0.for_absco_ref(ii_x0),'m.-');
-  legend('25','32','43 sergio','43 aer is adjusted for (1-vmr)','43 aer ref','location','best'); title('CForn')
-
-%% see do_local_lineshape_CKD.m
-junk = load('/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt');
-TT = junk(4); QQ = junk(5);
-c2 = 1.4387863
-AVOG = 6.022045E+26
-tempfreq = AVOG * QQ * wx.*tanh(c2*wx/2/TT)*(296/TT);
-frgratio = fd4p3./interp1(x0.wavenumbers(ii_x0),x0.for_absco_ref(ii_x0),wx,[],'extrap');
-slfratio = sd4p3./interp1(x0.wavenumbers(ii_x0),x0.self_absco_ref(ii_x0),wx,[],'extrap');
-figure(3)
-semilogy(wx,1./(tempfreq/AVOG),'rx-',wx,frgratio,'b',wx,slfratio,'c.-');
-  legend('tempfreq in do\_local\_lineshape','CF 4.3 Sergio/CF 4.3 ref','CS 4.3 Sergio/CS 4.3 ref','location','best')
-
+figure(6); plot(wx,d4p3./d3p2,wx,modx./d3p2, wx, modx./d4p3,'r.-'); legend('d4p3./d3p2','AER OD./d3p2','AER OD ./d4p3','location','best');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 8) Make compressed CKD34, and CKDSelfXY.bin and CKD FornXY.bin for KCARTA
 -------------------------------------------------------------------------
 
-See CKD_LOOKUP_Self_Forn_KCARTA_BIN_FILES to make binary files for kCARTA
-ckd_lookupBIN_v5_ieee_le.m:6:ckd1 = '/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf1.bin';
-ckd_lookupBIN_v5_ieee_le.m:49:ckd1 = '/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf1.bin';
-
+See SPECTRA/CKDLINUX/CKD_LOOKUP_Self_Forn_KCARTA_BIN_FILES to make binary files for kCARTA
+  ckd_lookupBIN_v5_ieee_le.m:6:  ckd1 = '/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf1.bin';
+  ckd_lookupBIN_v5_ieee_le.m:49: ckd1 = '/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf1.bin';
+  ckd_lookupBIN_v43_ieee_le.m:   ['/home/sergio/asl/rta/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf' extension];
+                                 ['/home/sergio/asl/rta/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor'  extension];
+    where  extension = [num2str(CKD) '.bin'];
+  
 See /home/sergio/HITRAN2UMBCLBL/MAKE_CKD for comparisons
 See /home/sergio/HITRAN2UMBCLBL/MAKEIR/H2024/MAKEIR_WV_H24/Readme to see how to make compressed files for KCARTA

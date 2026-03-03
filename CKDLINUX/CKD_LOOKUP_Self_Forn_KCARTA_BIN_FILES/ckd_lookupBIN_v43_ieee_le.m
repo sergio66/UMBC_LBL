@@ -55,14 +55,10 @@ profile_file_for_run8 = '/home/sergio/SPECTRA/CKDLINUX/watercont';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% SELF 
-topts.selfmult = 1.0;
-topts.formult  = 0.0;
-rmer = ['!/bin/rm CNTNM.OPTDPT WATER.COEF']; eval(rmer)
-[fr,ks] = run8watercontinuum(1,100,3001,profile_file_for_run8,topts);
-figure(1); semilogy(fr,ks); title('Self 43'); disp('ret'); pause
+% SELF
+%-----
 
-[m,n] = size(ks);
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% fname      = ['/home/sergio/KCARTADATA/General/CKDieee_le/CKDSelf' extension];
 %  fname      = ['/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf' extension];
@@ -71,16 +67,36 @@ figure(1); semilogy(fr,ks); title('Self 43'); disp('ret'); pause
 fname      = ['/home/sergio/asl/rta/kcarta/KCARTADATA/General/CKDieee_le/CKDSelf' extension];
 fname2copy = ['/home/sergio/asl/rta/kcarta_sergio/KCDATA/General/CKDieee_le/CKDSelf' extension];
 
-fprintf(1,'opening %s \n %s \n',fname,fname2copy);
-[exist(fname) exist(fname2copy)]
-if exist(fname) ~= 0
+fprintf(1,'opening %s \n %s \n existA existB = %2i %2i \n',fname,fname2copy,exist(fname),exist(fname2copy))
+if exist(fname) ~= 0 & exist(fname2copy) ~= 0
   fprintf(1,'fname = %s for SELF already exists \n',fname)
-  error('SELF outfile already exists')
-end
-if exist(fname2copy) ~= 0
+  lser = ['!ls -lt ' fname];
+  eval(lser);
   fprintf(1,'fname2copy = %s for SELF already exists \n',fname2copy)
+  lser = ['!ls -lt ' fname2copy];  
+  eval(lser);    
+  error('SELF outfile,outfile2copy already exists')
+elseif exist(fname) ~= 0 & exist(fname2copy) == 0
+  fprintf(1,'fname = %s for SELF already exists \n',fname)
+  lser = ['!ls -lt ' fname];
+  eval(lser);
+  error('SELF outfile already exists')
+elseif exist(fname2copy) ~= 0 & exist(fname) == 0
+  fprintf(1,'fname2copy = %s for SELF already exists \n',fname2copy)
+  lser = ['!ls -lt ' fname2copy];  
+  eval(lser);    
   error('SELF outfile2copy already exists')
 end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+topts.selfmult = 1.0;
+topts.formult  = 0.0;
+rmer = ['!/bin/rm CNTNM.OPTDPT WATER.COEF']; eval(rmer)
+[fr,ks] = run8watercontinuum(1,100,3001,profile_file_for_run8,topts);
+figure(1); semilogy(fr,ks); title('Self 43'); disp('ret'); pause
+
+[m,n] = size(ks);
 
 %error('self43 WOW')
 
@@ -97,14 +113,9 @@ eval(lser)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % FOREIGN
-topts.selfmult = 0.0;
-topts.formult  = 1.0;
-rmer = ['!/bin/rm CNTNM.OPTDPT WATER.COEF']; eval(rmer)
-[fr,kf] = run8watercontinuum(1,100,3001,profile_file_for_run8,topts);
-figure(1); semilogy(fr,ks); title('Self 43'); 
-figure(2); semilogy(fr,kf); title('Forn 43'); disp('ret'); pause
+%--------
 
-[m,n] = size(kf);
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% fname  = ['/home/sergio/KCARTADATA/General/CKDieee_le/CKDFor' extension];
 %  fname  = ['/asl/data/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor' extension];
@@ -113,16 +124,37 @@ figure(2); semilogy(fr,kf); title('Forn 43'); disp('ret'); pause
 fname      = ['/home/sergio/asl/rta/kcarta/KCARTADATA/General/CKDieee_le/CKDFor' extension];
 fname2copy = ['/home/sergio/asl/rta/kcarta_sergio/KCDATA/General/CKDieee_le/CKDFor' extension];
 
-fprintf(1,'opening %s \n %s \n',fname,fname2copy);
-[exist(fname) exist(fname2copy)]
-if exist(fname) ~= 0
+fprintf(1,'opening %s \n %s \n existA existB = %2i %2i \n',fname,fname2copy,exist(fname),exist(fname2copy))
+if exist(fname) ~= 0 & exist(fname2copy) ~= 0
+  fprintf(1,'fname = %s for SELF already exists \n',fname)
+  lser = ['!ls -lt ' fname];
+  eval(lser);
+  fprintf(1,'fname2copy = %s for SELF already exists \n',fname2copy)
+  lser = ['!ls -lt ' fname2copy];  
+  eval(lser);    
+  error('FORN outfile,outfile2copy already exists')
+elseif exist(fname) ~= 0 & exist(fname2copy) == 0
   fprintf(1,'fname = %s for FORN already exists \n',fname)
+  lser = ['!ls -lt ' fname];  
+  eval(lser);  
   error('FORN outfile already exists')
-end  
-if exist(fname2copy) ~= 0
+elseif exist(fname2copy) ~= 0  & exist(fname) == 0
   fprintf(1,'fname2copy = %s for FORN already exists \n',fname2copy)
+  lser = ['!ls -lt ' fname2copy];  
+  eval(lser);    
   error('FORN outfile2copy already exists')
 end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+topts.selfmult = 0.0;
+topts.formult  = 1.0;
+rmer = ['!/bin/rm CNTNM.OPTDPT WATER.COEF']; eval(rmer)
+[fr,kf] = run8watercontinuum(1,100,3001,profile_file_for_run8,topts);
+figure(1); semilogy(fr,ks); title('Self 43'); 
+figure(2); semilogy(fr,kf); title('Forn 43'); disp('ret'); pause
+
+[m,n] = size(kf);
 
 %error('forn43 WOW')
 

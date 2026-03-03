@@ -6,8 +6,10 @@ Lcm = 12.59;   % path length in cm
 v1  = 605;     % band start
 v2  = 1230;    % band end  
 
+set_c1_c2_avog_pref_tref
+
 % convert pressures
-torr2mb = 1013.25 / 760;
+torr2mb = (PREF/100) / 760;
 mb2atm = 9.86923267e-4;
 patm = pT * torr2mb * mb2atm;
 ppatm = patm;
@@ -17,8 +19,8 @@ tC2K = 273.15;
 tK = tC + tC2K;
 
 % change to kmoles/cm2
-MGC = 8.314674269981136;
-gAmt = Lcm * 101325 * ppatm / 1e9 / MGC / tK;
+
+gAmt = Lcm * PREF * ppatm / 1e9 / MGC / tK;
 
 % write a params file
 gf = './run8_CO2.tmp';

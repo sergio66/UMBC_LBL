@@ -215,21 +215,8 @@ if (~ismember(CKD,[0 1 2 3 4 5 6 21 23 24 50 51 52 53 55 56 60]))
 %%%%%%%%%%%%%%%%%%% IS THIS INTERACTIVE SESSION OR CLUNK THRU PROFILE %%%%%%%%%
 useruser=-1;
 if (useruser > 0)
-  which_isotope=input('Enter which isotope : ');
-
-  do_load=0;
-  MinLayer=1; MaxLayer=1; Step=1;        %use only ONE "layer"
-  NumLayers=1;
-  TheLayers=MinLayer:Step:MaxLayer;
-
-  MGC=8.314674269981136  ;  
-  press=input('Enter total pressure (in atm) : ');
-  partpress=input('Enter gas partial pressure (in atm) : ');
-  temperature=input('Enter temperature (in K) : ');
-  GasAmt=input('Enter path cell length (in cm) ');
-  %change to kilomolcles cm-2 
-  GasAmt=GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmolec/cm2 
-  end
+  ask_P_PP_T_L_ISO
+end
 
 %%%%%%%%%%%%%%%%%%% LOAD IN GAS PROFILE %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -273,9 +260,9 @@ MaxLen=200010;
 %    1     ?       ?     q v tanh(c2 v/2T) (296/T)                ps CS + pf CF
 
 %%%%%   divide out   [q v tanh(c2 v/2T) (296/T)]
-c2 = 1.4387863;
-AVOG = 6.022045E+26;
- 
+
+set_c1_c2_avog_pref_tref
+
 CKD_0 = CKD;
 if (ismember(CKD_0,[50 51 52 53 55 56 60]))
   % use F77 MEX code to do the < 1300, > 1800 region, then Matlab code to 

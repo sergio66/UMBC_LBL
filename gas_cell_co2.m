@@ -1,12 +1,8 @@
 units = input('Enter pressure units (1) atm (2) torr (3) mb : '); 
 
 spectral = input('Enter [start stop] wavenumber : ');
- 
-tc2k = 273.15;
-MGC = 8.314674269981136  ;    
-torr2mb  = 1013.25 / 760; 
-torr2atm = 1 / 760; 
-mb2atm   = 1/1013.25; 
+
+set_c1_c2_avog_pref_tref
 
 press       = input('Enter total pressure  : ');  
 partpress   = input('Enter gas partial pressure  : ');  
@@ -27,7 +23,7 @@ elseif units == 3
   end 
  
 %change to kmoles cm-2   
-GasAmt        = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2   
+GasAmt        = GasAmt * PREF * partpress/1e9/MGC/temperature; %change to kmoles/cm2   
 gascellparams = [press partpress temperature GasAmt]; 
 
 fprintf(1,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',gascellparams) 

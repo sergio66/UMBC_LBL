@@ -2,11 +2,7 @@ units = input('Enter pressure units (1) atm (2) torr (3) mb : ');
 
 spectral = input('Enter [start stop] wavenumber : ');
 
-tc2k = 273.15;
-MGC = 8.314674269981136  ;    
-torr2mb  = 1013.25 / 760; 
-torr2atm = 1 / 760; 
-mb2atm   = 1/1013.25; 
+set_c1_c2_avog_pref_tref
 
 press       = input('Enter total pressure  : ');  
 temperature = input('Enter temperature (in C) : ');  
@@ -14,11 +10,11 @@ partpress   = input('Enter gas partial pressure  : ');
 GasAmt      = input('Enter path cell length (in cm) ');  
 
 addpath /home/sergio/MATLABCODE/CONVERT_GAS_UNITS/
-[p_wat, p_ice]=svp(temperature+273);
+[p_wat, p_ice] = svp(temperature+273);
 if units == 1
-  p_wat =   p_wat/1013;
+  p_wat =   p_wat/(PREF/100);
 elseif units == 2
-  p_wat =   p_wat/1013;
+  p_wat =   p_wat/(PREF/100);
   p_wat = p_wat * 760;
 end
 fprintf(1,'at a temp of %8.4f K, the svp_wat is %8.6f \n',temperature+273,p_wat);
@@ -34,10 +30,10 @@ elseif units == 2
 elseif units == 3 
   press  = press * mb2atm; 
   partpress = partpress * mb2atm; 
-  end 
+end 
  
 % change to kmoles cm-2
-GasAmt        = GasAmt*101325*partpress/1e9/MGC/temperature; %change to kmoles/cm2   
+GasAmt        = GasAmt * PREF *partpress/1e9/MGC/temperature; %change to kmoles/cm2   
 gascellparams = [press partpress temperature GasAmt]; 
 
 fprintf(1,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',gascellparams) 
