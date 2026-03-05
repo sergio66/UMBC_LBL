@@ -8,6 +8,10 @@ that was when our disks died and had to start from git clone
  <<< See Readme_make_new_qtipsH24 >>>
  <<< See Readme_make_new_qtipsH24 >>> 
 
+3/3/26   Note : set_c1_c2_avog_pref_tref.m    sets eg c2 (radn constant) AVOG (avogadro number) PREF (1013 or 1013.25 mb)
+         The AER MT CKD 4.3 parameters are slightly different from what I have used for ages
+	 SO you can switch between these two by editing this file
+
 3/1/26   Moved
            matlab codes and Readme_makeCKD_forKCARTA
          to make binary kCARTA files for different CKD into

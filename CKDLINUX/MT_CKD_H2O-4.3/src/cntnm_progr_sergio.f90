@@ -212,16 +212,16 @@
          s0h2o(1),f0h2o(1),s0h2o(size(s0h2o)),f0h2o(size(f0h2o))
    write(*,'(A)') ' '
 
-    !!!! THESE ARE WHAT run8watercontinuumm passes to do_local_lineshape_CKD.m
-    c2 = 1.4387863        !! radiation constant
-    AVOG = 6.022045E+26   !! molecules/kmol
-    TREF = 296.0          !!Kelvin
-    PREF = 1013.25        !! mb
     !!!! THESE ARE WHAT src/phys_consts.f90 has
     AVOG = 6.02214199E+23 * 1000
     C2 = 1.4387752
     TREF = 296.0          !!Kelvin
     PREF = 1013.0         !! mb
+    !!!! THESE ARE WHAT run8watercontinuumm passes to do_local_lineshape_CKD.m
+    c2 = 1.4387863        !! radiation constant
+    AVOG = 6.022045E+26   !! molecules/kmol
+    TREF = 296.0          !!Kelvin
+    PREF = 1013.25        !! mb
 
     !! our units are in kmoles/cm2 ==> AVOG * Q = (molecules/kmol) (kmol/cm2) = molecules/cm2
     rho_rat = (p_atm/PREF) * (TREF/t_atm)
