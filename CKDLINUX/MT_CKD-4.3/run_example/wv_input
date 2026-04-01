@@ -1,0 +1,18 @@
+1013.0
+296.0
+1.0
+0.01
+0.78
+0.21
+
+
+  read: pressure (mb)  if negative use default values
+  read:   temperature (K)
+  read:   path length (cm)
+  read:   vmr h2o
+% Pressure (mb), Temperature (K), Path Length (cm),    VMR H2O
+%   1013.000000         296.0000            1.0000  0.00000000
+  read:   N2 (typically 0.78)
+  read:   O2 (typically 0.21)
+% v1abs,v2abs,dvabs
+%   0.0000000000000000        19900.000000000000        10.000000000000000

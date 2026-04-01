@@ -1,6 +1,5 @@
 Contents
 ---------
-0) CKD 2.5 and CKD 3.2
 1) Getting the code and un-tarring it
 2) Building the code and adding netcdf path
 3) Initial test
@@ -12,71 +11,49 @@ Contents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-0) CKD 2.5 and CKD 3.2
-----------------------
-
-cd CKDLINUX
-
-# CKD 2.5 V1
-#   edit makewatermexLinuxA64  to put correct f77/g77 compiler for R2023b
-#   run makewatermexLinuxA64   to make
-# -rwxrwxr-x 1 sergio pi_sergio 190280 Feb 20 11:08 ../calconwater_loc_ckd2p5.mexa64
-# -rwxrwxr-x 1 sergio pi_sergio 200832 Feb 20 11:08 ../calconwater_loc.mexa64
-# -rwxrwxr-x 1 sergio pi_sergio  71328 Feb 20 11:08 ../calconwater.mexa64
-# -rwxrwxr-x 1 sergio pi_sergio 190248 Feb 20 11:08 ../calcon.mexa64
-
-CKD 2.5 V2
-  edit calconwater_locg_ckd2p5.sc  to put correct f77/g77 compiler for R2023b
-  run calconwater_locg_ckd2p5.sc   to make
--rwxrwxr-x 1 sergio pi_sergio 190280 Feb 20 11:09 ../calconwater_loc_ckd2p5.mexa64
--rwxrwxr-x 1 sergio pi_sergio 200832 Feb 20 11:09 ../calconwater_loc.mexa64
--rwxrwxr-x 1 sergio pi_sergio  71328 Feb 20 11:09 ../calconwater.mexa64
--rwxrwxr-x 1 sergio pi_sergio 190248 Feb 20 11:09 ../calcon.mexa64
-
-CKD3.2
-
-It is always advisable to go to /home/sergio/git/UMBC_LBL/CKDLINUX/MT_CKD3.2/cntnm/build
-1) make -f makefile.common clean
-2) gmake -f make_cntnm             linuxGNUdbl
-3) edit ../src/cntnm_progr_sergio.f90 to COMMENT OUT Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
-4) gmake -f make_cntnm_sergio_run8 linuxGNUdbl
-5) edit ../src/cntnm_progr_sergio.f90 to UNCOMMENT   Include '/home/sergio/SPECTRA/CKDLINUX/MT_CKD3.2/cntnm/src/contnm_sergio.f90'
-
-  edit calconwater_locg_ckd3p2.sc  to put correct f77/g77 compiler for R2023b
-  run calconwater_locg_ckd3p2.sc   to make
--rwxrwxr-x  1 sergio pi_sergio   28336 Feb 20 12:53 ../calconwater_loc_ckd3p2.mexa64
-and if you have not commented out the build of 2.5
-rwxrwxr-x 1 sergio pi_sergio  189640 Feb 20 12:56 calconwater_loc_ckd2p5.mexa64
--rwxrwxr-x 1 sergio pi_sergio  200112 Feb 20 12:56 calconwater_loc.mexa64
--rwxrwxr-x 1 sergio pi_sergio   70608 Feb 20 12:56 calconwater.mexa64
--rwxrwxr-x 1 sergio pi_sergio  189608 Feb 20 12:56 calcon.mexa64
-
-TEST ckd2.5,ckd3.2 using driver_examples_run8.m
-topts.CKD = 25; [wx,d2p5] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-topts.CKD = 32; [wx,d3p2] = run8watercontinuum(1,600,2800,'/home/sergio/git/UMBC_LBL/IPFILES_EXAMPLE/test_one.txt',topts);
-semilogy(wx,d2p5,'b',wx,d3p2,'r.-')
-plot(wx,d2p5,'b',wx,d3p2,'r')
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 1) Getting the code and un-tarring it
 -------------------------------------
 git repo
- https://github.com/AER-RC/MT_CKD_H2O
- https://github.com/AER-RC/MT_CKD_H2O/releases/tag/4.3
+ https://github.com/AER-RC/MT_CKD
 
 cd CKDLINUX
-  the source code is at https://github.com/AER-RC/MT_CKD_H2O/archive/refs/tags/4.3.tar.gz
-  download to hoe computer then scp it here
-  scp MT_CKD_H2O-4.3.tar.gz sergio@chip.rs.umbc.edu:///home/sergio/SPECTRA/CKDLINUX/.
+  git clone --recursive git@github.com:AER-RC/MT_CKD.git
+
+or
+
+  the source code is at https://github.com/AER-RC/MT_CKD/releases/tag/4.3
+  download to home computer then scp it here
+  scp MT_CKD-4.3.tar.gz sergio@chip.rs.umbc.edu:///home/sergio/SPECTRA/CKDLINUX/.
     
-  tar -xvf MT_CKD_H2O-4.3.tar.gz
-  this creates  MT_CKD_H2O-4.3
+  tar -xvf MT_CKD-4.3.tar.gz
+  this creates  MT_CKD_4.3
   
-  cd MT_CKD_H2O-4.3
+  cd MT_CKD-4.3
   
-  [sergio@c24-52 MT_CKD_H2O-4.3]$ ls
-  build  data  docs  LICENSE.md  README.md  run_example  src
+  [sergio@c24-52 MT_CKD-4.3]$ ls
+  aer_rt_utils  build  data  docs  LBLRTM  README.md  run_example  src
+
+If you do
+  ls src
+there are lots of dead symbolic links to ../aer_rt_utils/
+"aer_rt_utils" is BLANK. So
+  cp -a /home/sergio/git/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.17/LBLRTM/aer_rt_utils/* aer_rt_utils
+
+Similarly
+  ls src
+has lots of dead symbolic links to codes in ../LBLRTM
+"LBLRTM" is BLANK
+lrwxrwxrwx 1 sergio pi_sergio    24 Apr 17  2024 contnm.f90 -> ../LBLRTM/src/contnm.f90
+lrwxrwxrwx 1 sergio pi_sergio    27 Apr 17  2024 lblparams.f90 -> ../LBLRTM/src/lblparams.f90
+lrwxrwxrwx 1 sergio pi_sergio    35 Apr 17  2024 mt_ckd_h2o_module.f90 -> ../LBLRTM/src/mt_ckd_h2o_module.f90
+lrwxrwxrwx 1 sergio pi_sergio    29 Apr 17  2024 phys_consts.f90 -> ../LBLRTM/src/phys_consts.f90
+lrwxrwxrwx 1 sergio pi_sergio    30 Apr 17  2024 planet_earth.f90 -> ../LBLRTM/src/planet_earth.f90
+lrwxrwxrwx 1 sergio pi_sergio    29 Apr 17  2024 read_module.f90 -> ../LBLRTM/src/read_module.f90
+So
+  mkdir LBLRTM/src/
+  cp -a /home/sergio/git/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.17/LBLRTM/src/* LBLRTM/src/.
+
+Now everything is COOL CYAN and GREEN, no dangling red links!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -88,6 +65,7 @@ cd build
 there is ../src/drive_mt_ckd_h2o.f90:9:   include "netcdf.inc"
 use    nf-config --includedir       to get the location
   /usr/ebuild/installs/software/netCDF-Fortran/4.6.1-iimpi-2023a/include
+
 and then edit    addlibs.inc
 
 # here the following variables must be defined
@@ -106,35 +84,62 @@ ifeq ($(FC),gfortran)
 endif
 
 make -f makefile.common clean
-gmake -f make_mt_ckd_h2o linuxGNUdbl
+gmake -f make_cntnm linuxGNUdbl
+
+../cntnm_v4.3_linux_gnu_dbl created
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 3) Initial test
 ----------------
 
-See the webpage : https://github.com/AER-RC/MT_CKD_H2O
+See the webpage : https://github.com/AER-RC/MT_CKD
 
 cd run_example
 
   ln -s ../data/absco-ref_wv-mt-ckd.nc .
 
   test 1 : ??????????
-  ../mt_ckd_h2o_4.3_linux_gnu_dbl
-  
-  test 2 :
-    unix : ../mt_ckd_h2o_4.3_linux_gnu_dbl < mt_ckd.config
-    matlab : 
-          addpath /home/sergio/git/matlabcode
-          x = read_netcdf_lls('/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/mt_ckd_h2o_output.nc');
-          plot(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self(T)','forn(T indpt)');
+  ../cntnm_v4.3_linux_gnu_dbl
+  Push 0, then enter
 
-  test 3 : 
-    unix : ../mt_ckd_h2o_4.3_linux_gnu_dbl < sergio_test.config
-    matlab : 
-          addpath /home/sergio/git/matlabcode    
-          x = read_netcdf_lls('/home/sergio/SPECTRA/CKDLINUX/MT_CKD_H2O-4.3/run_example/mt_ckd_h2o_output.nc');
-          semilogy(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self(T)','forn(T indpt)');
+-rw-rw-r-- 1 sergio pi_sergio  56142 Mar 31 09:37 CNTNM.OPTDPT     NEW
+-rw-rw-r-- 1 sergio pi_sergio 172143 Mar 31 09:37 WATER.COEF       NEW
+lrwxrwxrwx 1 sergio pi_sergio     30 Apr 17  2024 absco-ref_wv-mt-ckd.nc -> ../data/absco-ref_wv-mt-ckd.nc
+-rw-rw-r-- 1 sergio pi_sergio  55900 Apr 17  2024 CNTNM.OPTDPT_mt_ckd_AER
+-rwxrwxr-x 1 sergio pi_sergio    124 Apr 17  2024 INPUT.example
+-rw-rw-r-- 1 sergio pi_sergio 171901 Apr 17  2024 WATER.COEF_mt_ckd_AER
+
+get rid of header info to compare
+ cp CNTNM.OPTDPT_mt_ckd_AER xCNTNM.OPTDPT_mt_ckd_AER
+   xnw xCNTNM.OPTDPT_mt_ckd_AER  
+ cp CNTNM.OPTDPT xCNTNM.OPTDPT
+   xnw xCNTNM.OPTDPT
+ diff xCNTNM.OPTDPT_mt_ckd_AER xCNTNM.OPTDPT
+ [sergio@c24-52 run_example]$ head xCNTNM.OPTDPT_mt_ckd_AER xCNTNM.OPTDPT
+==> xCNTNM.OPTDPT_mt_ckd_AER <==
+    10.000   6.971E-06
+    20.000   2.834E-05
+    30.000   6.562E-05
+    40.000   1.286E-04
+    50.000   2.307E-04
+    60.000   3.613E-04
+    70.000   4.737E-04
+    80.000   5.655E-04
+    90.000   6.264E-04
+   100.000   6.756E-04
+
+==> xCNTNM.OPTDPT <==
+    10.000   6.971E-06
+    20.000   2.834E-05
+    30.000   6.562E-05
+    40.000   1.286E-04
+    50.000   2.307E-04
+    60.000   3.613E-04
+    70.000   4.737E-04
+    80.000   5.655E-04
+    90.000   6.264E-04
+   100.000   6.756E-04
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -143,35 +148,50 @@ cd run_example
 
 Instead
   cd src
-  cp drive_mt_ckd_h2o.f90 run8_drive_mt_ckd_h2o.f90
-edit it so you can do a few different thigs : 
-   character*160 :: ca_NML_FileIn,caNC_FileOut
-   integer :: iIOUN,io_status
-   namelist /mt_ckd_input/ p_atm,t_atm,h2o_frac,wv1,wv2,dwv,caNC_FileOut
+  cp cntnm_progr.f90 cntnm_progr_sergio.f90
 
-   print *,'Enter input namelist name : '
-   read(*,ca_NML_FileIn)
+edit cntnm_progr_sergio.f90 so you can input O2/N2; set CO2,ARGON to 0.0
+edit cntnm_progr_sergio.f90 to comment out calls to PRCNTM
+edit cntnm_progr_sergio.f90 to add in HMOLID(22) = '   N2  '
+edit cntnm_progr_sergio.f90 to have 0:0.01:3000 calcs instead of 0:10:19900
+edit contnm.f90             so turn off rayleigh scattering
+           absrb(i) = absrb(i)+ray_ext*0.0  !!! sergio turns off rayleigh
 
-   OPEN(NEWUNIT=iIOUN, FILE=ca_NML_FileIn, STATUS="old", ACTION="read", IOSTAT=io_status)
-   read (iIOUN,mt_ckd_input)
-   CLOSE(iIOUN)
+you can do   diff contnm.f90 /home/sergio/git/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.17/LBLRTM/src/.
+             diff cntnm_progr_sergio.f90 cntnm_progr.f90
 
 then
   cd build
-  cp  make_mt_ckd_h2o make_run8_mt_ckd_h2o
-edit it so you call run8_drive_mt_ckd_h2o.f90
-  gmake -f make_run8_mt_ckd_h2o linuxGNUdbl
-and check it has same warnings as make_mt_ckd_h2o
+  cp make_cntnm make_cntnm_sergio
+edit it so you call cntnm_progr_sergio.f90
+  gmake -f make_cntnm_sergio linuxGNUdbl
+and check it has same warnings as   gmake -f make_cntnm linuxGNUdbl
+../cntnm_sergio_v4.3_linux_gnu_dbl created
 
 test it with
 cd ../run_example
-edit run8_junkin so it contains the answer to "which is the config file"  which is run8_sergio_test.config
-  ../run8_mt_ckd_h2o_4.3_linux_gnu_dbl < run8_junkin
-check  
-    addpath /home/sergio/git/matlabcode
-    x = read_netcdf_lls('run8_mt_ckd_h2o_output.nc');
-    semilogy(x.wavenumbers,x.self_absorption,x.wavenumbers,x.frgn_absorption); legend('self','forn');
+  ../cntnm_v4.3_linux_gnu_dbl
+  Push 0, then enter
+  ../cntnm_sergio_v4.3_linux_gnu_dbl
+  Push 0, then enter
 
+Now make generic test inputs, DO NOT CHANGE THEM
+   n2_input : every gas 0 except N2
+   o2_input : every gas 0 except 02   
+   wv_input : WV VMR = 0.1, and has N2 = 0.78*WTOT, O2 = 0.21*WTOT
+   
+ ../cntnm_sergio_v4.3_linux_gnu_dbl < wv_input; /bin/mv CNTNM.OPTDPT wv.OPTDPT
+ ../cntnm_sergio_v4.3_linux_gnu_dbl < o2_input; /bin/mv CNTNM.OPTDPT o2.OPTDPT
+ ../cntnm_sergio_v4.3_linux_gnu_dbl < n2_input; /bin/mv CNTNM.OPTDPT n2.OPTDPT
+clc; head o2.OPTDPT; head n2.OPTDPT; head wv.OPTDPT;
+
+check  
+  addpath ~/SPECTRA/CKDLINUX/
+  wv = read_MT_CKD4p3_sergio('/home/sergio/SPECTRA/CKDLINUX/MT_CKD-4.3/run_example/wv.OPTDPT');
+  o2 = read_MT_CKD4p3_sergio('/home/sergio/SPECTRA/CKDLINUX/MT_CKD-4.3/run_example/o2.OPTDPT');
+  n2 = read_MT_CKD4p3_sergio('/home/sergio/SPECTRA/CKDLINUX/MT_CKD-4.3/run_example/n2.OPTDPT');
+  semilogy(o2.data(:,1),o2.data(:,2),n2.data(:,1),n2.data(:,2),'g.-',wv.data(:,1),wv.data(:,2),'rx');
+    xlim([605 2830]); legend('o2','n2','wv','location','best')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 5) Now adapt so we can have run8watercntinuum.m call this

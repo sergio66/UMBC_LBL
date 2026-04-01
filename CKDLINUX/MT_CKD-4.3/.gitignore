@@ -1,0 +1,5 @@
+*.mod
+cntnm_v*
+
+## this exec is in CKDLINUX/MT_CKD-4.3/cntnm_sergio_v4.3_linux_gnu_dbl
+cntnm_sergio_v4.3_linux_gnu_dbl

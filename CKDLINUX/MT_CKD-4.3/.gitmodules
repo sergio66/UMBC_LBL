@@ -1,0 +1,6 @@
+[submodule "LBLRTM"]
+	path = LBLRTM
+	url = ../LBLRTM.git
+[submodule "aer_rt_utils"]
+	path = aer_rt_utils
+	url = ../aer_rt_utils.git

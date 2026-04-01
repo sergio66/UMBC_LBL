@@ -7,15 +7,17 @@ iMethod = +2; %% newer, the -ascii flag allows extensions other than .mat
 
 %a = ['load ' profname];
 %eval(a);
+%catter = ['!more ' profname]
+%eval(catter)
+
 str = ['a = load(''' profname ''',''-ascii'');'];
-%% fprintf(1,'load profname str = %s \n',str)
+%fprintf(1,'load profname str : %s \n',str)
 eval(str); 
 
 %find last occurence of '/' in profname
 ii      = findstr(profname,'/');
 ii      = ii(length(ii))+1;
 profile = profname(ii:length(profname));
-
 
 if iMethod == 2
   press       = a(:,2);

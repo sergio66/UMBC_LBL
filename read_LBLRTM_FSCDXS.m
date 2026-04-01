@@ -1,30 +1,36 @@
-function [iYes,lines] = read_LBRTM_FSCDXS(f1,f2,gid,iVers)
+function [iYes,lines] = read_LBLRTM_FSCDXS(f1,f2,gid,iVers)
 
-%% reads the LBLRTM LNFL data
-
+%% reads the LBLRTM XSC data
+%% eg [iYes,lines] = read_LBLRTM_FSCDXS(605,2830,51,12.17);
+  
 if nargin == 3
   iVers = 12.4;
-  iVers = 12.8;  
+  iVers = 12.8;
+  iVers = 12.17;    
+end
+
+if iVers == 12.2
+  if gid < 51 | gid > 63
+    error('can only do gases 51-63');
+  end
+else  
+  if gid < 51 | gid > 83
+    error('can only do gases 51-83');
+  end
 end
 
 if iVers == 12.2
   fname0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LNFL2.6/aer_v_3.2/line_files_By_Molecule/'];
   error('not worried about this vers')
-  if gid < 51 | gid > 63
-    error('can only do gases 51-63');
-  end
 elseif iVers == 12.4
-  if gid < 51 | gid > 83
-    error('can only do gases 51-83');
-  end
   fname0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.4/LBLRTM/lblrtm/run_examples/xs_files_v3.4/FSCDXS'];
 elseif iVers == 12.8
-  if gid < 51 | gid > 83
-    error('can only do gases 51-83');
-  end
   fname0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.8/LBLRTM/lblrtm/run_examples/xs_files/FSCDXS'];
+elseif iVers == 12.17
+  fname0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.17/LBLRTM/lblrtm/run_examples/xs_files/FSCDXS'];  
+  fname0 = ['/home/sergio/git/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.17/LBLRTM/cross-sections/FSCDXS'];
 else
-  error('can only do LBLRTM 12.2 or 12.4 or 12.8')
+  error('can only do LBLRTM 12.2 or 12.4 or 12.8or 12.17')
 end
 
 iYes = -1; %% pretend no lines
@@ -72,7 +78,9 @@ while ischar(tline)
         iCnt = iCnt + 1;
         lblrtm_xsc{iCnt} = name;
         iaFound(iCnt) = 1;
-        bandStart(iCnt,1) = str2num(tline(11:20));
+	fprintf(1,'iCnt,name,tline = %3i %15s --> %s \n',iCnt,name,tline);
+	
+        bandStart(iCnt,1) = str2num(tline(12:20));
         bandStop(iCnt,1)  = str2num(tline(21:30));      	
       end
     end   %% if iCnt

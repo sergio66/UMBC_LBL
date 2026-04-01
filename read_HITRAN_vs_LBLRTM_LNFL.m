@@ -1,11 +1,15 @@
 function [linesU,linesL] = read_HITRAN_vs_LBLRTM_LNFL(f1,f2,gid);
 
+%% [linesU,linesL] = read_HITRAN_vs_LBLRTM_LNFL(605,2830,1);
+  
 iVersL = 12.4;
 iVersL = 12.8;
+iVersL = 12.17;
 [iYesL,linesL] = read_LBLRTM_LNFL(f1,f2,gid,iVersL);
 
 iVersU = 2012;
 iVersU = 2016;
+iVersU = 2024;
 [iYesU,linesU] = findlines_plot(f1,f2,gid,iVersU);
 
 figure(1); semilogy(linesU.wnum,linesU.stren,'b.',linesL.wnum,linesL.stren,'r.'); title('b : HITRAN r:AER');

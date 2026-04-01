@@ -1,40 +1,48 @@
 function [iYes,lines] = read_LBLRTM_LNFL(f1,f2,gid,iVers)
 
 %% reads the LBLRTM LNFL data
+%% eg [iYes,lines] = read_LBLRTM_LNFL(605,2830,1,12.17);
 
 lines = struct;
 
 if nargin == 3
   iVers = 12.4;
-  iVers = 12.8;  
+  iVers = 12.8;
+  iVers = 12.17;    
+end
+
+if iVers == 12.2
+  if gid > 39
+    error('can only do gases 1-39');
+  end
+else  
+  if gid > 47
+    error('can only do gases 1-47');
+  end
 end
 
 if iVers == 12.2
   dir0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LNFL2.6/aer_v_3.2/line_files_By_Molecule/'];  
-  if gid > 39
-    error('can only do gases 1-39');
-  end
 elseif iVers == 12.4
   dir0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.4/LNFL/run_examples/run_example_infrared/TAPE7_aer_v_3.4_ex'];
   %% aslo see binary file                                      LBLRTM/lblrtm/run_examples/TAPE3_files/TAPE3_aer_v_3.4_ex_little_endian
-  %% where the header shows you names of 47 gases (which correspond to those in /home/sergio/KCARTA/DOC/gasids_H2012
-  
+  %% where the header shows you names of 47 gases (which correspond to those in /home/sergio/KCARTA/DOC/gasids_H2012  
   dir0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.4/LNFL/aer_v_3.4_sergio/line_files_By_Molecule/'];
-  if gid > 47
-    error('can only do gases 1-47');
-  end
 elseif iVers == 12.8
   dir0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.8/LNFL/lnfl/run_examples/run_example_infrared_sergio/TAPE7_aer_v_3.6'];
   %% aslo see binary file                                      LBLRTM/lblrtm/run_examples/TAPE3_files/TAPE3_aer_v_3.6_ex_little_endian
-  %% where the header shows you names of 47 gases (which correspond to those in /home/sergio/KCARTA/DOC/gasids_H2012
-  
+  %% where the header shows you names of 47 gases (which correspond to those in /home/sergio/KCARTA/DOC/gasids_H2012  
   dir0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.8/LNFL/aer_v_3.4_sergio/line_files_By_Molecule/'];
   dir0 = ['/home/sergio/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.8/LINEDATAFILE/aer_v_3.6/line_files_By_Molecule/'];  
-  if gid > 47
-    error('can only do gases 1-47');
-  end
+elseif iVers == 12.17
+  dir0 = ['/home/sergio/git/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.17/LNFL/lnfl/run_examples/run_example_infrared_sergio/TAPE7_aer_v_3.8.1'];
+  dir0 = ['/home/sergio/git/IR_NIR_VIS_UV_RTcodes/LBLRTM/LBLRTM12.17/LBLRTM/LNFL/run_examples/run_example_infrared_sergio/TAPE7_aer_v_3.8.1'];  
+  %% aslo see binary file                                      LBLRTM/lblrtm/run_examples/TAPE3_files/TAPE3_aer_v_3.6_ex_little_endian
+  %% where the header shows you names of 47 gases (which correspond to those in /home/sergio/KCARTA/DOC/gasids_H2012  
+  dir0 = ['/home/sergio/nogit/TEMP_STUFF/LNFL/LNFL3.8.1/line_files_By_Molecule/'];
+  dir0 = ['/home/sergio/nogit/TEMP_STUFF/LNFL/LNFL3.8.1/SERGIOJUNK/'];
 else
-  error('can only do LBLRTM 12.2 or 12.4 or 12.8')
+  error('can only do LBLRTM 12.2 or 12.4 or 12.8 or 12.17')
 end
 
 iYes = -1; %% pretend no lines
@@ -73,6 +81,9 @@ end
 fnamex  = ['/home/sergio/xlnfl_junk_' num2str(gid,'%02d')];
 fnamey  = ['/home/sergio/ylnfl_junk_' num2str(gid,'%02d')];
 
+fnamex  = ['/tmp/xlnfl_junk_' num2str(gid,'%02d')];
+fnamey  = ['/tmp/ylnfl_junk_' num2str(gid,'%02d')];
+
 i3or4 = 3; %% old
 i3or4 = 4; %% new
 
@@ -100,19 +111,22 @@ else
 
   %% NEW
   fnamex1  = ['/home/sergio/x1lnfl_junk_' num2str(gid,'%02d')];
-  sedder = ['!sed  -e ''s/\(^ \{0,1\}[0-9]\{1,2\}\)\([0-9]\{1\} \)/\1 \2/p''  ' fname ' > ' fnamex1];
-  eval(sedder);
+  sedder1 = ['!sed  -e ''s/\(^ \{0,1\}[0-9]\{1,2\}\)\([0-9]\{1\} \)/\1 \2/p''  ' fname ' > ' fnamex1];
+  fprintf(1,'sedder1 = %s \n',sedder1)
+  eval(sedder1);
 
-  sedder = ['!sed  -e ''/>/d'' -e ''/%/d''  ' fnamex1 ' > ' fnamex];
-  eval(sedder);
+  sedder2 = ['!sed  -e ''/>/d'' -e ''/%/d''  ' fnamex1 ' > ' fnamex];
+  fprintf(1,'sedder2 = %s \n',sedder2)  
+  eval(sedder2);
   awker = ['!awk ''{print $1 " "  $2 " "  $3 " "  $4}'' ' fnamex ' > ' fnamey];
   eval(awker)
+  fprintf(1,'awker = %s \n',awker);
   %% 4 columns are [gid  iso   wnum stren]
 
   rmer = ['!/bin/rm ' fnamex1];
   eval(rmer);
   
-  a = load(fnamey);
+  a = load(fnamey,'-ascii');
   woo = find(a(:,3) >= f1 & a(:,3) <= f2);
   if length(woo) > 0
     iYes = 1;
@@ -120,6 +134,7 @@ else
     lines.wnum = a(woo,3);
     lines.stren = a(woo,4);
     clf; scatter(a(woo,3),log10(a(woo,4)),10,a(woo,2),'filled'); colorbar; colormap jet
+    xlabel('Waveumber cm-1'); ylabel('log10(stren)'); title(['GasID = ' num2str(gid) ' Colorbar = ISO'])
   end
 
 end
