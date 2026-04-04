@@ -1,11 +1,14 @@
+x
 1013.0
 296.0
 1.0
 0.0
 1.00
 0.00
+-1 -1 -1
+% 1900.0 2900.0 0.2
 
-
+  read: output file name  if blank use default value (CNTNM.OPTDPT)
   read: pressure (mb)  if negative use default values
   read:   temperature (K)
   read:   path length (cm)
@@ -16,3 +19,4 @@
   read:   O2 (typically 0.21)
 % v1abs,v2abs,dvabs
 %   0.0000000000000000        19900.000000000000        10.000000000000000
+  read: start/stop/dv wavenumber  if negative use default values

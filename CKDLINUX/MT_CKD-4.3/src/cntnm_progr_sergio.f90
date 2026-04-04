@@ -96,6 +96,7 @@
       REAL*8               SECANT,       XALTZ
 !
       character*8 holn2
+      character*80  outfile0,outfile
 !                                                                         F00120
 !      DATA XLOSMT/2.68675E+19/                                            !50024
 !
@@ -121,7 +122,15 @@
       ipr = 66
       ipu = 7
 !
-      OPEN (ipr,FILE='CNTNM.OPTDPT')
+
+       outfile0 = 'CNTNM.OPTDPT'
+       print *,' read: output file name  --- if first char is x ''x'' or '' '' '
+       print *,'     use default value (CNTNM.OPTDPT) '
+       read *,outfile
+       if ((outfile(1:1) .EQ. 'x') .OR. (outfile(1:1) .EQ. ' '))  outfile=outfile0
+
+      write(*,'(A,A)') 'will be writing output to ',outfile
+      OPEN (ipr,FILE=outfile)
       OPEN (ipu,FILE='WATER.COEF')
 !
 !
@@ -274,19 +283,28 @@
       V2ABS = 19900.  
       DVABS =    10.
 
-!      V1ABS =     0.
-!      V2ABS =  3000.
-!      DVABS =   0.1
+      V1ABS =     0.
+      V2ABS =  3000.
+      DVABS =   0.1
 
 ! ..........................................................
 !      write (*,*) '  v1abs,  v2abs,  dvabs  '
 !      read  (*,*)    v1abs,  v2abs,  dvabs
 ! ..........................................................
 
+      print *,' read: start/stop/dv waveumber (cm-1)  if negative use default values'
+      read *, v11,v22,dvv
+      
+      if (v11 .gt. 0.) then
+         V1ABS = v11
+         V2ABS = V22
+         DVABS = dvv
+      endif
+
       NPTABS =  1. + (v2abs-v1abs)/dvabs
       print *,'v1abs,v2abs,dvabs,NPTABS'
       print *,v1abs,v2abs,dvabs,NPTABS
-
+      
       do 85 i=1,nptabs
          absrb(i) =0.
  85   continue

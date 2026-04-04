@@ -4,3 +4,6 @@ o2.OPTDPT
 wv.OPTDPT
 xCNTNM.OPTDPT_mt_ckd_AER
 xCNTNM.OPTDPT
+
+output_gid_*
+temp_*input_*

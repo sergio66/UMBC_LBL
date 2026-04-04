@@ -10,7 +10,7 @@ set_c1_c2_avog_pref_tref
 press       = input('Enter total pressure  : ');  
 partpress   = input('Enter gas partial pressure  : ');  
 temperature = input('Enter temperature (in C) : ');  
-GasAmt      = input('Enter path cell length (in cm) ');  
+GasCellLen  = input('Enter path cell length (in cm) ');  
 % st        = input('Enter comment : ');
 
 temperature = temperature + tc2k;
@@ -26,8 +26,9 @@ elseif units == 3
   partpress = partpress * mb2atm; 
   end 
  
-%change to kmoles cm-2   
-GasAmt = GasAmt * PREF * partpress/1e9/MGC/temperature; %change to kmoles/cm2   
+% change to kmoles cm-2
+% pV = n R T ==> n/V = p/(RT) ==> L n/V = pL/RT ==> q = (partpress) L/(RT)
+GasAmt = GasCellLen * partpress/1e9/MGC/temperature; %change to kmoles/cm2   
 gascellparams = [press partpress temperature GasAmt]; 
 
 fprintf(1,'1  %12.8f  %12.8f   %6.3f   %10.5e \n',gascellparams) 

@@ -257,6 +257,9 @@ else
   CKD = -1;
 end
 
+%% allowed versions are [1,3,4,5,25,32,43] and [0 for only continuum (NO lines)]
+%% see CKDLINUX/calcong.F
+
 do_HITRAN_vers                                        %% << set whether to use H96,H2k,H04,H08,H12,H16,H20,H24 >>
 %% do_GEISA_vers; HITRANpathNyear = GEISApathNyear;   %% << if you want to use GEISA dbase, uncomment this to use G15 >>
 
@@ -265,10 +268,24 @@ width_mult    = 1.0;
 tsp_mult      = 1.0;
 iLayDo        = -1;
 which_isotope = 0;            % default use all isotopes
-O2O3N2continuumVers = 3;      % used this is making H2008 database
-O2O3N2continuumVers = 5;      % used this is making H2016 database together with MTCKD3.2
-  %% allowed versions are [1,3,4,5] and [0 for only continuum (NO lines)]
-  %% see CKDLINUX/calcong.F
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% technically could look at HITRANpathNyear from do_HITRAN_vers
+%% if ~strfind(HITRANpathNyear,'h24.by.gas') & ~strfind(HITRANpathNyear,'h20.by.gas') &
+%%    ~strfind(HITRANpathNyear,'h16.by.gas')
+%%   O2O3N2continuumVers = 3;      % used this in making H2008 database together with MTCKD 2.4
+%% elseif strfind(HITRANpathNyear,'h16.by.gas') | strfind(HITRANpathNyear,'h20.by.gas')
+%%   O2O3N2continuumVers = 5;      % used this in making H2016 database together with MTCKD 3.2
+%% elseif strfind(HITRANpathNyear,'h24.by.gas')
+%%   O2O3N2continuumVers = 43;     % used this in making H2024 database together with MTCKD 4.3
+%% end
+
+O2O3N2continuumVers = 3;      % used this in making H2008 database together with MTCKD 2.4
+O2O3N2continuumVers = 5;      % used this in making H2016 database together with MTCKD 3.2
+O2O3N2continuumVers = 43;     % used this in making H2024 database together with MTCKD 4.3
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 str_unc       = [];
 
 allowedparams = [{'ffin'},     {'fmed'},         {'fcor'},     {'fstep'}, ...
@@ -619,7 +636,7 @@ end
 
 %do near wing calc
 %%%%%%%%%%%%%%%%%% ZZZZZZ
-if (number_of_lines > 0)
+if number_of_lines > 0
   for  ii = 1:nwide    %OUTER LOOP OVER WIDE MESH
   %%for  ii = 1:-1    %OUTER LOOP OVER WIDE MESH
 
@@ -786,11 +803,38 @@ if (number_of_lines > 0)
   end             %outer loop over wide meshes (frequencies)
 end               %if number of lines > 0
 
+if number_of_lines == 0 & (gasID == 7 | gasID == 22)
+  disp(' ')  
+  fprintf(1,'<< run8.m : gasID = %2i and number_of_lines == 0 .... will try to see if need to add CKD4.3 continuum >> \n',gasID)
+  [mmjunk,nnjunk] = size(out_array);
+  junk = [outwave(1) outwave(end) mmjunk nnjunk sum(out_array(:))];  
+  fprintf(1,'  outwave(1) outwave(end) = %12.5f %12.5f    size(out_array) = %3i x %5i    sum(out_array(:)) = %12.8f \n',junk);
+  fprintf(1,'<< run8.m : gasID = %2i and number_of_lines == 0 .... will try to see if need to add CKD4.3 continuum >> \n',gasID)
+  disp(' ')													       
+end
+
 %************************************************************************
 %************************************************************************
 %************************************************************************
 
-run8_N2_O2_continuum
+if gasID == 7 | gasID == 22
+  [mmjunk,nnjunk] = size(out_array);  
+  junk = [outwave(1) outwave(end) mmjunk nnjunk sum(out_array(:))];    
+  fprintf(1,'  before continuum calc : outwave(1) outwave(end) = %12.5f %12.5f    size(out_array) = %3i x %5i    sum(out_array(:)) = %12.8f \n',junk);  
+  
+  if O2O3N2continuumVers == 3 | O2O3N2continuumVers == 5
+    run8_N2_O2_continuum_beforeApr2026  %% uses CKD3.2 continuum
+  elseif O2O3N2continuumVers == 43
+    run8_N2_O2_continuum  %% uses CKDLINUX/MT_CKD-4.3/run_example/
+                          %% see HITRAN2UMBCLBL/MAKEIR/H2024/
+                          %% MAKEIR_CO2_O3_N2O_CO_CH4_othergases_LBLRTM_v12.17_lnflv3.8.1
+                          %%  new_clust_runXtopts_savegasN_file_N2only,new_clust_runXtopts_savegasN_file_O2only
+  end
+  disp('gasID = 7 or 22, aftercontinuum calc ')
+  [mmjunk,nnjunk] = size(out_array);  
+  junk = [outwave(1) outwave(end) mmjunk nnjunk sum(out_array(:))];    
+  fprintf(1,'  after continuum calc : outwave(1) outwave(end) = %12.5f %12.5f    size(out_array) = %3i x %5i    sum(out_array(:)) = %12.8f \n',junk);  
+end
 
 %************************************************************************
 %************************************************************************
